@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amilu</title>
+    <link rel="stylesheet" href="../CSS/Amilu_index_style.css" />
+    <link rel="stylesheet" href="../CSS/common.css" />
+  </head>
+
+  <body>
+    <!-- header.site-header -->
+    <header class="site-header">
+      <div>
+        <a href="Amilu_index.html"
+          ><img class="logo" src="../Picture/Logo.png"
+        /></a>
+        <!-- <div class="explore-followed">
+          <button id="followed">已追蹤</button>
+          <button id="explore">探索</button>
+        </div> -->
+
+        <div class="explore-followed">
+          <input
+            type="radio"
+            id="followed"
+            name="explore-followed"
+            class="hidden-box"
+            checked
+          />
+          <label for="followed">已追蹤</label>
+          <input
+            type="radio"
+            id="explore"
+            name="explore-followed"
+            class="hidden-box"
+          />
+          <label for="explore">探索</label>
+        </div>
+      </div>
+
+      <div class="amilu-search-bar">
+        <img
+          class="amilu-icons"
+          src="../Picture/icon/Type=Search, Color=Gradient.svg"
+        />
+        <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
+      </div>
+
+      <div>
+        <div class="description">
+          <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+          <a href="#" class="btn-md-red-withicon">
+            上傳作品
+            <img
+              class="amilu-icons2"
+              src="../Picture/icon/Type=Up Load, Color=White.svg"
+            />
+          </a>
+        </div>
+        <div>
+          <a href="#">登入</a>
+          <a href="#" class="button-md-black">註冊</a>
+        </div>
+      </div>
+    </header>
+
+    <div id="nav-bg"></div>
+
+    <nav class="category-bar">
+      <button class="main-guide-button">
+        <img src="../Picture/icon/Type=Categories, Color=Gradient.svg" />
+        全部類別
+      </button>
+      <div></div>
+      <div class="left-part">
+        <div>
+          <div class="open-or-not">
+            <input
+              type="radio"
+              id="all-include"
+              name="open-or-not"
+              class="hidden-box"
+              checked
+            />
+            <label for="all-include">全部</label>
+            <input
+              type="radio"
+              id="current-open"
+              name="open-or-not"
+              class="hidden-box"
+            />
+            <label for="current-open">接案中</label>
+          </div>
+        </div>
+        <div id="current-chosing-section">
+          <button>
+            插畫
+            <img src="../Picture/icon/Type=Cancel, Color=White.svg" alt="" />
+          </button>
+        </div>
+      </div>
+      <ul class="chosing-section">
+        <li><button href="#">Live2D/動態</button></li>
+        <li><button href="#">角色立繪</button></li>
+        <li><button href="#">頭像/大頭貼</button></li>
+        <li><button href="#">2D場景/背景</button></li>
+        <li><button href="#">吉祥物設計</button></li>
+        <li><button href="#">漫畫/分鏡</button></li>
+        <li><button href="#">概念設定</button></li>
+        <li><button href="#">場景圖</button></li>
+        <li><button href="#">3D 建模</button></li>
+        <li><button href="#">周邊製作</button></li>
+        <li><button href="#">同人創作</button></li>
+        <li><button href="#">原創角色</button></li>
+        <li><button href="#">海報／主視覺</button></li>
+        <li><button href="#">動圖/GIF</button></li>
+        <li><button href="#">PV製作</button></li>
+      </ul>
+    </nav>
+
+    <div class="sub-section">
+      <div>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 5.png"
+            alt=""
+          />日系插畫
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4-1.png"
+            alt=""
+          />美式風格
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4-2.png"
+            alt=""
+          />韓系畫風
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4-3.png"
+            alt=""
+          />寫實風格
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4-4.png"
+            alt=""
+          />Q版風格
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4-5.png"
+            alt=""
+          />厚塗風格
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 4.png"
+            alt=""
+          />像素插畫
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 6.png"
+            alt=""
+          />柔焦夢幻
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 14.png"
+            alt=""
+          />古風插畫
+        </button>
+        <button>
+          <img
+            src="../Picture/Art_work/sub-section-picture/Rectangle 7.png"
+            alt=""
+          />抽象藝術
+        </button>
+      </div>
+    </div>
+    <div class="before-login-bn">
+      <div class="container">
+        <h1>致每個小小的，多彩的靈魂！</h1>
+        <p>第一次來到Amilu嗎？一起在這裡展現屬於你的創做生命力！</p>
+        <div class="row">
+          <a href="../HTML/Amilu_Help_page.html"
+            >網站說明<img
+              src="../Picture/icon/Type=QA, Color=White.svg"
+              alt="網站說明"
+          /></a>
+          <a href="#"
+            >註冊會員<img
+              src="../Picture/icon/Type=Nav, Color=White.svg"
+              alt="註冊會員"
+          /></a>
+        </div>
+      </div>
+    </div>
+
+    <div id="lightbox" style="display: none"></div>
+    <div class="gallery" id="gallery"></div>
+    <div id="checkPoint"></div>
+
+    <script src="../JS/Amilu.js" defer></script>
+  </body>
+</html>

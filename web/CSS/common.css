@@ -1,0 +1,234 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  opacity: 0.96;
+  background: var(--color-Primary);
+  padding: 0 48px;
+}
+
+:root {
+  /* Color Palette */
+  --color-Primary: #f0eeec;
+  --color-Secondary: #a99c8c;
+  --color-gradient: linear-gradient(
+    100deg,
+    #80caea -162.61%,
+    #78b260 -104.82%,
+    #ebbd00 -47.03%,
+    #f0809f 10.75%,
+    #eb5919 68.54%
+  );
+  --color-black: #232020;
+  --color-white: #f5f7f6;
+  --color-red: #eb5919;
+  --color-pink: #f0809f;
+  --color-yellow: #ebbd00;
+  --color-green: #78b260;
+  --color-blue: #80caea;
+  --color-note: #c2c2c2;
+
+  /* Font-Size */
+  --fs-hero: 42px;
+  /* 版頭廣告主標 */
+  --fs-h2: 36px;
+  /* 區塊大標題(主標與內文之間補一階) */
+  --fs-body: 28px;
+  /* 一般內文 */
+  --fs-button: 14px;
+  /* 按鈕文字 */
+  --fs-caption: 12px;
+  /* 小字:作者名、說明文字 */
+
+  /* Btn-Size */
+  --btn-padding: 12px 24px;
+  /* 內距(上下 左右) */
+  --btn-radius: 99px;
+  /* 圓角 */
+  --btn-font-weight: 600;
+  /* 字重 */
+}
+
+a {
+  text-decoration: none;
+}
+
+.site-header {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 20px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 92px;
+  padding: 0 48px;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    height: 48px;
+  }
+
+  & > :first-child {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-shrink: 0;
+  }
+
+  .explore-followed {
+    position: relative;
+    display: flex;
+    height: 50px;
+    font-size: 16px;
+
+    .hidden-box {
+      display: none;
+    }
+    label {
+      padding: 6px 12px;
+      color: var(--color-note);
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3 ease;
+    }
+    &:has(#followed:checked) label[for="followed"],
+    &:has(#explore:checked) label[for="explore"] {
+      font-weight: var(--btn-font-weight);
+      color: var(--color-black);
+    }
+  }
+
+  .amilu-search-bar {
+    height: 48px;
+    padding: 0px 20px;
+    width: 600px;
+
+    gap: 12px;
+    border-radius: 99px;
+    border: 2px solid var(--color-note);
+    background: var(--color-white);
+
+    & > .search-txt {
+      font-size: 16px;
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--color-note);
+    }
+  }
+
+  .description {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+
+    & > a {
+      color: var(--color-black);
+      font-weight: var(--btn-font-weight);
+    }
+
+    & > .btn-md-red-withicon {
+      display: flex;
+      align-items: center;
+      padding: var(--btn-padding);
+      background-color: var(--color-red);
+      border-radius: var(--btn-radius);
+      gap: 16px;
+      color: var(--color-white);
+      transition: all 0.3s ease;
+    }
+
+    & > .btn-md-red-withicon:hover {
+      background-color: #ce4910;
+    }
+  }
+
+  & > :nth-child(3) {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-shrink: 0;
+
+    & > :last-child {
+      gap: 20px;
+
+      a {
+        color: var(--color-black);
+        font-weight: var(--btn-font-weight);
+      }
+
+      & > .button-md-black {
+        display: flex;
+        align-items: center;
+        padding: var(--btn-padding);
+        background-color: var(--color-black);
+        border-radius: var(--btn-radius);
+        font-weight: var(--btn-font-weight);
+        color: var(--color-white);
+      }
+
+      & > .button-md-black:hover {
+        background-color: rgb(54, 51, 51);
+      }
+    }
+  }
+}
+footer {
+  color: var(--color-Secondary);
+  padding: 50px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  .brand-info > div,
+  .brand-info > span {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .footer-nav-icon a {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  .nav-list > ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    & li > a {
+      color: var(--color-Secondary);
+    }
+  }
+  .copyright-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    padding-top: 30px;
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: rgb(216, 199, 199);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
