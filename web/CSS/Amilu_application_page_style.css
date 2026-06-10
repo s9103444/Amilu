@@ -16,17 +16,16 @@
 .appli-form-container {
   margin-top: 200px;
   width: 70%;
-  min-width: 1600px;
   margin-inline: auto;
 }
 /* 建立委託大標題 */
 .title {
-  font-size: 48px;
+  font-size: var(--fs-h1);
   margin-bottom: 12px;
 }
 
 .title-description {
-  font-size: 20px;
+  font-size: var(--fs-text);
   margin-bottom: 60px;
 }
 /* 大區內含兩欄 */
@@ -40,7 +39,7 @@
 
 .row {
   position: relative;
-  gap: 60px;
+  gap: 30px;
   justify-content: space-between;
 }
 .card,
@@ -48,33 +47,37 @@
   flex-direction: column;
 }
 .col {
-  gap: 40px;
+  gap: 30px;
+}
+.col > div:empty {
+  display: contents;
 }
 .col:first-child {
-  width: 80%;
+  flex: 4;
 }
 .col:last-child {
-  width: 30%;
+  flex: 2;
   position: sticky;
   top: 110px;
   align-self: flex-start;
 }
 
 .card {
+  width: auto;
   background-color: #fff;
   border-radius: 40px;
-  padding: 60px;
+  padding: 40px;
 }
 
 .card-title {
   color: var(--color-red);
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-block: 20px;
   & > h5 {
-    font-size: 52px;
+    font-size: var(--fs-h2);
   }
   & > h4 {
-    font-size: 60px;
+    font-size: var(--fs-hero);
   }
 }
 
@@ -94,14 +97,14 @@
   gap: 8px;
   & > h6 {
     display: block;
-    font-size: 24px;
+    font-size: var(--fs-small);
   }
   & > .must {
-    font-size: 16px;
+    font-size: var(--fs-caption);
     color: var(--color-red);
   }
   & > .choose {
-    font-size: 16px;
+    font-size: var(--fs-caption);
     color: rgb(180, 180, 180);
   }
 }
@@ -111,15 +114,15 @@ select:focus {
   box-shadow: 0 0 8px rgba(235, 89, 25, 0.3); /* 光暈效果 */
 }
 .com-type {
-  width: 70%;
+  width: 80%;
   appearance: none;
   outline: none;
   border: none;
-  padding: 32px;
+  padding: 20px 24px;
   background-color: #fff;
   border-radius: 10px;
   border: 2px solid rgb(173, 173, 173);
-  font-size: 22px;
+  font-size: var(--fs-button);
   background-image: url("../Picture/icon/nav-down.png");
   background-repeat: no-repeat;
   background-position: right 20px center;
@@ -149,14 +152,19 @@ select:focus {
   padding: 20px;
   border-radius: 10px;
   border: none;
+  .size-field-label {
+    font-size: var(--fs-caption);
+    display: block;
+    margin-bottom: 4px;
+  }
   & > input {
     appearance: none;
     outline: none;
     border: none;
-    font-size: 20px;
+    line-height: 1.4;
     background-color: transparent;
     &::placeholder {
-      font-size: 20px;
+      font-size: var(--fs-small);
       color: var(--color-note);
     }
   }
@@ -168,13 +176,13 @@ select:focus {
   display: flex;
   gap: 12px;
   align-items: center;
-
-  font-size: 18px;
+  font-size: var(--fs-small);
   & > label {
+    font-size: var(--fs-button);
     border-radius: 10px;
     padding: 20px 50px 20px 48px;
     text-align: start;
-    color: var(--color-note);
+    color: rgb(76, 76, 76);
     background-color: #f6f5f5;
     background-image: url(../Picture/icon/radio-checkbox-circle-uncheck.png);
     background-repeat: no-repeat;
@@ -189,7 +197,12 @@ select:focus {
     box-shadow: 0 0 8px rgba(235, 89, 25, 0.3);
     color: var(--color-black);
   }
+  .sched-des {
+    font-size: var(--fs-caption);
+    color: rgb(113, 113, 113);
+  }
 }
+
 .request-note {
   display: block;
   margin-top: -4px;
@@ -201,7 +214,7 @@ select:focus {
   resize: none;
   background-color: #f6f5f5;
   height: 400px;
-  font-size: 22px;
+  font-size: var(--fs-button);
   padding: 20px;
   border-radius: 10px;
   border: none;
@@ -224,9 +237,10 @@ select:focus {
   border: 2px dashed var(--color-note);
   text-align: center;
   & > p {
-    font-size: 22px;
+    font-size: var(--fs-button);
   }
   & > span {
+    font-size: var(--fs-caption);
     color: var(--color-note);
   }
 }
@@ -236,7 +250,7 @@ select:focus {
 }
 .com-Tos-comfirm {
   display: block;
-  font-size: 20px;
+  font-size: var(--fs-button);
   border-radius: 10px;
   padding: 28px 60px 28px 64px;
   text-align: start;
@@ -262,7 +276,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   padding-left: 8px;
   align-items: center;
   & > h6 {
-    font-size: 22px;
+    font-size: var(--fs-input);
     color: var(--color-note);
   }
 }
@@ -271,7 +285,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   appearance: none;
   outline: none;
   background-color: #ffffff;
-  font-size: 22px;
+  font-size: var(--fs-button);
   padding: 20px;
   width: 70%;
   border-radius: 10px;
@@ -284,7 +298,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   box-shadow: 0 0 8px rgba(235, 89, 25, 0.3);
 }
 .sched-des {
-  font-size: 18px;
+  font-size: var(--fs-small);
   color: var(--color-note);
 }
 .com-list {
@@ -294,29 +308,28 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
     padding: 48px 0 8px;
     justify-content: space-between;
     border-bottom: 1px solid var(--color-note);
+    font-size: var(--fs-small);
     & > span:first-child {
-      font-size: 22px;
       color: gray;
     }
     & > span:last-child {
-      font-size: 22px;
       color: var(--color-black);
     }
   }
 }
 .btn-container {
   display: flex;
-  margin-top: 80px;
+  margin-top: 60px;
   gap: 30px;
   align-items: center;
   text-align: center;
-  font-size: 24px;
+  font-size: var(--fs-small);
   & .com-submit-btn {
     width: 70%;
 
     & > a {
       border-radius: 99px;
-      padding: 30px;
+      padding: 20px;
       display: block;
       background-color: var(--color-red);
       width: 100%;
@@ -329,7 +342,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 
     & > a {
       border: 2px solid var(--color-black);
-      padding: 30px;
+      padding: 20px;
       border-radius: 99px;
       display: block;
       width: 100%;
@@ -340,17 +353,15 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 }
 
 .info-fixed {
-  /* position: fixed; */
-  width: 20%;
-  min-width: 600px;
   right: 300;
   top: 200;
 }
-
 .com-creater-info-container {
   .creater-info {
+    width: 100%;
     display: flex;
     align-items: center;
+
     gap: 20px;
     & img {
       display: block;
@@ -358,29 +369,30 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   }
   .com-status {
     display: inline-block;
+    margin-bottom: 4px;
     width: auto;
     border-radius: 8px;
-    font: 18px;
+    font-size: var(--fs-caption);
     color: var(--color-white);
-    padding: 8px 10px;
+    padding: 4px 10px;
     background-color: var(--color-green);
   }
   .user-name {
     display: inline-block;
     margin-right: 10px;
-    font-size: 24px;
+    font-size: var(--fs-small);
     font-weight: var(--btn-font-weight);
   }
   .user-id {
-    font-size: 18px;
+    font-size: var(--fs-button);
     color: var(--color-Secondary);
   }
 }
 .btn-container-creater {
   margin-top: 10px;
-  padding-top: 30px;
+  padding-top: 10px;
   width: 100%;
-  margin-inline: auto;
+
   text-align: center;
   .follow-btn {
     background-color: var(--color-black);
@@ -390,7 +402,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
       display: block;
       padding: 14px 0;
       color: var(--color-white);
-      font-size: 20px;
+      font-size: var(--fs-small);
       font-weight: var(--btn-font-weight);
     }
   }
@@ -401,16 +413,17 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
       display: block;
       padding: 14px 0;
       color: var(--color-white);
-      font-size: 20px;
+      font-size: var(--fs-small);
       font-weight: var(--btn-font-weight);
     }
   }
 }
+
 .com-nav {
   list-style: none;
   flex-direction: column;
   display: flex;
-  gap: 30px;
+  gap: 20px;
   scroll-target-group: auto;
 
   & > li {
@@ -419,7 +432,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 24px;
+    font-size: var(--fs-text);
     font-weight: var(--btn-font-weight);
     color: rgb(44, 44, 44);
 

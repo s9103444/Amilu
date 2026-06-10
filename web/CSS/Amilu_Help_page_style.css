@@ -1,5 +1,5 @@
 p {
-  font-size: 20px;
+  font-size: var(--fs-text);
   line-height: 40px;
 }
 .bar-title {
@@ -50,7 +50,7 @@ p {
       }
 
       & h1 {
-        font-size: 60px;
+        font-size: var(--fs-display);
       }
     }
 
@@ -94,7 +94,8 @@ p {
 .pain-point-container {
   position: relative;
   margin: 0 auto;
-  width: 1400px;
+  width: 100%;
+  max-width: 1400px;
   display: flex;
   border-radius: 60px;
   padding-block: 60px;
@@ -111,20 +112,19 @@ p {
     width: 500px;
 
     & > h2 {
-      font-size: 52px;
+      font-size: var(--fs-h1);
     }
 
     & > p {
-      font-weight: var(--btn-font-weight);
       color: #948f8e;
     }
 
     & > span {
-      font-size: 24px;
+      font-size: var(--fs-h3);
     }
 
     & > p:last-child {
-      font-size: 18px;
+      font-size: var(--fs-small);
       color: #948f8e;
     }
   }
@@ -147,11 +147,11 @@ p {
   gap: 40px;
 
   & > h2 {
-    font-size: 52px;
+    font-size: var(--fs-h1);
   }
 
   & > span {
-    font-size: 24px;
+    font-size: var(--fs-h3);
   }
 
   & > .bar-title {
@@ -165,7 +165,6 @@ p {
   .row {
     display: flex;
     width: 80%;
-    min-width: 1440px;
     margin: 0 auto;
     gap: 30px;
     height: 700px;
@@ -187,18 +186,18 @@ p {
     border-radius: 40px;
     display: flex;
     padding: 60px;
-    gap: 140px;
+    gap: 80px;
     & > img {
-      height: 180px;
+      height: 140px;
     }
     .info {
       gap: 20px;
       & > h3 {
-        font-size: 48px;
+        font-size: var(--fs-h2);
         margin-bottom: 10px;
       }
       & > p {
-        font-size: 18px;
+        font-size: var(--fs-small);
         color: #948f8e;
       }
     }
@@ -209,7 +208,6 @@ p {
   margin-bottom: 300px;
   .row {
     display: flex;
-    min-width: 1300px;
     justify-content: center;
     gap: 80px;
     margin-bottom: 40px;
@@ -220,17 +218,17 @@ p {
       border-radius: 20px;
       text-align: center;
       & > p {
-        font-size: 18px;
+        font-size: var(--fs-small);
         color: var(--color-black);
         line-height: 30px;
       }
       & > h2 {
-        font-size: 72px;
+        font-size: var(--fs-display);
         color: var(--color-red);
         font-weight: 800;
       }
       & > h4 {
-        font-size: 28px;
+        font-size: var(--fs-body);
         margin-bottom: 20px;
       }
     }
@@ -308,7 +306,7 @@ p {
     margin-inline: auto;
   }
   & > h3 {
-    font-size: 48px;
+    font-size: var(--fs-h1);
     margin-bottom: 50px;
   }
 
@@ -340,11 +338,11 @@ p {
       .info {
         margin-top: 40px;
         & > h4 {
-          font-size: 28px;
+          font-size: var(--fs-body);
           margin-bottom: 20px;
         }
         & > p {
-          font-size: 18px;
+          font-size: var(--fs-small);
           color: var(--color-black);
           line-height: 30px;
         }
@@ -391,7 +389,7 @@ p {
     gap: 40px;
 
     & h2 {
-      font-size: 52px;
+      font-size: var(--fs-h1);
     }
 
     & p {

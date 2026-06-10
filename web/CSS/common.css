@@ -31,13 +31,25 @@ body {
   --color-blue: #80caea;
   --color-note: #c2c2c2;
 
-  /* Font-Size */
+  /* Font-Size - 由大到小 */
+  --fs-display: 60px;
+  /* 超大裝飾數字 */
+  --fs-h1: 48px;
+  /* 頁面主標 */
   --fs-hero: 42px;
   /* 版頭廣告主標 */
   --fs-h2: 36px;
-  /* 區塊大標題(主標與內文之間補一階) */
+  /* 區塊大標題 */
   --fs-body: 28px;
   /* 一般內文 */
+  --fs-h3: 24px;
+  /* 小標/表單標籤 */
+  --fs-input: 22px;
+  /* 輸入框文字 */
+  --fs-text: 20px;
+  /* 說明文字 */
+  --fs-small: 18px;
+  /* 次要說明 */
   --fs-button: 14px;
   /* 按鈕文字 */
   --fs-caption: 12px;
@@ -77,7 +89,7 @@ a {
   }
 
   .logo {
-    height: 48px;
+    height: 36px;
   }
 
   & > :first-child {
@@ -91,7 +103,7 @@ a {
     position: relative;
     display: flex;
     height: 50px;
-    font-size: 16px;
+    font-size: var(--fs-small);
 
     .hidden-box {
       display: none;
@@ -123,14 +135,16 @@ a {
     border-radius: 99px;
     border: 2px solid var(--color-note);
     background: var(--color-white);
-
     & > .search-txt {
-      font-size: 16px;
+      font-size: var(--fs-button);
       flex-grow: 1;
       border: none;
       outline: none;
       background: transparent;
-      color: var(--color-note);
+      color: var(--color-black);
+      &::placeholder {
+        color: var(--color-note);
+      }
     }
   }
 
@@ -191,6 +205,13 @@ a {
   }
 }
 footer {
+  margin-top: 100px;
+  .footer-logo {
+    width: 100px;
+    & > img {
+      width: 100%;
+    }
+  }
   color: var(--color-Secondary);
   padding: 50px 0;
   display: flex;
@@ -219,7 +240,8 @@ footer {
     justify-content: space-between;
     width: 100%;
     position: relative;
-    padding-top: 30px;
+    padding-top: 18px;
+    font-size: var(--fs-caption);
     &::before {
       content: "";
       display: block;

@@ -216,7 +216,6 @@ const artists = [
     },
   },
 ];
-
 // 瀑布流抓取器
 const gallery = document.getElementById("gallery");
 
@@ -339,9 +338,23 @@ function toGallery() {
     let card = createCard(work, index);
     gallery.appendChild(card);
   }
+  return gallery;
 }
 toGallery();
-//先到第三部，明天嘗試第四步
+
+// 瀑布流
+const checkPoint = document.getElementById("checkPoint");
+
+const observer = new IntersectionObserver(batchPic);
+if (checkPoint) {
+  observer.observe(checkPoint);
+}
+
+function batchPic(e) {
+  if (e[0].isIntersecting) {
+    toGallery();
+  }
+}
 
 //篩選器
 

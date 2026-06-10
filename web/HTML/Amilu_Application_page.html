@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Amilu application page</title>
     <link rel="stylesheet" href="../CSS/common.css" />
     <link rel="stylesheet" href="../CSS/Amilu_application_page_style.css" />
   </head>
@@ -81,10 +81,10 @@
                   <option value="">作者自由發揮</option>
                 </select>
                 <label class="size-field com-type">
-                  <span class="size-field__label">輸入自訂尺寸</span>
+                  <span class="size-field-label">輸入自訂尺寸</span>
                   <input
                     type="text"
-                    class="size-field__input"
+                    class="size-field-input"
                     placeholder="1000*1000px"
                   />
                 </label>
@@ -214,10 +214,9 @@
               >
             </div>
           </div>
-
-          <div id="sec04"></div>
+          <div id="sec04" ></div>
           <div class="card">
-            <div  class="card-title">
+            <div class="card-title">
               <h5>預算與進行方式</h5>
               <h4>04</h4>
             </div>
@@ -252,7 +251,7 @@
                   id="schedStandard"
                   checked
                 />
-                <label for="schedStandard"
+                <label class="sched-type" for="schedStandard"
                   >標準4段<br /><span class="sched-des"
                     >草稿>線稿>彩稿>精稿</span
                   >
@@ -264,7 +263,7 @@
                   class="hidden"
                   id="sched3"
                 />
-                <label for="sched3"
+                <label for="sched3" class="sched-type"
                   >精準3段<br /><span class="sched-des"
                     >草稿>彩稿>精稿</span
                   ></label
@@ -276,7 +275,7 @@
                   class="hidden"
                   id="sched2"
                 />
-                <label for="sched2"
+                <label for="sched2" class="sched-type"
                   >效率2段<br /><span class="sched-des"
                     >草稿>精稿</span
                   ></label
@@ -288,7 +287,7 @@
                   class="hidden"
                   id="sched1"
                 />
-                <label for="sched1"
+                <label for="sched1" class="sched-type"
                   >作者安排<br /><span class="sched-des"
                     >由作者自行安排時程</span
                   ></label
@@ -296,8 +295,9 @@
               </div>
             </div>
           </div>
+              <div id="sec05"></div>
           <div class="card">
-            <div id="sec05" class="card-title">
+            <div class="card-title">
               <h5>確認送出</h5>
               <h4>05</h4>
             </div>
@@ -335,7 +335,7 @@
                 <div class="check-page-btn"><a href="#">查看作者頁面</a></div>
               </div>
             </div>
-            <div class="card">
+            <div class="card nav">
               <ul class="com-nav">
                 <li><a href="#sec01">01 委託規格</a></li>
                 <li><a href="#sec02">02 需求描述</a></li>
@@ -350,7 +350,7 @@
     </div>
     <footer>
       <div class="brand-info">
-        <div><img src="../Picture/footer_logo.png" alt="" /></div>
+        <div class="footer-logo"><img src="../Picture/footer_logo.png" alt="" /></div>
         <span>致每個小小的、多彩的靈魂。 </span>
         <div class="footer-nav-icon">
           <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
