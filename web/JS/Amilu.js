@@ -144,6 +144,33 @@ const works = [
     style: "Chinese-style",
     description: "這是一段說明文字，最多可打30個字。",
   },
+  {
+    artistId: "artist01",
+    src: "../Picture/Art_work/image 16.png",
+    name: "翼之精靈",
+    user: "@test_name",
+    tag: "original-character",
+    style: "realistic",
+    description: "這是一段說明文字，最多可打30個字。",
+  },
+  {
+    artistId: "artist02",
+    src: "../Picture/Art_work/image 14.png",
+    name: "蘋果與面容",
+    user: "@test_name",
+    tag: "illustration",
+    style: "soft-focus",
+    description: "這是一段說明文字，最多可打30個字。",
+  },
+  {
+    artistId: "artist03",
+    src: "../Picture/Art_work/image 7.png",
+    name: "綠葉少女",
+    user: "@test_name",
+    tag: "illustration",
+    style: "Chinese-style",
+    description: "這是一段說明文字，最多可打30個字。",
+  },
 ];
 
 // 作者陣列
@@ -331,30 +358,44 @@ function createCard(works, index) {
   </div>`;
   return card;
 }
+
 //把卡片一組裝進gallery
+//抓取監視點
+let loadedCount = 0;
+const BATCH_SIZE = 10;
+let isLoading = false;
 function toGallery() {
-  for (let index = 0; index < works.length; index++) {
-    let work = works[index];
-    let card = createCard(work, index);
-    gallery.appendChild(card);
+  if (isLoading) return;
+  isLoading = true;
+  const end = Math.min(loadedCount + BATCH_SIZE, works.length); //0+10==10,25,Math.min選比較小的
+  for (let index = loadedCount; index < end; index++) {
+    gallery.appendChild(createCard(works[index], index));
   }
-  return gallery;
+  loadedCount = end;
+  if (loadedCount >= works.length) {
+    loadedCount = 0;
+  }
+  isLoading = false;
 }
+document.addEventListener("scroll", () => {
+  const scrolled = window.scrollY + window.innerHeight;
+  const total = document.documentElement.scrollHeight;
+  if (scrolled >= total - 200) {
+    toGallery();
+  }
+});
 toGallery();
+//------------------------- 這是假的瀑布流
 
-// 瀑布流
+// 瀑布流監視點
 const checkPoint = document.getElementById("checkPoint");
-
 const observer = new IntersectionObserver(batchPic);
-if (checkPoint) {
-  observer.observe(checkPoint);
-}
-
 function batchPic(e) {
   if (e[0].isIntersecting) {
     toGallery();
   }
 }
+observer.observe(checkPoint);
 
 //篩選器
 

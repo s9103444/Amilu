@@ -4,25 +4,15 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
-  font-family: "Chiron GoRound TC", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-
 #nav-bg {
-  z-index: 10;
+  z-index: 1;
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(240, 238, 236, 0.8);
-  height: 80px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background-color: var(--color-Primary);
+  height: 100px;
 }
 
 #nav-bg.scrolled {
@@ -58,33 +48,33 @@ body {
   --color-light-note: #d5d5d5;
 
   /* Font-Size - 由大到小 */
-  --fs-display: 3.75rem;
+  --fs-display: 60px;
   /* 超大裝飾數字 */
-  --fs-h1: 3rem;
+  --fs-h1: 48px;
   /* 頁面主標 */
-  --fs-hero: 2.625rem;
+  --fs-hero: 42px;
   /* 版頭廣告主標 */
-  --fs-h2: 2.25rem;
+  --fs-h2: 36px;
   /* 區塊大標題 */
-  --fs-body: 1.75rem;
+  --fs-body: 28px;
   /* 一般內文 */
-  --fs-h3: 1.5rem;
+  --fs-h3: 24px;
   /* 小標/表單標籤 */
-  --fs-input: 1.375rem;
+  --fs-input: 22px;
   /* 輸入框文字 */
-  --fs-text: 1.25rem;
+  --fs-text: 20px;
   /* 說明文字 */
-  --fs-small: 1.125rem;
+  --fs-small: 18px;
   /* 次要說明 */
-  --fs-button: 0.875rem;
+  --fs-button: 14px;
   /* 按鈕文字 */
-  --fs-caption: 0.75rem;
+  --fs-caption: 12px;
   /* 小字:作者名、說明文字 */
 
   /* Btn-Size */
-  --btn-padding: 0.6em 1.5em;
+  --btn-padding: 12px 24px;
   --btn-radius: 99px;
-  --btn-font-weight: 500;
+  --btn-font-weight: 600;
 
   /* Width */
   --w-10: 10%;
@@ -109,7 +99,7 @@ a {
 }
 
 .site-header {
-  z-index: 15;
+  z-index: 2;
   position: fixed;
   top: 0;
   left: 0;
@@ -150,11 +140,10 @@ a {
     }
     label {
       padding: 6px 12px;
-      color: gray;
+      color: var(--color-note);
       cursor: pointer;
       position: relative;
       z-index: 1;
-      font-size: var(--fs-button);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -168,13 +157,13 @@ a {
   }
 
   .amilu-search-bar {
-    height: 42px;
+    height: 48px;
     padding: 0px 20px;
     width: 600px;
 
     gap: 12px;
     border-radius: 99px;
-    border: 1px solid var(--color-note);
+    border: 2px solid var(--color-note);
     background: var(--color-white);
     & > .search-txt {
       font-size: var(--fs-button);
@@ -195,15 +184,13 @@ a {
     gap: 36px;
 
     & > a {
-      font-size: var(--fs-button);
       color: var(--color-black);
-      font-weight: 600;
+      font-weight: var(--btn-font-weight);
     }
 
     & > .btn-md-red-withicon {
       display: flex;
       align-items: center;
-      font-weight: 600;
       padding: var(--btn-padding);
       background-color: var(--color-red);
       border-radius: var(--btn-radius);
@@ -222,7 +209,6 @@ a {
     align-items: center;
     gap: 40px;
     flex-shrink: 0;
-    font-size: var(--fs-button);
 
     & > :last-child {
       gap: 20px;
@@ -230,7 +216,6 @@ a {
       a {
         color: var(--color-black);
         font-weight: var(--btn-font-weight);
-        font-weight: 600;
       }
 
       & > .button-md-black {
@@ -241,7 +226,6 @@ a {
         border-radius: var(--btn-radius);
         font-weight: var(--btn-font-weight);
         color: var(--color-white);
-        font-weight: 600;
       }
 
       & > .button-md-black:hover {
@@ -251,37 +235,29 @@ a {
   }
 }
 footer {
-  width: 100%;
-  margin-top: 60px;
-  margin-bottom: 10px;
+  margin-top: 100px;
   .footer-logo {
-    width: 80px;
+    width: 100px;
     & > img {
       width: 100%;
     }
   }
   color: var(--color-Secondary);
+  padding: 10px 0 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
-  .brand-info {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+  gap: 20px;
+  .brand-info > div,
+  .brand-info > span {
+    display: block;
     font-size: var(--fs-button);
-    gap: 10px;
-    & > span {
-      font-size: var(--fs-caption);
-    }
-  }
-  .footer-nav-icon {
-    width: 100%;
+    margin-bottom: 10px;
   }
   .footer-nav-icon a {
     display: inline-block;
     margin-right: 8px;
     & > img {
-      width: 20px;
+      width: 24px;
     }
   }
   .nav-list {
@@ -292,7 +268,7 @@ footer {
   .nav-list > ul {
     display: flex;
     list-style: none;
-    /* margin-bottom: 10px; */
+    margin-bottom: 10px;
     gap: 30px;
 
     & li > a {

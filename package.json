@@ -1,0 +1,26 @@
+{
+  "name": "amilu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:css": "stylelint \"web/CSS/**/*.css\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s9103444/Amilu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/s9103444/Amilu/issues"
+  },
+  "homepage": "https://github.com/s9103444/Amilu#readme",
+  "devDependencies": {
+    "stylelint": "^17.13.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

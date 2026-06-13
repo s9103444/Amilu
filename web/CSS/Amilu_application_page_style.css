@@ -1,20 +1,6 @@
-#nav-bg {
-  z-index: 1;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--color-Primary);
-  height: 100px;
-}
-
-#nav-bg.scrolled {
-  box-shadow: 0px 1px 30px var(--color-Primary);
-}
 /* 卡片資訊區 */
 .appli-form-container {
-  margin-top: 200px;
+  margin-top: 160px;
   width: 70%;
   margin-inline: auto;
 }
@@ -202,7 +188,9 @@ select:focus {
     color: rgb(113, 113, 113);
   }
 }
-
+.filter-bar {
+  margin-top: 10px;
+}
 .request-note {
   display: block;
   margin-top: -4px;
@@ -329,7 +317,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 
     & > a {
       border-radius: 99px;
-      padding: 20px;
+      padding: var(--btn-padding);
       display: block;
       background-color: var(--color-red);
       width: 100%;
@@ -342,7 +330,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 
     & > a {
       border: 2px solid var(--color-black);
-      padding: 20px;
+      padding: var(--btn-padding);
       border-radius: 99px;
       display: block;
       width: 100%;
@@ -400,7 +388,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
     margin-bottom: 15px;
     & > a {
       display: block;
-      padding: 14px 0;
+      padding: var(--btn-padding);
       color: var(--color-white);
       font-size: var(--fs-small);
       font-weight: var(--btn-font-weight);
@@ -411,7 +399,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
     border-radius: 99px;
     & > a {
       display: block;
-      padding: 14px 0;
+      padding: var(--btn-padding);
       color: var(--color-white);
       font-size: var(--fs-small);
       font-weight: var(--btn-font-weight);
