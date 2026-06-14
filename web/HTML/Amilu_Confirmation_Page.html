@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>委託確認 - Amilu</title>
+  <link rel="stylesheet" href="../CSS/common.css" />
+  <link rel="stylesheet" href="../CSS/Amilu_confirmation_page_style.css" />
+  <!-- 字體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@315&display=swap" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../JS/Amilu_confirmation_page.js" defer></script>
+</head>
+
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div>
+      <a href="Amilu_index.html"><img class="logo" src="../Picture/Logo.png" /></a>
+    </div>
+
+    <div class="amilu-search-bar">
+      <img class="amilu-icons" src="../Picture/icon/Type=Search, Color=Gradient.svg" />
+      <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
+    </div>
+
+    <div>
+      <div class="description">
+        <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+        <a href="#" class="btn-md-red-withicon">
+          上傳作品
+          <img class="amilu-icons2" src="../Picture/icon/Type=Up Load, Color=White.svg" />
+        </a>
+      </div>
+      <div>
+        <a href="#">登入</a>
+        <a href="#" class="button-md-black">註冊</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="nav-bg"></div>
+
+  <!-- ===== Main ===== -->
+  <main class="confirm-wrapper">
+
+    <!-- 頂部列：返回 + 標題 + 狀態 -->
+    <div class="confirm-topbar">
+      <button class="btn-back">&#8249;</button>
+      <h1 class="confirm-title">角色立繪委託 x1</h1>
+      <span class="badge-status badge-status--pending">待確認</span>
+    </div>
+
+    <!-- 提示通知列 -->
+    <div class="notice-bar">
+      <div class="notice-bar__left">
+        <span class="notice-bar__icon">&#9432;</span>
+        <p class="notice-bar__text">等待雙方確認中，待接積人提出報價與確認後，也需您按下確認以完成委託流程。</p>
+      </div>
+      <button class="btn-topbar-more">&#8943;</button>
+    </div>
+
+    <!-- 主體：左右兩欄 -->
+    <div class="confirm-content-layout">
+
+      <!-- ===== 左欄：委託內容 ===== -->
+      <section class="card-commission">
+
+        <!-- 卡片 header -->
+        <div class="card-commission__header">
+          <h2 class="card-commission__title">委託內容</h2>
+          <span class="lock-label">
+            <img class="lock-label__icon" src="../Picture/icon/lock.svg" alt="lock" />
+            僅接積人可編輯此區
+          </span>
+        </div>
+
+        <!-- 資訊格：6 欄位 -->
+        <div class="commission-info-grid">
+
+          <div class="commission-info-item">
+            <span class="info-label">委託項目</span>
+            <p class="info-value">角色立繪委託 x1</p>
+          </div>
+
+          <div class="commission-info-item">
+            <span class="info-label">預算</span>
+            <p class="info-value info-value--updated">
+              NT$ 3,500
+              <span class="badge-updated">更新</span>
+            </p>
+            <p class="info-value--original">原先報價：NT$2,500</p>
+          </div>
+
+          <div class="commission-info-item">
+            <span class="info-label">支付方式</span>
+            <p class="info-value">第三方平台支付</p>
+          </div>
+
+          <div class="commission-info-item">
+            <span class="info-label">可修改次數</span>
+            <p class="info-value">3次</p>
+          </div>
+
+          <div class="commission-info-item">
+            <span class="info-label">授權範圍</span>
+            <p class="info-value">個人非商業用途</p>
+          </div>
+
+          <div class="commission-info-item">
+            <span class="info-label">期望排程</span>
+            <p class="info-value">精準3段</p>
+          </div>
+
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 參考圖 -->
+        <div class="commission-ref">
+          <span class="section-label">參考圖</span>
+          <div class="commission-ref__grid">
+            <img class="ref-img-item" src="../Picture/Art_work/ref_01.png" alt="參考圖1" />
+            <img class="ref-img-item" src="../Picture/Art_work/ref_02.png" alt="參考圖2" />
+            <img class="ref-img-item" src="../Picture/Art_work/ref_03.png" alt="參考圖3" />
+            <img class="ref-img-item" src="../Picture/Art_work/ref_04.png" alt="參考圖4" />
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 需求描述 -->
+        <div class="commission-desc">
+          <span class="section-label">需求描述</span>
+          <p class="commission-desc__text">
+            老師好，有在其他地方關注過您的作品，很開心能在Amilu上有委託您的機會！以下為相關委託需求：<br /><br />
+            希望角色為奇幻風格，配色以藍紫為主，含背景。<br />
+            再麻煩幫忙看看是否可以了，感恩！
+          </p>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 最新報價 -->
+        <div class="commission-price">
+          <span class="commission-price__label">最新報價</span>
+          <div class="commission-price__right">
+            <p class="commission-price__value">NT$ 3,500</p>
+            <span class="commission-price__note">含平台手續費6%</span>
+          </div>
+        </div>
+
+        <!-- 操作按鈕 -->
+        <div class="commission-actions">
+          <button class="btn-commission-confirm">確認委託（50 / 50）</button>
+          <button class="btn-commission-cancel">取消</button>
+        </div>
+
+      </section>
+
+      <!-- ===== 右欄：商討聊天室 ===== -->
+      <section class="card-chat">
+
+        <!-- 聊天室 header -->
+        <div class="card-chat__header">
+          <h2 class="chat-title">商討聊天室</h2>
+          <div class="chat-header-actions">
+            <img class="chat-avatar" src="../Picture/icon/user-head01.png" alt="創作者頭貼" />
+            <button class="btn-chat-settings">
+              <img src="../Picture/icon/settings.svg" alt="設定" />
+            </button>
+          </div>
+        </div>
+
+        <!-- 訊息列表 -->
+        <div class="chat-messages">
+
+          <!-- 對方訊息：小帥 -->
+          <div class="chat-msg chat-msg--other">
+            <span class="chat-msg__name">小帥</span>
+            <div class="chat-msg__bubble">
+              你好！收到你的委託了，請問背景想要多複雜呢？這邊會針對複雜需求進行報價上的調整，再麻煩跟我說了，感謝！
+            </div>
+          </div>
+
+          <!-- 自己訊息 -->
+          <div class="chat-msg chat-msg--self">
+            <span class="chat-msg__name">你</span>
+            <div class="chat-msg__bubble">
+              您好！因為想之前有看到一些繪風覺是現是自己很喜歡的，所以希望可以參照……(相關需求略)，再麻煩看看這樣可不可以QQ，謝謝您！
+            </div>
+          </div>
+
+          <!-- 系統通知：報價更新 -->
+          <div class="chat-notice">
+            <span class="chat-notice__text">&#10003; 接積人已更新報價：NT$3500</span>
+          </div>
+
+          <!-- 對方訊息：小帥 -->
+          <div class="chat-msg chat-msg--other">
+            <span class="chat-msg__name">小帥</span>
+            <div class="chat-msg__bubble">
+              收到～這邊有先更新報價了，請再幫我確認看看喔！
+            </div>
+          </div>
+
+          <!-- 自己訊息 -->
+          <div class="chat-msg chat-msg--self">
+            <span class="chat-msg__name">你</span>
+            <div class="chat-msg__bubble">
+              收到謝謝！報價沒問題，那就再麻煩了～感恩！
+            </div>
+          </div>
+
+          <!-- 雙方確認狀態 -->
+          <div class="chat-confirm-status">
+            <span class="chat-confirm-status__item">&#10003; 委託人已確認並同意內容</span>
+            <span class="chat-confirm-status__item">&#10003; 接積人已確認並同意內容</span>
+          </div>
+
+        </div>
+
+        <!-- 輸入區 -->
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" placeholder="在此輸入訊息..." />
+          <button class="btn-chat-send">&#9658;</button>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="brand-info">
+      <div class="footer-logo"><img src="../Picture/footer_logo.png" alt="" /></div>
+      <div class="footer-nav-icon">
+        <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
+        <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
+        <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
+      </div>
+    </div>
+    <div class="nav-list">
+      <ul>
+        <li><a href="#">網站探索</a></li>
+        <li><a href="#">使用者面板</a></li>
+        <li><a href="#">通知中心</a></li>
+        <li><a href="#">網站說明</a></li>
+        <li><a href="#">網站設定</a></li>
+        <li><a href="#">註冊 / 登入</a></li>
+      </ul>
+    </div>
+    <div class="copyright-container">
+      <span>本平台為個人專題作品，僅供作品集展示之用。</span>
+      <span>© 2026 Amilu. All rights reserved.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

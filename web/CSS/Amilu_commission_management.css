@@ -8,9 +8,11 @@ body {
 li {
   list-style-type: none;
 }
+
 .commission-management {
   margin-top: 110px;
-  & > h1 {
+
+  &>h1 {
     display: block;
     width: 100%;
     font-size: var(--fs-h2);
@@ -18,21 +20,26 @@ li {
     margin-bottom: 30px;
   }
 }
+
 .page-tabs {
   position: relative;
-  & > ul {
+
+  &>ul {
     display: flex;
     gap: 20px;
+
     & a {
       font-size: var(--fs-small);
       color: gray;
     }
   }
+
   .active {
     position: relative;
     color: var(--color-red);
     font-weight: 900;
   }
+
   .active::after {
     position: absolute;
     bottom: -18px;
@@ -44,10 +51,12 @@ li {
     background-color: var(--color-red);
   }
 }
+
 .tab-line-container {
   display: flex;
   height: 30px;
   align-items: center;
+
   .tab-line {
     display: block;
     height: 1px;
@@ -55,6 +64,7 @@ li {
     background-color: var(--color-note);
   }
 }
+
 .row {
   display: flex;
   gap: 20px;
@@ -62,6 +72,7 @@ li {
   .commission-list {
     flex: 4;
   }
+
   .sidebar {
     flex: 1;
     /* padding-top: 3em; */
@@ -71,12 +82,14 @@ li {
     margin-top: -20px;
   }
 }
+
 .filter-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
   margin-bottom: 20px;
+
   .filter-btn.active {
     color: var(--color-white);
     padding: 4px 14px;
@@ -84,6 +97,7 @@ li {
     border-radius: 99px;
     font-weight: var(--btn-font-weight);
   }
+
   .filter-btn {
     cursor: pointer;
     display: inline-block;
@@ -94,6 +108,7 @@ li {
     color: gray;
   }
 }
+
 .search-btn {
   cursor: pointer;
   display: flex;
@@ -104,7 +119,8 @@ li {
   color: gray;
   gap: 4px;
   margin-right: 18px;
-  & > img {
+
+  &>img {
     width: 14px;
     filter: brightness(0.75);
   }
@@ -120,11 +136,13 @@ li {
   outline: none;
   color: rgb(167, 167, 167);
   margin-right: 10px;
-  & > img {
+
+  &>img {
     width: 14px;
     filter: brightness(0.75);
   }
 }
+
 .hidden {
   display: none;
 }
@@ -136,6 +154,7 @@ li {
   outline: none;
   background-color: var(--color-Primary);
 }
+
 .commission-card {
   display: flex;
   align-items: center;
@@ -144,25 +163,28 @@ li {
   border: 1px solid var(--color-note);
   border-radius: 24px;
 }
+
 .card-list {
-  height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--color-note) transparent;
+
   &::-webkit-scrollbar {
     width: 4px;
   }
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--color-note);
     border-radius: 99px;
   }
-}
-
-.card-list li + li {
-  margin-top: 10px;
 }
 
 .card-creator {
@@ -180,6 +202,7 @@ li {
   width: 100%;
   height: 8px;
 }
+
 .progress-fill {
   height: 100%;
   border-radius: 99px;
@@ -187,69 +210,86 @@ li {
 
 .card-thumbnail {
   width: 100px;
+  height: 100px;
 
   margin-right: 20px;
   border-radius: 20px;
 }
+
 .creator-name {
   font-weight: var(--btn-font-weight);
 }
+
 .creator-avatar {
   width: 30px;
   display: inline-block;
   border-radius: 99px;
 }
+
 .creator-id {
   font-size: var(--fs-button);
   color: var(--color-Secondary);
 }
+
 .card-status {
   display: flex;
   justify-content: space-between;
   margin-top: 2px;
 }
+
 .card-status-text {
   font-size: var(--fs-caption);
   color: gray;
 }
+
 .update-time {
   font-size: var(--fs-caption);
   color: gray;
 }
+
 .card-header {
   display: flex;
   justify-content: space-between;
-  & > h3 {
+
+  &>h3 {
     font-size: var(--fs-small);
   }
 }
+
 .card-body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 80%;
+  flex: 1
 }
+
 .card-detail-btn {
+  height: 100%;
+  width: 14%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
-  padding-left: 30px;
   flex-shrink: 0;
-  & > a {
+
+  .view-btn {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: var(--fs-button);
+    align-items: center;
+    font-size: var(--fs-small);
+    font-weight: 400;
+    padding: 10px;
+
     color: gray;
-    & > img {
-      display: block;
+
+    &>img {
+      align-self: center;
       margin-left: 4px;
       width: 14px;
       opacity: 0.5;
     }
   }
 }
+
 .status {
   display: flex;
   align-items: center;
@@ -257,14 +297,17 @@ li {
   padding: 4px 12px;
   border-radius: 99px;
 }
+
 .status-pending {
   background-color: var(--status-pending-bg);
   border: 1px solid var(--color-red);
 }
+
 .status-in-progress {
   background-color: var(--status-in-progress-bg);
   border: 1px solid var(--color-green);
 }
+
 .status-done {
   background-color: var(--status-done-bg);
   border: 1px solid var(--color-Secondary);
@@ -277,18 +320,20 @@ li {
   padding: 32px 30px 36px 30px;
   border-radius: 20px;
 }
+
 .summary-card {
   .stats {
     display: flex;
     justify-content: space-between;
   }
 
-  & > h3 {
+  &>h3 {
     display: block;
     margin-bottom: 1ex;
     font-size: var(--fs-small);
     font-weight: 600;
   }
+
   .stat-item {
     width: 100%;
 
@@ -296,48 +341,57 @@ li {
     align-items: center;
     flex-direction: column;
   }
-  .stat-item + .stat-item {
+
+  .stat-item+.stat-item {
     border-left: 1px solid var(--color-note);
   }
+
   .stat-number {
     font-size: var(--fs-h1);
     font-weight: 900;
     display: block;
     margin-bottom: 10px;
   }
+
   .stat-label {
     font-size: var(--fs-button);
   }
+
   .red {
     color: var(--color-red);
   }
+
   .green {
     color: var(--color-green);
   }
+
   .secondary {
     color: var(--color-Secondary);
   }
 }
 
 .todo-card {
-  & > h3 {
+  &>h3 {
     display: block;
     margin-bottom: 2ex;
     font-size: var(--fs-small);
     font-weight: 600;
   }
-  & > ul {
+
+  &>ul {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    & > li {
+
+    &>li {
       display: flex;
       align-items: center;
       font-size: var(--fs-button);
       padding-bottom: 8px;
       border-bottom: 1px solid var(--color-note);
     }
-    & > li::before {
+
+    &>li::before {
       content: "";
       display: inline-block;
       height: 6px;

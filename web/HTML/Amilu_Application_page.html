@@ -1,381 +1,293 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>委託申請 - Amilu</title>
-    <link rel="stylesheet" href="../CSS/common.css" />
-    <link rel="stylesheet" href="../CSS/Amilu_application_page_style.css" />
-        <!-- 字體 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@315&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  </head>
-  <body>
-    <!-- header.site-header -->
-    <header class="site-header">
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>委託申請 - Amilu</title>
+  <link rel="stylesheet" href="../CSS/common.css" />
+  <link rel="stylesheet" href="../CSS/Amilu_application_page_style.css" />
+  <!-- 字體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@315&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+  <!-- header.site-header -->
+  <header class="site-header">
+    <div>
+      <a href="Amilu_index.html"><img class="logo" src="../Picture/Logo.png" /></a>
+    </div>
+
+    <div class="amilu-search-bar">
+      <img class="amilu-icons" src="../Picture/icon/Type=Search, Color=Gradient.svg" />
+      <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
+    </div>
+
+    <div>
+      <div class="description">
+        <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+        <a href="#" class="btn-md-red-withicon">
+          上傳作品
+          <img class="amilu-icons2" src="../Picture/icon/Type=Up Load, Color=White.svg" />
+        </a>
+      </div>
       <div>
-        <a href="Amilu_index.html"
-          ><img class="logo" src="../Picture/Logo.png"
-        /></a>
+        <a href="#">登入</a>
+        <a href="#" class="button-md-black">註冊</a>
       </div>
+    </div>
+  </header>
 
-      <div class="amilu-search-bar">
-        <img
-          class="amilu-icons"
-          src="../Picture/icon/Type=Search, Color=Gradient.svg"
-        />
-        <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
-      </div>
+  <div id="nav-bg"></div>
 
-      <div>
-        <div class="description">
-          <a href="../HTML/Amilu_Help_page.html">網站說明</a>
-          <a href="#" class="btn-md-red-withicon">
-            上傳作品
-            <img
-              class="amilu-icons2"
-              src="../Picture/icon/Type=Up Load, Color=White.svg"
-            />
-          </a>
-        </div>
-        <div>
-          <a href="#">登入</a>
-          <a href="#" class="button-md-black">註冊</a>
-        </div>
-      </div>
-    </header>
+  <div class="appli-form-container">
+    <h2 id="sec01" class="title">建立委託</h2>
+    <p class="title-description">
+      依序填寫 5 個區塊送出，創作者收到後會審核並與你確認。
+    </p>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-title">
+            <h5>委託規格</h5>
+            <h4>01</h4>
+          </div>
 
-    <div id="nav-bg"></div>
-
-    <div class="appli-form-container">
-      <h2  id="sec01" class="title">建立委託</h2>
-      <p class="title-description">
-        依序填寫 5 個區塊送出，創作者收到後會審核並與你確認。
-      </p>
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-title">
-              <h5>委託規格</h5>
-              <h4>01</h4>
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>委託類型</h6>
+              <span class="must">*必填</span>
             </div>
+            <select class="com-type" name="comType" id="comType">
+              <option value="">頭像（肩膀以上）</option>
+              <option value="">半身（腰部以上）</option>
+              <option value="">全身</option>
+            </select>
+          </div>
 
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>委託類型</h6>
-                <span class="must">*必填</span>
-              </div>
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>作品規格</h6>
+              <span class="must">*必填</span>
+            </div>
+            <div class="com-scaleset">
               <select class="com-type" name="comType" id="comType">
-                <option value="">頭像（肩膀以上）</option>
-                <option value="">半身（腰部以上）</option>
-                <option value="">全身</option>
+                <option value="">直式</option>
+                <option value="">橫式</option>
+                <option value="">作者自由發揮</option>
               </select>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>作品規格</h6>
-                <span class="must">*必填</span>
-              </div>
-              <div class="com-scaleset">
-                <select class="com-type" name="comType" id="comType">
-                  <option value="">直式</option>
-                  <option value="">橫式</option>
-                  <option value="">作者自由發揮</option>
-                </select>
-                <label class="size-field com-type">
-                  <span class="size-field-label">輸入自訂尺寸</span>
-                  <input
-                    type="text"
-                    class="size-field-input"
-                    placeholder="1000*1000px"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>年齡分級</h6>
-                <span class="must">*必填</span>
-              </div>
-              <div class="com-radio">
-                <input
-                  type="radio"
-                  name="r18Check"
-                  class="hidden"
-                  id="r18n"
-                  checked
-                />
-                <label for="r18n">全年齡</label>
-                <input type="radio" name="r18Check" class="hidden" id="r18y" />
-                <label for="r18y">R-18</label>
-              </div>
+              <label class="size-field com-type">
+                <span class="size-field-label">輸入自訂尺寸</span>
+                <input type="text" class="size-field-input" placeholder="1000*1000px" />
+              </label>
             </div>
           </div>
 
-
-          <div class="card" id="sec02">
-            <div class="card-title">
-              <h5>需求描述</h5>
-              <h4>02</h4>
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>年齡分級</h6>
+              <span class="must">*必填</span>
             </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>委託內容</h6>
-                <span class="must">*必填</span>
-              </div>
-              <select class="com-type" name="comType" id="comType">
-                <option value="">依選擇之委託類型，交由作者自由發揮。</option>
-                <option value="">請作者依照下方提供之需求進行繪製。</option>
-              </select>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>需求描述</h6>
-                <span class="choose">選填</span>
-              </div>
-              <span class="request-note"
-                >描述你想要的主題、角色特徵、氛圍與用途。寫得越清楚，創作者越能貼合你的想像。</span
-              >
-              <textarea
-                class="request-txt"
-                placeholder="由此開始輸入，限1000字內"
-                maxlength="1000"
-              ></textarea>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>參考圖上傳</h6>
-                <span class="choose">選填</span>
-              </div>
-
-              <div class="upload-container">
-                <input
-                  type="file"
-                  id="imageUpload"
-                  accept=".jpg,.jpeg,.png,.pdf"
-                  class="hidden"
-                />
-                <label for="imageUpload" class="upload-area">
-                  <p>＋ 點擊或將圖片拖曳至此區域上傳</p>
-                  <span class="upload-hint">支援 JPG、PNG，大小不超過 5MB</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="card" id="sec03">
-            <div  class="card-title">
-              <h5>授權與用途</h5>
-              <h4>03</h4>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>使用用途</h6>
-                <span class="must">*必填</span>
-              </div>
-              <div class="com-radio">
-                <input
-                  type="radio"
-                  name="com-use-check"
-                  class="hidden"
-                  id="comUseN"
-                  checked
-                />
-                <label for="comUseN">非商用</label>
-                <input
-                  type="radio"
-                  name="com-use-check"
-                  class="hidden"
-                  id="comUseY"
-                />
-                <label for="comUseY">商用</label>
-              </div>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>授權範圍確認</h6>
-                <span class="must">*必填</span>
-              </div>
-              <input
-                type="checkbox"
-                name="comTosConfirm"
-                class="hidden"
-                id="comTosConfirm"
-              />
-              <label for="comTosConfirm" class="com-Tos-comfirm"
-                >我已閱讀並同意這位創作者的<a href="#"
-                  >接案規範與授權條款（TOS）</a
-                >，了解個人使用含於基礎價、商業使用需另計，且成品授權範圍以本次選擇為準。</label
-              >
-            </div>
-          </div>
-
-          <div class="card" id="sec04">
-            <div class="card-title">
-              <h5>預算與進行方式</h5>
-              <h4>04</h4>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>預算金額</h6>
-                <span class="must">*必填</span>
-              </div>
-              <div class="dallor-content">
-                <h6 class="dallor-sign">NT$</h6>
-                <input
-                  type="text"
-                  inputmode="numeric"
-                  class="budget-txt"
-                  placeholder="在此輸入金額數字"
-                />
-              </div>
-            </div>
-
-            <div class="com-form-content">
-              <div class="form-label">
-                <h6>期望排程檢查</h6>
-                <span class="must">*必填</span>
-              </div>
-
-              <div class="com-radio">
-                <input
-                  type="radio"
-                  name="SchedSelect"
-                  class="hidden"
-                  id="schedStandard"
-                  checked
-                />
-                <label class="sched-type" for="schedStandard"
-                  >標準4段<br /><span class="sched-des"
-                    >草稿>線稿>彩稿>精稿</span
-                  >
-                </label>
-
-                <input
-                  type="radio"
-                  name="SchedSelect"
-                  class="hidden"
-                  id="sched3"
-                />
-                <label for="sched3" class="sched-type"
-                  >精準3段<br /><span class="sched-des"
-                    >草稿>彩稿>精稿</span
-                  ></label
-                >
-
-                <input
-                  type="radio"
-                  name="SchedSelect"
-                  class="hidden"
-                  id="sched2"
-                />
-                <label for="sched2" class="sched-type"
-                  >效率2段<br /><span class="sched-des"
-                    >草稿>精稿</span
-                  ></label
-                >
-
-                <input
-                  type="radio"
-                  name="SchedSelect"
-                  class="hidden"
-                  id="sched1"
-                />
-                <label for="sched1" class="sched-type"
-                  >作者安排<br /><span class="sched-des"
-                    >由作者自行安排時程</span
-                  ></label
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="card" id="sec05">
-            <div class="card-title">
-              <h5>確認送出</h5>
-              <h4>05</h4>
-            </div>
-            <ul class="com-list">
-              <li><span>委託類型</span><span>頭像(肩膀以上)</span></li>
-              <li><span>使用用途</span><span>個人(非商用)</span></li>
-              <li><span>進行方式</span><span>標準4段</span></li>
-              <li><span>預算</span><span>2500</span></li>
-            </ul>
-            <div class="btn-container">
-              <div class="com-submit-btn"><a href="#">送出委託</a></div>
-              <div class="com-store"><a href="../HTML/Amilu_commission_management.html">儲存委託稿</a></div>
+            <div class="com-radio">
+              <input type="radio" name="r18Check" class="hidden" id="r18n" checked />
+              <label for="r18n">全年齡</label>
+              <input type="radio" name="r18Check" class="hidden" id="r18y" />
+              <label for="r18y">R-18</label>
             </div>
           </div>
         </div>
 
-        <div class="col">
-          <div class="card info-fixed">
-            <div class="com-creater-info-container">
-              <div class="creater-info">
-                <div>
-                  <img
-                    src="../Picture/icon/user-head01.png"
-                    alt="創作者頭貼01"
-                  />
-                </div>
-                <div>
-                  <div><span class="com-status" id="comStatus">接案中</span></div>
-                  <span class="user-name">作者名稱</span><span class="user-id">@user_name</span></div>
-                </div>
-              </div>
 
-              <div class="btn-container-creater">
-                <div class="follow-btn"><a href="#">Follow</a></div>
-                <div class="check-page-btn"><a href="#">查看作者頁面</a></div>
-              </div>
+        <div class="card" id="sec02">
+          <div class="card-title">
+            <h5>需求描述</h5>
+            <h4>02</h4>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>委託內容</h6>
+              <span class="must">*必填</span>
             </div>
-            <div class="card nav">
-              <ul class="com-nav">
-                <li><a href="#sec01">01 委託規格</a></li>
-                <li><a href="#sec02">02 需求描述</a></li>
-                <li><a href="#sec03">03 授權與用途</a></li>
-                <li><a href="#sec04">04 預算與進度</a></li>
-                <li><a href="#sec05">05 確認送出</a></li>
-              </ul>
+            <select class="com-type" name="comType" id="comType">
+              <option value="">依選擇之委託類型，交由作者自由發揮。</option>
+              <option value="">請作者依照下方提供之需求進行繪製。</option>
+            </select>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>需求描述</h6>
+              <span class="choose">選填</span>
+            </div>
+            <span class="request-note">描述你想要的主題、角色特徵、氛圍與用途。寫得越清楚，創作者越能貼合你的想像。</span>
+            <textarea class="request-txt" placeholder="由此開始輸入，限1000字內" maxlength="1000"></textarea>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>參考圖上傳</h6>
+              <span class="choose">選填</span>
+            </div>
+
+            <div class="upload-container">
+              <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png,.pdf" class="hidden" />
+              <label for="imageUpload" class="upload-area">
+                <p>＋ 點擊或將圖片拖曳至此區域上傳</p>
+                <span class="upload-hint">支援 JPG、PNG，大小不超過 5MB</span>
+              </label>
             </div>
           </div>
+        </div>
+
+
+        <div class="card" id="sec03">
+          <div class="card-title">
+            <h5>授權與用途</h5>
+            <h4>03</h4>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>使用用途</h6>
+              <span class="must">*必填</span>
+            </div>
+            <div class="com-radio">
+              <input type="radio" name="com-use-check" class="hidden" id="comUseN" checked />
+              <label for="comUseN">非商用</label>
+              <input type="radio" name="com-use-check" class="hidden" id="comUseY" />
+              <label for="comUseY">商用</label>
+            </div>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>授權範圍確認</h6>
+              <span class="must">*必填</span>
+            </div>
+            <input type="checkbox" name="comTosConfirm" class="hidden" id="comTosConfirm" />
+            <label for="comTosConfirm" class="com-Tos-comfirm">我已閱讀並同意這位創作者的<a
+                href="#">接案規範與授權條款（TOS）</a>，了解個人使用含於基礎價、商業使用需另計，且成品授權範圍以本次選擇為準。</label>
+          </div>
+        </div>
+
+        <div class="card" id="sec04">
+          <div class="card-title">
+            <h5>預算與進行方式</h5>
+            <h4>04</h4>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>預算金額</h6>
+              <span class="must">*必填</span>
+            </div>
+            <div class="dallor-content">
+              <h6 class="dallor-sign">NT$</h6>
+              <input type="text" inputmode="numeric" class="budget-txt" placeholder="在此輸入金額數字" />
+            </div>
+          </div>
+
+          <div class="com-form-content">
+            <div class="form-label">
+              <h6>期望排程檢查</h6>
+              <span class="must">*必填</span>
+            </div>
+
+            <div class="com-radio">
+              <input type="radio" name="SchedSelect" class="hidden" id="schedStandard" checked />
+              <label class="sched-type" for="schedStandard">標準4段<br /><span class="sched-des">草稿>線稿>彩稿>精稿</span>
+              </label>
+
+              <input type="radio" name="SchedSelect" class="hidden" id="sched3" />
+              <label for="sched3" class="sched-type">精準3段<br /><span class="sched-des">草稿>彩稿>精稿</span></label>
+
+              <input type="radio" name="SchedSelect" class="hidden" id="sched2" />
+              <label for="sched2" class="sched-type">效率2段<br /><span class="sched-des">草稿>精稿</span></label>
+
+              <input type="radio" name="SchedSelect" class="hidden" id="sched1" />
+              <label for="sched1" class="sched-type">作者安排<br /><span class="sched-des">由作者自行安排時程</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="sec05">
+          <div class="card-title">
+            <h5>確認送出</h5>
+            <h4>05</h4>
+          </div>
+          <ul class="com-list">
+            <li><span>委託類型</span><span>頭像(肩膀以上)</span></li>
+            <li><span>使用用途</span><span>個人(非商用)</span></li>
+            <li><span>進行方式</span><span>標準4段</span></li>
+            <li><span>預算</span><span>2500</span></li>
+          </ul>
+          <div class="btn-container">
+            <div class="com-submit-btn"><a href="../HTML/Amilu_commission_management.html">送出委託</a></div>
+            <div class="com-store"><a href="../HTML/Amilu_commission_management.html">儲存委託稿</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card info-fixed">
+          <div class="com-creater-info-container">
+            <div class="creater-info">
+              <div>
+                <img src="../Picture/icon/user-head01.png" alt="創作者頭貼01" />
+              </div>
+              <div>
+                <div><span class="com-status" id="comStatus">接案中</span></div>
+                <span class="user-name">作者名稱</span><span class="user-id">@user_name</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-container-creater">
+            <div class="follow-btn"><a href="#">Follow</a></div>
+            <div class="check-page-btn"><a href="#">查看作者頁面</a></div>
+          </div>
+        </div>
+        <div class="card nav">
+          <ul class="com-nav">
+            <li><a href="#sec01">01 委託規格</a></li>
+            <li><a href="#sec02">02 需求描述</a></li>
+            <li><a href="#sec03">03 授權與用途</a></li>
+            <li><a href="#sec04">04 預算與進度</a></li>
+            <li><a href="#sec05">05 確認送出</a></li>
+          </ul>
         </div>
       </div>
     </div>
-    <footer>
-      <div class="brand-info">
-        <div class="footer-logo"><img src="../Picture/footer_logo.png" alt="" /></div>
-        <div class="footer-nav-icon">
-          <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
-          <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
-          <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
-        </div>
+  </div>
+  </div>
+  <footer>
+    <div class="brand-info">
+      <div class="footer-logo"><img src="../Picture/footer_logo.png" alt="" /></div>
+      <div class="footer-nav-icon">
+        <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
+        <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
+        <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
       </div>
-      <div class="nav-list">
-        <ul>
-          <li><a href="#">網站探索</a></li>
-          <li><a href="#">使用者面板</a></li>
-          <li><a href="#">通知中心</a></li>
-          <li><a href="#">網站說明</a></li>
-          <li><a href="#">網站設定</a></li>
-          <li><a href="#">註冊 / 登入</a></li>
-        </ul>
-      </div>
-      <div class="copyright-container">
-        <span>本平台為個人專題作品，僅供作品集展示之用。</span>
-        <span>© 2026 Amilu. All rights reserved.</span>
-      </div>
-    </footer>
-  </body>
+    </div>
+    <div class="nav-list">
+      <ul>
+        <li><a href="#">網站探索</a></li>
+        <li><a href="#">使用者面板</a></li>
+        <li><a href="#">通知中心</a></li>
+        <li><a href="#">網站說明</a></li>
+        <li><a href="#">網站設定</a></li>
+        <li><a href="#">註冊 / 登入</a></li>
+      </ul>
+    </div>
+    <div class="copyright-container">
+      <span>本平台為個人專題作品，僅供作品集展示之用。</span>
+      <span>© 2026 Amilu. All rights reserved.</span>
+    </div>
+  </footer>
+</body>
+
 </html>

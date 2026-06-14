@@ -15,6 +15,7 @@ $(document).ready(function () {
 
   // page tabs的切換
   $(".tab").on("click", function () {
+
     $(".tab").removeClass("active");
     $(this).addClass("active");
   });
@@ -23,5 +24,24 @@ $(document).ready(function () {
   $(".filter-btn").on("click", function () {
     $(".filter-btn").removeClass("active");
     $(this).addClass("active");
+
+
+    let clickedTab = $(this).data("status");
+    $(".commission-card").hide();//把有該標籤的物件都藏起來
+
+    switch (clickedTab) {
+      case "全部":
+        $(".commission-card").show();
+        break;
+      case "待確認":
+        $(".commission-card[data-status='待確認']").show();
+        break;
+      case "進行中":
+        $(".commission-card[data-status='進行中']").show();
+        break;
+      case "已完成":
+        $(".commission-card[data-status='已完成']").show();
+        break;
+    }
   });
 });
