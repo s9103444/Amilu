@@ -4,15 +4,18 @@ button {
   background: none;
   border: none;
 }
+/* 鎖住整頁高度，避免出現 scrollY，改由左右卡片內部各自捲動 */
+
 .confirm-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   margin-top: 110px;
   width: 100%;
 }
 .notice-bar {
   width: 100%;
-}
-.notice-bar-text {
-  font-size: var(--fs-button);
 }
 .card-commission {
   width: 60%;
@@ -35,11 +38,20 @@ button {
 .confirm-title {
   font-size: var(--fs-h3);
 }
+.btn-back {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  & > img {
+    width: 11px;
+  }
+}
 .confirm-topbar {
   display: flex;
   align-items: center;
   gap: 20px;
   .badge-status {
+    font-weight: 400;
     font-size: var(--fs-button);
     padding: var(--btn-padding);
     border-radius: 99px;
@@ -52,11 +64,12 @@ button {
   width: 100%;
   padding-inline: 4%;
   margin-bottom: 60px;
-  display: flex;
+  flex: 1;
+  min-height: 0;
   gap: 30px;
 }
 .divider {
-  margin-block: 10px;
+  margin-block: 20px;
   width: 100%;
   height: 1px;
   background-color: var(--color-note);
@@ -79,7 +92,7 @@ button {
 }
 .notice-bar {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   padding-inline: 8%;
   margin-bottom: 20px;
 }
@@ -92,18 +105,25 @@ button {
   border-radius: 10px;
   background-color: #fadbcd;
   & > p {
-    color: var(--color-red);
+    font-size: var(--fs-button);
+    font-weight: 400;
+    color: var(--color-black);
   }
 }
 
 .btn-topbar-more {
   display: block;
   margin-left: auto;
-  width: 30px;
+  width: 20px;
   margin-bottom: 10px;
   & > img {
     width: 100%;
   }
+}
+.commission-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 .commission-info {
   display: flex;
@@ -166,6 +186,12 @@ button {
   display: flex;
   gap: 10px;
 }
+.commission-desc-text {
+  font-size: var(--fs-button);
+  line-height: 1.3;
+  font-weight: 400;
+  color: var(--color-black);
+}
 .ref-img-item {
   height: 100px;
   border-radius: 10px;
@@ -173,8 +199,7 @@ button {
 .commission-price {
   display: flex;
   justify-content: space-between;
-  .commission-price-label {
-  }
+
   .commission-price-right {
     text-align: end;
   }
@@ -227,6 +252,11 @@ button {
     box-shadow: 1px 1px 3px var(--color-note);
   }
 }
+.chat-messages-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
 .chat-messages {
   display: flex;
   flex-direction: column;
@@ -241,7 +271,12 @@ button {
 .chat-msg-name {
   font-size: var(--fs-button);
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+}
+.chat-msg-other {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .chat-msg-self {
   display: flex;
@@ -260,4 +295,61 @@ button {
 }
 .chat-msg-bubble.user {
   background-color: #fadbcd;
+}
+.chat-notice {
+  display: flex;
+  justify-content: center;
+}
+.chat-notice-text {
+  font-size: var(--fs-caption);
+  color: gray;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background-color: #f4f4f4;
+}
+.chat-confirm-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.chat-confirm-status-item {
+  font-size: var(--fs-caption);
+  color: gray;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background-color: #f4f4f4;
+}
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-top: auto;
+  border: 1px solid var(--color-note);
+  border-radius: 10px;
+}
+.chat-input {
+  flex-grow: 1;
+  font-size: var(--fs-caption);
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-black);
+  &::placeholder {
+    color: gray;
+  }
+}
+.btn-chat-send {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 18px;
+  & > img {
+    width: 100%;
+  }
+}
+.commission-desc {
+  margin-top: 20px;
 }

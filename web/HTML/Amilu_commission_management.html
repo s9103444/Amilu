@@ -1,252 +1,309 @@
 <!doctype html>
 <html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>稿件管理 - Amilu</title>
+    <link rel="stylesheet" href="../CSS/common.css" />
+    <link rel="stylesheet" href="../CSS/Amilu_commission_management.css" />
+    <!-- 字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>稿件管理 - Amilu</title>
-  <link rel="stylesheet" href="../CSS/common.css" />
-  <link rel="stylesheet" href="../CSS/Amilu_commission_management.css" />
-  <!-- 字體 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@100..900&display=swap" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-
-<body>
-  <header class="site-header">
-    <div>
-      <a href="Amilu_index.html"><img class="logo" src="../Picture/Logo.png" /></a>
-    </div>
-
-    <div class="amilu-search-bar">
-      <img class="amilu-icons" src="../Picture/icon/Type=Search, Color=Gradient.svg" />
-      <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
-      <!-- var(--fs-button) → common.css 已設定 -->
-    </div>
-
-    <div>
-      <div class="description">
-        <a href="../HTML/Amilu_Help_page.html">網站說明</a>
-        <!-- var(--fs-button) -->
-        <a href="#" class="btn-md-red-withicon">
-          上傳作品
-          <!-- var(--fs-button) -->
-          <img class="amilu-icons2" src="../Picture/icon/Type=Up Load, Color=White.svg" />
-        </a>
-      </div>
+  <body>
+    <header class="site-header">
       <div>
-        <a href="#">登入</a>
-        <!-- var(--fs-button) -->
-        <a href="#" class="button-md-black">註冊</a>
-        <!-- var(--fs-button) -->
+        <a href="Amilu_index.html"
+          ><img class="logo" src="../Picture/Logo.png"
+        /></a>
       </div>
-    </div>
-  </header>
-  <div id="nav-bg"></div>
-  <!-- ========== 主內容 ========== -->
-  <div class="commission-management">
-    <h1>稿件管理</h1>
-    <!-- var(--fs-h1) -->
 
-    <nav class="page-tabs">
-      <ul>
-        <li><a href="#" class="tab active">委託稿件（我送出的）</a></li>
-        <li><a href="#" class="tab">約稿管理（我收到的）</a></li>
-      </ul>
-    </nav>
-    <div class="tab-line-container"><span class="tab-line"></span></div>
+      <div class="amilu-search-bar">
+        <img
+          class="amilu-icons"
+          src="../Picture/icon/Type=Search, Color=Gradient.svg"
+        />
+        <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
+        <!-- var(--fs-button) → common.css 已設定 -->
+      </div>
 
-    <div class="row">
-      <section class="commission-list">
-        <div class="filter-bar">
-          <div class="classify-bar">
-            <button class="filter-btn active" data-status="全部">全部</button>
+      <div>
+        <div class="description">
+          <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+          <!-- var(--fs-button) -->
+          <a href="#" class="btn-md-red-withicon">
+            上傳作品
             <!-- var(--fs-button) -->
-            <button class="filter-btn" data-status="待確認">待確認</button>
-            <!-- var(--fs-button) -->
-            <button class="filter-btn" data-status="進行中">進行中</button>
-            <!-- var(--fs-button) -->
-            <button class="filter-btn" data-status="已完成">已完成</button>
-            <!-- var(--fs-button) -->
-            <button class="filter-btn" data-status="已取消">已取消</button>
-            <!-- var(--fs-button) -->
-            <button class="filter-btn " data-status="草稿">草稿</button>
-            <!-- var(--fs-button) -->
+            <img
+              class="amilu-icons2"
+              src="../Picture/icon/Type=Up Load, Color=White.svg"
+            />
+          </a>
+        </div>
+        <div>
+          <a href="#">登入</a>
+          <!-- var(--fs-button) -->
+          <a href="#" class="button-md-black">註冊</a>
+          <!-- var(--fs-button) -->
+        </div>
+      </div>
+    </header>
+    <div id="nav-bg"></div>
+    <!-- ========== 主內容 ========== -->
+    <div class="commission-management">
+      <h1>稿件管理</h1>
+      <!-- var(--fs-h1) -->
+
+      <nav class="page-tabs">
+        <ul>
+          <li><a href="#" class="tab active">委託稿件（我送出的）</a></li>
+          <li><a href="#" class="tab">約稿管理（我收到的）</a></li>
+        </ul>
+      </nav>
+      <div class="tab-line-container"><span class="tab-line"></span></div>
+
+      <div class="row">
+        <section class="commission-list">
+          <div class="filter-bar">
+            <div class="classify-bar">
+              <button class="filter-btn active" data-status="全部">全部</button>
+              <!-- var(--fs-button) -->
+              <button class="filter-btn" data-status="待確認">待確認</button>
+              <!-- var(--fs-button) -->
+              <button class="filter-btn" data-status="進行中">進行中</button>
+              <!-- var(--fs-button) -->
+              <button class="filter-btn" data-status="已完成">已完成</button>
+              <!-- var(--fs-button) -->
+              <button class="filter-btn" data-status="已取消">已取消</button>
+              <!-- var(--fs-button) -->
+              <button class="filter-btn" data-status="草稿">草稿</button>
+              <!-- var(--fs-button) -->
+            </div>
+
+            <!-- 搜尋切換：點擊 button 後出現 input -->
+            <div class="search-toggle">
+              <button class="search-btn">
+                <img
+                  src="../Picture/icon/Type=Union, Color=Black, Direction=Default, Status=open.png"
+                  alt="search_icon"
+                />搜尋
+              </button>
+              <!-- var(--fs-button) -->
+              <input
+                type="text"
+                class="search-input hidden"
+                placeholder="輸入關鍵字搜尋..."
+              />
+              <!-- var(--fs-button) -->
+            </div>
           </div>
 
-          <!-- 搜尋切換：點擊 button 後出現 input -->
-          <div class="search-toggle">
-            <button class="search-btn">
-              <img src="../Picture/icon/Type=Union, Color=Black, Direction=Default, Status=open.png"
-                alt="search_icon" />搜尋
-            </button>
-            <!-- var(--fs-button) -->
-            <input type="text" class="search-input hidden" placeholder="輸入關鍵字搜尋..." />
-            <!-- var(--fs-button) -->
+          <!-- 委託卡片清單 -->
+          <div class="card-list">
+            <!-- 卡片：待確認 -->
+            <article class="commission-card" data-status="待確認">
+              <img
+                src="../Picture/Art_work/Frame 240.png"
+                alt="委託縮圖"
+                class="card-thumbnail"
+              />
+              <div class="card-body">
+                <div class="card-header">
+                  <h3>角色立繪委託 ×1</h3>
+                  <span class="status status-pending">待確認</span>
+                </div>
+                <div class="card-creator">
+                  <img
+                    src="../Picture/01.png"
+                    alt="創作者頭貼"
+                    class="creator-avatar"
+                  />
+                  <span class="creator-name">小帥</span>
+                  <span class="creator-id">@artist_name</span>
+                </div>
+                <div class="card-progress">
+                  <div class="progress-track">
+                    <div
+                      class="progress-fill"
+                      data-status="待確認"
+                      data-progress="10"
+                    ></div>
+                  </div>
+                </div>
+                <div class="card-status">
+                  <p class="card-status-text">合約確認中</p>
+                  <span class="update-time">更新於 剛剛</span>
+                </div>
+              </div>
+              <div class="card-detail-btn">
+                <a href="../HTML/Amilu_Confirmation_Page.html" class="view-btn"
+                  >點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg"
+                /></a>
+              </div>
+            </article>
+
+            <!-- 卡片：進行中 -->
+            <article class="commission-card" data-status="進行中">
+              <img
+                src="../Picture/Art_work/Rectangle 35-1.png"
+                alt="委託縮圖"
+                class="card-thumbnail"
+              />
+              <div class="card-body">
+                <div class="card-header">
+                  <h3>Q版頭像委託</h3>
+                  <span class="status status-in-progress">進行中</span>
+                </div>
+                <div class="card-creator">
+                  <img
+                    src="../Picture/02.png"
+                    alt="創作者頭貼"
+                    class="creator-avatar"
+                  />
+                  <span class="creator-name">小美</span>
+                  <span class="creator-id">@artist_name</span>
+                </div>
+                <div class="card-progress">
+                  <div class="progress-track">
+                    <div
+                      class="progress-fill"
+                      data-status="進行中"
+                      data-progress="60"
+                    ></div>
+                  </div>
+                </div>
+                <div class="card-status">
+                  <p class="card-status-text">繪製階段：40%</p>
+                  <span class="update-time">更新於 2天前</span>
+                </div>
+              </div>
+              <div class="card-detail-btn">
+                <a href="#" class="view-btn"
+                  >點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg"
+                /></a>
+              </div>
+            </article>
+
+            <!-- 卡片：已完成 -->
+            <article class="commission-card" data-status="已完成">
+              <img
+                src="../Picture/Art_work/Rectangle 35.png"
+                alt="委託縮圖"
+                class="card-thumbnail"
+              />
+              <div class="card-body">
+                <div class="card-header">
+                  <h3>場景圖</h3>
+                  <span class="status status-done">已完成</span>
+                </div>
+                <div class="card-creator">
+                  <img
+                    src="../Picture/03.png"
+                    alt="創作者頭貼"
+                    class="creator-avatar"
+                  />
+                  <span class="creator-name">小胖</span>
+                  <span class="creator-id">@artist_name</span>
+                </div>
+                <div class="card-progress">
+                  <div class="progress-track">
+                    <div
+                      class="progress-fill"
+                      data-status="已完成"
+                      data-progress="100"
+                    ></div>
+                  </div>
+                </div>
+                <div class="card-status">
+                  <p class="card-status-text">已結案，可下載</p>
+                  <span class="update-time">更新於 兩個禮拜前</span>
+                </div>
+              </div>
+              <div class="card-detail-btn">
+                <a href="#" class="view-btn"
+                  >點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg"
+                /></a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ===== 右欄：側邊欄 ===== -->
+        <div class="sidebar">
+          <!-- 案件總覽 -->
+          <div class="summary-card">
+            <h3>我的案件總覽</h3>
+            <!-- var(--fs-h3) -->
+            <div class="stats">
+              <div class="stat-item">
+                <p class="stat-number red">1</p>
+                <!-- var(--fs-display) -->
+                <span class="stat-label">待確認</span>
+                <!-- var(--fs-caption) -->
+              </div>
+              <div class="stat-item">
+                <p class="stat-number green">2</p>
+                <!-- var(--fs-display) -->
+                <span class="stat-label">進行中</span>
+                <!-- var(--fs-caption) -->
+              </div>
+              <div class="stat-item">
+                <p class="stat-number secondary">4</p>
+                <!-- var(--fs-display) -->
+                <span class="stat-label">已完成</span>
+                <!-- var(--fs-caption) -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 待辦提醒 -->
+          <div class="todo-card">
+            <h3>待辦提醒</h3>
+            <!-- var(--fs-h3) -->
+            <ul>
+              <li>Q版頭像委託 — 等你確認 50/50</li>
+              <!-- var(--fs-small) -->
+              <li>場景圖 — 已完成，待驗收下載</li>
+              <!-- var(--fs-small) -->
+            </ul>
           </div>
         </div>
-
-        <!-- 委託卡片清單 -->
-        <div class="card-list">
-          <!-- 卡片：待確認 -->
-          <article class="commission-card" data-status="待確認">
-            <img src="../Picture/Art_work/Frame 240.png" alt="委託縮圖" class="card-thumbnail" />
-            <div class="card-body">
-              <div class="card-header">
-                <h3>角色立繪委託 ×1</h3>
-                <span class="status status-pending">待確認</span>
-              </div>
-              <div class="card-creator">
-                <img src="../Picture/01.png" alt="創作者頭貼" class="creator-avatar" />
-                <span class="creator-name">小帥</span>
-                <span class="creator-id">@artist_name</span>
-              </div>
-              <div class="card-progress">
-                <div class="progress-track">
-                  <div class="progress-fill" data-status="待確認" data-progress="10"></div>
-                </div>
-              </div>
-              <div class="card-status">
-                <p class="card-status-text">合約確認中</p>
-                <span class="update-time">更新於 剛剛</span>
-              </div>
-            </div>
-            <div class="card-detail-btn">
-              <a href="#" class="view-btn">點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg" /></a>
-            </div>
-          </article>
-
-          <!-- 卡片：進行中 -->
-          <article class="commission-card" data-status="進行中">
-            <img src="../Picture/Art_work/Rectangle 35-1.png" alt="委託縮圖" class="card-thumbnail" />
-            <div class="card-body">
-              <div class="card-header">
-                <h3>Q版頭像委託</h3>
-                <span class="status status-in-progress">進行中</span>
-              </div>
-              <div class="card-creator">
-                <img src="../Picture/02.png" alt="創作者頭貼" class="creator-avatar" />
-                <span class="creator-name">小美</span>
-                <span class="creator-id">@artist_name</span>
-              </div>
-              <div class="card-progress">
-                <div class="progress-track">
-                  <div class="progress-fill" data-status="進行中" data-progress="60"></div>
-                </div>
-              </div>
-              <div class="card-status">
-                <p class="card-status-text">繪製階段：40%</p>
-                <span class="update-time">更新於 2天前</span>
-              </div>
-            </div>
-            <div class="card-detail-btn">
-              <a href="#" class="view-btn">點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg" /></a>
-            </div>
-          </article>
-
-          <!-- 卡片：已完成 -->
-          <article class="commission-card" data-status="已完成">
-            <img src="../Picture/Art_work/Rectangle 35.png" alt="委託縮圖" class="card-thumbnail" />
-            <div class="card-body">
-              <div class="card-header">
-                <h3>場景圖</h3>
-                <span class="status status-done">已完成</span>
-              </div>
-              <div class="card-creator">
-                <img src="../Picture/03.png" alt="創作者頭貼" class="creator-avatar" />
-                <span class="creator-name">小胖</span>
-                <span class="creator-id">@artist_name</span>
-              </div>
-              <div class="card-progress">
-                <div class="progress-track">
-                  <div class="progress-fill" data-status="已完成" data-progress="100"></div>
-                </div>
-              </div>
-              <div class="card-status">
-                <p class="card-status-text">已結案，可下載</p>
-                <span class="update-time">更新於 兩個禮拜前</span>
-              </div>
-            </div>
-            <div class="card-detail-btn">
-              <a href="#" class="view-btn">點擊查看<img src="../Picture/icon/Type=Nav, Color=Black.svg" /></a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ===== 右欄：側邊欄 ===== -->
-      <div class="sidebar">
-        <!-- 案件總覽 -->
-        <div class="summary-card">
-          <h3>我的案件總覽</h3>
-          <!-- var(--fs-h3) -->
-          <div class="stats">
-            <div class="stat-item">
-              <p class="stat-number red">1</p>
-              <!-- var(--fs-display) -->
-              <span class="stat-label">待確認</span>
-              <!-- var(--fs-caption) -->
-            </div>
-            <div class="stat-item">
-              <p class="stat-number green">2</p>
-              <!-- var(--fs-display) -->
-              <span class="stat-label">進行中</span>
-              <!-- var(--fs-caption) -->
-            </div>
-            <div class="stat-item">
-              <p class="stat-number secondary">4</p>
-              <!-- var(--fs-display) -->
-              <span class="stat-label">已完成</span>
-              <!-- var(--fs-caption) -->
-            </div>
-          </div>
-        </div>
-
-        <!-- 待辦提醒 -->
-        <div class="todo-card">
-          <h3>待辦提醒</h3>
-          <!-- var(--fs-h3) -->
-          <ul>
-            <li>Q版頭像委託 — 等你確認 50/50</li>
-            <!-- var(--fs-small) -->
-            <li>場景圖 — 已完成，待驗收下載</li>
-            <!-- var(--fs-small) -->
-          </ul>
-        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ========== Footer（延用既有結構） ========== -->
-  <footer>
-    <div class="brand-info">
-      <div class="footer-logo">
-        <img src="../Picture/footer_logo.png" alt="" />
+    <!-- ========== Footer（延用既有結構） ========== -->
+    <footer>
+      <div class="brand-info">
+        <div class="footer-logo">
+          <img src="../Picture/footer_logo.png" alt="" />
+        </div>
+        <div class="footer-nav-icon">
+          <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
+          <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
+          <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
+        </div>
       </div>
-      <div class="footer-nav-icon">
-        <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
-        <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
-        <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
+      <div class="nav-list">
+        <ul>
+          <li><a href="#">網站探索</a></li>
+          <li><a href="#">使用者面板</a></li>
+          <li><a href="#">通知中心</a></li>
+          <li><a href="#">網站說明</a></li>
+          <li><a href="#">網站設定</a></li>
+          <li><a href="#">註冊 / 登入</a></li>
+        </ul>
       </div>
-    </div>
-    <div class="nav-list">
-      <ul>
-        <li><a href="#">網站探索</a></li>
-        <li><a href="#">使用者面板</a></li>
-        <li><a href="#">通知中心</a></li>
-        <li><a href="#">網站說明</a></li>
-        <li><a href="#">網站設定</a></li>
-        <li><a href="#">註冊 / 登入</a></li>
-      </ul>
-    </div>
-    <div class="copyright-container">
-      <span>本平台為個人專題作品，僅供作品集展示之用。</span>
-      <span>© 2026 Amilu. All rights reserved.</span>
-    </div>
-  </footer>
-  <script src="../JS/commission_management.js"></script>
-</body>
-
+      <div class="copyright-container">
+        <span>本平台為個人專題作品，僅供作品集展示之用。</span>
+        <span>© 2026 Amilu. All rights reserved.</span>
+      </div>
+    </footer>
+    <script src="../JS/commission_management.js"></script>
+  </body>
 </html>

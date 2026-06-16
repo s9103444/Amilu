@@ -58,9 +58,9 @@
     <main class="confirm-wrapper">
       <!-- 頂部列：返回 + 標題 + 狀態 -->
       <div class="confirm-topbar">
-        <button class="btn-back">
+        <a href="../HTML/Amilu_commission_management.html" class="btn-back">
           <img src="../Picture/icon/nav-left.png" alt="btn-nav-left" />
-        </button>
+        </a>
         <h1 class="confirm-title">角色立繪委託 x1</h1>
         <span class="badge-status badge-status--pending">待確認</span>
       </div>
@@ -70,7 +70,7 @@
         <div class="notice-bar-left">
           <img class="notice-bar-icon" src="../Picture/icon/wait.png" alt="" />
           <p class="notice-bar-text">
-            等待雙方確認中，待接積人提出報價與確認後，也需您按下確認以完成委託流程。
+            等待雙方確認中，待接稿人提出報價與確認後，也需您按下確認以完成委託流程。
           </p>
         </div>
         <button class="btn-topbar-more">
@@ -91,12 +91,14 @@
                 src="../Picture/icon/lock.png"
                 alt="lock"
               />
-              僅接案人可編輯此區
+              僅接稿人可編輯此區
             </span>
           </div>
 
-          <!-- 資訊格：6 欄位 -->
-          <div class="commission-info">
+          <!-- 委託內容捲動區 -->
+          <div class="commission-scroll">
+            <!-- 資訊格：6 欄位 -->
+            <div class="commission-info">
             <div class="commission-info-item">
               <span class="info-label">委託項目</span>
               <p class="info-value">角色立繪委託 x1</p>
@@ -170,6 +172,7 @@
           </div>
 
           <div class="divider"></div>
+          </div>
 
           <!-- 最新報價 -->
           <div class="commission-price">
@@ -210,8 +213,10 @@
 
           <div class="divider-chat"></div>
 
-          <!-- 訊息列表 -->
-          <div class="chat-messages">
+          <!-- 聊天訊息捲動區 -->
+          <div class="chat-messages-scroll">
+            <!-- 訊息列表 -->
+            <div class="chat-messages">
             <!-- 對方訊息：小帥 -->
             <div class="chat-msg chat-msg-other">
               <span class="chat-msg-name">小帥</span>
@@ -231,7 +236,7 @@
             <!-- 系統通知：報價更新 -->
             <div class="chat-notice">
               <span class="chat-notice-text"
-                >&#10003; 接積人已更新報價：NT$3500</span
+                >&#10003; 接稿人已更新報價：NT$3500</span
               >
             </div>
 
@@ -257,9 +262,10 @@
                 >&#10003; 委託人已確認並同意內容</span
               >
               <span class="chat-confirm-status-item"
-                >&#10003; 接積人已確認並同意內容</span
+                >&#10003; 接稿人已確認並同意內容</span
               >
             </div>
+          </div>
           </div>
 
           <!-- 輸入區 -->
@@ -269,7 +275,9 @@
               class="chat-input"
               placeholder="在此輸入訊息..."
             />
-            <button class="btn-chat-send">&#9658;</button>
+            <button class="btn-chat-send">
+              <img src="../Picture/icon/chat submit.png" alt="送出" />
+            </button>
           </div>
         </section>
       </div>
