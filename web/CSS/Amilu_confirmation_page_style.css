@@ -86,6 +86,7 @@ button {
 }
 .card-chat {
   width: 30%;
+  height: 700px;
 }
 .confirm-topbar {
   margin-bottom: 30px;
@@ -220,6 +221,9 @@ button {
   font-weight: 400;
 }
 .btn-commission-confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: var(--fs-small);
   font-weight: 600;
   width: 60%;
@@ -254,7 +258,6 @@ button {
 }
 .chat-messages-scroll {
   flex: 1;
-  min-height: 0;
   overflow-y: auto;
 }
 .chat-messages {
@@ -288,7 +291,7 @@ button {
 }
 .chat-msg-bubble {
   font-size: var(--fs-button);
-  width: 300px;
+  max-width: 60%;
   padding: 14px;
   background-color: var(--color-light-note);
   border-radius: 10px;

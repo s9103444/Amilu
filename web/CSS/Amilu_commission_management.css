@@ -39,7 +39,7 @@ li {
   .active {
     position: relative;
     color: var(--color-red);
-    font-weight: 900;
+    font-weight: 400;
   }
 
   .active::after {

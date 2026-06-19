@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>互動式審稿 - Amilu</title>
+    <link rel="stylesheet" href="../CSS/common.css" />
+    <link rel="stylesheet" href="../CSS/Amilu_interactive_review_style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+
+  <body>
+    <!-- ===== Header ===== -->
+    <header class="site-header">
+      <div>
+        <a href="Amilu_index.html">
+          <img class="logo" src="../Picture/Logo.png" />
+        </a>
+      </div>
+
+      <div class="amilu-search-bar">
+        <img
+          class="amilu-icons"
+          src="../Picture/icon/Type=Search, Color=Gradient.svg"
+        />
+        <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
+      </div>
+
+      <div>
+        <div class="description">
+          <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+          <a href="#" class="btn-md-red-withicon">
+            上傳作品
+            <img
+              class="amilu-icons2"
+              src="../Picture/icon/Type=Up Load, Color=White.svg"
+            />
+          </a>
+        </div>
+        <div>
+          <a href="#">登入</a>
+          <a href="#" class="button-md-black">註冊</a>
+        </div>
+      </div>
+    </header>
+
+    <div id="nav-bg"></div>
+
+    <!-- ===== Main ===== -->
+    <main class="review-wrapper">
+      <!-- 頂部列 -->
+
+      <div class="review-topbar">
+        <a href="../HTML/Amilu_commission_management.html" class="btn-back">
+          <img src="../Picture/icon/nav-left.png" alt="btn-nav-left" />
+        </a>
+        <h1 class="review-title">角色立繪委託 x1</h1>
+        <span class="badge-status badge-status-inprogress">進行中</span>
+      </div>
+
+      <!-- 公告橫幅 -->
+      <!-- <div class="review-container">
+        <div class="review-notice-bar">
+          <img
+            class="review-notice-icon"
+            src="../Picture/icon/Group 18.png"
+            alt=""
+          />
+          <p class="review-notice-text">
+            恭喜委託成立！在這裡一同討論委託最新進度吧！
+          </p>
+        </div>
+      </div> -->
+
+      <!-- 進度追蹤卡片 -->
+      <div class="progress-card">
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+          <div class="progress-nodes">
+            <div class="progress-node p20 progress-node-active">
+              <span class="progress-pct">20%</span>
+              <div class="progress-dot progress-dot-active"></div>
+              <span class="progress-label">草稿</span>
+            </div>
+            <div class="progress-node p40">
+              <span class="progress-pct">40%</span>
+              <div class="progress-dot"></div>
+              <span class="progress-label">線稿</span>
+            </div>
+            <div class="progress-node p80">
+              <span class="progress-pct">80%</span>
+              <div class="progress-dot"></div>
+              <span class="progress-label">精稿</span>
+            </div>
+            <div class="progress-node p100">
+              <span class="progress-pct">100%</span>
+              <div class="progress-dot"></div>
+              <span class="progress-label">完稿</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主體兩欄 -->
+      <div class="review-content-layout">
+        <!-- ===== 左欄：審稿主區 ===== -->
+        <section class="card-review">
+          <!-- 頁籤列 -->
+          <div class="review-tabs">
+            <button class="review-tab" data-tab="confirmed">
+              委託內容（已確認）
+            </button>
+            <button class="review-tab review-tab-active" data-tab="stage">
+              即時審稿區
+            </button>
+            <button class="review-tab" data-tab="close">完稿結案區</button>
+          </div>
+
+          <!-- 頁籤內容 -->
+          <div class="review-tab-panels">
+            <!-- 委託內容（已確認） -->
+            <div class="review-tab-panel" id="panel-confirmed">
+              <div class="commission-scroll">
+                <!-- 資訊格：6 欄位 -->
+                <div class="commission-info">
+                  <div class="commission-info-item">
+                    <span class="info-label">委託項目</span>
+                    <p class="info-value">角色立繪委託 x1</p>
+                  </div>
+                  <div class="commission-info-item">
+                    <span class="info-label">預算</span>
+                    <p class="info-value info-value-updated">
+                      NT$ 3,500
+                      <span class="badge-updated">更新</span>
+                    </p>
+                    <p class="info-value-original">原先報價：NT$2,500</p>
+                  </div>
+                  <div class="commission-info-item">
+                    <span class="info-label">支付方式</span>
+                    <p class="info-value">第三方平台支付</p>
+                  </div>
+
+                  <div class="commission-info-item">
+                    <span class="info-label">可修改次數</span>
+                    <p class="info-value">3次</p>
+                  </div>
+
+                  <div class="commission-info-item">
+                    <span class="info-label">授權範圍</span>
+                    <p class="info-value">個人非商業用途</p>
+                  </div>
+
+                  <div class="commission-info-item">
+                    <span class="info-label">期望排程</span>
+                    <p class="info-value">精準3段</p>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- 參考圖 -->
+                <div class="commission-ref">
+                  <span class="section-label">參考圖</span>
+                  <div class="commission-ref-row">
+                    <img
+                      class="ref-img-item"
+                      src="../Picture/Art_work/Rectangle 40.png"
+                      alt="參考圖1"
+                    />
+                    <img
+                      class="ref-img-item"
+                      src="../Picture/Art_work/Rectangle 41.png"
+                      alt="參考圖2"
+                    />
+                    <img
+                      class="ref-img-item"
+                      src="../Picture/Art_work/Rectangle 42.png"
+                      alt="參考圖3"
+                    />
+                    <img
+                      class="ref-img-item"
+                      src="../Picture/Art_work/Rectangle 44.png"
+                      alt="參考圖4"
+                    />
+                  </div>
+                </div>
+
+                <!-- 需求描述 -->
+                <div class="commission-desc">
+                  <span class="section-label">需求描述</span>
+                  <p class="commission-desc-text">
+                    老師好，有在其他地方關注過您的作品，很開心能在Amilu上有委託您的機會！以下為相關委託需求：<br /><br />
+                    希望角色為奇幻風格，配色以藍紫為主，含背景。<br />
+                    再麻煩幫忙看看是否可以了，感恩！
+                  </p>
+                </div>
+
+                <div class="divider"></div>
+                <div class="commission-price">
+                  <span class="commission-price-label">最新報價</span>
+                  <div class="commission-price-right">
+                    <p class="commission-price-value">NT$ 3,500</p>
+                    <span class="commission-price-note">含平台手續費6%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 即時審稿區 -->
+            <div
+              class="review-tab-panel review-tab-panel-active"
+              id="panel-stage"
+            >
+              <!-- 投稿者資訊列 100%  -->
+              <div class="review-stage-card">
+                <div class="review-stage-header">
+                  <div class="review-stage-artist">
+                    <img
+                      class="review-stage-avatar"
+                      src="../Picture/01.png"
+                      alt="接稿人頭貼"
+                    />
+                    <div class="review-stage-artist-meta">
+                      <span class="review-stage-name">小帥</span>
+                      <span class="review-stage-date">更新於2026/6/15</span>
+                    </div>
+                  </div>
+                  <span class="badge-progress">進行中：100%</span>
+                </div>
+                <!-- 說明文字 -->
+                <p class="review-stage-message">
+                  完成～感謝提供此合作機會，若確認沒問題，尾款的部分就再煩請幫忙了，感謝！
+                </p>
+                <!-- 稿件圖片區 -->
+                <div class="review-stage-image-wrap">
+                  <!-- 上圖後換成 <img> -->
+                  <div class="review-stage-image-placeholder">
+                    <img src="../Picture/Art_work/精稿80.jpeg" alt="稿件圖片" />
+                  </div>
+                </div>
+                <!-- 操作按鈕 -->
+                <div class="review-stage-actions">
+                  <button class="btn-confirm-stage">
+                    <img src="../Picture/icon/check-white.png" alt="確認" />
+                    確認並前往結案區
+                  </button>
+                  <button class="btn-request-edit">
+                    <img
+                      src="../Picture/icon/boxicons_edit.png"
+                      alt="問題反應"
+                    />
+                    問題反應
+                  </button>
+                </div>
+              </div>
+              <!-- 投稿者資訊列 80%  -->
+              <div class="review-stage-card">
+                <div class="review-stage-header">
+                  <div class="review-stage-artist">
+                    <img
+                      class="review-stage-avatar"
+                      src="../Picture/01.png"
+                      alt="接稿人頭貼"
+                    />
+                    <div class="review-stage-artist-meta">
+                      <span class="review-stage-name">小帥</span>
+                      <span class="review-stage-date">更新於2026/6/10</span>
+                    </div>
+                  </div>
+                  <span class="badge-progress">進行中：80%</span>
+                </div>
+                <!-- 說明文字 -->
+                <p class="review-stage-message">
+                  打擾～目前繪製到彩稿的部分，大致上元素都已經安排上去了，如果沒問題，這邊就會進行最後微調與補色修整，並提供完稿，若沒有問題這邊就會進行最後一步，感恩。
+                </p>
+                <!-- 稿件圖片區 -->
+                <div class="review-stage-image-wrap">
+                  <!-- 上圖後換成 <img> -->
+                  <div class="review-stage-image-placeholder">
+                    <img src="../Picture/Art_work/精稿80.jpeg" alt="稿件圖片" />
+                  </div>
+                </div>
+                <!-- 操作按鈕 -->
+                <div class="review-stage-actions">
+                  <button class="btn-confirm-stage">
+                    <img src="../Picture/icon/check-white.png" alt="確認" />
+                    確認此階段
+                  </button>
+                  <button class="btn-request-edit">
+                    <img
+                      src="../Picture/icon/boxicons_edit.png"
+                      alt="申請修改"
+                    />
+                    申請修改
+                  </button>
+                </div>
+              </div>
+
+              <!-- 投稿者資訊列 40% -->
+              <div class="review-stage-card">
+                <div class="review-stage-header">
+                  <div class="review-stage-artist">
+                    <img
+                      class="review-stage-avatar"
+                      src="../Picture/01.png"
+                      alt="接稿人頭貼"
+                    />
+                    <div class="review-stage-artist-meta">
+                      <span class="review-stage-name">小帥</span>
+                      <span class="review-stage-date">更新於2026/6/10</span>
+                    </div>
+                  </div>
+                  <span class="badge-progress">進行中：40%</span>
+                </div>
+                <!-- 說明文字 -->
+                <p class="review-stage-message">
+                  線稿附上～先將主體細部處理出來，可先看看有無需要調整的部分，目前還可以做較大幅度的更改，再麻煩幫忙看看是否有什麼需要微調的地方～
+                </p>
+                <!-- 稿件圖片區 -->
+                <div class="review-stage-image-wrap">
+                  <!-- 上圖後換成 <img> -->
+                  <div class="review-stage-image-placeholder">
+                    <img
+                      src="../Picture/Art_work/S__57442309.jpg"
+                      alt="稿件圖片"
+                    />
+                  </div>
+                </div>
+                <!-- 操作按鈕 -->
+                <div class="review-stage-actions">
+                  <button class="btn-confirm-stage">
+                    <img src="../Picture/icon/check-white.png" alt="確認" />
+                    確認此階段
+                  </button>
+                  <button class="btn-request-edit">
+                    <img
+                      src="../Picture/icon/boxicons_edit.png"
+                      alt="申請修改"
+                    />
+                    申請修改
+                  </button>
+                </div>
+              </div>
+
+              <!-- 投稿者資訊列 20% -->
+              <div class="review-stage-card">
+                <div class="review-stage-header">
+                  <div class="review-stage-artist">
+                    <img
+                      class="review-stage-avatar"
+                      src="../Picture/01.png"
+                      alt="接稿人頭貼"
+                    />
+                    <div class="review-stage-artist-meta">
+                      <span class="review-stage-name">小帥</span>
+                      <span class="review-stage-date">更新於2026/6/2</span>
+                    </div>
+                  </div>
+                  <span class="badge-progress">進行中：20%</span>
+                </div>
+                <!-- 說明文字 -->
+                <p class="review-stage-message">
+                  您好～這邊先附上草圖，先畫一些可能會應用在圖面上的資訊，再幫忙確認方向～本次先將主體結構與角度做示意，謝謝您。
+                </p>
+                <!-- 稿件圖片區 -->
+                <div class="review-stage-image-wrap">
+                  <!-- 上圖後換成 <img> -->
+                  <div class="review-stage-image-placeholder">
+                    <img src="../Picture/Art_work/草稿20.jpg" alt="稿件圖片" />
+                  </div>
+                </div>
+                <!-- 操作按鈕 -->
+                <div class="review-stage-actions">
+                  <button class="btn-confirm-stage">
+                    <img src="../Picture/icon/check-white.png" alt="" />
+                    確認此階段
+                  </button>
+                  <button class="btn-request-edit">
+                    <img src="../Picture/icon/boxicons_edit.png" alt="" />
+                    申請修改
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 完稿結案區 -->
+            <div class="review-tab-panel" id="panel-close">
+              <div class="finish">
+                <div class="finish-title">
+                  <div class="div">
+                    <img
+                      src="../Picture/icon/check-green-circle.png"
+                      alt="確認icon"
+                    />
+                  </div>
+                  <span>委託已完成，原畫質圖檔已解鎖</span>
+                </div>
+                <div class="finish-image">
+                  <img src="../Picture/Art_work/完稿100.jpg" alt="完稿圖檔" />
+                </div>
+                <div class="user-info">
+                  <div class="user-Headshot">
+                    <img src="../Picture/01.png" alt="完稿人頭像" />
+                    <span class="user-name">小帥</span>
+                    <span class="user-id">@artist_name</span>
+                  </div>
+                </div>
+                <div class="download-picture">
+                  <a href="#">
+                    <img src="../Picture/icon/download.png" alt="下載圖片" />
+                    點此下載完整圖檔.jpg (3000 × 2088)
+                  </a>
+                </div>
+                <div class="download-document">
+                  <a href="#">
+                    <img src="../Picture/icon/document.png" alt="下載版權聲明" />
+                    下載版權聲明書
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 右欄：聊天室 ===== -->
+        <section class="card-chat">
+          <div class="card-chat-header">
+            <div class="chat-title">
+              <h2>聊天室</h2>
+            </div>
+            <div class="chat-header-actions">
+              <img
+                class="chat-avatar"
+                src="../Picture/01.png"
+                alt="接稿人頭貼"
+              />
+              <img
+                class="chat-avatar"
+                src="../Picture/04.jpg"
+                alt="委託人頭貼"
+              />
+            </div>
+          </div>
+
+          <div class="divider-chat"></div>
+
+          <div class="chat-messages-scroll">
+            <div class="chat-messages">
+              <!-- 系統通知 -->
+              <div class="chat-notice">
+                <span class="chat-notice-text">專案已成立，進入審稿階段</span>
+              </div>
+
+              <!-- 對方訊息：小帥 -->
+              <div class="chat-msg chat-msg-other">
+                <span class="chat-msg-name">小帥</span>
+                <div class="chat-msg-bubble">
+                  線稿上傳囉～再幫我確認看看了，感恩。
+                </div>
+              </div>
+
+              <!-- 系統通知 -->
+              <div class="chat-notice">
+                <span class="chat-notice-text">對方已上傳線稿（50%）</span>
+              </div>
+
+              <!-- 自己訊息 -->
+              <div class="chat-msg chat-msg-self">
+                <span class="chat-msg-name user">你</span>
+                <div class="chat-msg-bubble user">好的，我看看！</div>
+              </div>
+
+              <!-- 自己訊息（附圖） -->
+              <div class="chat-msg chat-msg-self">
+                <span class="chat-msg-name user">你</span>
+                <div class="chat-msg-bubble user chat-msg-bubble-image">
+                  <p>
+                    您好！這邊稍早已確認過，目前沒有問題，請再幫我繼續往下製作便可～感謝您！
+                  </p>
+                </div>
+              </div>
+
+              <!-- 系統通知 -->
+              <div class="chat-notice">
+                <span class="chat-notice-text">接稿人已確認並同意內容</span>
+              </div>
+
+              <!-- 對方訊息：小帥 -->
+              <div class="chat-msg chat-msg-other">
+                <span class="chat-msg-name">小帥</span>
+                <div class="chat-msg-bubble">感恩～這邊繼續往下製作～</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 輸入區 -->
+          <div class="chat-input-area">
+            <input
+              type="text"
+              class="chat-input"
+              placeholder="在此輸入訊息..."
+            />
+            <button class="btn-chat-send">
+              <img src="../Picture/icon/chat submit.png" alt="送出" />
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+      <div class="brand-info">
+        <div class="footer-logo">
+          <img src="../Picture/footer_logo.png" alt="" />
+        </div>
+        <div class="footer-nav-icon">
+          <a href="#"><img src="../Picture/footer_git_logo.png" alt="git" /></a>
+          <a href="#"><img src="../Picture/footer_FB_logo.png" alt="FB" /></a>
+          <a href="#"><img src="../Picture/footer_X_logo.png" alt="X" /></a>
+        </div>
+      </div>
+      <div class="nav-list">
+        <ul>
+          <li><a href="#">網站探索</a></li>
+          <li><a href="#">使用者面板</a></li>
+          <li><a href="#">通知中心</a></li>
+          <li><a href="#">網站說明</a></li>
+          <li><a href="#">網站設定</a></li>
+          <li><a href="#">註冊 / 登入</a></li>
+        </ul>
+      </div>
+      <div class="copyright-container">
+        <span>本平台為個人專題作品，僅供作品集展示之用。</span>
+        <span>© 2026 Amilu. All rights reserved.</span>
+      </div>
+    </footer>
+    <script src="../JS/Amilu_intercative_review.js"></script>
+  </body>
+</html>

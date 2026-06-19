@@ -53,65 +53,6 @@
   }
 }
 
-.open-or-not {
-  display: flex;
-  position: relative;
-  gap: 10px;
-  flex-shrink: 0;
-  background: var(--color-white);
-  width: 160px;
-  height: 40px;
-  border-radius: 99px;
-  align-items: center;
-  justify-content: space-around;
-  margin-block: 40px;
-  font-size: var(--fs-button);
-
-  /* 滑動色塊 */
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    border-radius: 99px;
-    background-color: var(--color-red);
-    transition: transform 0.3s ease;
-  }
-
-  /* 切到右邊時色塊滑過去 */
-  &:has(#current-open:checked)::before {
-    transform: translateX(100%);
-    background-color: var(--color-green);
-  }
-
-  label {
-    color: var(--color-note);
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      color 0.2s,
-      font-weight 0.2s;
-  }
-
-  /* 被選中的 label 文字變白加粗 */
-  &:has(#all-include:checked) label[for="all-include"],
-  &:has(#current-open:checked) label[for="current-open"] {
-    font-weight: var(--btn-font-weight);
-    color: var(--color-white);
-  }
-
-  .hidden-box {
-    display: none;
-  }
-}
-
 #current-chosing-section {
   padding: 8px 12px 8px 14px;
   justify-content: center;
