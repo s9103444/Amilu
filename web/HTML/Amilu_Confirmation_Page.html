@@ -13,42 +13,97 @@
       href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap"
       rel="stylesheet"
     />
+    <!--登入燈箱樣式-->
+    <link rel="stylesheet" href="../CSS/login-modal.css" />
+    <!--JQ-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../JS/Amilu_confirmation_page.js" defer></script>
   </head>
 
   <body>
-    <!-- ===== Header ===== -->
+    <!-- header.site-header -->
     <header class="site-header">
       <div>
         <a href="Amilu_index.html"
           ><img class="logo" src="../Picture/Logo.png"
         /></a>
+        <div class="explore-followed">
+          <input
+            type="radio"
+            id="followed"
+            name="explore-followed"
+            class="hidden-box"
+          />
+          <label for="followed">已追蹤</label>
+          <input
+            type="radio"
+            id="explore"
+            name="explore-followed"
+            class="hidden-box"
+            checked
+          />
+          <label for="explore">探索</label>
+        </div>
       </div>
 
       <div class="amilu-search-bar">
-        <img
-          class="amilu-icons"
-          src="../Picture/icon/Type=Search, Color=Gradient.svg"
-        />
+        <img src="../Picture/icon/Type=Search, Color=Gradient.svg" />
         <input type="search" class="search-txt" placeholder="關鍵字搜尋..." />
       </div>
 
-      <div>
+      <div class="site-header-right">
         <div class="description">
-          <a href="../HTML/Amilu_Help_page.html">網站說明</a>
+          <a class="btn-help-page" href="../HTML/Amilu_Help_page.html">
+            網站說明
+          </a>
           <a href="#" class="btn-md-red-withicon">
             上傳作品
             <img
-              class="amilu-icons2"
-              src="../Picture/icon/Type=Up Load, Color=White.svg"
+              class="icon-upload"
+              src="../Picture/icon/icon-upload-orange.png"
             />
           </a>
         </div>
-        <div>
-          <a href="#">登入</a>
+        <section class="btn-before-lg">
+          <a href="#" id="web-login">登入</a>
           <a href="#" class="button-md-black">註冊</a>
-        </div>
+        </section>
+        <section class="btn-after-lg hidden">
+          <div class="chat-notice">
+            <a class="btn-chat" href="#"
+              ><img src="../Picture/icon/chat-black.png" alt="對話通知icon"
+            /></a>
+          </div>
+          <div class="btn-news-notice">
+            <a class="btn-news" href="#"
+              ><img src="../Picture/icon/notice-black.png" alt="最新消息icon"
+            /></a>
+          </div>
+          <div class="field-user-info">
+            <a class="btn-user-info" href="#">
+              <div class="info-pic">
+                <img src="../Picture/04.jpg" alt="選單頭貼" />
+              </div>
+              <section class="info-menu-content hidden">
+                <div>使用者名稱</div>
+                <div>@test_name</div>
+              </section>
+
+              <img
+                class="icon-slide-down"
+                src="../Picture/icon/slide-down-brown.png"
+                alt=""
+              />
+            </a>
+            <ul class="menu-user-info hidden">
+              <li><a href="#">使用者面板</a></li>
+              <li><a href="#">個人專頁</a></li>
+              <li><a href="#">通知中心</a></li>
+              <li><a href="#">網站說明</a></li>
+              <li><a href="#">設定</a></li>
+              <li><a id="logout" href="#">登出</a></li>
+            </ul>
+          </div>
+        </section>
       </div>
     </header>
 
@@ -318,5 +373,7 @@
         <span>© 2026 Amilu. All rights reserved.</span>
       </div>
     </footer>
+    <script src="../JS/Amilu_common.js"></script>
+    <script src="../JS/Amilu_confirmation_page.js" defer></script>
   </body>
 </html>

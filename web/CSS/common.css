@@ -12,6 +12,10 @@ html {
   font-style: normal;
 }
 
+.hidden {
+  display: none !important;
+}
+
 #nav-bg {
   z-index: 10;
   position: fixed;
@@ -25,17 +29,12 @@ html {
   -webkit-backdrop-filter: blur(20px);
 }
 
-#nav-bg.scrolled {
-  box-shadow: 0px 1px 30px var(--color-Primary);
-}
-
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   opacity: 0.96;
   background: var(--color-Primary);
-  padding: 0 48px;
 }
 
 :root {
@@ -114,22 +113,15 @@ a {
 .site-header {
   z-index: 15;
   position: fixed;
+  display: flex;
+  align-items: flex-start;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
   margin: 20px auto 0;
-  display: flex;
-  align-items: center;
-  gap: 92px;
   padding: 0 48px;
   justify-content: space-between;
-
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 
   .logo {
     height: 36px;
@@ -137,7 +129,7 @@ a {
 
   & > :first-child {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 30px;
     flex-shrink: 0;
   }
@@ -145,14 +137,14 @@ a {
   .explore-followed {
     position: relative;
     display: flex;
-    height: 50px;
+    margin-top: 8px;
     font-size: var(--fs-small);
 
     .hidden-box {
       display: none;
     }
 
-    label {
+    & label {
       padding: 6px 12px;
       color: gray;
       cursor: pointer;
@@ -173,15 +165,19 @@ a {
   }
 
   .amilu-search-bar {
+    display: flex;
+    align-items: center;
     height: 42px;
     padding: 0px 20px;
     width: 600px;
-
     gap: 12px;
     border-radius: 99px;
     border: 1px solid var(--color-note);
     background: var(--color-white);
-
+    & > img {
+      display: block;
+      width: 20px;
+    }
     & > .search-txt {
       font-size: var(--fs-button);
       flex-grow: 1;
@@ -195,65 +191,68 @@ a {
       }
     }
   }
+  .site-header-right {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
 
   .description {
+    margin-top: 8px;
     display: flex;
     align-items: center;
-    gap: 36px;
-
-    & > a {
-      font-size: var(--fs-button);
+    font-size: var(--fs-button);
+    font-weight: 600;
+    display: flex;
+    /* 網站說明 */
+    .btn-help-page {
       color: var(--color-black);
-      font-weight: 600;
     }
-
-    & > .btn-md-red-withicon {
+    .btn-help-page:hover {
+      color: rgb(86, 86, 86);
+    }
+    /* 上傳作品 */
+    .btn-md-red-withicon {
       display: flex;
       align-items: center;
-      font-weight: 600;
       padding: var(--btn-padding);
-      background-color: var(--color-red);
-      border-radius: var(--btn-radius);
-      gap: 16px;
-      color: var(--color-white);
-      transition: all 0.3s ease;
+      gap: 8px;
+      color: var(--color-red);
     }
-
-    & > .btn-md-red-withicon:hover {
-      background-color: #ce4910;
+    .icon-upload {
+      width: 18px;
+      display: block;
     }
   }
 
-  & > :nth-child(3) {
+  .btn-before-lg {
+    margin-top: 8px;
     display: flex;
     align-items: center;
-    gap: 40px;
-    flex-shrink: 0;
-    font-size: var(--fs-button);
+    gap: 20px;
 
-    & > :last-child {
-      gap: 20px;
+    #web-login {
+      color: var(--color-black);
+      font-weight: var(--btn-font-weight);
+      font-weight: 600;
+    }
+    #web-login:hover {
+      color: rgb(86, 86, 86);
+    }
 
-      a {
-        color: var(--color-black);
-        font-weight: var(--btn-font-weight);
-        font-weight: 600;
-      }
+    .button-md-black {
+      display: flex;
+      align-items: center;
+      padding: var(--btn-padding);
+      background-color: var(--color-black);
+      border-radius: var(--btn-radius);
+      font-weight: var(--btn-font-weight);
+      color: var(--color-white);
+      font-weight: 600;
+    }
 
-      & > .button-md-black {
-        display: flex;
-        align-items: center;
-        padding: var(--btn-padding);
-        background-color: var(--color-black);
-        border-radius: var(--btn-radius);
-        font-weight: var(--btn-font-weight);
-        color: var(--color-white);
-        font-weight: 600;
-      }
-
-      & > .button-md-black:hover {
-        background-color: rgb(54, 51, 51);
-      }
+    .button-md-black:hover {
+      background-color: rgb(54, 51, 51);
     }
   }
 }
@@ -340,4 +339,94 @@ footer {
       left: 0;
     }
   }
+}
+
+.info-pic {
+  width: 34px;
+  & > img {
+    width: 100%;
+    border-radius: 999px;
+  }
+}
+.btn-after-lg {
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.icon-slide-down {
+  display: block;
+  width: 16px;
+  & > img {
+    width: 100%;
+  }
+}
+/* 右上角個人資訊*/
+.field-user-info {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px 8px 8px;
+  background-color: var(--color-white);
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+/* 右上角個人資訊(點開後標題)*/
+.btn-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+/* 右上角個人資訊下拉項目 */
+.menu-user-info {
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+.menu-user-info li {
+  display: block;
+}
+.btn-chat,
+.btn-news {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-white);
+  border-radius: 999px;
+  transition: all 0.2s ease;
+
+  & > img {
+    width: 18px;
+    display: block;
+  }
+}
+.btn-chat:hover,
+.btn-news:hover,
+.field-user-info:hover {
+  box-shadow: 3px 3px 8px rgba(132, 127, 127, 0.12);
+}
+.info-menu-content div:first-child {
+  font-size: var(--fs-button);
+  font-weight: 400;
+  color: var(--color-black);
+}
+.info-menu-content div:last-child {
+  font-size: var(--fs-caption);
+  font-weight: 300;
+  color: var(--color-note);
+}
+.field-user-info ul {
+  margin-top: 8px;
+}
+.field-user-info ul li {
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 6px;
+}
+.field-user-info ul li a {
+  font-size: var(--fs-caption);
+  color: var(--color-black);
+  font-weight: 400;
 }

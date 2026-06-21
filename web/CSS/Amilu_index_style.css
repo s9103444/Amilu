@@ -6,24 +6,17 @@
   left: 0;
   right: 0;
   background-color: var(--color-Primary);
-  height: 160px;
-}
-
-#nav-bg.scrolled {
-  box-shadow: 0px 1px 30px var(--color-Primary);
 }
 
 .category-bar {
+  display: flex;
   position: fixed;
-  top: 60px;
+  top: 80px;
   left: 0;
   right: 0;
   width: 100%;
-  padding: 0 48px;
-  display: flex;
-  z-index: 15;
+  z-index: 12;
   align-items: center;
-  gap: 36px;
   margin-bottom: 30px;
 
   div,
@@ -33,19 +26,23 @@
     display: flex;
     align-items: center;
   }
-
+  .main-guide-con {
+    margin-left: 48px;
+  }
   .main-guide-button {
-    width: 160px;
-    height: 60px;
-    padding: 10px 12px 10px 8px;
-    justify-content: center;
+    width: 124px;
+    padding: 12px 14px;
     gap: 14px;
     border-radius: 15px;
-    border: 1.5px solid var(--color-note);
+    border: 1px solid var(--color-note);
+    font-size: var(--fs-button);
     background: var(--color-white);
     color: var(--color-black);
     font-weight: var(--btn-font-weight);
-    transition: all;
+    & > img {
+      display: block;
+      width: 20px;
+    }
   }
 
   .main-guide-button:hover {
@@ -53,97 +50,74 @@
   }
 }
 
-#current-chosing-section {
-  padding: 8px 12px 8px 14px;
-  justify-content: center;
-  gap: 10px;
-  border-radius: 99px;
-  font-weight: var(--btn-font-weight);
-  margin-left: 30px;
-  flex-shrink: 0;
-  cursor: pointer;
-
-  & > button {
-    border-radius: 99px;
-    padding: var(--btn-padding);
-    border: none;
-    white-space: none;
-    background: var(--color-black);
-    color: var(--color-white);
-    font-size: var(--fs-button);
-    font-weight: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-}
-
-ul {
-  margin-left: -14px;
+.chosing-section {
   position: relative;
-  gap: 48px;
+  gap: 16px;
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
   white-space: nowrap;
+  margin-left: 20px;
 
   li {
     display: inline;
   }
-
-  button {
-    color: var(--color-black);
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: var(--fs-button);
-    font-family: inherit;
-  }
-
-  button:hover {
-    color: rgb(74, 74, 74);
-  }
-
-  /* 要做左右兩邊的漸層提示 */
+}
+.chosing-section li button {
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  font-size: var(--fs-caption);
+  color: var(--color-Secondary);
+  transition: all 0.2s ease;
+  padding: 8px 14px;
+}
+ul li button:hover {
+  color: #867664;
+  padding: 8px 14px;
+  background-color: #d6cdc2;
+  border-radius: 99px;
 }
 
 .sub-section {
   width: 100%;
-  margin-top: 180px;
-  overflow-x: hidden;
+  margin-left: 48px;
+  margin-top: 140px;
 
-  div {
-    overflow-x: auto;
+  .wrap-sub-section {
+    overflow-x: hidden;
     scrollbar-width: none;
     display: flex;
     gap: 36px;
-    align-items: center;
+    padding-block: 10px;
   }
 
-  button {
+  .wrap-sub-section button {
     display: flex;
     white-space: nowrap;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     color: var(--color-black);
     font-weight: var(--btn-font-weight);
-    padding: 12px 28px 12px 12px;
-    font-size: 16px;
+    padding: 8px 16px 8px 8px;
+    font-size: var(--fs-caption);
     background-color: var(--color-white);
-    border-radius: 15px;
+    border-radius: 14px;
     border: none;
     cursor: pointer;
     font-family: inherit;
+    box-shadow: 3px 3px 5px #ecebeb;
+    transition: all 0.2s ease;
   }
 
   button:hover {
-    background-color: rgb(245, 245, 245);
-    border-radius: 15px;
+    background-color: rgb(207, 205, 205);
+    transform: scale(1.03);
   }
 
   img {
-    width: 80px;
+    width: 50px;
   }
 }
 
@@ -211,7 +185,8 @@ ul {
 
 .gallery {
   width: 100%;
-  margin: 60px auto 0;
+  padding-inline: 48px;
+  margin: 40px auto 0;
   column-count: 5;
   column-gap: 36px;
   box-sizing: border-box;

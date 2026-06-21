@@ -1,0 +1,234 @@
+.login-light-box {
+  display: flex;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  width: 100vw;
+  /* backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); */
+}
+
+.login-container {
+  z-index: 150;
+  position: absolute;
+  width: 800px;
+  height: 700px;
+  background-color: var(--color-white);
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 40px;
+  border-radius: 20px;
+
+  .row {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 60px;
+  }
+
+  .col01,
+  .col02 {
+    flex: 1;
+  }
+  .col02 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .lg-bg {
+    border-radius: 20px;
+    background-image: url("../Picture/大colorful-abstract-geometric-wallpaper.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+  }
+
+  .col02 .login-title-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .col02 .lg-logo {
+    width: 70px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+
+  .col02 .lg-logo > img {
+    width: 100%;
+    display: block;
+  }
+
+  .col02 > h1 {
+    font-size: var(--fs-body);
+  }
+
+  .lg-sub-title {
+    font-size: var(--fs-caption);
+    font-weight: 400;
+    display: block;
+    margin-top: 6px;
+    color: gray;
+  }
+
+  .input-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-label {
+    font-size: var(--fs-caption);
+    font-weight: 400;
+    color: gray;
+  }
+
+  .input-txt {
+    appearance: none;
+    border: none;
+    border-bottom: 1px solid var(--color-note);
+    background-color: transparent;
+    padding-block: 8px;
+    padding-inline: 8px;
+    margin-bottom: 20px;
+  }
+
+  .input-txt::placeholder {
+    font-size: var(--fs-captions);
+    color: var(--color-light-note);
+  }
+
+  .login-assist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .input-content {
+    position: relative;
+  }
+
+  .eye-style {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-120%);
+    width: 16px;
+    opacity: 0.3;
+    cursor: pointer;
+  }
+
+  .remember-me {
+    display: flex;
+    background-image: url(../Picture/icon/radio-checkbox-circle-uncheck.png);
+    background-repeat: no-repeat;
+    background-position: left 0px;
+    background-size: 16px;
+    cursor: pointer;
+  }
+
+  #remember:checked + label {
+    background-image: url(../Picture/icon/radio-checkbox-circle.png);
+    background-repeat: no-repeat;
+    background-position: left 0px;
+    background-size: 16px;
+  }
+
+  .remember-me > span {
+    padding-left: 18px;
+    font-size: var(--fs-caption);
+    font-weight: 400;
+    color: gray;
+  }
+
+  .remember-me.hidden {
+    display: none;
+  }
+
+  .forgot-psw > a {
+    font-size: var(--fs-caption);
+    display: block;
+    margin-block: auto;
+    color: var(--color-note);
+  }
+
+  .lg-btn {
+    & > button {
+      width: 100%;
+      appearance: none;
+      border: none;
+      background-color: transparent;
+    }
+
+    .btn-local-lg {
+      cursor: pointer;
+      border-radius: 999px;
+      display: block;
+      width: 100%;
+      padding: var(--btn-padding);
+      background-color: var(--color-red);
+      color: var(--color-white);
+      font-weight: 400;
+      transition: all 0.2s ease;
+    }
+
+    .btn-local-lg:hover {
+      background-color: #c1430d;
+    }
+
+    .btn-google-lg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 999px;
+      width: 100%;
+      padding: var(--btn-padding);
+      background-color: #e2e2e2;
+      color: var(--color-black);
+      font-weight: 400;
+      transition: all 0.2s ease;
+      transition: all 0.2s ease;
+      & > img {
+        width: 40px;
+      }
+    }
+    .btn-google-lg:hover {
+      background-color: #d5d4d4;
+    }
+  }
+
+  .lg-btn + .lg-btn {
+    margin-top: 10px;
+  }
+  .btn-signup {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 60px;
+
+    & > span {
+      font-size: var(--fs-caption);
+      font-weight: 400;
+      color: var(--color-note);
+    }
+    & > a {
+      font-size: var(--fs-caption);
+      font-weight: 400;
+      color: var(--color-black);
+    }
+  }
+}
+.hidden {
+  display: none;
+}
