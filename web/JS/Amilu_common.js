@@ -111,12 +111,16 @@ function SwitchToLoginUI() {
   localStorage.setItem("isLoggedIn", "true"); //紀錄此狀態為"true"
   $(".btn-before-lg").addClass("hidden");
   $(".btn-after-lg").removeClass("hidden");
+  $(".btn-md-red-withicon").removeClass("hidden");
+  $(".btn-md-red-withicon-pd").removeClass("hidden");
 }
 //顯示登出後介面
 function SwitchToLogoutUI() {
   localStorage.setItem("isLoggedIn", "false"); //紀錄此狀態為"true"
   $(".btn-before-lg").removeClass("hidden");
   $(".btn-after-lg").addClass("hidden");
+  $(".btn-md-red-withicon").addClass("hidden");
+  $(".btn-md-red-withicon-pd").addClass("hidden");
 }
 
 //送出登入表
@@ -133,11 +137,15 @@ $(function () {
   if (loginStatus === "true") {
     $(".btn-before-lg").addClass("hidden");
     $(".btn-after-lg").removeClass("hidden");
+    $(".btn-md-red-withicon").removeClass("hidden");
+    $(".btn-md-red-withicon-pd").removeClass("hidden");
   }
 
   if (loginStatus === "false") {
     $(".btn-before-lg").removeClass("hidden");
     $(".btn-after-lg").addClass("hidden");
+    $(".btn-md-red-withicon").addClass("hidden");
+    $(".btn-md-red-withicon-pd").addClass("hidden");
   }
 });
 

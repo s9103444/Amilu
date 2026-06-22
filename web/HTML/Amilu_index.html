@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>首頁 - Amilu</title>
-    <link rel="stylesheet" href="../CSS/Amilu_index_style.css" />
     <link rel="stylesheet" href="../CSS/common.css" />
+    <link rel="stylesheet" href="../CSS/Amilu_index_style.css" />
     <!-- 字體 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,6 +26,9 @@
         <a href="Amilu_index.html"
           ><img class="logo" src="../Picture/Logo.png"
         /></a>
+        <a href="Amilu_index.html"
+          ><img class="logo-pd-mb" src="../Picture/Amilu_logo_small.png"
+        /></a>
         <div class="explore-followed">
           <input
             type="radio"
@@ -43,6 +46,12 @@
           />
           <label for="explore">探索</label>
         </div>
+        <div class="explore-followed-pd">
+          <select id="explore-followed-pd">
+            <option value="">探索</option>
+            <option value="">已追蹤</option>
+          </select>
+        </div>
       </div>
 
       <div class="amilu-search-bar">
@@ -55,8 +64,14 @@
           <a class="btn-help-page" href="../HTML/Amilu_Help_page.html">
             網站說明
           </a>
-          <a href="#" class="btn-md-red-withicon">
+          <a href="#" class="btn-md-red-withicon hidden">
             上傳作品
+            <img
+              class="icon-upload"
+              src="../Picture/icon/icon-upload-orange.png"
+            />
+          </a>
+          <a href="#" class="btn-md-red-withicon-pd">
             <img
               class="icon-upload"
               src="../Picture/icon/icon-upload-orange.png"
@@ -113,7 +128,7 @@
       <div class="main-guide-con">
         <button class="main-guide-button">
           <img src="../Picture/icon/Type=Categories, Color=Gradient.svg" />
-          全部類別
+          <span>全部類別</span>
         </button>
       </div>
 
