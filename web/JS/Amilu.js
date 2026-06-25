@@ -359,32 +359,151 @@ function createCard(works, index) {
   return card;
 }
 
-//把卡片一組裝進gallery
-//抓取監視點
+// 依照視窗寬度決定你的欄位數
+function getColumnCount() {
+  const width = window.innerWidth;
+  if (width < 768) {
+    return 2;
+  }
+  if (width < 1200) {
+    return 3;
+  }
+  return 5;
+}
+
+// 找出目前最短的欄位，並將新卡片放在這邊(回傳最短的欄位)
+function getShortColumn() {
+  const columns = gallery.querySelectorAll(".masonry-col");
+  let shortest = columns[0];
+  let i;
+
+  for (i = 1; i < columns.length; i++) {
+    if (columns[i].offsetHeight < shortest.offsetHeight) {
+      shortest = columns[i];
+    }
+  }
+  return shortest;
+}
+// 等待序列，照順序，等圖片仔入後再放，確保高度量的準且順序不亂
+let queue = [];
+let placing = false;
+
+function placeNext() {
+  if (placing === true) {
+    return;
+  }
+  if (queue.length === 0) {
+    return;
+  }
+  placing = true;
+
+  let card = queue[0];
+  let img = card.querySelector("img");
+
+  function doPlace() {
+    if (queue[0] !== card) {
+      return;
+    }
+    getShortColumn().appendChild(card);
+    queue.shift();
+    placing = false;
+    placeNext();
+  }
+  if (img.complete === true) {
+    doPlace();
+  } else {
+    img.addEventListener("load", doPlace);
+    img.addEventListener("error", doPlace);
+  }
+}
+
+// 建立/重建欄位（欄位改變時才會觸發此功能）
+let currentColumnCount = 0;
+
+function buildColumns() {
+  let count = getColumnCount();
+  if (count === currentColumnCount) {
+    return;
+  }
+  currentColumnCount = count;
+
+  // 收集現有卡片，依原始的index 排序後重新分配
+  let cardList = Array.prototype.slice.call(gallery.querySelectorAll(".card"));
+
+  // 比大小排序：呈現負數代表前面比後面小，所以是由小到大排
+  cardList.sort(function (a, b) {
+    return Number(a.dataset.index) - Number(b.dataset.index);
+  });
+
+  gallery.innerHTML = "";
+  let i;
+  for (i = 0; i < count; i++) {
+    const col = document.createElement("div");
+    col.className = "masonry-col";
+    gallery.appendChild(col);
+  }
+
+  queue = cardList;
+  placing = false;
+  placeNext();
+}
 let loadedCount = 0;
 const BATCH_SIZE = 10;
 let isLoading = false;
+
 function toGallery() {
-  if (isLoading) return;
+  // 如果已經在跑的話就先叫停
+  if (isLoading === true) {
+    return;
+  }
   isLoading = true;
-  const end = Math.min(loadedCount + BATCH_SIZE, works.length); //0+10==10,25,Math.min選比較小的
-  for (let index = loadedCount; index < end; index++) {
-    gallery.appendChild(createCard(works[index], index));
+  const end = Math.min(loadedCount + BATCH_SIZE, works.length);
+  let index;
+  for (index = loadedCount; index < end; index++) {
+    queue.push(createCard(works[index], index));
   }
   loadedCount = end;
   if (loadedCount >= works.length) {
     loadedCount = 0;
   }
   isLoading = false;
+  placeNext();
 }
-document.addEventListener("scroll", () => {
-  const scrolled = window.scrollY + window.innerHeight;
-  const total = document.documentElement.scrollHeight;
-  if (scrolled >= total - 200) {
-    toGallery();
-  }
+
+let resizeTimer = null;
+window.addEventListener("resize", function () {
+  buildColumns();
 });
+
+buildColumns();
 toGallery();
+
+//把卡片一組裝進gallery
+//抓取監視點
+// let loadedCount = 0;
+// const BATCH_SIZE = 10;
+// let isLoading = false;
+// function toGallery() {
+//   if (isLoading) return;
+//   isLoading = true;
+//   const end = Math.min(loadedCount + BATCH_SIZE, works.length); //0+10==10,25,Math.min選比較小的
+//   for (let index = loadedCount; index < end; index++) {
+//     gallery.appendChild(createCard(works[index], index));
+//   }
+//   loadedCount = end;
+//   if (loadedCount >= works.length) {
+//     loadedCount = 0;
+//   }
+//   isLoading = false;
+// }
+// document.addEventListener("scroll", () => {
+//   const scrolled = window.scrollY + window.innerHeight;
+//   const total = document.documentElement.scrollHeight;
+//   if (scrolled >= total - 200) {
+//     toGallery();
+//   }
+// });
+// toGallery();
 //------------------------- 這是假的瀑布流
 
 // 瀑布流監視點

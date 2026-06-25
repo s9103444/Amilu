@@ -55,12 +55,12 @@
 
 .chosing-section {
   position: relative;
-  gap: 16px;
+
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
   white-space: nowrap;
-  margin-left: 20px;
+  margin-left: 6px;
 
   li {
     display: inline;
@@ -74,11 +74,11 @@
   font-size: var(--fs-caption);
   color: var(--color-Secondary);
   transition: all 0.2s ease;
-  padding: 8px 14px;
+  padding: 10px 6px;
 }
 ul li button:hover {
   color: #867664;
-  padding: 8px 14px;
+  padding: 10px 6px;
   background-color: #d6cdc2;
   border-radius: 99px;
 }
@@ -185,19 +185,26 @@ ul li button:hover {
 #checkPoint {
   height: 10px;
 }
-
+.masonry-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .gallery {
   width: 100%;
   padding-inline: 30px;
   margin: 24px auto 0;
-  column-count: 5;
-  column-gap: 36px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
   box-sizing: border-box;
 
   .card {
     cursor: pointer;
     break-inside: avoid;
-    margin-bottom: 28px;
+    margin-bottom: 10px;
     overflow: hidden;
 
     transition: transform 0.3s ease;
@@ -441,7 +448,6 @@ ul li button:hover {
 /* 平板尺寸 */
 @media (768px <= width < 1200px) {
   .gallery {
-    column-count: 3;
     margin-top: 160px;
   }
   .site-header .explore-followed {
@@ -508,19 +514,33 @@ ul li button:hover {
   .site-header {
     padding-inline: 10px;
   }
+  
+  .before-login-bn {
+    width: 90%;
+    padding-inline-start: 24px;
+    padding-block: 40px;
+  }
+  .chosing-section {
+    gap: 8px;
+  }
+  .category-bar .main-guide-con {
+    margin-left: 10px;
+  }
   .gallery {
     padding-inline: 10px;
-    column-count: 2;
-    gap: 10px;
+    gap: 14px;
     margin-top: 150px;
-    .card {
-      margin-bottom: 14px;
+    .masonry-col {
+      gap: 10px;
       .name {
         font-size: 12px;
       }
 
       .user {
         font-size: 8px;
+      }
+      .card {
+        margin-bottom: 4px;
       }
     }
   }
@@ -565,7 +585,9 @@ ul li button:hover {
     .col:first-child {
       & > img {
         max-height: 60vh;
-        max-width: 100%;
+
+        width: 100%;
+        min-width: 0px;
         object-fit: contain;
         margin-inline: auto;
       }
