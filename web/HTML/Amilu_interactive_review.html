@@ -25,6 +25,9 @@
         <a href="Amilu_index.html"
           ><img class="logo" src="../Picture/Logo.png"
         /></a>
+        <a href="Amilu_index.html"
+          ><img class="logo-pd-mb" src="../Picture/Amilu_logo_small.png"
+        /></a>
         <div class="explore-followed">
           <input
             type="radio"
@@ -42,6 +45,12 @@
           />
           <label for="explore">探索</label>
         </div>
+        <div class="explore-followed-pd">
+          <select id="explore-followed-pd">
+            <option value="">探索</option>
+            <option value="">已追蹤</option>
+          </select>
+        </div>
       </div>
 
       <div class="amilu-search-bar">
@@ -54,8 +63,14 @@
           <a class="btn-help-page" href="../HTML/Amilu_Help_page.html">
             網站說明
           </a>
-          <a href="#" class="btn-md-red-withicon">
+          <a href="#" class="btn-md-red-withicon hidden">
             上傳作品
+            <img
+              class="icon-upload"
+              src="../Picture/icon/icon-upload-orange.png"
+            />
+          </a>
+          <a href="#" class="btn-md-red-withicon-pd">
             <img
               class="icon-upload"
               src="../Picture/icon/icon-upload-orange.png"
@@ -96,6 +111,9 @@
             <ul class="menu-user-info hidden">
               <li><a href="#">使用者面板</a></li>
               <li><a href="#">個人專頁</a></li>
+              <li>
+                <a href="./Amilu_commission_management.html">稿件管理</a>
+              </li>
               <li><a href="#">通知中心</a></li>
               <li><a href="#">網站說明</a></li>
               <li><a href="#">設定</a></li>
@@ -113,7 +131,7 @@
       <!-- 頂部列 -->
 
       <div class="review-topbar">
-        <a href="../HTML/Amilu_commission_management.html" class="btn-back">
+        <a href="./Amilu_commission_management.html" class="btn-back">
           <img src="../Picture/icon/nav-left.png" alt="btn-nav-left" />
         </a>
         <h1 class="review-title">角色立繪委託 x1</h1>

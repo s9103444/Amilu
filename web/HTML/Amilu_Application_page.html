@@ -19,28 +19,23 @@
 
 <body>
   <!-- header.site-header -->
+   <div class="topcard nav mb  ">
+            <ul class="com-nav">
+              <li><a href="#sec01">01<br>委託規格</a></li>
+              <li><a href="#sec02">02<br>需求描述</a></li>
+              <li><a href="#sec03">03<br>授權與用途</a></li>
+              <li><a href="#sec04">04<br>預算與進度</a></li>
+              <li><a href="#sec05">05<br>確認送出</a></li>
+            </ul>
+          </div>
   <header class="site-header">
     <div>
       <a href="Amilu_index.html"
         ><img class="logo" src="../Picture/Logo.png"
       /></a>
-      <div class="explore-followed">
-        <input
-          type="radio"
-          id="followed"
-          name="explore-followed"
-          class="hidden-box"
-        />
-        <label for="followed">已追蹤</label>
-        <input
-          type="radio"
-          id="explore"
-          name="explore-followed"
-          class="hidden-box"
-          checked
-        />
-        <label for="explore">探索</label>
-      </div>
+      <a href="Amilu_index.html"
+        ><img class="logo-pd-mb" src="../Picture/Amilu_logo_small.png"
+      /></a>
     </div>
 
     <div class="amilu-search-bar">
@@ -53,8 +48,14 @@
         <a class="btn-help-page" href="../HTML/Amilu_Help_page.html">
           網站說明
         </a>
-        <a href="#" class="btn-md-red-withicon">
+        <a href="#" class="btn-md-red-withicon hidden">
           上傳作品
+          <img
+            class="icon-upload"
+            src="../Picture/icon/icon-upload-orange.png"
+          />
+        </a>
+        <a href="#" class="btn-md-red-withicon-pd">
           <img
             class="icon-upload"
             src="../Picture/icon/icon-upload-orange.png"
@@ -95,6 +96,7 @@
           <ul class="menu-user-info hidden">
             <li><a href="#">使用者面板</a></li>
             <li><a href="#">個人專頁</a></li>
+            <li><a href="./Amilu_commission_management.html">稿件管理</a></li>
             <li><a href="#">通知中心</a></li>
             <li><a href="#">網站說明</a></li>
             <li><a href="#">設定</a></li>
@@ -106,9 +108,9 @@
   </header>
 
   <div id="nav-bg"></div>
-
+<span id="sec01"></span>
   <div class="appli-form-container">
-    <h2 id="sec01" class="title">建立委託</h2>
+    <h2  class="title">建立委託</h2>
     <p class="title-description">
       依序填寫 5 個區塊送出，創作者收到後會審核並與你確認。
     </p>
@@ -143,18 +145,20 @@
                 <option value="">橫式</option>
                 <option value="">作者自由發揮</option>
               </select>
+               <span id="sec02"></span>
               <label class="size-field com-type">
                 <span class="size-field-label">輸入自訂尺寸</span>
                 <input type="text" class="size-field-input" placeholder="1000*1000px" />
               </label>
             </div>
           </div>
-
+         
           <div class="com-form-content">
             <div class="form-label">
               <h6>年齡分級</h6>
               <span class="must">*必填</span>
             </div>
+            
             <div class="com-radio">
               <input type="radio" name="r18Check" class="hidden" id="r18n" checked />
               <label for="r18n">全年齡</label>
@@ -165,7 +169,7 @@
         </div>
 
 
-        <div class="card" id="sec02">
+        <div class="card" >
           <div class="card-title">
             <h5>需求描述</h5>
             <h4>02</h4>
@@ -196,7 +200,7 @@
               <h6>參考圖上傳</h6>
               <span class="choose">選填</span>
             </div>
-
+            <span id="sec03"></span>
             <div class="upload-container">
               <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png,.pdf" class="hidden" />
               <label for="imageUpload" class="upload-area">
@@ -208,7 +212,7 @@
         </div>
 
 
-        <div class="card" id="sec03">
+        <div class="card">
           <div class="card-title">
             <h5>授權與用途</h5>
             <h4>03</h4>
@@ -226,7 +230,7 @@
               <label for="comUseY">商用</label>
             </div>
           </div>
-
+          <span id="sec04"></span>
           <div class="com-form-content">
             <div class="form-label">
               <h6>授權範圍確認</h6>
@@ -238,7 +242,7 @@
           </div>
         </div>
 
-        <div class="card" id="sec04">
+        <div class="card">
           <div class="card-title">
             <h5>預算與進行方式</h5>
             <h4>04</h4>
@@ -290,39 +294,41 @@
             <li><span>預算</span><span>2500</span></li>
           </ul>
           <div class="btn-container">
-            <div class="com-submit-btn"><a href="../HTML/Amilu_commission_management.html">送出委託</a></div>
-            <div class="com-store"><a href="../HTML/Amilu_commission_management.html">儲存委託稿</a></div>
+            <div class="com-submit-btn"><a href="./Amilu_commission_management.html">送出委託</a></div>
+            <div class="com-store"><a href="./Amilu_commission_management.html">儲存委託稿</a></div>
           </div>
         </div>
       </div>
 
       <div class="col">
-        <div class="card info-fixed">
-          <div class="com-creater-info-container">
-            <div class="creater-info">
-              <div>
-                <img src="../Picture/icon/user-head01.png" alt="創作者頭貼01" />
-              </div>
-              <div>
-                <div><span class="com-status" id="comStatus">接案中</span></div>
-                <span class="user-name">作者名稱</span><span class="user-id">@user_name</span>
+        <div class="sticky-sidebar">
+          <div class="card info-fixed">
+            <div class="com-creater-info-container">
+              <div class="creater-info">
+                <div>
+                  <img src="../Picture/icon/user-head01.png" alt="創作者頭貼01" />
+                </div>
+                <div>
+                  <div><span class="com-status" id="comStatus">接案中</span></div>
+                  <span class="user-name">作者名稱</span><span class="user-id">@user_name</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="btn-container-creater">
-            <div class="follow-btn"><a href="#">Follow</a></div>
-            <div class="check-page-btn"><a href="#">查看作者頁面</a></div>
+            <div class="btn-container-creater">
+              <div class="follow-btn"><a href="#">Follow</a></div>
+              <div class="check-page-btn"><a href="#">查看頁面</a></div>
+            </div>
           </div>
-        </div>
-        <div class="card nav">
-          <ul class="com-nav">
-            <li><a href="#sec01">01 委託規格</a></li>
-            <li><a href="#sec02">02 需求描述</a></li>
-            <li><a href="#sec03">03 授權與用途</a></li>
-            <li><a href="#sec04">04 預算與進度</a></li>
-            <li><a href="#sec05">05 確認送出</a></li>
-          </ul>
+          <div class="card nav">
+            <ul class="com-nav">
+              <li><a href="#sec01">01 委託規格</a></li>
+              <li><a href="#sec02">02 需求描述</a></li>
+              <li><a href="#sec03">03 授權與用途</a></li>
+              <li><a href="#sec04">04 預算與進度</a></li>
+              <li><a href="#sec05">05 確認送出</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

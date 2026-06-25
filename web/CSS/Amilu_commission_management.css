@@ -12,12 +12,14 @@ li {
 .commission-management {
   flex: 1;
   margin-top: 110px;
+  margin-inline: auto;
+  width: clamp(1000px, 70%, 1200px);
   /* min-height: 0; */
 
   & > h1 {
     display: block;
     width: 100%;
-    font-size: var(--fs-h2);
+    font-size: var(--fs-body);
     font-weight: 600;
     margin-bottom: 30px;
   }
@@ -31,7 +33,8 @@ li {
     gap: 20px;
 
     & a {
-      font-size: var(--fs-small);
+      font-size: var(--fs-button);
+      font-weight: 400;
       color: gray;
     }
   }
@@ -58,11 +61,10 @@ li {
   display: flex;
   height: 30px;
   align-items: center;
-
   .tab-line {
     display: block;
     height: 1px;
-    width: 78%;
+    width: 100%;
     background-color: var(--color-note);
   }
 }
@@ -73,6 +75,7 @@ li {
 
   .commission-list {
     flex: 4;
+    margin-bottom: 60px;
   }
 
   .sidebar {
@@ -81,7 +84,7 @@ li {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: -20px;
+    margin-top: 52px;
   }
 }
 
@@ -92,15 +95,8 @@ li {
   margin-top: 10px;
   margin-bottom: 20px;
 
-  .filter-btn.active {
-    color: var(--color-white);
-    padding: 4px 14px;
-    background-color: var(--color-red);
-    border-radius: 99px;
-    font-weight: var(--btn-font-weight);
-  }
-
   .filter-btn {
+    font-size: var(--fs-caption);
     cursor: pointer;
     display: inline-block;
     margin-right: 30px;
@@ -108,6 +104,18 @@ li {
     border: none;
     outline: none;
     color: gray;
+    padding: 4px 14px;
+  }
+  .filter-btn:hover {
+    border-radius: 99px;
+    background-color: #dedad7;
+  }
+  .filter-btn.active {
+    color: var(--color-white);
+    padding: 4px 14px;
+    background-color: var(--color-red);
+    border-radius: 99px;
+    font-weight: var(--btn-font-weight);
   }
 }
 
@@ -120,7 +128,8 @@ li {
   outline: none;
   color: gray;
   gap: 4px;
-  margin-right: 18px;
+  font-size: var(--fs-caption);
+  margin-right: 10px;
 
   & > img {
     width: 14px;
@@ -163,7 +172,7 @@ li {
   padding: 20px 14px 20px 18px;
   background-color: var(--color-white);
   border: 1px solid var(--color-note);
-  border-radius: 24px;
+  border-radius: 14px;
 }
 
 .card-list {
@@ -192,7 +201,7 @@ li {
 .card-creator {
   position: relative;
   display: flex;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
 }
 
@@ -213,23 +222,23 @@ li {
 .card-thumbnail {
   width: 100px;
   height: 100px;
-
   margin-right: 20px;
   border-radius: 20px;
 }
 
 .creator-name {
+  font-size: var(--fs-caption);
   font-weight: var(--btn-font-weight);
 }
 
 .creator-avatar {
-  width: 30px;
+  width: 26px;
   display: inline-block;
   border-radius: 99px;
 }
 
 .creator-id {
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   color: var(--color-Secondary);
 }
 
@@ -237,16 +246,9 @@ li {
   display: flex;
   justify-content: space-between;
   margin-top: 2px;
-}
-
-.card-status-text {
-  font-size: var(--fs-caption);
-  color: gray;
-}
-
-.update-time {
-  font-size: var(--fs-caption);
-  color: gray;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--color-note);
 }
 
 .card-header {
@@ -254,7 +256,7 @@ li {
   justify-content: space-between;
 
   & > h3 {
-    font-size: var(--fs-small);
+    font-size: var(--fs-button);
   }
 }
 
@@ -274,19 +276,19 @@ li {
   flex-shrink: 0;
 
   .view-btn {
+    white-space: nowrap;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--fs-small);
+    font-size: var(--fs-caption);
     font-weight: 400;
-    padding: 10px;
-
     color: gray;
+    margin-left: 16px;
 
     & > img {
       align-self: center;
       margin-left: 4px;
-      width: 14px;
+      width: 10px;
       opacity: 0.5;
     }
   }
@@ -295,68 +297,70 @@ li {
 .status {
   display: flex;
   align-items: center;
-  font-size: var(--fs-caption);
-  padding: 4px 12px;
+  font-size: 10px;
+  padding: 4px 10px;
   border-radius: 99px;
 }
 
 .status-pending {
   background-color: var(--status-pending-bg);
-  border: 1px solid var(--color-red);
+  /* border: 1px solid var(--color-red); */
 }
 
 .status-in-progress {
   background-color: var(--status-in-progress-bg);
-  border: 1px solid var(--color-green);
+  /* border: 1px solid var(--color-green); */
 }
 
 .status-done {
   background-color: var(--status-done-bg);
-  border: 1px solid var(--color-Secondary);
+  /* border: 1px solid var(--color-Secondary); */
 }
 
 .summary-card,
 .todo-card {
+  width: 280px;
   background-color: var(--color-white);
   border: 1px solid var(--color-note);
-  padding: 32px 30px 36px 30px;
+  padding: 30px;
   border-radius: 20px;
 }
 
 .summary-card {
   .stats {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
   }
 
   & > h3 {
     display: block;
     margin-bottom: 1ex;
-    font-size: var(--fs-small);
+    font-size: var(--fs-button);
     font-weight: 600;
   }
 
   .stat-item {
     width: 100%;
-
     display: flex;
     align-items: center;
     flex-direction: column;
   }
 
-  .stat-item + .stat-item {
+  /* .stat-item + .stat-item {
+    display: block;
     border-left: 1px solid var(--color-note);
-  }
+  } */
 
   .stat-number {
     font-size: var(--fs-h1);
-    font-weight: 900;
+    font-weight: 400;
     display: block;
     margin-bottom: 10px;
   }
 
   .stat-label {
-    font-size: var(--fs-button);
+    font-size: var(--fs-caption);
   }
 
   .red {
@@ -376,7 +380,7 @@ li {
   & > h3 {
     display: block;
     margin-bottom: 2ex;
-    font-size: var(--fs-small);
+    font-size: var(--fs-button);
     font-weight: 600;
   }
 
@@ -388,7 +392,7 @@ li {
     & > li {
       display: flex;
       align-items: center;
-      font-size: var(--fs-button);
+      font-size: var(--fs-caption);
       padding-bottom: 8px;
       border-bottom: 1px solid var(--color-note);
     }

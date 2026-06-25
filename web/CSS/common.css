@@ -172,7 +172,7 @@ a {
     appearance: none;
     border: 0;
     background-color: var(--color-white);
-    padding: 1em 3em 1em 1em;
+    padding: 1em 3em 1em 1.4em;
     border-radius: 99px;
     font-size: var(--fs-caption);
     color: gray;
@@ -217,7 +217,9 @@ a {
     align-items: flex-start;
     gap: 20px;
   }
-
+  .btn-md-red-withicon-pd {
+    display: none;
+  }
   .description {
     display: flex;
     font-size: var(--fs-caption);
@@ -292,22 +294,21 @@ a {
 }
 
 footer {
-  width: 100%;
+  display: flex;
+  width: 96%;
   margin-top: auto;
+  margin-inline: auto;
   margin-bottom: 20px;
+  color: var(--color-Secondary);
+  flex-wrap: wrap;
+  gap: 30px;
 
   .footer-logo {
     width: 80px;
-
     & > img {
       width: 100%;
     }
   }
-
-  color: var(--color-Secondary);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
 
   .brand-info {
     display: flex;
@@ -344,13 +345,13 @@ footer {
     display: flex;
     list-style: none;
     /* margin-bottom: 10px; */
-    gap: 30px;
+    gap: 20px;
 
     & li > a {
       display: flex;
       align-items: center;
       color: var(--color-Secondary);
-      font-size: var(--fs-button);
+      font-size: var(--fs-caption);
     }
   }
 
@@ -359,8 +360,7 @@ footer {
     justify-content: space-between;
     width: 100%;
     position: relative;
-
-    font-size: var(--fs-caption);
+    font-size: 10px;
 
     &::before {
       content: "";
@@ -390,7 +390,7 @@ footer {
 
 .icon-slide-down {
   display: block;
-  width: 16px;
+  width: 12px;
   & > img {
     width: 100%;
   }
@@ -440,8 +440,12 @@ footer {
 .field-user-info:hover {
   box-shadow: 3px 3px 8px rgba(132, 127, 127, 0.12);
 }
+.info-menu-content {
+  margin-left: -8px;
+  margin-top: 4px;
+}
 .info-menu-content div:first-child {
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 400;
   color: var(--color-black);
 }
@@ -462,4 +466,78 @@ footer {
   font-size: var(--fs-caption);
   color: var(--color-black);
   font-weight: 400;
+}
+
+/* RWD */
+
+/* 平板尺寸 */
+@media (768px <= width < 1200px) {
+  .site-header .explore-followed {
+    display: none;
+  }
+  .site-header #explore-followed-pd {
+    display: inline-block;
+  }
+  .site-header .logo {
+    display: none;
+  }
+  .site-header .logo-pd-mb {
+    display: block;
+  }
+  .site-header .description .btn-md-red-withicon {
+    display: none;
+  }
+  .site-header .btn-md-red-withicon-pd {
+    display: block;
+  }
+  .chat-notice {
+    display: none;
+  }
+  .btn-news-notice {
+    display: none;
+  }
+}
+
+/* 手機：< 768px */
+@media (width < 768px) {
+  .site-header {
+    padding-inline: 10px;
+  }
+  .gallery {
+    padding-inline: 10px;
+    column-count: 2;
+    gap: 10px;
+    margin-top: 150px;
+    .card {
+      margin-bottom: 14px;
+      .name {
+        font-size: 12px;
+      }
+
+      .user {
+        font-size: 8px;
+      }
+    }
+  }
+  .site-header .explore-followed {
+    display: none;
+  }
+  .site-header #explore-followed-pd {
+    display: none;
+  }
+  .site-header .logo {
+    display: none;
+  }
+  .site-header .logo-pd-mb {
+    display: block;
+  }
+  .site-header .description {
+    display: none;
+  }
+  .chat-notice {
+    display: none;
+  }
+  .btn-news-notice {
+    display: none;
+  }
 }

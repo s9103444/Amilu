@@ -150,7 +150,7 @@ $(function () {
 });
 
 //點擊使用者頭像展開/收合選單
-$(".field-user-info").on("click", function (e) {
+$(".btn-user-info").on("click", function (e) {
   e.preventDefault();
   $(".info-menu-content").toggleClass("hidden");
   $(".menu-user-info").toggleClass("hidden");
@@ -159,7 +159,9 @@ $(".field-user-info").on("click", function (e) {
 // 按登出切換回登入
 $("#logout").on("click", function (e) {
   e.preventDefault;
-  confirm("是否確定登出？");
-  SwitchToLogoutUI();
-  location.href = "../HTML/Amilu_index.html";
+  if (confirm("是否確定登出？")) {
+    SwitchToLogoutUI();
+    location.href = "../HTML/Amilu_index.html";
+  } else {
+  }
 });
