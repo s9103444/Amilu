@@ -153,214 +153,197 @@
 
       <!-- 主體：左右兩欄 -->
       <div class="confirm-content-layout">
-        <!-- ===== 左欄：委託內容 ===== -->
-        <section class="card-commission">
-          <!-- 卡片 header -->
-          <div class="card-commission-header">
-            <h2 class="card-commission-title">委託內容</h2>
-            <span class="lock-label">
-              <img
-                class="lock-label-icon"
-                src="../Picture/icon/lock.png"
-                alt="lock"
-              />
-              僅接稿人可編輯此區
-            </span>
-          </div>
-
-          <!-- 委託內容捲動區 -->
-          <div class="commission-scroll">
-            <!-- 資訊格：6 欄位 -->
-            <div class="commission-info">
-              <div class="commission-info-item">
-                <span class="info-label">委託項目</span>
-                <p class="info-value">角色立繪委託 x1</p>
+        <div class="confirm-wrap">
+          <!-- ===== 左欄：委託內容 ===== -->
+          <section class="card-commission">
+            <!-- 卡片 header -->
+            <div class="card-commission-header">
+              <h2 class="card-commission-title">委託內容</h2>
+              <span class="lock-label">
+                <img
+                  class="lock-label-icon"
+                  src="../Picture/icon/lock.png"
+                  alt="lock"
+                />
+                僅接稿人可編輯此區
+              </span>
+            </div>
+            <!-- 委託內容捲動區 -->
+            <div class="commission-scroll">
+              <!-- 資訊格：6 欄位 -->
+              <div class="commission-info">
+                <div class="commission-info-item">
+                  <span class="info-label">委託項目</span>
+                  <p class="info-value">角色立繪委託 x1</p>
+                </div>
+                <div class="commission-info-item">
+                  <span class="info-label">預算</span>
+                  <p class="info-value info-value-updated">
+                    NT$ 3,500
+                    <span class="badge-updated">更新</span>
+                  </p>
+                  <p class="info-value-original">原先報價：NT$2,500</p>
+                </div>
+                <div class="commission-info-item">
+                  <span class="info-label">支付方式</span>
+                  <p class="info-value">第三方平台支付</p>
+                </div>
+                <div class="commission-info-item">
+                  <span class="info-label">可修改次數</span>
+                  <p class="info-value">3次</p>
+                </div>
+                <div class="commission-info-item">
+                  <span class="info-label">授權範圍</span>
+                  <p class="info-value">個人非商業用途</p>
+                </div>
+                <div class="commission-info-item">
+                  <span class="info-label">期望排程</span>
+                  <p class="info-value">精準3段</p>
+                </div>
               </div>
-              <div class="commission-info-item">
-                <span class="info-label">預算</span>
-                <p class="info-value info-value-updated">
-                  NT$ 3,500
-                  <span class="badge-updated">更新</span>
+              <div class="divider"></div>
+              <!-- 參考圖 -->
+              <div class="commission-ref">
+                <span class="section-label">參考圖</span>
+                <div class="commission-ref-row">
+                  <img
+                    class="ref-img-item"
+                    src="../Picture/Art_work/Rectangle 40.png"
+                    alt="參考圖1"
+                  />
+                  <img
+                    class="ref-img-item"
+                    src="../Picture/Art_work/Rectangle 41.png"
+                    alt="參考圖2"
+                  />
+                  <img
+                    class="ref-img-item"
+                    src="../Picture/Art_work/Rectangle 42.png"
+                    alt="參考圖3"
+                  />
+                  <img
+                    class="ref-img-item"
+                    src="../Picture/Art_work/Rectangle 44.png"
+                    alt="參考圖4"
+                  />
+                </div>
+              </div>
+              <!-- 需求描述 -->
+              <div class="commission-desc">
+                <span class="section-label">需求描述</span>
+                <p class="commission-desc-text">
+                  老師好，有在其他地方關注過您的作品，很開心能在Amilu上有委託您的機會！以下為相關委託需求：<br /><br />
+                  希望角色為奇幻風格，配色以藍紫為主，含背景。<br />
+                  再麻煩幫忙看看是否可以了，感恩！
                 </p>
-                <p class="info-value-original">原先報價：NT$2,500</p>
               </div>
-              <div class="commission-info-item">
-                <span class="info-label">支付方式</span>
-                <p class="info-value">第三方平台支付</p>
-              </div>
-
-              <div class="commission-info-item">
-                <span class="info-label">可修改次數</span>
-                <p class="info-value">3次</p>
-              </div>
-
-              <div class="commission-info-item">
-                <span class="info-label">授權範圍</span>
-                <p class="info-value">個人非商業用途</p>
-              </div>
-
-              <div class="commission-info-item">
-                <span class="info-label">期望排程</span>
-                <p class="info-value">精準3段</p>
+              <div class="divider"></div>
+            </div>
+            <!-- 最新報價 -->
+            <div class="commission-price">
+              <span class="commission-price-label">最新報價</span>
+              <div class="commission-price-right">
+                <p class="commission-price-value">NT$ 3,500</p>
+                <span class="commission-price-note">含平台手續費6%</span>
               </div>
             </div>
-
-            <div class="divider"></div>
-
-            <!-- 參考圖 -->
-            <div class="commission-ref">
-              <span class="section-label">參考圖</span>
-              <div class="commission-ref-row">
+            <!-- 操作按鈕 -->
+            <div class="commission-actions">
+              <!-- <button type="submit" class="btn-commission-confirm">
+                確認委託（50 / 50）
+              </button> -->
+              <a
+                href="../HTML/Amilu_interactive_review.html"
+                class="btn-commission-confirm"
+              >
+                確認委託（50 / 50）
+              </a>
+              <button class="btn-commission-cancel">取消</button>
+            </div>
+          </section>
+          <!-- ===== 右欄：商討聊天室 ===== -->
+          <section class="card-chat">
+            <!-- 聊天室 header -->
+            <div class="card-chat-header">
+              <div class="chat-title">
+                <h2>商討聊天室</h2>
+              </div>
+              <div class="chat-header-actions">
                 <img
-                  class="ref-img-item"
-                  src="../Picture/Art_work/Rectangle 40.png"
-                  alt="參考圖1"
+                  class="chat-avatar"
+                  src="../Picture/01.png"
+                  alt="創作者頭貼"
                 />
                 <img
-                  class="ref-img-item"
-                  src="../Picture/Art_work/Rectangle 41.png"
-                  alt="參考圖2"
-                />
-                <img
-                  class="ref-img-item"
-                  src="../Picture/Art_work/Rectangle 42.png"
-                  alt="參考圖3"
-                />
-                <img
-                  class="ref-img-item"
-                  src="../Picture/Art_work/Rectangle 44.png"
-                  alt="參考圖4"
+                  class="chat-avatar"
+                  src="../Picture/04.jpg"
+                  alt="創作者頭貼"
                 />
               </div>
             </div>
-
-            <!-- 需求描述 -->
-            <div class="commission-desc">
-              <span class="section-label">需求描述</span>
-              <p class="commission-desc-text">
-                老師好，有在其他地方關注過您的作品，很開心能在Amilu上有委託您的機會！以下為相關委託需求：<br /><br />
-                希望角色為奇幻風格，配色以藍紫為主，含背景。<br />
-                再麻煩幫忙看看是否可以了，感恩！
-              </p>
+            <div class="divider-chat"></div>
+            <!-- 聊天訊息捲動區 -->
+            <div class="chat-messages-scroll">
+              <!-- 訊息列表 -->
+              <div class="chat-messages">
+                <!-- 對方訊息：小帥 -->
+                <div class="chat-msg chat-msg-other">
+                  <span class="chat-msg-name">小帥</span>
+                  <div class="chat-msg-bubble">
+                    你好！收到你的委託了，請問背景想要多複雜呢？這邊會針對複雜需求進行報價上的調整，再麻煩跟我說了，感謝！
+                  </div>
+                </div>
+                <!-- 自己訊息 -->
+                <div class="chat-msg chat-msg-self">
+                  <span class="chat-msg-name user">你</span>
+                  <div class="chat-msg-bubble user">
+                    您好！因為想之前有看到一些繪風覺是現是自己很喜歡的，所以希望可以參照……(相關需求略)，再麻煩看看這樣可不可以QQ，謝謝您！
+                  </div>
+                </div>
+                <!-- 系統通知：報價更新 -->
+                <div class="chat-notice">
+                  <span class="chat-notice-text"
+                    >&#10003; 接稿人已更新報價：NT$3500</span
+                  >
+                </div>
+                <!-- 對方訊息：小帥 -->
+                <div class="chat-msg chat-msg-other">
+                  <span class="chat-msg-name">小帥</span>
+                  <div class="chat-msg-bubble">
+                    收到～這邊有先更新報價了，請再幫我確認看看喔！
+                  </div>
+                </div>
+                <!-- 自己訊息 -->
+                <div class="chat-msg chat-msg-self">
+                  <span class="chat-msg-name user">你</span>
+                  <div class="chat-msg-bubble user">
+                    收到謝謝！報價沒問題，那就再麻煩了～感恩！
+                  </div>
+                </div>
+                <!-- 雙方確認狀態 -->
+                <div class="chat-confirm-status">
+                  <span class="chat-confirm-status-item"
+                    >&#10003; 委託人已確認並同意內容</span
+                  >
+                  <span class="chat-confirm-status-item"
+                    >&#10003; 接稿人已確認並同意內容</span
+                  >
+                </div>
+              </div>
             </div>
-
-            <div class="divider"></div>
-          </div>
-
-          <!-- 最新報價 -->
-          <div class="commission-price">
-            <span class="commission-price-label">最新報價</span>
-            <div class="commission-price-right">
-              <p class="commission-price-value">NT$ 3,500</p>
-              <span class="commission-price-note">含平台手續費6%</span>
-            </div>
-          </div>
-
-          <!-- 操作按鈕 -->
-          <div class="commission-actions">
-            <!-- <button type="submit" class="btn-commission-confirm">
-              確認委託（50 / 50）
-            </button> -->
-            <a
-              href="../HTML/Amilu_interactive_review.html"
-              class="btn-commission-confirm"
-            >
-              確認委託（50 / 50）
-            </a>
-            <button class="btn-commission-cancel">取消</button>
-          </div>
-        </section>
-
-        <!-- ===== 右欄：商討聊天室 ===== -->
-        <section class="card-chat">
-          <!-- 聊天室 header -->
-          <div class="card-chat-header">
-            <div class="chat-title">
-              <h2>商討聊天室</h2>
-            </div>
-            <div class="chat-header-actions">
-              <img
-                class="chat-avatar"
-                src="../Picture/01.png"
-                alt="創作者頭貼"
+            <!-- 輸入區 -->
+            <div class="chat-input-area">
+              <input
+                type="text"
+                class="chat-input"
+                placeholder="在此輸入訊息..."
               />
-              <img
-                class="chat-avatar"
-                src="../Picture/04.jpg"
-                alt="創作者頭貼"
-              />
+              <button class="btn-chat-send">
+                <img src="../Picture/icon/chat submit.png" alt="送出" />
+              </button>
             </div>
-          </div>
-
-          <div class="divider-chat"></div>
-
-          <!-- 聊天訊息捲動區 -->
-          <div class="chat-messages-scroll">
-            <!-- 訊息列表 -->
-            <div class="chat-messages">
-              <!-- 對方訊息：小帥 -->
-              <div class="chat-msg chat-msg-other">
-                <span class="chat-msg-name">小帥</span>
-                <div class="chat-msg-bubble">
-                  你好！收到你的委託了，請問背景想要多複雜呢？這邊會針對複雜需求進行報價上的調整，再麻煩跟我說了，感謝！
-                </div>
-              </div>
-
-              <!-- 自己訊息 -->
-              <div class="chat-msg chat-msg-self">
-                <span class="chat-msg-name user">你</span>
-                <div class="chat-msg-bubble user">
-                  您好！因為想之前有看到一些繪風覺是現是自己很喜歡的，所以希望可以參照……(相關需求略)，再麻煩看看這樣可不可以QQ，謝謝您！
-                </div>
-              </div>
-
-              <!-- 系統通知：報價更新 -->
-              <div class="chat-notice">
-                <span class="chat-notice-text"
-                  >&#10003; 接稿人已更新報價：NT$3500</span
-                >
-              </div>
-
-              <!-- 對方訊息：小帥 -->
-              <div class="chat-msg chat-msg-other">
-                <span class="chat-msg-name">小帥</span>
-                <div class="chat-msg-bubble">
-                  收到～這邊有先更新報價了，請再幫我確認看看喔！
-                </div>
-              </div>
-
-              <!-- 自己訊息 -->
-              <div class="chat-msg chat-msg-self">
-                <span class="chat-msg-name user">你</span>
-                <div class="chat-msg-bubble user">
-                  收到謝謝！報價沒問題，那就再麻煩了～感恩！
-                </div>
-              </div>
-
-              <!-- 雙方確認狀態 -->
-              <div class="chat-confirm-status">
-                <span class="chat-confirm-status-item"
-                  >&#10003; 委託人已確認並同意內容</span
-                >
-                <span class="chat-confirm-status-item"
-                  >&#10003; 接稿人已確認並同意內容</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 輸入區 -->
-          <div class="chat-input-area">
-            <input
-              type="text"
-              class="chat-input"
-              placeholder="在此輸入訊息..."
-            />
-            <button class="btn-chat-send">
-              <img src="../Picture/icon/chat submit.png" alt="送出" />
-            </button>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </main>
 

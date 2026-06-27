@@ -13,7 +13,8 @@ button {
   min-height: 0;
   margin-top: 90px;
   width: 100%;
-  padding-block: 30px;
+
+  /* padding-block: 30px; */
 }
 .notice-bar {
   display: flex;
@@ -22,11 +23,14 @@ button {
   margin-inline: auto;
   margin-bottom: 20px;
 }
-
+.confirm-wrap {
+  display: flex;
+  gap: 30px;
+}
 .card-commission {
   flex: 4;
 }
-.card-commission-header {
+.card-commission .card-commission-header {
   display: flex;
   justify-content: space-between;
 }
@@ -90,7 +94,6 @@ button {
   border-radius: 24px;
 }
 .card-chat {
-  position: sticky;
   top: 80px;
   flex: 2;
   height: 700px;
@@ -262,9 +265,9 @@ button {
   }
 }
 .chat-messages-scroll {
-  flex: 1;
+  /* flex: 1; */
   overflow-y: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scrollbar-color: rgba(183, 183, 183, 0.5);
 }
 .chat-messages {
@@ -390,23 +393,49 @@ button {
 
 /* 手機：< 768px */
 @media (width < 768px) {
-  .confirm-topbar,
-  .confirm-content-layout {
+  .confirm-topbar {
     width: 90%;
     min-width: 0;
+  }
+  .confirm-wrapper {
+    margin-top: 60px;
   }
   .notice-bar {
     width: 90%;
   }
-  .card-commission {
+  .confirm-content-layout {
     width: 90%;
-    padding: 30px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .confirm-wrap {
+    display: flex;
+    width: 1200px;
+    gap: 80px;
+  }
+  .card-commission {
+    width: 340px;
+    padding: 24px;
+  }
+  .card-chat {
+    /* display: none; */
+    flex: 0 0 340px;
+    height: fit-content;
+  }
+  .commission-ref-row {
+    display: flex;
+    /* flex-wrap: wrap; */
+  }
+  .ref-img-item {
+    height: 100px;
   }
   .btn-topbar-more {
     display: none;
   }
-  .card-chat {
-    display: none;
+  .chat-messages {
+    height: 500px;
+    overflow-y: auto;
+    margin-bottom: 0;
   }
   .badge-updated {
     top: -20px;
@@ -425,23 +454,45 @@ button {
     }
   }
   .card-commission-title {
-    font-size: var(--fs-button);
+    font-size: var(--fs-small);
   }
   .lock-label {
-    font-size: 10px;
-  }
-  .notice-bar-text {
-    font-size: 10px;
-  }
+    display: flex;
+    align-items: center;
 
+    font-size: 10px;
+  }
+  .notice-bar-left .notice-bar-text {
+    font-size: 8px;
+  }
+  .notice-bar-icon {
+    width: 10px;
+    height: 10px;
+  }
+  .notice-bar-left {
+    align-items: center;
+    padding: 10px;
+    gap: 4px;
+    width: 100%;
+  }
+  .commission-ref-row {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
   .commission-info-item {
     display: inline-block;
     width: 50%;
   }
   .commission-desc-text {
-    font-size: 10px;
+    font-size: var(--fs-caption);
   }
   .commission-actions {
     gap: 8px;
+  }
+  .lock-label {
+    gap: 4px;
+  }
+  .lock-label .lock-label-icon {
+    width: 10px;
   }
 }

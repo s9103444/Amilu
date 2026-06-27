@@ -733,7 +733,6 @@ button {
   color: var(--color-note);
 }
 
-
 .download-picture,
 .download-document {
   width: 100%;
@@ -764,7 +763,6 @@ button {
   filter: brightness(0) invert(1);
 }
 
-
 .download-document > a {
   display: flex;
   align-items: center;
@@ -788,4 +786,3 @@ button {
 .download-document > a img {
   width: 20px;
 }
-
