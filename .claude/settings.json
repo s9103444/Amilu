@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/liuyanting/Desktop/Amilu push)",
+      "Bash(git -C /Users/liuyanting/Desktop/Amilu diff --stat)",
+      "Bash(git -C /Users/liuyanting/Desktop/Amilu commit -m ' *)",
+      "Bash(git -C /Users/liuyanting/Desktop/Amilu push origin main)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
