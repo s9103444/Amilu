@@ -55,12 +55,13 @@
 
 .chosing-section {
   position: relative;
-
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
   white-space: nowrap;
-  margin-left: 6px;
+  margin-left: 20px;
+  display: flex;
+  gap: 20px;
 
   li {
     display: inline;
@@ -514,7 +515,7 @@ ul li button:hover {
   .site-header {
     padding-inline: 10px;
   }
-  
+
   .before-login-bn {
     width: 90%;
     padding-inline-start: 24px;
@@ -522,6 +523,7 @@ ul li button:hover {
   }
   .chosing-section {
     gap: 8px;
+    margin-left: 8px;
   }
   .category-bar .main-guide-con {
     margin-left: 10px;

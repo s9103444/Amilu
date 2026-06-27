@@ -11,14 +11,20 @@ button {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  margin-top: 110px;
+  margin-top: 90px;
   width: 100%;
+  padding-block: 30px;
 }
 .notice-bar {
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 1100px;
+  margin-inline: auto;
+  margin-bottom: 20px;
 }
+
 .card-commission {
-  width: 60%;
+  flex: 4;
 }
 .card-commission-header {
   display: flex;
@@ -28,7 +34,7 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 400;
   color: gray;
   & > img {
@@ -52,7 +58,7 @@ button {
   gap: 20px;
   .badge-status {
     font-weight: 400;
-    font-size: var(--fs-button);
+    font-size: var(--fs-caption);
     padding: var(--btn-padding);
     border-radius: 99px;
     background-color: #f7a17c;
@@ -60,11 +66,10 @@ button {
 }
 .confirm-content-layout {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-inline: 4%;
   margin-bottom: 60px;
-  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
   min-height: 0;
   gap: 30px;
 }
@@ -85,18 +90,17 @@ button {
   border-radius: 24px;
 }
 .card-chat {
-  width: 30%;
+  position: sticky;
+  top: 80px;
+  flex: 2;
   height: 700px;
 }
 .confirm-topbar {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  width: 1150px;
+  margin-inline: auto;
 }
-.notice-bar {
-  display: flex;
-  align-items: flex-end;
-  padding-inline: 8%;
-  margin-bottom: 20px;
-}
+
 .notice-bar-left {
   display: flex;
   align-items: center;
@@ -106,7 +110,7 @@ button {
   border-radius: 10px;
   background-color: #fadbcd;
   & > p {
-    font-size: var(--fs-button);
+    font-size: var(--fs-caption);
     font-weight: 400;
     color: var(--color-black);
   }
@@ -115,7 +119,7 @@ button {
 .btn-topbar-more {
   display: block;
   margin-left: auto;
-  width: 20px;
+  width: 16px;
   margin-bottom: 10px;
   & > img {
     width: 100%;
@@ -141,42 +145,44 @@ button {
 .card-commission-title,
 .commission-price-label,
 .chat-title h2 {
-  font-size: var(--fs-input);
+  font-size: var(--fs-small);
   font-weight: 600;
 }
 .info-label,
 .section-label {
   display: block;
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 400;
-  color: gray;
+  color: rgb(160, 160, 160);
 }
 .info-label {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .section-label {
   margin-bottom: 20px;
 }
 .info-value {
-  font-size: var(--fs-small);
-  font-weight: 400;
+  font-size: var(--fs-button);
+  font-weight: 500;
   color: var(--color-black);
 }
 .info-value-original {
-  font-size: var(--fs-caption);
+  font-size: 10px;
   color: gray;
 }
 .info-value-updated {
+  display: block;
+  margin-bottom: 2px;
   position: relative;
   display: block;
-  font-size: var(--fs-body);
+  font-size: var(--fs-text);
   color: var(--color-red);
-  font-weight: 600;
+  font-weight: 500;
 }
 .badge-updated {
   position: absolute;
   top: -20px;
-  left: 130px;
+  left: 100px;
   border-radius: 6px;
   color: #fff;
   padding: 4px 8px;
@@ -219,12 +225,12 @@ button {
   display: flex;
   gap: 20px;
   font-weight: 400;
+  font-size: var(--fs-button);
 }
 .btn-commission-confirm {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: var(--fs-small);
   font-weight: 600;
   width: 60%;
   padding-block: 14px;
@@ -233,7 +239,6 @@ button {
   background-color: var(--color-red);
 }
 .btn-commission-cancel {
-  font-size: var(--fs-small);
   font-weight: 600;
   width: 40%;
   padding-block: 14px;
@@ -259,6 +264,8 @@ button {
 .chat-messages-scroll {
   flex: 1;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(183, 183, 183, 0.5);
 }
 .chat-messages {
   display: flex;
@@ -290,8 +297,9 @@ button {
   color: var(--color-red);
 }
 .chat-msg-bubble {
-  font-size: var(--fs-button);
-  max-width: 60%;
+  font-size: var(--fs-caption);
+  line-height: 1.4em;
+  max-width: 80%;
   padding: 14px;
   background-color: var(--color-light-note);
   border-radius: 10px;
@@ -304,7 +312,8 @@ button {
   justify-content: center;
 }
 .chat-notice-text {
-  font-size: var(--fs-caption);
+  white-space: nowrap;
+  font-size: 10px;
   color: gray;
   padding: 6px 16px;
   border-radius: 99px;
@@ -355,4 +364,84 @@ button {
 }
 .commission-desc {
   margin-top: 20px;
+}
+
+/* RWD */
+
+/* 平板尺寸 */
+@media (768px <= width < 1250px) {
+  .confirm-content-layout {
+    width: 800px;
+  }
+  .notice-bar {
+    width: 800px;
+  }
+  .confirm-topbar {
+    width: 800px;
+  }
+  .chat-msg-bubble {
+    max-width: 80%;
+  }
+  .badge-updated {
+    top: -20px;
+    left: 80px;
+  }
+}
+
+/* 手機：< 768px */
+@media (width < 768px) {
+  .confirm-topbar,
+  .confirm-content-layout {
+    width: 90%;
+    min-width: 0;
+  }
+  .notice-bar {
+    width: 90%;
+  }
+  .card-commission {
+    width: 90%;
+    padding: 30px;
+  }
+  .btn-topbar-more {
+    display: none;
+  }
+  .card-chat {
+    display: none;
+  }
+  .badge-updated {
+    top: -20px;
+    left: 70px;
+  }
+  .confirm-topbar {
+    margin-bottom: 18px;
+    & img {
+      width: 8px;
+    }
+    .confirm-title {
+      font-size: var(--fs-small);
+    }
+    .badge-status {
+      font-size: 8px;
+    }
+  }
+  .card-commission-title {
+    font-size: var(--fs-button);
+  }
+  .lock-label {
+    font-size: 10px;
+  }
+  .notice-bar-text {
+    font-size: 10px;
+  }
+
+  .commission-info-item {
+    display: inline-block;
+    width: 50%;
+  }
+  .commission-desc-text {
+    font-size: 10px;
+  }
+  .commission-actions {
+    gap: 8px;
+  }
 }

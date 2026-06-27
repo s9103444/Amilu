@@ -99,6 +99,7 @@ li {
     cursor: pointer;
     display: inline-block;
     margin-right: 30px;
+    background-color: transparent;
     appearance: none;
     border: none;
     outline: none;
@@ -178,8 +179,7 @@ li {
 
 .card-list {
   padding: 20px;
-  background-color: #faf4f4;
-  border-radius: 20px;
+
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -266,10 +266,11 @@ li {
 }
 
 .card-body {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
+  padding: 10px;
 }
 
 .card-detail-btn {
@@ -421,7 +422,10 @@ li {
   .commission-management {
     width: 800px;
   }
-
+  .commission-card {
+    display: flex;
+    flex-direction: row;
+  }
   .filter-bar .filter-btn {
     margin-right: 10px;
   }
@@ -463,17 +467,32 @@ li {
   .commission-management {
     width: 90%;
   }
+
+  .row {
+    min-width: 0;
+  }
+
   .row .sidebar {
     display: none;
   }
+
+  .row .commission-list {
+    min-width: 0;
+    flex: 1;
+  }
+
   .classify-bar {
     white-space: nowrap;
-    /* display: flex; */
-    /* justify-content: space-between; */
-    & .filter-btn {
-      margin-right: 10px;
-      font-size: 10px;
-    }
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-right: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+  .classify-bar .filter-btn {
+    margin-right: 0;
+    font-size: 10px;
+    padding: 4px 8px;
   }
   .search-toggle .search-btn {
     font-size: 10px;
@@ -482,9 +501,51 @@ li {
       height: 10px;
     }
   }
+  .commission-card {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 10px;
+  }
+  .card-header {
+    width: 100%;
+  }
+  .commission-card {
+    padding: 20px;
+  }
+  .status {
+    font-size: 6px;
+    font-weight: 400;
+    display: block;
+    white-space: nowrap;
+    padding: 4px 8px;
+  }
+
+  .card-body {
+    min-width: 0;
+  }
+
   .card-thumbnail {
-    width: 60px;
-    height: 60px;
+    margin: 20px 0 30px;
+    width: 160px;
+    height: 160px;
     border-radius: 10px;
+  }
+
+  .card-detail-btn {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .card-detail-btn .view-btn {
+    font-size: var(--fs-button);
+    color: gray;
+    white-space: normal;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
   }
 }
