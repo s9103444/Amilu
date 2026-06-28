@@ -120,7 +120,7 @@ select:focus {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
   & > select {
     width: 50%;
   }
@@ -161,6 +161,7 @@ select:focus {
 .com-radio {
   display: flex;
   gap: 12px;
+  margin-bottom: 20px;
   align-items: center;
   flex-wrap: wrap;
   & label {
@@ -325,16 +326,16 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 .btn-container {
   display: flex;
   margin-top: 30px;
-  gap: 30px;
+  gap: 10px;
   align-items: center;
   text-align: center;
   font-size: var(--fs-button);
   & .com-submit-btn {
-    width: 70%;
+    width: 60%;
 
     & > a {
       border-radius: 99px;
-      padding: var(--btn-padding);
+      padding: 12px 20px;
       display: block;
       background-color: var(--color-red);
       width: 100%;
@@ -343,11 +344,11 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
     }
   }
   & .com-store {
-    width: 30%;
+    width: 40%;
 
     & > a {
       border: 1px solid var(--color-black);
-      padding: var(--btn-padding);
+      padding: 12px 20px;
       border-radius: 99px;
       display: block;
       width: 100%;

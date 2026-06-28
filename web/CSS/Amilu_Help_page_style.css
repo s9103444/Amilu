@@ -47,6 +47,9 @@ p {
       line-height: 1.8em;
       font-weight: 400;
     }
+    .mb-wrap {
+      display: none;
+    }
     .guide-title {
       display: flex;
       flex-direction: column;
@@ -66,7 +69,7 @@ p {
     .btn {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 20px;
 
       a {
         display: flex;
@@ -167,6 +170,8 @@ p {
   & > span {
     font-size: var(--fs-small);
     line-height: 1.5em;
+    display: block;
+    margin-inline: 48px;
   }
 
   & > .bar-title {
@@ -176,7 +181,6 @@ p {
 }
 
 .product-advantages-container {
-  margin-bottom: px;
   .row {
     display: flex;
     width: 1000px;
@@ -194,7 +198,6 @@ p {
     gap: 30px;
   }
   .card {
-    width: 90;
     height: auto;
     align-items: center;
     background-color: var(--color-white);
@@ -292,7 +295,6 @@ p {
   label {
     cursor: pointer;
     position: relative;
-    z-index: 1;
     width: 50%;
     height: 100%;
     display: flex;
@@ -417,6 +419,7 @@ p {
 
     & p {
       font-size: small;
+      font-weight: 400;
       color: var(--color-black);
     }
   }
@@ -424,7 +427,6 @@ p {
   .btn {
     display: flex;
     justify-content: center;
-    gap: 40px;
     align-items: center;
     img {
       height: 14px;
@@ -439,5 +441,192 @@ p {
       background-color: var(--color-red);
       gap: 10px;
     }
+  }
+}
+
+/* RWD */
+
+/* 平板尺寸 */
+@media (768px <= width < 1200px) {
+  .head-bn-container {
+    width: 700px;
+  }
+  .pain-point-container {
+    width: 700px;
+    padding-right: 40px;
+    .row {
+      width: 300px;
+    }
+    .bar-title {
+      margin-bottom: 0;
+    }
+  }
+  .pain-point-container #painPointPicture {
+    position: absolute;
+    left: -80px;
+    bottom: -16px;
+    width: 430px;
+    height: auto;
+  }
+  .product-advantages-container {
+    .row {
+      display: flex;
+      width: 600px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      flex-direction: column-reverse;
+      & > img {
+        display: block;
+        justify-content: center;
+        height: 120px;
+      }
+    }
+  }
+  .step-container {
+    .row {
+      margin-inline: 48px;
+    }
+  }
+  ._5050-container {
+    width: 700px;
+  }
+  ._5050-container .row {
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .card {
+    width: 50%;
+  }
+  .progress-bar-container {
+    width: 600px;
+    & img {
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+  .CTA-bn-container {
+    width: 700px;
+  }
+}
+
+/* 手機：< 768px  */
+@media (width < 768px) {
+  .head-bn-container {
+    width: 90vw;
+    padding: 10px 20px;
+    margin-top: 100px;
+    .row .mb-wrap {
+      display: block;
+    }
+  }
+  .head-bn-container .row {
+    margin-block: 40px;
+  }
+  .head-bn-container .row .guide-title h1 {
+    font-size: var(--fs-body);
+  }
+  .head-bn-container .row .guide-title .bar-title {
+    font-size: var(--fs-button);
+  }
+  .pain-point-container {
+    padding-inline: 20px;
+    width: 90vw;
+    .row {
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+  .middle-title-bar {
+    width: 90vw;
+    margin-inline: auto;
+  }
+  #painPointPicture {
+    display: none;
+  }
+  .product-advantages-container {
+    .row {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      margin: 0 auto;
+    }
+    .col:last-child {
+      margin-top: 0;
+    }
+    .card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      gap: 20px;
+      flex-direction: column-reverse;
+      & > img {
+        display: block;
+        justify-content: center;
+        height: 80px;
+      }
+      .info {
+        & h3 {
+          font-size: var(--fs-input);
+        }
+      }
+    }
+  }
+  .creater-or-client {
+    width: 300px;
+  }
+  .row-step-wrap {
+    width: 90vw;
+    overflow-x: auto;
+    margin-inline: auto;
+    scrollbar-width: none;
+    .row {
+      margin-bottom: 0;
+    }
+  }
+  .row-step-content {
+    display: flex;
+  }
+  .progress-bar-container {
+    width: 90vw;
+    padding: 30px;
+    & > h3 {
+      margin-bottom: 20px;
+    }
+    & > img {
+      width: 100%;
+    }
+  }
+  ._5050-container {
+    width: 100%;
+
+    .picture.mb {
+      width: 100px;
+      height: 100px;
+      margin-top: 10px;
+      margin-inline: auto;
+      & img {
+        height: 40px;
+      }
+    }
+  }
+
+  ._5050-container .row {
+    flex-wrap: wrap;
+  }
+  ._5050-container .row .card {
+    padding: 0;
+  }
+  .CTA-bn-container {
+    width: 90vw;
   }
 }

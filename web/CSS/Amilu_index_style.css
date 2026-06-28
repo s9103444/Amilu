@@ -245,12 +245,12 @@ ul li button:hover {
   border-radius: 30px;
   padding: 20px;
   .col:first-child {
-    /* overflow: hidden; */
     height: 100%;
     width: 100%;
 
     & > img {
       display: block;
+      margin-bottom: 30px;
       width: 100%;
       min-width: 400px;
       height: auto;
@@ -405,7 +405,7 @@ ul li button:hover {
       font-size: var(--fs-button);
       display: block;
       text-align: center;
-      padding: 10px;
+      padding: 12px 24px;
       border-radius: 99px;
       background-color: var(--color-red);
       color: white;

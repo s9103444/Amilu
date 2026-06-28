@@ -16,7 +16,7 @@
 .login-container {
   z-index: 150;
   position: absolute;
-  width: 800px;
+  width: 700px;
   height: 700px;
   background-color: var(--color-white);
   top: 50%;
@@ -175,7 +175,7 @@
       border-radius: 999px;
       display: block;
       width: 100%;
-      padding: var(--btn-padding);
+      padding: 12px 24px;
       background-color: var(--color-red);
       color: var(--color-white);
       font-weight: 400;
@@ -193,7 +193,7 @@
       cursor: pointer;
       border-radius: 999px;
       width: 100%;
-      padding: var(--btn-padding);
+      padding: 12px 24px;
       background-color: #e2e2e2;
       color: var(--color-black);
       font-weight: 400;
@@ -231,4 +231,16 @@
 }
 .hidden {
   display: none;
+}
+
+/* 手機：< 768px */
+@media (width < 768px) {
+  .login-container {
+    width: 90vw;
+    height: 90vh;
+  }
+
+  .col01 {
+    display: none;
+  }
 }
