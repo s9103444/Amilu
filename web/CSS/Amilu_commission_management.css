@@ -172,7 +172,7 @@ li {
   display: flex;
   align-items: center;
   padding: 20px 14px 20px 18px;
-  background-color: var(--color-white);
+  background-color: white;
   border: 1px solid var(--color-note);
   border-radius: 14px;
 }
@@ -325,7 +325,7 @@ li {
 .summary-card,
 .todo-card {
   width: 100%;
-  background-color: var(--color-white);
+  background-color: white;
   border: 1px solid var(--color-note);
   padding: 20px;
   border-radius: 20px;
@@ -418,7 +418,7 @@ li {
 /* RWD */
 
 /* 平板尺寸 */
-@media (768px <= width < 1200px) {
+@media (860px <= width < 1200px) {
   .commission-management {
     width: 800px;
   }

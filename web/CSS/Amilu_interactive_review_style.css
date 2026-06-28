@@ -13,13 +13,16 @@ button {
   flex: 1;
   min-height: 0;
   margin-top: 110px;
-  width: 100%;
+  margin-inline: auto;
+  width: 1200px;
 }
 
 /* ===== Top Bar ===== */
 
 .review-topbar {
+  /* width: 1000px; */
   display: flex;
+  margin-inline: 48px;
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
@@ -30,12 +33,12 @@ button {
 }
 
 .review-title {
-  font-size: var(--fs-h3);
+  font-size: var(--fs-small);
 }
 
 .badge-status-inprogress {
   font-weight: 400;
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   padding: var(--btn-padding);
   border-radius: 99px;
   background-color: rgba(108, 186, 75, 0.3);
@@ -95,6 +98,7 @@ button {
 
 .progress-track {
   width: 100%;
+  right: 20px;
   position: relative;
   display: flex;
   gap: 6px;
@@ -153,7 +157,9 @@ button {
 }
 
 .progress-pct {
-  font-size: var(--fs-button);
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--fs-caption);
   color: var(--color-black);
   font-weight: 400;
 }
@@ -173,7 +179,9 @@ button {
 }
 
 .progress-label {
-  font-size: var(--fs-button);
+  display: block;
+  margin-top: 4px;
+  font-size: var(--fs-caption);
   color: var(--color-black);
   font-weight: 400;
 }
@@ -186,7 +194,12 @@ button {
   padding-inline: 0;
   margin-inline: auto;
   margin-bottom: 60px;
-  flex: 1;
+  gap: 30px;
+}
+
+.review-wrap {
+  display: flex;
+  width: 100%;
   min-height: 0;
   gap: 30px;
 }
@@ -207,13 +220,13 @@ button {
 /* ===== Tabs ===== */
 .review-tabs {
   display: flex;
-  gap: 40px;
+  gap: 30px;
   align-items: flex-end;
   padding-bottom: 10px;
 }
 
 .review-tab {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   color: var(--color-note);
   background: none;
@@ -238,10 +251,10 @@ button {
 /* ===== Tab Panels ===== */
 .review-tab-panel {
   overflow-y: auto;
-  height: 600px;
-  padding-top: 24px;
+  height: fit-content;
+  max-height: 530px;
   position: relative;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scrollbar-color: var(--color-light-note);
 }
 
@@ -259,7 +272,7 @@ button {
   flex-direction: column;
   gap: 20px;
   padding: 30px;
-  margin-bottom: 30px;
+  margin-top: 30px;
   border: 1px solid var(--color-light-note);
   border-radius: 20px;
 }
@@ -291,7 +304,7 @@ button {
 }
 
 .review-stage-name {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   color: var(--color-black);
 }
@@ -311,7 +324,7 @@ button {
 }
 
 .review-stage-message {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 400;
   color: var(--color-black);
   line-height: 1.5;
@@ -320,22 +333,20 @@ button {
 /* ===== Artwork Image Area ===== */
 .review-stage-image-wrap {
   width: 100%;
-  border-radius: 20px;
   overflow: hidden;
 }
 
 .review-stage-image-wrap img {
   width: 100%;
-  border-radius: 20px;
+
   display: block;
   object-fit: cover;
 }
 
 .review-stage-image-placeholder {
   width: 100%;
-  height: 320px;
+  height: auto;
   background-color: #f0eeec;
-  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,17 +367,17 @@ button {
   gap: 10px;
   flex: 1;
   width: 60%;
-  height: 50 px;
-  padding-block: 16px;
+  height: 50px;
+  padding-block: 10px;
   border-radius: 99px;
   background-color: var(--color-red);
   color: var(--color-white);
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   transition: background-color 0.2s ease;
 
   & > img {
-    width: 20px;
+    width: 16px;
     filter: brightness(0) invert(1);
   }
 }
@@ -382,11 +393,11 @@ button {
   justify-content: center;
   gap: 10px;
   width: 40%;
-  padding-block: 16px;
+  padding-block: 10px;
   border-radius: 99px;
   border: 1.5px solid var(--color-red);
   color: var(--color-red);
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   transition: background-color 0.2s ease;
 
@@ -420,7 +431,7 @@ button {
 .info-label,
 .section-label {
   display: block;
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 400;
   color: gray;
 }
@@ -434,20 +445,22 @@ button {
 }
 
 .info-value {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 400;
   color: var(--color-black);
 }
 
 .info-value-original {
-  font-size: var(--fs-caption);
+  font-size: 10px;
   color: gray;
 }
 
 .info-value-updated {
+  margin-top: -4px;
   position: relative;
+  margin-bottom: 4px;
   display: block;
-  font-size: var(--fs-body);
+  font-size: var(--fs-text);
   color: var(--color-red);
   font-weight: 600;
 }
@@ -455,7 +468,7 @@ button {
 .badge-updated {
   position: absolute;
   top: -20px;
-  left: 130px;
+  left: 100px;
   border-radius: 6px;
   color: #fff;
   padding: 4px 8px;
@@ -478,14 +491,14 @@ button {
 }
 
 .commission-desc-text {
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   line-height: 1.3;
   font-weight: 400;
   color: var(--color-black);
 }
 
 .commission-price-label {
-  font-size: var(--fs-input);
+  font-size: var(--fs-small);
   font-weight: 600;
 }
 
@@ -512,7 +525,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 40px;
+  padding: 30px;
   background-color: #ffffff;
   border: 1px solid var(--color-note);
   border-radius: 24px;
@@ -527,7 +540,7 @@ button {
 }
 
 .chat-title h2 {
-  font-size: var(--fs-input);
+  font-size: var(--fs-button);
   font-weight: 600;
 }
 
@@ -535,8 +548,8 @@ button {
   display: flex;
   gap: 10px;
   & > img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 99px;
     box-shadow: 1px 1px 3px var(--color-note);
   }
@@ -552,13 +565,14 @@ button {
 .divider-chat {
   width: 100%;
   height: 1px;
+  margin-top: -2px;
   background-color: var(--color-note);
-  margin: 2px 0;
 }
 
 .chat-messages-scroll {
   flex: 1;
   min-height: 0;
+  height: 530px;
   overflow-y: auto;
 }
 
@@ -581,7 +595,7 @@ button {
 }
 
 .chat-msg-name {
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 500;
   margin-bottom: 6px;
 }
@@ -591,8 +605,8 @@ button {
 }
 
 .chat-msg-bubble {
-  font-size: var(--fs-button);
-  max-width: 300px;
+  font-size: var(--fs-caption);
+  max-width: 80%;
   padding: 14px;
   background-color: #f4f4f4;
   border-radius: 10px;
@@ -622,7 +636,7 @@ button {
 }
 
 .chat-notice-text {
-  font-size: var(--fs-caption);
+  font-size: 8px;
   color: gray;
   padding: 6px 16px;
   border-radius: 99px;
@@ -664,13 +678,14 @@ button {
 .finish {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 .finish-title {
   display: flex;
   align-items: center;
-  gap: 10px;
+  margin-top: 15px;
+  gap: 6px;
 }
 
 .finish-title .div {
@@ -680,12 +695,12 @@ button {
 }
 
 .finish-title .div img {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
 }
 
 .finish-title span {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 700;
   color: var(--color-black);
 }
@@ -711,19 +726,19 @@ button {
 .user-Headshot {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .user-Headshot img {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .user-name {
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   color: var(--color-black);
 }
@@ -744,11 +759,11 @@ button {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding-block: 16px;
+  padding-block: 12px;
   border-radius: 99px;
   background-color: var(--color-red);
   color: var(--color-white);
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -759,7 +774,7 @@ button {
 }
 
 .download-picture > a img {
-  width: 20px;
+  width: 16px;
   filter: brightness(0) invert(1);
 }
 
@@ -769,11 +784,11 @@ button {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding-block: 16px;
+  padding-block: 10px;
   border-radius: 99px;
   border: 1.5px solid var(--color-black);
   color: var(--color-black);
-  font-size: var(--fs-small);
+  font-size: var(--fs-button);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -784,5 +799,115 @@ button {
 }
 
 .download-document > a img {
-  width: 20px;
+  width: 14px;
+}
+
+/* ===== RWD ===== */
+
+/* 平板：860px <= width < 1250px */
+@media (860px <= width < 1250px) {
+  .badge-updated {
+    left: 80px;
+  }
+  .review-wrapper {
+    width: 900px;
+  }
+  .chat-msg-bubble {
+    max-width: 100%;
+  }
+
+  .chat-messages-scroll {
+    height: 530px;
+  }
+}
+/* 手機：width < 860px */
+@media (width < 860px) {
+  .review-wrapper {
+    width: 100%;
+    margin-top: 100px;
+  }
+  .review-topbar {
+    width: 90%;
+    margin-inline: auto;
+    margin-bottom: 18px;
+  }
+  .progress-card {
+    width: 80%;
+  }
+  .review-content-layout {
+    width: 90%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .review-wrap {
+    width: 750px;
+
+    gap: 40px;
+  }
+  .card-review {
+    flex: 0 0 320px;
+    padding: 24px;
+    height: fit-content;
+  }
+  .card-chat {
+    height: 600px;
+    flex: 0 0 330px;
+  }
+  .review-stage-card {
+    position: relative;
+  }
+  .commission-info-item {
+    display: inline-block;
+    width: 50%;
+  }
+
+  .commission-ref-row {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .badge-updated {
+    left: 70px;
+  }
+  .review-stage-date {
+    font-size: 10px;
+  }
+  .user-Headshot {
+    margin-top: 16px;
+  }
+  .badge-progress {
+    padding: 8px 12px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .review-stage-message {
+    font-size: var(--fs-caption);
+  }
+  .review-stage-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .review-tab {
+    font-size: var(--fs-caption);
+  }
+  .review-stage-card {
+    padding: 20px;
+  }
+  .btn-confirm-stage {
+    width: auto;
+    white-space: nowrap;
+    padding: 8px 24px;
+  }
+  .btn-request-edit {
+    width: auto;
+    padding: 8px 24px;
+  }
+  .review-stage-avatar {
+    width: 30px;
+    height: 30px;
+  }
 }

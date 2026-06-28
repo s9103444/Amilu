@@ -53,7 +53,7 @@
   width: auto;
   background-color: #fff;
   border-radius: 10px;
-  padding: 36px;
+  padding: 30px;
 }
 
 .card-title {
@@ -372,6 +372,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
       min-width: 40px;
       & img {
         display: block;
+        border-radius: 99px;
         width: 100%;
       }
     }

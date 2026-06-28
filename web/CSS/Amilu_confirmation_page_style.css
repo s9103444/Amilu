@@ -282,7 +282,7 @@ button {
   margin: 2px 0 2px;
 }
 .chat-msg-name {
-  font-size: var(--fs-button);
+  font-size: var(--fs-caption);
   font-weight: 500;
   margin-bottom: 6px;
 }
@@ -395,6 +395,7 @@ button {
 @media (width < 768px) {
   .confirm-topbar {
     width: 90%;
+    margin-top: 40px;
     min-width: 0;
   }
   .confirm-wrapper {
