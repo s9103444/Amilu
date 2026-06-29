@@ -151,15 +151,19 @@ a {
 
     & label {
       padding: 6px 12px;
-      color: gray;
+      color: #d0cbc5;
+      font-weight: 400;
       cursor: pointer;
       position: relative;
       z-index: 1;
-      font-size: var(--fs-button);
+      font-size: var(--fs-caption);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3 ease;
+    }
+    & label:hover {
+      color: #b8b0a7;
     }
 
     &:has(#followed:checked) label[for="followed"],
@@ -409,7 +413,7 @@ footer {
 .btn-user-info {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 /* 右上角個人資訊下拉項目 */
 .menu-user-info {
@@ -418,8 +422,21 @@ footer {
   z-index: 100;
 }
 .menu-user-info li {
-  display: block;
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  transition: all 0.2s;
 }
+.menu-user-info li:hover {
+  background-color: #e4e4e4;
+  border-radius: 99px;
+}
+.menu-user-info li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .btn-chat,
 .btn-news {
   display: flex;
@@ -551,4 +568,19 @@ footer {
   .btn-news-notice {
     display: none;
   }
+}
+
+/* swiper bundle css */
+.swiper {
+  width: fit-content;
+  height: fit-content;
+}
+
+.wrap-sub-section .swiper-wrapper {
+  display: flex;
+  /* gap: 10px; */
+}
+.wrap-sub-section .swiper-slide {
+  width: auto;
+  flex-shrink: 0;
 }

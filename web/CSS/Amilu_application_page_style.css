@@ -341,6 +341,10 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
       width: 100%;
       color: var(--color-white);
       font-weight: var(--btn-font-weight);
+      transition: all 0.2s;
+    }
+    & > a:hover {
+      background-color: #c64711;
     }
   }
   & .com-store {
@@ -354,17 +358,22 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
       width: 100%;
       color: var(--color-black);
       font-weight: var(--btn-font-weight);
+      transition: all 0.2s;
+    }
+    & > a:hover {
+      background-color: #e3e3e3;
     }
   }
 }
 
-.info-fixed {
-  top: 200;
+.card.info-fixed {
   margin-bottom: 20px;
+  gap: 20px;
+  padding: 20px;
+  height: fit-content;
 }
 .com-creater-info-container {
   .creater-info {
-    margin: -15px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -391,7 +400,7 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   .user-name {
     display: inline-block;
     margin-right: 10px;
-    font-size: var(--fs-button);
+    font-size: var(--fs-caption);
     font-weight: var(--btn-font-weight);
   }
   .user-id {
@@ -400,9 +409,8 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
   }
 }
 .btn-container-creater {
-  margin-top: 20px;
-  margin-bottom: -10px;
-  padding-top: 10px;
+  /* margin-top: 10px; */
+  /* margin-bottom: -10px; */
 
   text-align: center;
   .follow-btn {

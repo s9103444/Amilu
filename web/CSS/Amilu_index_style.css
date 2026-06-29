@@ -1,5 +1,5 @@
 #nav-bg {
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   width: 100%;
   top: 0;
@@ -33,6 +33,7 @@
     width: fit-content;
     padding: 12px 14px;
     gap: 14px;
+    margin-right: 10px;
     border-radius: 15px;
     border: 1px solid var(--color-note);
     font-size: var(--fs-caption);
@@ -52,19 +53,18 @@
     background: #edefee;
   }
 }
-
+.main-tabs {
+  width: 100%;
+}
 .chosing-section {
   position: relative;
   min-width: 0;
-  overflow-x: auto;
   scrollbar-width: none;
-  white-space: nowrap;
-  margin-left: 20px;
-  display: flex;
-  gap: 20px;
 
   li {
     display: inline;
+    width: auto;
+    /* margin-left: 20px; */
   }
 }
 .chosing-section li button {
@@ -75,30 +75,26 @@
   font-size: var(--fs-caption);
   color: var(--color-Secondary);
   transition: all 0.2s ease;
-  padding: 10px 6px;
+  padding: 8px 12px;
 }
 ul li button:hover {
   color: #867664;
-  padding: 10px 6px;
+  padding: 8px 12px;
   background-color: #d6cdc2;
   border-radius: 99px;
 }
 
 .sub-section {
+  display: flex;
   width: 100%;
-  padding-left: 30px;
+  justify-content: flex-start;
   margin-top: 140px;
-
   .wrap-sub-section {
-    overflow-x: hidden;
-    scrollbar-width: none;
-    display: flex;
-    gap: 36px;
-    padding-block: 10px;
+    margin-left: 48px;
   }
-
   .wrap-sub-section button {
     display: flex;
+    margin-right: 20px;
     white-space: nowrap;
     align-items: center;
     gap: 12px;
@@ -322,6 +318,7 @@ ul li button:hover {
     }
 
     .Follow {
+      cursor: pointer;
       appearance: none;
       border: none;
       outline: none;
@@ -330,6 +327,10 @@ ul li button:hover {
       background-color: var(--color-black);
       border-radius: 99px;
       color: var(--color-white);
+      transition: all 0.2s;
+    }
+    .Follow:hover {
+      background-color: #434040;
     }
   }
   .info-title {
@@ -445,12 +446,43 @@ ul li button:hover {
   display: none;
 }
 
+#beforeLoginBlock {
+  margin-top: 1300px;
+  position: sticky; /* 跟著視口底部貼齊 */
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, #fff);
+  /* 上方透明，下方白色，製造「淡出」效果 */
+}
+
+#beforeLoginBlock .CTA-login-bottom {
+  position: absolute;
+  font-size: var(--fs-button);
+  font-weight: 400;
+  color: gray;
+  bottom: 20px;
+  left: 50%;
+  appearance: none;
+  border: none;
+  background: transparent;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+.CTA-login-bottom::after {
+  content: "";
+  display: block;
+  background-color: gray;
+  height: 1px;
+  width: 100%;
+}
+
 /* RWD */
 
 /* 平板尺寸 */
 @media (768px <= width < 1200px) {
   .gallery {
-    margin-top: 160px;
+    margin-top: 20px;
   }
   .site-header .explore-followed {
     display: none;
@@ -532,7 +564,7 @@ ul li button:hover {
   .gallery {
     padding-inline: 10px;
     gap: 14px;
-    margin-top: 150px;
+    margin-top: 20px;
     .masonry-col {
       gap: 10px;
       .name {
@@ -569,7 +601,7 @@ ul li button:hover {
     display: none;
   }
   .sub-section {
-    display: none;
+    margin-top: 140px;
   }
   .main-guide-button span {
     display: none;

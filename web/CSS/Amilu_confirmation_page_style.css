@@ -240,14 +240,23 @@ button {
   border-radius: 99px;
   color: var(--color-white);
   background-color: var(--color-red);
+  transition: all 0.2s;
+}
+.btn-commission-confirm:hover {
+  background-color: #ce450b;
 }
 .btn-commission-cancel {
+  cursor: pointer;
   font-weight: 600;
   width: 40%;
   padding-block: 14px;
   border-radius: 99px;
   color: var(--color-red);
   border: 1px solid var(--color-red);
+  transition: all 0.2s;
+}
+.btn-commission-cancel:hover {
+  background-color: rgb(237, 236, 236);
 }
 .card-chat-header {
   display: flex;

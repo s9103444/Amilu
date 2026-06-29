@@ -3,7 +3,7 @@ console.log("common.js已載入");
 // 生成燈箱
 function createLoginModal() {
   const modalHTML = `
-     <div class="login-light-box hidden">
+     <form id="logInForm" class="login-light-box hidden">
       <div class="login-container">
         <div class="row">
           <div class="col01">
@@ -24,7 +24,7 @@ function createLoginModal() {
                 <input
                   type="email"
                   class="input-txt"
-                  id="email"
+                  id="inputEmail"
                   name="email"
                   placeholder="example@gmail.com"
                   required
@@ -36,7 +36,7 @@ function createLoginModal() {
                 <div class="input-content">
                   <input
                     type="password"
-                    id="password"
+                    id="passWordInput"
                     class="input-txt"
                     name="password"
                     placeholder="請輸入密碼"
@@ -88,11 +88,13 @@ function createLoginModal() {
           </div>
         </div>
       </div>
-    </div>
+    </form>
     `;
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 }
 createLoginModal();
+
+const loginLightBox = document.querySelector(".login-light-box");
 
 // 點擊登入啟動燈箱（移除hidden）
 $("#web-login").on("click", function (e) {
@@ -113,6 +115,9 @@ function SwitchToLoginUI() {
   $(".btn-after-lg").removeClass("hidden");
   $(".btn-md-red-withicon").removeClass("hidden");
   $(".btn-md-red-withicon-pd").removeClass("hidden");
+  $("#beforeLoginBlock").addClass("hidden");
+  // scrollLocked = false;
+  // loginScrollObserver.disconnect();
 }
 //顯示登出後介面
 function SwitchToLogoutUI() {
@@ -121,15 +126,8 @@ function SwitchToLogoutUI() {
   $(".btn-after-lg").addClass("hidden");
   $(".btn-md-red-withicon").addClass("hidden");
   $(".btn-md-red-withicon-pd").addClass("hidden");
+  $("#beforeLoginBlock").removeClass("hidden");
 }
-
-//送出登入表
-$(".btn-local-lg").on("click", function (e) {
-  e.preventDefault;
-  //驗證方法之後補
-  $(".login-light-box").toggleClass("hidden");
-  SwitchToLoginUI();
-});
 
 //用localstorage確認當前狀態(目前只有登入狀態)
 $(function () {
@@ -139,6 +137,7 @@ $(function () {
     $(".btn-after-lg").removeClass("hidden");
     $(".btn-md-red-withicon").removeClass("hidden");
     $(".btn-md-red-withicon-pd").removeClass("hidden");
+    $("#beforeLoginBlock").addClass("hidden");
   }
 
   if (loginStatus === "false") {
@@ -146,6 +145,7 @@ $(function () {
     $(".btn-after-lg").addClass("hidden");
     $(".btn-md-red-withicon").addClass("hidden");
     $(".btn-md-red-withicon-pd").addClass("hidden");
+    $("#beforeLoginBlock").removeClass("hidden");
   }
 });
 
@@ -165,3 +165,90 @@ $("#logout").on("click", function (e) {
   } else {
   }
 });
+
+// ---- 登入驗證 ----
+// input類別物件
+const logInForm = document.getElementById("logInForm");
+const emailInput = document.getElementById("inputEmail");
+const passWordInput = document.querySelector("#passWordInput");
+
+logInForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  let isValid = true;
+
+  // 確認信箱輸入
+  const emailValue = emailInput.value.trim();
+  if (emailValue === "") {
+    isValid = false;
+  } else if (checkEmail(emailValue) === false) {
+    isValid = false;
+  }
+
+  // 確認密碼輸入
+  const passwordValue = passWordInput.value.trim();
+  if (passwordValue === "") {
+    isValid = false;
+  }
+
+  if (isValid === true) {
+    SwitchToLoginUI();
+    $(loginLightBox).addClass("hidden");
+  }
+});
+
+function checkEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+// 點按登入前底部的導頁
+$(".CTA-login-bottom").on("click", function () {
+  $(".login-light-box").removeClass("hidden");
+});
+
+// 設定登入前制止瀏覽機制
+const beforeLoginBlock = document.getElementById("beforeLoginBlock");
+
+let scrollLocked = false;
+
+const loginScrollObserver = new IntersectionObserver(
+  function (e) {
+    scrollLocked = e[0].isIntersecting; //完全進入範圍時轉換物件
+  },
+  {
+    threshold: 0, // 100% 進入視口才觸發
+  },
+);
+
+if (beforeLoginBlock) {
+  loginScrollObserver.observe(beforeLoginBlock);
+}
+
+// wheel往下滾條件+容器完全進入視口皆成立
+window.addEventListener(
+  "wheel",
+  function (e) {
+    if (scrollLocked && e.deltaY > 0) {
+      e.preventDefault();
+    }
+  },
+  { passive: false },
+);
+
+// touchstart往下滾條件+容器完全進入視口皆成立
+let touchStartY = 0; //點下去時的那一座標
+
+window.addEventListener("touchstart", function (e) {
+  touchStartY = e.touches[0].clientY; //clientY:紀錄視口頂端（０）到觸碰點的距離
+});
+window.addEventListener(
+  "touchmove",
+  function (e) {
+    const currentTouch = e.touches[0].clientY;
+    const scrollDown = currentTouch < touchStartY;
+
+    if (scrollLocked && scrollDown) {
+      e.preventDefault();
+    }
+  },
+  { passive: false },
+);

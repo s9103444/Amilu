@@ -13,6 +13,11 @@
       href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@200..900&display=swap"
       rel="stylesheet"
     />
+    <!-- swiper套件 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.css"
+    />
     <!--登入燈箱樣式-->
     <link rel="stylesheet" href="../CSS/login-modal.css" />
     <!--JQ-->
@@ -116,7 +121,7 @@
                 <a href="./Amilu_commission_management.html">稿件管理</a>
               </li>
               <li><a href="#">通知中心</a></li>
-              <li><a href="../HTML/Amilu_Help_page.html">網站說明</a></li>
+              <li><a href="./Amilu_Help_page.html">網站說明</a></li>
               <li><a href="#">設定</a></li>
               <li><a id="logout" href="#">登出</a></li>
             </ul>
@@ -134,95 +139,100 @@
           <span>全部類別</span>
         </button>
       </div>
-
-      <ul class="chosing-section">
-        <li><button href="#">插畫</button></li>
-        <li><button href="#">Live2D/動態</button></li>
-        <li><button href="#">角色立繪</button></li>
-        <li><button href="#">頭像/大頭貼</button></li>
-        <li><button href="#">2D場景/背景</button></li>
-        <li><button href="#">吉祥物設計</button></li>
-        <li><button href="#">漫畫/分鏡</button></li>
-        <li><button href="#">概念設定</button></li>
-        <li><button href="#">場景圖</button></li>
-        <li><button href="#">3D 建模</button></li>
-        <li><button href="#">周邊製作</button></li>
-        <li><button href="#">同人創作</button></li>
-        <li><button href="#">原創角色</button></li>
-        <li><button href="#">海報／主視覺</button></li>
-        <li><button href="#">動圖/GIF</button></li>
-        <li><button href="#">PV製作</button></li>
-      </ul>
+      <div class="main-tabs swiper">
+        <ul class="chosing-section swiper-wrapper">
+          <li class="swiper-slide"><button href="#">插畫</button></li>
+          <li class="swiper-slide"><button href="#">Live2D/動態</button></li>
+          <li class="swiper-slide"><button href="#">角色立繪</button></li>
+          <li class="swiper-slide"><button href="#">頭像/大頭貼</button></li>
+          <li class="swiper-slide"><button href="#">2D場景/背景</button></li>
+          <li class="swiper-slide"><button href="#">吉祥物設計</button></li>
+          <li class="swiper-slide"><button href="#">漫畫/分鏡</button></li>
+          <li class="swiper-slide"><button href="#">概念設定</button></li>
+          <li class="swiper-slide"><button href="#">場景圖</button></li>
+          <li class="swiper-slide"><button href="#">3D 建模</button></li>
+          <li class="swiper-slide"><button href="#">周邊製作</button></li>
+          <li class="swiper-slide"><button href="#">同人創作</button></li>
+          <li class="swiper-slide"><button href="#">原創角色</button></li>
+          <li class="swiper-slide"><button href="#">海報／主視覺</button></li>
+          <li class="swiper-slide"><button href="#">動圖/GIF</button></li>
+          <li class="swiper-slide"><button href="#">PV製作</button></li>
+        </ul>
+      </div>     
     </nav>
 
-    <div class="sub-section">
-      <div class="wrap-sub-section">
-        <button>
+    <div class="sub-section swiper">
+      <div class="wrap-sub-section swiper-wrapper">
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 5.png"
             alt=""
           />日系插畫
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4-1.png"
             alt=""
           />美式風格
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4-2.png"
             alt=""
           />韓系畫風
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4-3.png"
             alt=""
           />寫實風格
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4-4.png"
             alt=""
           />Q版風格
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4-5.png"
             alt=""
           />厚塗風格
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 4.png"
             alt=""
           />像素插畫
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 6.png"
             alt=""
           />柔焦夢幻
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 14.png"
             alt=""
           />古風插畫
         </button>
-        <button>
+        <button class="swiper-slide">
           <img
             src="../Picture/Art_work/sub-section-picture/Rectangle 7.png"
             alt=""
           />抽象藝術
         </button>
-      </div>
+      </div class="swiper-slide">
     </div>
 
     <div id="lightbox" style="display: none"></div>
     <div class="gallery" id="gallery"></div>
+    <div id="beforeLoginBlock"><button class="CTA-login-bottom">登入瀏覽更多</button></div>
     <div id="checkPoint"></div>
+    <!-- swiper cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@14/swiper-bundle.min.js"></script>
+    <script src="../JS/swiper_index.js"></script>
     <script src="../JS/Amilu.js" defer></script>
     <script src="../JS/Amilu_common.js"></script>
   </body>
