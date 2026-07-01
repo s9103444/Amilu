@@ -115,7 +115,9 @@ select:focus {
   background-repeat: no-repeat;
   background-position: right 20px center;
   background-size: 12px;
+  color: var(--color-black);
 }
+
 .com-scaleset {
   display: flex;
   flex-direction: row;
