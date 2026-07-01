@@ -121,6 +121,37 @@ ul li button:hover {
   }
 }
 
+/* 兩側漸層遮罩：提示橫向捲動區塊還有更多內容 */
+.main-tabs,
+.sub-section {
+  position: relative;
+}
+
+.main-tabs::before,
+.main-tabs::after,
+.sub-section::before,
+.sub-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.main-tabs::before,
+.sub-section::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-Primary), transparent);
+}
+
+.main-tabs::after,
+.sub-section::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-Primary), transparent);
+}
+
 .before-login-bn {
   margin: 30px auto 0;
   width: 70%;
@@ -238,8 +269,8 @@ ul li button:hover {
   width: fit-content;
   height: auto;
   background-color: var(--color-white);
-  border-radius: 30px;
-  padding: 20px;
+  border-radius: 10px;
+  padding: 40px;
   .col:first-child {
     height: 100%;
     width: 100%;
@@ -484,6 +515,10 @@ ul li button:hover {
   .gallery {
     margin-top: 20px;
   }
+  .main-tabs::before,
+  .main-tabs::after {
+    width: 40px;
+  }
   .site-header .explore-followed {
     display: none;
   }
@@ -500,7 +535,7 @@ ul li button:hover {
     display: none;
   }
   .site-header .btn-md-red-withicon-pd {
-    display: block;
+    display: none;
   }
   .chat-notice {
     display: none;
@@ -555,8 +590,14 @@ ul li button:hover {
     padding-block: 40px;
   }
   .chosing-section {
-    gap: 8px;
+    /* gap: 8px; */
     margin-left: 8px;
+  }
+  .main-tabs::before,
+  .main-tabs::after,
+  .sub-section::before,
+  .sub-section::after {
+    width: 20px;
   }
   .category-bar .main-guide-con {
     margin-left: 10px;
@@ -615,15 +656,18 @@ ul li button:hover {
     width: 90%;
     height: 80vh;
     flex-direction: column;
+    padding-inline: 0px;
+    padding-bottom: 0;
+    padding-top: 0;
     justify-content: flex-start;
 
     .col:first-child {
       & > img {
-        max-height: 60vh;
+        /* max-height: 60vh; */
 
         width: 100%;
         min-width: 0px;
-        object-fit: contain;
+        /* object-fit: contain; */
         margin-inline: auto;
       }
     }

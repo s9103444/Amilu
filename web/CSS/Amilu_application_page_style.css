@@ -493,6 +493,10 @@ input[type="checkbox"]:checked + .com-Tos-comfirm {
 /* 手機：< 768px */
 
 @media (width < 768px) {
+  .progress-card {
+    position: sticky;
+    top: 20px;
+  }
   .appli-form-container {
     width: 90%;
     margin-top: 180px;

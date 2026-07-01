@@ -846,7 +846,7 @@ button {
     gap: 40px;
   }
   .card-review {
-    flex: 0 0 320px;
+    flex: 0 0 330px;
     padding: 24px;
     height: fit-content;
   }
