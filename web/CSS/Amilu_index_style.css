@@ -267,11 +267,12 @@ ul li button:hover {
   justify-content: center;
   align-items: flex-start;
   width: fit-content;
-  height: auto;
+  height: 90vh;
   background-color: var(--color-white);
   border-radius: 10px;
   padding: 40px;
   .col:first-child {
+    overflow-y: auto;
     height: 100%;
     width: 100%;
 
