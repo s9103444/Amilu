@@ -9,7 +9,7 @@
 | 1   | repo 外的討論紀錄與流程圖怎麼共享       | 彥廷、使用者         | ✅   |
 | 2   | 字體檔 33MB 已進 git，要不要瘦身        | 全組                 | ✅   |
 | 3   | design-spec.md 與 `_tokens.scss` 重複   | 負責樣式的組員       | ✅   |
-| 4   | 字體路徑用絕對路徑，部署到子路徑會壞    | 全組（先定部署方式） | ⬜   |
+| 4   | 字體路徑用絕對路徑，部署到子路徑會壞    | 全組（先定部署方式） | ✅   |
 | 5   | `npm run format` 可能大幅改寫部分樣式檔 | 負責樣式的組員       | ⬜   |
 | 6   | 組員用的 AI 工具是否需要對應設定檔      | 全組                 | ⬜   |
 | 7   | favicon 還是 Vite 預設圖                | 設計                 | ⬜   |
@@ -60,8 +60,9 @@
 **現況**：`_fonts.scss` 寫 `url("/fonts/…")`。router 有用 `import.meta.env.BASE_URL`，字體沒有。
 **問題**：若部署在子路徑（例如 GitHub Pages 的 `/amilu/`），字體會 404。
 **要先確認**：demo 要部署在哪裡？根路徑還是子路徑？
-**建議**：若確定根路徑，不用改；若有子路徑可能，現在就在 `vite.config.ts` 設 `base`，並讓字體路徑跟著 `base`。
-**決議**：（待填）
+**驗證**（2026/10/19）：用 `vite build --base=/amilu/` 打包到暫存資料夾，字體 `url()`、`favicon`、JS 路徑都自動加上 `/amilu/`，所以字體路徑不用改。
+**建議**：若確定根路徑，不用改；若有子路徑可能，只需在 `vite.config.ts` 設 `base`。
+**決議**（2026/10/19）：字體路徑維持 `/fonts/…`，不改成相對路徑（有 Vue Router 的多層網址，相對路徑會找錯）。部署平台還沒選，現在不設 `base`，以免本機網址變成 `localhost:5173/<repo>/`。部署前選平台：GitHub Pages 這類子路徑就在 `vite.config.ts` 加 `base: '/<repo 名稱>/'`；Netlify、Vercel、Cloudflare Pages 這類根路徑不用改。
 
 ## 5. `npm run format` 可能大幅改寫部分樣式檔
 
