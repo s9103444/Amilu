@@ -1,0 +1,19 @@
+// 斷點：見 spec/design-spec.md §4。手機優先（mobile-first），往上疊加。
+// CSS 變數不能用在 @media 條件裡，所以斷點是 SCSS 變數，這是用 SCSS 的主要理由。
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// 內容最大寬（含兩側 margin），對應 Figma 桌機 1440 frame。
+$content-max: 1440px;
+
+@mixin tablet-up {
+  @media (min-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}
