@@ -57,4 +57,4 @@ Figma／FigJam 我無法改動，spec 改了需同步時，記在 `spec/data-mod
 ## 溝通
 
 - 用繁體中文回覆。
-- 環境是 Windows + PowerShell，專案路徑含中文，指令要記得加引號。
+- 團隊成員的作業系統不同（Windows、macOS），指令與路徑不要假設特定系統，以當下對話的實際環境為準。
