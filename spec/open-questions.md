@@ -12,7 +12,7 @@
 | 4   | 字體路徑用絕對路徑，部署到子路徑會壞    | 全組（先定部署方式） | ✅   |
 | 5   | `npm run format` 可能大幅改寫部分樣式檔 | 負責樣式的組員       | ✅   |
 | 6   | 組員用的 AI 工具是否需要對應設定檔      | 全組                 | ✅   |
-| 7   | favicon 還是 Vite 預設圖                | 設計                 | ⬜   |
+| 7   | favicon 還是 Vite 預設圖                | 設計                 | ✅   |
 | 8   | 何時加 ESLint 與測試                    | 全組                 | ⬜   |
 
 ---
@@ -83,7 +83,7 @@
 
 **現況**：`public/favicon.ico` 是範本預設。
 **建議**：等有 Logo 再換，不急。
-**決議**：（待填）
+**決議**（2026/10/19）：Logo 已完成，`public/favicon.svg`（viewBox 32×32）與 `public/favicon.png`（134×134）取代 Vite 預設的 `favicon.ico`；`index.html` 兩個都引用，瀏覽器優先用 SVG，PNG 為備用。
 
 ## 8. 何時加 ESLint 與測試
 

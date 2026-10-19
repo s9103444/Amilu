@@ -5,6 +5,7 @@
 
 ## 2026/10/19
 
+- favicon 換成 Amilu Logo：新增 `public/favicon.svg`、`public/favicon.png`，刪除 Vite 預設的 `public/favicon.ico`，`index.html` 改引用新檔（對應 `open-questions.md` 第 7 題）。
 - AI 工具設定：確認目前組員都用 Claude Code，只維持 `CLAUDE.md`，不另建 Cursor、Copilot 等工具的設定檔；有人改用其他工具時再討論（對應 `open-questions.md` 第 6 題）。
 - 新增 `.prettierignore` 排除 `src/styles/_fonts.scss`，避免 `npm run format` 把它從 113 行展開成幾千行；`_typography.scss`、`_tokens.scss` 已用 format 重新排版，內容未變（對應 `open-questions.md` 第 5 題）。
 - 字體路徑維持絕對路徑 `/fonts/…`，不改相對路徑；部署前選平台，子路徑部署（如 GitHub Pages）才在 `vite.config.ts` 加 `base`，打包時字體與 favicon 路徑會自動加前綴（已用 `--base` 打包驗證），根路徑部署不用改（對應 `open-questions.md` 第 4 題）。
