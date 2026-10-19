@@ -10,7 +10,7 @@
 | 2   | 字體檔 33MB 已進 git，要不要瘦身        | 全組                 | ✅   |
 | 3   | design-spec.md 與 `_tokens.scss` 重複   | 負責樣式的組員       | ✅   |
 | 4   | 字體路徑用絕對路徑，部署到子路徑會壞    | 全組（先定部署方式） | ✅   |
-| 5   | `npm run format` 可能大幅改寫部分樣式檔 | 負責樣式的組員       | ⬜   |
+| 5   | `npm run format` 可能大幅改寫部分樣式檔 | 負責樣式的組員       | ✅   |
 | 6   | 組員用的 AI 工具是否需要對應設定檔      | 全組                 | ⬜   |
 | 7   | favicon 還是 Vite 預設圖                | 設計                 | ⬜   |
 | 8   | 何時加 ESLint 與測試                    | 全組                 | ⬜   |
@@ -67,10 +67,9 @@
 ## 5. `npm run format` 可能大幅改寫部分樣式檔
 
 **現況**：`_fonts.scss` 是 150 行壓成單行的 `@font-face`，`_typography.scss` 用單行規則。`npm run format` 會處理整個 `src/`。
-**問題**：跑 format 可能一次改動大量行，造成難讀的 diff。這點**尚未驗證**（整理這份時的環境沒有安裝套件）。
-**要做**：有裝好套件的人跑 `npx prettier --check src/`，看哪些檔案會被改。
+**問題**：跑 format 可能一次改動大量行，造成難讀的 diff。2026/10/19 已驗證：`_fonts.scss` 會從 113 行展開成 5837 行，`_typography.scss` 從 19 行變 41 行，`_tokens.scss` 只動 3 行。
 **建議**：若 `_fonts.scss` 被改，加 `.prettierignore` 排除它。
-**決議**：（待填）
+**決議**（2026/10/19）：新增 `.prettierignore` 排除 `src/styles/_fonts.scss`（由字體工具產生、不手改）；`_typography.scss`、`_tokens.scss` 跑一次 `npm run format` 並 commit，之後再跑不會有排版差異。
 
 ## 6. 組員用的 AI 工具是否需要對應設定檔
 

@@ -5,6 +5,7 @@
 
 ## 2026/10/19
 
+- 新增 `.prettierignore` 排除 `src/styles/_fonts.scss`，避免 `npm run format` 把它從 113 行展開成幾千行；`_typography.scss`、`_tokens.scss` 已用 format 重新排版，內容未變（對應 `open-questions.md` 第 5 題）。
 - 字體路徑維持絕對路徑 `/fonts/…`，不改相對路徑；部署前選平台，子路徑部署（如 GitHub Pages）才在 `vite.config.ts` 加 `base`，打包時字體與 favicon 路徑會自動加前綴（已用 `--base` 打包驗證），根路徑部署不用改（對應 `open-questions.md` 第 4 題）。
 - `design-spec.md` 刪除色碼、字級 px、Grid 與斷點的數值表，數值只留 `src/styles/`（`_tokens.scss`、`_breakpoints.scss`）；保留 Figma 連結、命名對照、色票與字級用途、例外規則。`CLAUDE.md`、`spec/README.md`、`structure.md`、`features.md` 與 `_tokens.scss`、`_breakpoints.scss` 檔頭的指向同步（對應 `open-questions.md` 第 3 題）。
 - 字體只留 R 400／M 500／B 700，刪除 H 900（Logo 改用圖片）：`_fonts.scss` 移除 H 的 `@font-face`、`_tokens.scss` 移除 `--font-weight-heavy`、`design-spec.md` 字重表同步；不重寫 git 歷史、不做外部託管（對應 `open-questions.md` 第 2 題）。
