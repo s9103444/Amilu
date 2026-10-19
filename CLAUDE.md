@@ -46,6 +46,8 @@
 - 資料表與欄位：`spec/data-model.md`（欄位清單以 FigJam 為準）
 - API：`spec/api.md`（草案，尚未與後端對過）
 
+討論紀錄、Excalidraw 流程圖、ER 草案不在這個 repo，在 [--Amilu](https://github.com/s9103444/--Amilu) 的 `專案合作計劃-Amilu/討論紀錄/`。**規則以這個 repo 的 `spec/` 為準**，那邊沒有 spec 副本；看到 spec 提到 `討論紀錄/…` 就是指那個 repo，沒有 clone 時用問的，不要猜內容。
+
 改規則時：改對應的 spec 檔，並在 `spec/changelog.md` 最上面記一筆（含日期）。同一條規則只寫一處，其他地方用連結。
 這個環境不一定有 Figma 工具。沒有時，spec 改了需要同步到 Figma／FigJam 的項目，記在 `spec/data-model.md` 第 6 節。
 

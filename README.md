@@ -26,7 +26,7 @@ npm run dev
 - 尚未決定、待討論的事：[spec/open-questions.md](spec/open-questions.md)
 - 給 Claude Code 的專案說明：[CLAUDE.md](CLAUDE.md)
 
-流程圖與討論紀錄不在 repo 內，見 spec/README.md 的說明。
+流程圖與討論紀錄不在這個 repo，放在 [--Amilu](https://github.com/s9103444/--Amilu)，見 spec/README.md 的說明。
 
 ## 編輯器
 

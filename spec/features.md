@@ -5,7 +5,7 @@
 > 只列 MVP 要做的功能；延後與不做的項目見 [prd.md](prd.md#4-mvp-範圍)。
 
 **畫面**：[Figma ui flow 頁](https://www.figma.com/design/RkN83Jr1KTUExyKkfOjXyn/Amilu---Web-UI?node-id=352-86)
-**流程圖**：`../討論紀錄/Excalidraw/flowChart圖形放置區/`（各模組下方列出對應檔名）
+**流程圖**：--Amilu repo 的 `討論紀錄/Excalidraw/flowChart圖形放置區/`（見 [README](README.md#外部連結)）（各模組下方列出對應檔名）
 
 ---
 

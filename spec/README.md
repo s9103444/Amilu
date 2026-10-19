@@ -30,9 +30,9 @@ Amilu 是專為台灣 CG 市場打造的雙向委託平台。這個資料夾是�
 | 畫面（ui flow） | [Figma ui flow 頁](https://www.figma.com/design/RkN83Jr1KTUExyKkfOjXyn/Amilu---Web-UI?node-id=352-86) |
 | 設計規範        | Figma 同一檔案的 `design spec` 頁                                                                     |
 | 資料表關係圖    | [FigJam ER](https://www.figma.com/board/KNj96DaqlW6fQ4NuWFu52b)                                       |
-| 使用者流程圖    | `../討論紀錄/Excalidraw/flowChart圖形放置區/`（目前需用 Obsidian 開啟，之後匯出成 SVG）               |
+| 使用者流程圖    | [--Amilu repo](https://github.com/s9103444/--Amilu) 的 `專案合作計劃-Amilu/討論紀錄/Excalidraw/flowChart圖形放置區/`（用 Obsidian 開啟）               |
 
-> `討論紀錄/`（含流程圖、`延伸檔案/`）**不在 repo 內**，是使用者本機的 Obsidian 資料夾，其他組員點不開。怎麼共享見 [open-questions.md](open-questions.md) 第 1 題。
+> **討論紀錄不在這個 repo**，統一放在 [--Amilu repo](https://github.com/s9103444/--Amilu) 的 `專案合作計劃-Amilu/討論紀錄/`（流程圖在 `Excalidraw/`、舊 ER 草案在 `延伸檔案/`、文字討論總結 `amilu_討論總結.md`）。**規則以這個 repo 的 `spec/` 為準**；那邊的 `spec/` 已移除，兩邊不重複存放規格。文中提到的 `討論紀錄/…` 路徑都指那個 repo。
 
 ---
 

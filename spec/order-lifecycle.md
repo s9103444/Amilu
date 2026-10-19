@@ -3,7 +3,7 @@
 > 這份寫「訂單狀態怎麼變、誰觸發、各種倒數天數、金額與結算怎麼算」。畫面與操作見 [features.md](features.md#4-模組四委託流程與協作)，資料表細節見 [data-model.md](data-model.md)。
 > 狀態列舉值是依既有決議（`changelog.md`、ER 草案、Excalidraw 流程圖）推導收斂，不是逐字照抄單一來源；若之後 FigJam ER 圖另有定案，以 FigJam 為準並回來修正這份文件。
 
-**流程圖**：`模組四-委託申請至契約成立完整狀態流`、`模組四-終止合作機制決策樹`（皆在 `../討論紀錄/Excalidraw/flowChart圖形放置區/`）。
+**流程圖**：`模組四-委託申請至契約成立完整狀態流`、`模組四-終止合作機制決策樹`（皆在 --Amilu repo 的 `討論紀錄/Excalidraw/flowChart圖形放置區/`，見 [README](README.md#外部連結)）。
 
 ---
 
