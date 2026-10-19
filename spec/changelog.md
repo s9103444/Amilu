@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/19
+
+- 新增 `structure.md`：定義專案結構規範。①程式碼按功能分（`app/`、`features/` 五大模組、`shared/`），不按檔案類型分②資料依「誰擁有、活多久」決定放元件 `ref`、Pinia 或 localStorage，衍生值不存③流向固定為 page → composable／store → `api.ts` → `shared/api/client.ts`④文件規則只寫 `spec/` 一處。`README.md` 文件清單同步新增一列。尚未建立 `src/` 資料夾，下一步再依規範建骨架。
+
 ## 2026/10/17
 
 - 逐表核對 `data-model.md` 與 FigJam ER 圖，並同步修正兩邊：FigJam 端①`CREATOR_PROFILE.user_id` 補標 `UK`②`ORDER.payment_plan` 合法值改為「一次付清／先付訂金」③「關聯通知」線重接到 NOTIFICATION④補畫 `TAG.created_by_id`（建立標籤）、`ORDER.terminated_by_id`（終止發起）兩條線⑤新增 `ORDER.item_description_snapshot`、新表 `ORDER_ITEM_SNAPSHOT_IMAGE` 與「項目圖片快照」線，`ORDER.item_id` 說明標為 nullable⑥四張備註便利貼依 `data-model.md` 4.1～4.4 改寫（原內容停在快照於確認報價時鎖定、單段、auto-confirm 等舊規則）⑦ORDER 表變長，下方四張表與一張便利貼往下移避免重疊。`data-model.md` 端：關聯線 26→29 條並補兩條關係，第 6 節 #1～#3、#11 改為已解決，修掉 #6「尚未同步／已同步」自相矛盾的句子，新增 #12。
