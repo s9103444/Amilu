@@ -29,9 +29,9 @@
 ```
 src/
 ├─ main.ts, App.vue
+├─ styles/                  全域樣式、design token（SCSS，對應 design-spec.md）
 ├─ app/                     啟動層
-│  ├─ router/index.ts       只組裝：匯入各功能的 routes.ts
-│  └─ styles/               全域樣式、design token（對應 design-spec.md）
+│  └─ router/index.ts       只組裝：匯入各功能的 routes.ts
 ├─ features/                一個資料夾 ＝ 一個業務模組
 │  ├─ account/              模組一：註冊登入、手機驗證、身份
 │  ├─ explore/              模組二：作品牆、篩選、燈箱、創作者頁、追蹤
@@ -155,3 +155,5 @@ Amilu/
 
 - features 之間偶爾需要共用業務邏輯（如通知要顯示訂單狀態）。目前做法：從該功能的 `index.ts` 取。若實際痛點變多，再討論是否獨立成 `domain/`。
 - 要不要用 ESLint 規則強制依賴方向：等專案跑起來、結構穩定後再決定。
+- `app/` 這一層是否保留：樣式放 `src/styles/` 後，`app/` 只剩 router。目前 router 仍在範本預設的 `src/router/`，等第一個功能建立、路由實際拆開時再決定放哪。
+- 樣式放 `src/styles/` 而非 `app/styles/`（2026/10/19 對齊組員實作）：樣式是全站共用，不屬於任何功能，放 `src/styles/` 最直觀。

@@ -5,6 +5,7 @@
 
 ## 2026/10/19
 
+- `structure.md` 樣式位置由 `app/styles/` 改為 `src/styles/`，對齊組員已實作的 design token（SCSS）；`app/` 是否保留列入第 6 節待決定。
 - 新增 `structure.md`：定義專案結構規範。①程式碼按功能分（`app/`、`features/` 五大模組、`shared/`），不按檔案類型分②資料依「誰擁有、活多久」決定放元件 `ref`、Pinia 或 localStorage，衍生值不存③流向固定為 page → composable／store → `api.ts` → `shared/api/client.ts`④文件規則只寫 `spec/` 一處。`README.md` 文件清單同步新增一列。尚未建立 `src/` 資料夾，下一步再依規範建骨架。
 
 ## 2026/10/17
