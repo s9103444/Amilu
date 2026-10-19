@@ -58,14 +58,13 @@ Figma variable collection：「Amilu｜色彩」，共 14 色，分灰階、底�
 
 中英文都用 **源泉圓體 GenSenRounded2 TC**。
 
-**源泉圓體字重**：
+**源泉圓體字重**（不載入 H 900，Logo 用圖片）：
 
 | 字重 | 用在哪裡 |
 | --- | --- |
 | R（Regular 400） | 內文 |
 | M（Medium 500） | 強調 |
 | B（Bold 700） | 標題與按鈕 |
-| H（Heavy） | Logo 字 |
 
 ---
 
