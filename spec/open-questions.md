@@ -13,7 +13,7 @@
 | 5   | `npm run format` 可能大幅改寫部分樣式檔 | 負責樣式的組員       | ✅   |
 | 6   | 組員用的 AI 工具是否需要對應設定檔      | 全組                 | ✅   |
 | 7   | favicon 還是 Vite 預設圖                | 設計                 | ✅   |
-| 8   | 何時加 ESLint 與測試                    | 全組                 | ⬜   |
+| 8   | 何時加 ESLint 與測試                    | 全組                 | ✅   |
 
 ---
 
@@ -89,4 +89,10 @@
 
 **現況**：沒有 lint，也沒有測試。`spec/structure.md` 第 6 節提到可以用 ESLint 強制 `features → shared` 的依賴方向。`acceptance.md` 預計用 Playwright 做 E2E。
 **建議**：第一個功能做完、資料夾穩定後，再加 ESLint 依賴方向規則；Playwright 在訂單主流程能跑通後再建。
-**決議**：（待填）
+**決議**（2026/10/19）：目前都不安裝，改記錄觸發條件：
+
+| 工具 | 何時加 |
+| --- | --- |
+| ESLint | 第一個功能做完、`src/features/` 出現後，再加 `features` 之間不互相 import 的規則 |
+| Playwright | 訂單主流程（`acceptance.md` 的 P0 主線 E2E-01～E2E-09）能手動跑通後。裝之前要先定負責人，並決定後端如何提供時間控制（`acceptance.md` 待確認 #6） |
+| Vitest | 不列入，等出現金額計算等純邏輯函式（`data-model.md` 5.1）時再討論 |

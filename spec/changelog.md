@@ -5,6 +5,7 @@
 
 ## 2026/10/19
 
+- ESLint 與測試：目前都不安裝，記錄加入時機。ESLint 等第一個功能做完、`features/` 出現後；Playwright 等訂單主流程能手動跑通，且先定負責人與後端時間控制；Vitest 等有金額計算等純邏輯函式時再討論（對應 `open-questions.md` 第 8 題）。
 - favicon 換成 Amilu Logo：新增 `public/favicon.svg`、`public/favicon.png`，刪除 Vite 預設的 `public/favicon.ico`，`index.html` 改引用新檔（對應 `open-questions.md` 第 7 題）。
 - AI 工具設定：確認目前組員都用 Claude Code，只維持 `CLAUDE.md`，不另建 Cursor、Copilot 等工具的設定檔；有人改用其他工具時再討論（對應 `open-questions.md` 第 6 題）。
 - 新增 `.prettierignore` 排除 `src/styles/_fonts.scss`，避免 `npm run format` 把它從 113 行展開成幾千行；`_typography.scss`、`_tokens.scss` 已用 format 重新排版，內容未變（對應 `open-questions.md` 第 5 題）。

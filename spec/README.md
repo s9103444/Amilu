@@ -16,7 +16,7 @@ Amilu 是專為台灣 CG 市場打造的雙向委託平台。這個資料夾是�
 | [api.md](api.md)                         | 前後端怎麼溝通                                         | ⬜ 草案已列 |
 | [acceptance.md](acceptance.md)           | 怎樣算做完（拿來寫 E2E 測試）                          | ✅        |
 | [structure.md](structure.md)             | 程式碼資料夾怎麼分、資料放哪、文件與資產怎麼歸類       | ✅        |
-| [open-questions.md](open-questions.md)   | 還沒決定、需要組員一起討論的事（附選項與建議）         | ⬜ 待討論 |
+| [open-questions.md](open-questions.md)   | 還沒決定、需要組員一起討論的事（附選項與建議）         | ✅ 已決議 |
 | [changelog.md](changelog.md)             | 規則改過什麼、什麼時候改的                             | ✅        |
 
 **第一次看建議順序**：prd → features → order-lifecycle → data-model。
