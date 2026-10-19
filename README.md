@@ -1,42 +1,33 @@
 # Amilu
 
-This template should help get you started developing with Vue 3 in Vite.
+專為台灣 CG 市場打造的雙向委託平台（委託人 ↔ 創作者）。專題 demo，金流為純模擬。
 
-## Recommended IDE Setup
+前端：Vue 3 + Vite + Pinia + Vue Router + TypeScript。後端另開（Python / FastAPI）。
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## 開始開發
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+其他指令：
 
-```sh
-npm run build
-```
+- `npm run build`：type-check 後打包
+- `npm run type-check`：只做型別檢查
+- `npm run format`：Prettier 格式化 `src/`
+
+需要 Node 22.18 以上（或 24.12 以上）。
+
+## 文件
+
+- 規格（產品、功能、資料表、API、驗收）：[spec/README.md](spec/README.md)
+- 資料夾怎麼分、檔案放哪：[spec/structure.md](spec/structure.md)
+- 尚未決定、待討論的事：[spec/open-questions.md](spec/open-questions.md)
+- 給 Claude Code 的專案說明：[CLAUDE.md](CLAUDE.md)
+
+流程圖與討論紀錄不在 repo 內，見 spec/README.md 的說明。
+
+## 編輯器
+
+建議 VS Code + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)（停用 Vetur），以及 Prettier 外掛。

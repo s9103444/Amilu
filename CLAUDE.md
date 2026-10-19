@@ -15,6 +15,12 @@
 - `npm run type-check`：只做型別檢查
 - `npm run format`：Prettier 格式化 `src/`
 - 目前**沒有** lint 與測試指令
+- 改完 `src/` 的程式，回報完成前先跑 `npm run type-check`。不要說「測試通過」（沒有測試）。
+
+## 目前階段
+
+骨架階段：`App.vue`、`stores/counter.ts`、空的 router 都是範本範例，`features/`、`shared/` 還沒建。
+建第一個功能時，依 structure.md 建資料夾並移除範例。功能出現後，更新或刪掉這一節。
 
 ## 樣式與風格
 
@@ -41,7 +47,12 @@
 - API：`spec/api.md`（草案，尚未與後端對過）
 
 改規則時：改對應的 spec 檔，並在 `spec/changelog.md` 最上面記一筆（含日期）。同一條規則只寫一處，其他地方用連結。
-Figma／FigJam 我無法改動，spec 改了需同步時，記在 `spec/data-model.md` 第 6 節。
+這個環境不一定有 Figma 工具。沒有時，spec 改了需要同步到 Figma／FigJam 的項目，記在 `spec/data-model.md` 第 6 節。
+
+## 後端未定案時
+
+`spec/api.md` 是草案，還沒跟後端對過。不要自己發明 endpoint 或欄位。
+需要資料時用 `src/mocks/`，型別對齊 `data-model.md`。api.md 有缺口或和其他 spec 衝突時，先問。
 
 ## 用詞
 
@@ -53,6 +64,23 @@ Figma／FigJam 我無法改動，spec 改了需同步時，記在 `spec/data-mod
 - **契約快照**：項目標題、說明、圖片、訂金比例、修改次數、分段方案在「送出申請」時複製進訂單，案件畫面一律讀快照，不讀即時的可委託項目。
 - **三點分段**的 `stage_no` 是 1／4／5，不遞補。
 - **終態案件**（已完成、已取消、已終止）所有操作鎖死，聊天室唯讀。
+
+## 範圍邊界（不要做）
+
+這是專題 demo，下列明確不做（細節見 [spec/prd.md](spec/prd.md) 第 4 節）：
+
+- 即時聊天室：只做綁定單一案件的非即時聊天室，沒有已讀、未讀
+- 解析度分級、系統計算修改次數、「修改申請」按鈕
+- 品質仲裁（終止合作不判斷誰對誰錯）
+- 契約成立後重新簽約、事後擴大授權、獨家買斷
+- 人工審核與營運後台
+- 真實金流：金流純模擬，串接延後到 v1.1
+
+## Git
+
+- 在個人分支開發，合併進 `dev`，不直接在 `main` 開發。
+- commit 訊息用英文祈使句，例如 `Add order status helper`。
+- 我沒要求就不 commit、不 push。
 
 ## 溝通
 
