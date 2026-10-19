@@ -201,6 +201,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 - **軟刪除**：刪除帳號只改 `USER.account_status` ＝ 已刪除並寫入 `deleted_at`，不刪列，歷史案件才不會指向不存在的帳號。
 - **`ORDER.creator_id` 必須保留**：原本可從 `item_id` 推得、算是冗餘 FK；2026/10/17 起項目可真刪、`item_id` 可能為空，`creator_id` 成為判斷乙方的唯一依據。
 - **金額與狀態欄位的型別**：訂金比例、分段方案、各種狀態在圖上都標為 `string`，合法值見欄位說明；是否改用 enum 由後端決定。
+- **表名避開 SQL 保留字**：`ORDER`、`USER` 是 SQL 保留字（PostgreSQL 的 `USER` 也是）。實際建表時請改名（如 `orders`、`users`）或全程加引號，這是後端的事。
 
 ---
 
@@ -223,4 +224,4 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 11. **已同步**（2026/10/17）：①`ORDER` 新增 `item_description_snapshot`（項目說明快照）②新增表 `ORDER_ITEM_SNAPSHOT_IMAGE`（`order_id`＋`seq_no`、圖片網址），並畫「項目圖片快照」關聯線③`ORDER.item_id` 改為 nullable，說明加「項目刪除後為空，案件一律讀快照」。
 12. **已同步**（2026/10/17）：`CREATOR_PROFILE.user_id` 補標 `UK`（對應 1 對 0..1）；`ORDER.payment_plan` 合法值由「全額／訂金」改為「一次付清／先付訂金」，與其他文件用詞一致。
 
-另外 `延伸檔案/ER模型-實體初步草案.md` 是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。
+另外 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在 repo 內）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。

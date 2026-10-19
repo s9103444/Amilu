@@ -30,8 +30,7 @@
 src/
 ├─ main.ts, App.vue
 ├─ styles/                  全域樣式、design token（SCSS，對應 design-spec.md）
-├─ app/                     啟動層
-│  └─ router/index.ts       只組裝：匯入各功能的 routes.ts
+├─ router/index.ts          只組裝：匯入各功能的 routes.ts
 ├─ features/                一個資料夾 ＝ 一個業務模組
 │  ├─ account/              模組一：註冊登入、手機驗證、身份
 │  ├─ explore/              模組二：作品牆、篩選、燈箱、創作者頁、追蹤
@@ -68,7 +67,7 @@ features/order/
 
 | 規則 | 為什麼 |
 | --- | --- |
-| **依賴方向單向**：`app → features → shared`。`features` 之間不互相 import。 | 避免 A 依賴 B、B 又依賴 A 的纏繞。真要共用就升到 `shared/`。 |
+| **依賴方向單向**：`features → shared`（`router/`、`main.ts` 這類啟動檔可以引用 `features`）。`features` 之間不互相 import。 | 避免 A 依賴 B、B 又依賴 A 的纏繞。真要共用就升到 `shared/`。 |
 | **頁面薄、邏輯下沉**：`pages/*.vue` 只組裝，邏輯進 `composables/`。 | 頁面一長就難讀；邏輯在 `.ts` 裡才好測試。 |
 | **訂單狀態判斷寫成純函式**，放 `features/order/`。 | 狀態機規則多（見 [order-lifecycle.md](order-lifecycle.md)），純函式可以單獨測，不需要開瀏覽器。 |
 | **元件不直接 fetch**，一律經 `api.ts`。 | 之後換後端路徑、補驗證、加 mock，只改一處。 |
@@ -155,5 +154,4 @@ Amilu/
 
 - features 之間偶爾需要共用業務邏輯（如通知要顯示訂單狀態）。目前做法：從該功能的 `index.ts` 取。若實際痛點變多，再討論是否獨立成 `domain/`。
 - 要不要用 ESLint 規則強制依賴方向：等專案跑起來、結構穩定後再決定。
-- `app/` 這一層是否保留：樣式放 `src/styles/` 後，`app/` 只剩 router。目前 router 仍在範本預設的 `src/router/`，等第一個功能建立、路由實際拆開時再決定放哪。
-- 樣式放 `src/styles/` 而非 `app/styles/`（2026/10/19 對齊組員實作）：樣式是全站共用，不屬於任何功能，放 `src/styles/` 最直觀。
+- 不設 `app/` 層（2026/10/19）：樣式放 `src/styles/`、router 放 `src/router/`。樣式是全站共用、不屬於任何功能，`app/` 只剩一個 router 時多一層沒有意義。

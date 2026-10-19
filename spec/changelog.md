@@ -5,7 +5,7 @@
 
 ## 2026/10/19
 
-- `structure.md` 樣式位置由 `app/styles/` 改為 `src/styles/`，對齊組員已實作的 design token（SCSS）；`app/` 是否保留列入第 6 節待決定。
+- 逐檔檢查現有內容後修正：①`structure.md` 取消 `app/` 層，樣式放 `src/styles/`（對齊組員已實作的 design token）、router 放 `src/router/`②`data-model.md` 5.3 加註 `ORDER`、`USER` 是 SQL 保留字，建表需改名或加引號；第 6 節末補上缺漏的 `討論紀錄/` 路徑前綴並註明不在 repo③`README.md` 註明 `討論紀錄/` 不在 repo 內④`index.html` 的 title 與 lang 改為 Amilu／zh-Hant-TW，根目錄 `README.md` 改為 Amilu 簡介⑤新增 `open-questions.md`，整理需要組員決定的 8 件事。
 - 新增 `structure.md`：定義專案結構規範。①程式碼按功能分（`app/`、`features/` 五大模組、`shared/`），不按檔案類型分②資料依「誰擁有、活多久」決定放元件 `ref`、Pinia 或 localStorage，衍生值不存③流向固定為 page → composable／store → `api.ts` → `shared/api/client.ts`④文件規則只寫 `spec/` 一處。`README.md` 文件清單同步新增一列。尚未建立 `src/` 資料夾，下一步再依規範建骨架。
 
 ## 2026/10/17
