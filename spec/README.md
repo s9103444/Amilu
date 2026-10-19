@@ -12,7 +12,7 @@ Amilu 是專為台灣 CG 市場打造的雙向委託平台。這個資料夾是�
 | [features.md](features.md)               | 每個功能怎麼運作（依五大模組）                         | ✅        |
 | [order-lifecycle.md](order-lifecycle.md) | 訂單狀態怎麼變、誰觸發、各種倒數天數、金額與結算怎麼算 | ✅        |
 | [data-model.md](data-model.md)           | 有哪些資料表、欄位、表之間的關係                       | ✅        |
-| [design-spec.md](design-spec.md)         | 色彩、字體、字級、斷點與 Grid                          | ✅        |
+| [design-spec.md](design-spec.md)         | 色彩用途、字體、字級用途、Grid 規則（數值在 `src/styles/`） | ✅        |
 | [api.md](api.md)                         | 前後端怎麼溝通                                         | ⬜ 草案已列 |
 | [acceptance.md](acceptance.md)           | 怎樣算做完（拿來寫 E2E 測試）                          | ✅        |
 | [structure.md](structure.md)             | 程式碼資料夾怎麼分、資料放哪、文件與資產怎麼歸類       | ✅        |

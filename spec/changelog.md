@@ -5,6 +5,7 @@
 
 ## 2026/10/19
 
+- `design-spec.md` 刪除色碼、字級 px、Grid 與斷點的數值表，數值只留 `src/styles/`（`_tokens.scss`、`_breakpoints.scss`）；保留 Figma 連結、命名對照、色票與字級用途、例外規則。`CLAUDE.md`、`spec/README.md`、`structure.md`、`features.md` 與 `_tokens.scss`、`_breakpoints.scss` 檔頭的指向同步（對應 `open-questions.md` 第 3 題）。
 - 字體只留 R 400／M 500／B 700，刪除 H 900（Logo 改用圖片）：`_fonts.scss` 移除 H 的 `@font-face`、`_tokens.scss` 移除 `--font-weight-heavy`、`design-spec.md` 字重表同步；不重寫 git 歷史、不做外部託管（對應 `open-questions.md` 第 2 題）。
 - 討論紀錄（文字總結、Excalidraw 流程圖、ER 草案）統一放 [--Amilu repo](https://github.com/s9103444/--Amilu)，`spec/` 以這個 repo 為唯一來源，--Amilu 內舊的 `spec/` 副本移除；`spec/README.md`、`features.md`、`order-lifecycle.md`、`data-model.md` 的路徑說明同步改寫（對應 `open-questions.md` 第 1 題）。
 - 逐檔檢查現有內容後修正：①`structure.md` 取消 `app/` 層，樣式放 `src/styles/`（對齊組員已實作的 design token）、router 放 `src/router/`②`data-model.md` 5.3 加註 `ORDER`、`USER` 是 SQL 保留字，建表需改名或加引號；第 6 節末補上缺漏的 `討論紀錄/` 路徑前綴並註明不在 repo③`README.md` 註明 `討論紀錄/` 不在 repo 內④`index.html` 的 title 與 lang 改為 Amilu／zh-Hant-TW，根目錄 `README.md` 改為 Amilu 簡介⑤新增 `open-questions.md`，整理需要組員決定的 8 件事。

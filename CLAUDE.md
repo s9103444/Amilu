@@ -24,7 +24,7 @@
 
 ## 樣式與風格
 
-- 樣式用 SCSS + CSS 變數，放 `src/styles/`。數值來源是 [spec/design-spec.md](spec/design-spec.md)（以 Figma 為準）。
+- 樣式用 SCSS + CSS 變數，放 `src/styles/`。數值以 Figma 為準、只寫在 `src/styles/`；用途與例外見 [spec/design-spec.md](spec/design-spec.md)。
 - **元件只用 semantic token**（如 `--color-text-primary`），不直接用 primitive、不自己寫色碼。token 定義在 `src/styles/_tokens.scss`。
 - 斷點用 `src/styles/_breakpoints.scss` 的 mixin（手機優先），不手寫 media query。
 - 字級用 `.text-*` class（`src/styles/_typography.scss`）。

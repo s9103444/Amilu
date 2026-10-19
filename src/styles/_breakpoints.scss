@@ -1,4 +1,4 @@
-// 斷點：見 spec/design-spec.md §4。手機優先（mobile-first），往上疊加。
+// 斷點：規則見 spec/design-spec.md §4。手機優先（mobile-first），往上疊加。
 // CSS 變數不能用在 @media 條件裡，所以斷點是 SCSS 變數，這是用 SCSS 的主要理由。
 $bp-tablet: 768px;
 $bp-desktop: 1024px;

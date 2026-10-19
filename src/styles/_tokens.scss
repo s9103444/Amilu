@@ -1,4 +1,4 @@
-// Design tokens：數值來源 spec/design-spec.md（Figma `design spec` 頁）。
+// Design tokens：數值以 Figma `design spec` 頁為準，這個檔是程式裡的唯一一份；用途與例外見 spec/design-spec.md。
 // 兩層：primitive（色票本身）→ semantic（用途）。元件只用 semantic，不直接用 primitive。
 @use 'breakpoints' as bp;
 
