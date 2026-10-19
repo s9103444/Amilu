@@ -224,4 +224,4 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 11. **已同步**（2026/10/17）：①`ORDER` 新增 `item_description_snapshot`（項目說明快照）②新增表 `ORDER_ITEM_SNAPSHOT_IMAGE`（`order_id`＋`seq_no`、圖片網址），並畫「項目圖片快照」關聯線③`ORDER.item_id` 改為 nullable，說明加「項目刪除後為空，案件一律讀快照」。
 12. **已同步**（2026/10/17）：`CREATOR_PROFILE.user_id` 補標 `UK`（對應 1 對 0..1）；`ORDER.payment_plan` 合法值由「全額／訂金」改為「一次付清／先付訂金」，與其他文件用詞一致。
 
-另外 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在 repo 內）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。
+另外 --Amilu repo 的 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在這個 repo，見 [README](README.md#外部連結)）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。

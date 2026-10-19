@@ -1,10 +1,18 @@
 # Amilu 修改紀錄
 
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
-> 2026/10/7 以前的紀錄從 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
+> 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
 ## 2026/10/19
 
+- ESLint 與測試：目前都不安裝，記錄加入時機。ESLint 等第一個功能做完、`features/` 出現後；Playwright 等訂單主流程能手動跑通，且先定負責人與後端時間控制；Vitest 等有金額計算等純邏輯函式時再討論（對應 `open-questions.md` 第 8 題）。
+- favicon 換成 Amilu Logo：新增 `public/favicon.svg`、`public/favicon.png`，刪除 Vite 預設的 `public/favicon.ico`，`index.html` 改引用新檔（對應 `open-questions.md` 第 7 題）。
+- AI 工具設定：確認目前組員都用 Claude Code，只維持 `CLAUDE.md`，不另建 Cursor、Copilot 等工具的設定檔；有人改用其他工具時再討論（對應 `open-questions.md` 第 6 題）。
+- 新增 `.prettierignore` 排除 `src/styles/_fonts.scss`，避免 `npm run format` 把它從 113 行展開成幾千行；`_typography.scss`、`_tokens.scss` 已用 format 重新排版，內容未變（對應 `open-questions.md` 第 5 題）。
+- 字體路徑維持絕對路徑 `/fonts/…`，不改相對路徑；部署前選平台，子路徑部署（如 GitHub Pages）才在 `vite.config.ts` 加 `base`，打包時字體與 favicon 路徑會自動加前綴（已用 `--base` 打包驗證），根路徑部署不用改（對應 `open-questions.md` 第 4 題）。
+- `design-spec.md` 刪除色碼、字級 px、Grid 與斷點的數值表，數值只留 `src/styles/`（`_tokens.scss`、`_breakpoints.scss`）；保留 Figma 連結、命名對照、色票與字級用途、例外規則。`CLAUDE.md`、`spec/README.md`、`structure.md`、`features.md` 與 `_tokens.scss`、`_breakpoints.scss` 檔頭的指向同步（對應 `open-questions.md` 第 3 題）。
+- 字體只留 R 400／M 500／B 700，刪除 H 900（Logo 改用圖片）：`_fonts.scss` 移除 H 的 `@font-face`、`_tokens.scss` 移除 `--font-weight-heavy`、`design-spec.md` 字重表同步；不重寫 git 歷史、不做外部託管（對應 `open-questions.md` 第 2 題）。
+- 討論紀錄（文字總結、Excalidraw 流程圖、ER 草案）統一放 [--Amilu repo](https://github.com/s9103444/--Amilu)，`spec/` 以這個 repo 為唯一來源，--Amilu 內舊的 `spec/` 副本移除；`spec/README.md`、`features.md`、`order-lifecycle.md`、`data-model.md` 的路徑說明同步改寫（對應 `open-questions.md` 第 1 題）。
 - 逐檔檢查現有內容後修正：①`structure.md` 取消 `app/` 層，樣式放 `src/styles/`（對齊組員已實作的 design token）、router 放 `src/router/`②`data-model.md` 5.3 加註 `ORDER`、`USER` 是 SQL 保留字，建表需改名或加引號；第 6 節末補上缺漏的 `討論紀錄/` 路徑前綴並註明不在 repo③`README.md` 註明 `討論紀錄/` 不在 repo 內④`index.html` 的 title 與 lang 改為 Amilu／zh-Hant-TW，根目錄 `README.md` 改為 Amilu 簡介⑤新增 `open-questions.md`，整理需要組員決定的 8 件事。
 - 新增 `structure.md`：定義專案結構規範。①程式碼按功能分（`app/`、`features/` 五大模組、`shared/`），不按檔案類型分②資料依「誰擁有、活多久」決定放元件 `ref`、Pinia 或 localStorage，衍生值不存③流向固定為 page → composable／store → `api.ts` → `shared/api/client.ts`④文件規則只寫 `spec/` 一處。`README.md` 文件清單同步新增一列。尚未建立 `src/` 資料夾，下一步再依規範建骨架。
 

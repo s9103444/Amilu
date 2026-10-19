@@ -24,7 +24,7 @@
 
 ## 樣式與風格
 
-- 樣式用 SCSS + CSS 變數，放 `src/styles/`。數值來源是 [spec/design-spec.md](spec/design-spec.md)（以 Figma 為準）。
+- 樣式用 SCSS + CSS 變數，放 `src/styles/`。數值以 Figma 為準、只寫在 `src/styles/`；用途與例外見 [spec/design-spec.md](spec/design-spec.md)。
 - **元件只用 semantic token**（如 `--color-text-primary`），不直接用 primitive、不自己寫色碼。token 定義在 `src/styles/_tokens.scss`。
 - 斷點用 `src/styles/_breakpoints.scss` 的 mixin（手機優先），不手寫 media query。
 - 字級用 `.text-*` class（`src/styles/_typography.scss`）。
@@ -45,6 +45,8 @@
 - 訂單狀態、倒數、金額：`spec/order-lifecycle.md`
 - 資料表與欄位：`spec/data-model.md`（欄位清單以 FigJam 為準）
 - API：`spec/api.md`（草案，尚未與後端對過）
+
+討論紀錄、Excalidraw 流程圖、ER 草案不在這個 repo，在 [--Amilu](https://github.com/s9103444/--Amilu) 的 `專案合作計劃-Amilu/討論紀錄/`。**規則以這個 repo 的 `spec/` 為準**，那邊沒有 spec 副本；看到 spec 提到 `討論紀錄/…` 就是指那個 repo，沒有 clone 時用問的，不要猜內容。
 
 改規則時：改對應的 spec 檔，並在 `spec/changelog.md` 最上面記一筆（含日期）。同一條規則只寫一處，其他地方用連結。
 這個環境不一定有 Figma 工具。沒有時，spec 改了需要同步到 Figma／FigJam 的項目，記在 `spec/data-model.md` 第 6 節。

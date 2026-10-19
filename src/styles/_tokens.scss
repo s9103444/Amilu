@@ -1,4 +1,4 @@
-// Design tokens：數值來源 spec/design-spec.md（Figma `design spec` 頁）。
+// Design tokens：數值以 Figma `design spec` 頁為準，這個檔是程式裡的唯一一份；用途與例外見 spec/design-spec.md。
 // 兩層：primitive（色票本身）→ semantic（用途）。元件只用 semantic，不直接用 primitive。
 @use 'breakpoints' as bp;
 
@@ -52,8 +52,9 @@
 
   // ── 漸層 ────────────────────────────────────────
   // rainbow 只定義色標；角度與長度 spec 要求對照 Figma 按鈕調整，尚未定案，不在此寫死。
-  --gradient-rainbow-stops: var(--accent-blue) 0%, var(--accent-green) 20%,
-    var(--gradient-yellow) 40%, var(--gradient-pink) 60%, var(--accent-orange) 80%;
+  --gradient-rainbow-stops:
+    var(--accent-blue) 0%, var(--accent-green) 20%, var(--gradient-yellow) 40%,
+    var(--gradient-pink) 60%, var(--accent-orange) 80%;
   --gradient-side-bg: linear-gradient(270deg, rgba(235, 233, 230, 0) 0%, var(--base-200) 100%);
 
   // ── 字體 ────────────────────────────────────────
@@ -61,7 +62,6 @@
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
-  --font-weight-heavy: 900; // 僅 Logo 字
 
   // ── 間距（8 的倍數）────────────────────────────
   --space-1: 8px;

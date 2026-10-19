@@ -1,0 +1,2 @@
+# 由字體工具產生的 @font-face，不手改，排版會把它展開成幾千行
+src/styles/_fonts.scss

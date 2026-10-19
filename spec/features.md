@@ -5,7 +5,7 @@
 > 只列 MVP 要做的功能；延後與不做的項目見 [prd.md](prd.md#4-mvp-範圍)。
 
 **畫面**：[Figma ui flow 頁](https://www.figma.com/design/RkN83Jr1KTUExyKkfOjXyn/Amilu---Web-UI?node-id=352-86)
-**流程圖**：`../討論紀錄/Excalidraw/flowChart圖形放置區/`（各模組下方列出對應檔名）
+**流程圖**：--Amilu repo 的 `討論紀錄/Excalidraw/flowChart圖形放置區/`（見 [README](README.md#外部連結)）（各模組下方列出對應檔名）
 
 ---
 
@@ -87,7 +87,7 @@
 
 ### 2.1 首頁作品牆
 
-- 瀑布流，以元件實作；欄數見 [design-spec.md](design-spec.md#4-grid-與斷點)。
+- 瀑布流，以元件實作；欄數見 [design-spec.md](design-spec.md#4-grid-與斷點)（值在 `--gallery-columns`）。
 - 牆上同時顯示**一般作品**和**可委託項目**兩種卡片，兩種卡片要有視覺標記區分。
 - 可委託項目卡片是否出現，跟著該創作者的 **Amilu 燈**（見 [3.6](#36-amilu-燈)）：
   - 開放中：一般作品和可委託項目都會出現。

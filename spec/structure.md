@@ -29,7 +29,7 @@
 ```
 src/
 ├─ main.ts, App.vue
-├─ styles/                  全域樣式、design token（SCSS，對應 design-spec.md）
+├─ styles/                  全域樣式、design token（SCSS，數值唯一來源；規則見 design-spec.md）
 ├─ router/index.ts          只組裝：匯入各功能的 routes.ts
 ├─ features/                一個資料夾 ＝ 一個業務模組
 │  ├─ account/              模組一：註冊登入、手機驗證、身份
