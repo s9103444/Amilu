@@ -52,8 +52,9 @@
 
   // ── 漸層 ────────────────────────────────────────
   // rainbow 只定義色標；角度與長度 spec 要求對照 Figma 按鈕調整，尚未定案，不在此寫死。
-  --gradient-rainbow-stops: var(--accent-blue) 0%, var(--accent-green) 20%,
-    var(--gradient-yellow) 40%, var(--gradient-pink) 60%, var(--accent-orange) 80%;
+  --gradient-rainbow-stops:
+    var(--accent-blue) 0%, var(--accent-green) 20%, var(--gradient-yellow) 40%,
+    var(--gradient-pink) 60%, var(--accent-orange) 80%;
   --gradient-side-bg: linear-gradient(270deg, rgba(235, 233, 230, 0) 0%, var(--base-200) 100%);
 
   // ── 字體 ────────────────────────────────────────
