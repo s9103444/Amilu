@@ -7,6 +7,7 @@
 
 - 按鈕顏色改以 Figma「表單按鈕」（node 505:480）為準：主按鈕用 `gradient/rainbow` 漸層（原寫 `neutral/900` 黑色），次要按鈕白底、`accent/orange` 框與字，停用為 `neutral/300` 底、`neutral/500` 字。`_tokens.scss` 刪除 `--color-button-primary`，新增 `--color-button-*` 與 `--gradient-button-primary`、`--gradient-button-primary-active`，漸層角度與位置定案（Figma 匯出漏負號，已補回）；`design-spec.md` 1.1 用途表與 1.2 同步。
 - 次要按鈕新增 hover 底色 `accent/orange-30`（`--color-button-secondary-hover-bg`），Figma 未畫此狀態，由前端補上；`design-spec.md` 1.1 用途表同步。
+- `structure.md` 新增 `src/dev/`：放只在開發模式出現的頁面（第一個是元件測試頁 `ComponentPlaygroundPage.vue`，網址 `/dev/components`），路由只在 `import.meta.env.DEV` 時登記，正式程式不能 import `dev/`。暫不安裝 Histoire／Storybook，元件變多再評估。
 
 ## 2026/10/19
 
