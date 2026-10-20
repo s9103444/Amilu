@@ -24,11 +24,22 @@
       <p>primary / hug / disabled</p>
       <Button width="hug" disabled>登入</Button>
     </section>
+
+    <h2>UserMenuButton</h2>
+
+    <section>
+      <p>點一下切換開關（目前：{{ isMenuOpen ? '打開' : '關閉' }}）</p>
+      <UserMenuButton :open="isMenuOpen" @click="isMenuOpen = !isMenuOpen" />
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import Button from '@/shared/components/Button.vue'
+import UserMenuButton from '@/layouts/components/UserMenuButton.vue'
+import { ref } from 'vue'
+
+const isMenuOpen = ref(false)
 </script>
 
 <style lang="scss" scoped>
