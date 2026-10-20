@@ -81,7 +81,7 @@ defineProps<{
     opacity: 1;
   }
 
-  .btn--secondary:hover {
+  .btn--secondary:not(:disabled):hover {
     background: var(--color-button-secondary-hover-bg);
   }
 }
