@@ -31,6 +31,7 @@ src/
 ├─ main.ts, App.vue
 ├─ styles/                  全域樣式、design token（SCSS，數值唯一來源；規則見 design-spec.md）
 ├─ router/index.ts          只組裝：匯入各功能的 routes.ts
+├─ layouts/                 整站共用的外框（header 等），元件放 layouts/components/
 ├─ features/                一個資料夾 ＝ 一個業務模組
 │  ├─ account/              模組一：註冊登入、手機驗證、身份
 │  ├─ explore/              模組二：作品牆、篩選、燈箱、創作者頁、追蹤
@@ -69,7 +70,7 @@ features/order/
 | 規則 | 為什麼 |
 | --- | --- |
 | **依賴方向單向**：`features → shared`（`router/`、`main.ts` 這類啟動檔可以引用 `features`）。`features` 之間不互相 import。 | 避免 A 依賴 B、B 又依賴 A 的纏繞。真要共用就升到 `shared/`。 |
-| **開發用頁面放 `dev/`**：檔名照頁面規則（`ComponentPlaygroundPage.vue`），路由寫在 `router/index.ts`，只在 `import.meta.env.DEV` 時登記，網址以 `/dev/` 開頭。`dev/` 可以 import `shared/`，任何正式程式都不能 import `dev/`。 | 元件測試頁不屬於任何功能；只在開發模式登記，正式網站就不會多出這些頁面。 |
+| **開發用頁面放 `dev/`**：檔名照頁面規則（`ComponentPlaygroundPage.vue`），路由寫在 `router/index.ts`，只在 `import.meta.env.DEV` 時登記，網址以 `/dev/` 開頭。`dev/` 可以 import `shared/`、`layouts/`，任何正式程式都不能 import `dev/`。 | 元件測試頁不屬於任何功能；只在開發模式登記，正式網站就不會多出這些頁面。 |
 | **頁面薄、邏輯下沉**：`pages/*.vue` 只組裝，邏輯進 `composables/`。 | 頁面一長就難讀；邏輯在 `.ts` 裡才好測試。 |
 | **訂單狀態判斷寫成純函式**，放 `features/order/`。 | 狀態機規則多（見 [order-lifecycle.md](order-lifecycle.md)），純函式可以單獨測，不需要開瀏覽器。 |
 | **元件不直接 fetch**，一律經 `api.ts`。 | 之後換後端路徑、補驗證、加 mock，只改一處。 |

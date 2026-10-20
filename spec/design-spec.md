@@ -22,6 +22,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 - 名稱後的「-數字」是同色的透明度版本，例如 `accent/orange-30` 是 `accent/orange` 透明度 30%。
 - Google 登入按鈕的標誌色是 Google 規定的顏色，不屬於專案色票。
+- `base/150`（`#f1f0ef`）是前端自訂色，不在 Figma 14 色內：取 `base/100` 與 `base/200` 的中間值，用在淺色區塊的 hover（Figma 原本用 `base/200`，和背景太接近）。
 
 ### 1.1 用途
 
@@ -33,6 +34,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底 |
 | `neutral/white`    | 頁面底、深底上的文字               |
 | `base/100`         | 淺色區塊底、提示框                 |
+| `base/150`         | 淺色區塊 hover 底（前端自訂）      |
 | `base/200`         | 主背景、卡片底、頁籤               |
 | `base/500`         | 次要強調、分隔、標籤               |
 | `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字 |

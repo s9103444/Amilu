@@ -25,6 +25,9 @@
   --gradient-yellow: #ebbd00;
   --gradient-pink: #f0809f;
 
+  // 前端自訂，不在 14 色票內：base-100 與 base-200 的中間值，給淺色區塊的 hover
+  --base-150: #f1f0ef;
+
   // ── 色彩 semantic ───────────────────────────────
   --color-text-primary: var(--neutral-900);
   --color-text-secondary: var(--neutral-500);
@@ -38,6 +41,7 @@
   --color-bg-page: var(--neutral-white);
   --color-bg-main: var(--base-200);
   --color-bg-subtle: var(--base-100);
+  --color-bg-subtle-hover: var(--base-150);
   --color-accent-muted: var(--base-500);
 
   // 按鈕（Figma「表單按鈕」505:480）。主按鈕底色是漸層，見下方 --gradient-button-*
