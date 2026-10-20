@@ -3,6 +3,11 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/20
+
+- 按鈕顏色改以 Figma「表單按鈕」（node 505:480）為準：主按鈕用 `gradient/rainbow` 漸層（原寫 `neutral/900` 黑色），次要按鈕白底、`accent/orange` 框與字，停用為 `neutral/300` 底、`neutral/500` 字。`_tokens.scss` 刪除 `--color-button-primary`，新增 `--color-button-*` 與 `--gradient-button-primary`、`--gradient-button-primary-active`，漸層角度與位置定案（Figma 匯出漏負號，已補回）；`design-spec.md` 1.1 用途表與 1.2 同步。
+- 次要按鈕新增 hover 底色 `accent/orange-30`（`--color-button-secondary-hover-bg`），Figma 未畫此狀態，由前端補上；`design-spec.md` 1.1 用途表同步。
+
 ## 2026/10/19
 
 - ESLint 與測試：目前都不安裝，記錄加入時機。ESLint 等第一個功能做完、`features/` 出現後；Playwright 等訂單主流程能手動跑通，且先定負責人與後端時間控制；Vitest 等有金額計算等純邏輯函式時再討論（對應 `open-questions.md` 第 8 題）。

@@ -27,17 +27,17 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 | Token              | 用途                               |
 | ------------------ | ---------------------------------- |
-| `neutral/900`      | 主要文字、主按鈕、icon             |
+| `neutral/900`      | 主要文字、icon                     |
 | `neutral/900-50`   | 圖片上的移除按鈕、標記、手機版遮罩 |
-| `neutral/500`      | 次要文字、說明、次要 icon          |
-| `neutral/300`      | 邊框、分隔線、placeholder          |
+| `neutral/500`      | 次要文字、說明、次要 icon、停用按鈕的字 |
+| `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底 |
 | `neutral/white`    | 頁面底、深底上的文字               |
 | `base/100`         | 淺色區塊底、提示框                 |
 | `base/200`         | 主背景、卡片底、頁籤               |
 | `base/500`         | 次要強調、分隔、標籤               |
-| `accent/orange`    | 錯誤、警示、必填、未讀紅點         |
+| `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字 |
 | `accent/orange-10` | 狀態標籤底、警語框底               |
-| `accent/orange-30` | 選項選取底、錯誤輸入框外框         |
+| `accent/orange-30` | 選項選取底、錯誤輸入框外框、次要按鈕 hover 底 |
 | `accent/green`     | 成功提示、可商用                   |
 | `accent/green-30`  | 狀態標籤底、已開通                 |
 | `accent/blue`      | 狀態標籤、資訊提示                 |
@@ -50,7 +50,8 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `gradient/side-bg` | 首頁兩側背景 |
 
 - `gradient/rainbow` 的黃（`#EBBD00`）與粉（`#F0809F`）只用在這個漸層，不在 14 色票內，程式裡是 `--gradient-yellow`、`--gradient-pink`。
-- `gradient/rainbow` 在 Figma 裡的漸層軸比按鈕高很多，所以按鈕上實際只看得到粉到橘那一段。CSS 角度與長度請對照 Figma 按鈕畫面調整，不要直接用色標從 0% 排到 80%。`_tokens.scss` 只定義色標（`--gradient-rainbow-stops`），角度與長度尚未定案。
+- `gradient/rainbow` 在 Figma 裡的漸層軸比按鈕高很多，所以按鈕上實際只看得到粉到橘那一段。按鈕用的角度與位置已依 Figma「表單按鈕」定案，寫在 `_tokens.scss` 的 `--gradient-button-primary`（一般）與 `--gradient-button-primary-active`（按下）。
+- 主按鈕是 `gradient/rainbow` 漸層，不是 `neutral/900`；次要按鈕是白底、`accent/orange` 框與字；停用是 `neutral/300` 底、`neutral/500` 字。以 Figma「表單按鈕」（node 505:480）為準。
 
 ---
 

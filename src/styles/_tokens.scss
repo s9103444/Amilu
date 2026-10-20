@@ -40,7 +40,13 @@
   --color-bg-subtle: var(--base-100);
   --color-accent-muted: var(--base-500);
 
-  --color-button-primary: var(--neutral-900);
+  // 按鈕（Figma「表單按鈕」505:480）。主按鈕底色是漸層，見下方 --gradient-button-*
+  --color-button-text-primary: var(--neutral-white);
+  --color-button-secondary: var(--accent-orange); // 次要按鈕的框與字
+  --color-button-secondary-bg: var(--neutral-white);
+  --color-button-secondary-hover-bg: var(--accent-orange-30);
+  --color-button-disabled-bg: var(--neutral-300);
+  --color-button-disabled-text: var(--neutral-500);
 
   --color-error: var(--accent-orange);
   --color-error-bg: var(--accent-orange-10);
@@ -51,10 +57,27 @@
   --color-info: var(--accent-blue);
 
   // ── 漸層 ────────────────────────────────────────
-  // rainbow 只定義色標；角度與長度 spec 要求對照 Figma 按鈕調整，尚未定案，不在此寫死。
+  // rainbow 色標（Figma 原始比例）。按鈕上實際用的角度與位置寫在 --gradient-button-*。
   --gradient-rainbow-stops:
     var(--accent-blue) 0%, var(--accent-green) 20%, var(--gradient-yellow) 40%,
     var(--gradient-pink) 60%, var(--accent-orange) 80%;
+  // 按鈕漸層：數值取自 Figma Dev Mode（Default 505:477、Clicked 515:3555），按鈕上只看得到粉到橘那段。
+  --gradient-button-primary: linear-gradient(
+    289deg,
+    var(--accent-blue) -192.91%,
+    var(--accent-green) -124.9%,
+    var(--gradient-yellow) -56.89%,
+    var(--gradient-pink) 11.13%,
+    var(--accent-orange) 79.14%
+  );
+  --gradient-button-primary-active: linear-gradient(
+    282deg,
+    var(--accent-blue) -232.95%,
+    var(--accent-green) -167.22%,
+    var(--gradient-yellow) -101.49%,
+    var(--gradient-pink) -35.76%,
+    var(--accent-orange) 29.98%
+  );
   --gradient-side-bg: linear-gradient(270deg, rgba(235, 233, 230, 0) 0%, var(--base-200) 100%);
 
   // ── 字體 ────────────────────────────────────────
