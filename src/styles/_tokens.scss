@@ -42,6 +42,7 @@
   --color-bg-main: var(--base-200);
   --color-bg-subtle: var(--base-100);
   --color-bg-subtle-hover: var(--base-150);
+  --color-bg-inverse: var(--neutral-900); // 深色底，已選擇標籤（Figma「已選擇標籤」494:118）
   --color-accent-muted: var(--base-500);
 
   // 按鈕（Figma「表單按鈕」505:480）。主按鈕底色是漸層，見下方 --gradient-button-*
@@ -89,6 +90,7 @@
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
+  --fs-note: 10px; // 可商用標籤（Figma text style `note`），不隨斷點變化
 
   // ── 間距（8 的倍數）────────────────────────────
   --space-1: 8px;
