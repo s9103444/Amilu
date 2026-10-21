@@ -31,11 +31,11 @@ defineProps<{
   cursor: pointer;
   display: flex;
   border: none;
-  padding: 14px 18px;
+  padding: var(--button-padding-md);
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  border-radius: 15px;
+  gap: var(--button-gap-md);
+  border-radius: var(--radius-button);
   color: var(--color-button-text-primary);
   width: 100%;
   position: relative;

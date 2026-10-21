@@ -3,6 +3,16 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/21
+
+- `structure.md` 放寬 `dev/` 的 import 範圍：除了 `shared/`、`layouts/`，也可以 import `features/`（元件測試頁要展示 `GoogleAuthButton`、`OrderFloatingButton` 這類放在功能資料夾的元件）。方向仍是單向，正式程式不能 import `dev/`。
+
+- 新增委託討論牆右下角浮動按鈕 `features/order/components/OrderFloatingButton.vue`（Figma 585:12563，兩種狀態：聊天室、案件資訊）。`_tokens.scss` 新增 `--color-button-floating-info-bg`（`neutral/900`）與 `--shadow-floating`（`0 4px 16px rgba(0,0,0,.16)`）。這顆只出現在委託流程，歸 `features/order/`，不放 `layouts/`（`layouts/` 只放整站共用的外框）。
+
+- 新增追蹤按鈕「已追蹤」狀態的 token `--color-button-followed-bg`（`neutral/300`）、`--color-button-followed-text`（`neutral/500`），值暫時與停用相同，但語意不同（已追蹤仍可點擊）。Figma 尚未確認此狀態的外觀，確認後再調整。
+
+- 按鈕的圓角、內距、圖文間距寫進 `_tokens.scss`：新增 `--radius-button`、`--button-padding-md/sm`、`--button-gap-md/sm`（md 對應 `Amilu/Button-md`，sm 對應 `Amilu/Button-sm`），`Button.vue` 改讀 token；這些值不是 8 的倍數，`design-spec.md` 第 4 節補上例外說明。header 的「開通創作者模式」按鈕（`ActivateCreatorButton.vue`）使用 sm 規格。
+
 ## 2026/10/20
 
 - 按鈕顏色改以 Figma「表單按鈕」（node 505:480）為準：主按鈕用 `gradient/rainbow` 漸層（原寫 `neutral/900` 黑色），次要按鈕白底、`accent/orange` 框與字，停用為 `neutral/300` 底、`neutral/500` 字。`_tokens.scss` 刪除 `--color-button-primary`，新增 `--color-button-*` 與 `--gradient-button-primary`、`--gradient-button-primary-active`，漸層角度與位置定案（Figma 匯出漏負號，已補回）；`design-spec.md` 1.1 用途表與 1.2 同步。

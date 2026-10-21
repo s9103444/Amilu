@@ -94,6 +94,6 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 - 裝置分三種：桌機（≥ 1024，設計基準寬 1440）、平板（768–1023，基準寬 768）、手機（< 768，基準寬 375）。三種都是 12 欄，gutter 與 margin 的值見 `_tokens.scss`。
 - 手機優先（mobile-first），用 `_breakpoints.scss` 的 mixin，不手寫 media query。
-- 間距一律用 8 的倍數。
+- 間距一律用 8 的倍數。例外：按鈕的圓角、內距、圖文間距照 Figma，定義成 `--radius-button`、`--button-padding-*`、`--button-gap-*`。
 - **作品牆**以元件實作，欄數由 `--gallery-columns` 控制（桌機 5／平板 3／手機 2）。
 - Figma grid style 前綴 `Amilu/Grid/`。
