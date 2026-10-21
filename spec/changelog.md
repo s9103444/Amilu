@@ -3,6 +3,15 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/21
+
+- 實作 Figma「基礎元件」下半部（上傳、標籤、提示與分隔）15 個元件：共用的 13 個放 `src/shared/components/`（圖片上傳格、大頭照上傳、拖放上傳區、已選擇標籤、自訂標籤、可商用、步驟編號、提示框、警語框、提示｜已儲存、分隔線（或選擇）、選單分隔線、接案狀態標籤），訂單專用的 `OrderStatusTag`、`StageTag` 放 `src/features/order/components/`（第一批 `features/` 內容）。只做外觀與 props／事件，不做上傳邏輯。測試頁 `ComponentPlaygroundPage.vue` 排入 13 個共用元件。
+- `_tokens.scss` 新增 `--color-bg-inverse`（`neutral/900` 深色底，已選擇標籤用）與 `--fs-note`（10px，可商用標籤，Figma text style `note`，不隨斷點變化）；`design-spec.md` 用途表與字級表同步。`public/icons/` 補 7 個圖示：`plus`、`plus-avatar`、`x-white`、`cross-white`、`cross-black`、`check-green`、`info`。
+- 階段名稱由 `stage_no` 對照（`features/order/stageLabel.ts`：1 草稿、2 線稿、3 彩稿、4 精稿、5 完稿），三點分段的 1／4／5 不遞補，不寫「第N階段」。
+- `structure.md` 2.2：`dev/` 可 import 的範圍加上 `features/`（元件測試頁要展示 `OrderStatusTag`、`StageTag`），正式程式仍不能 import `dev/`，依賴方向不變。測試頁同步排入這兩個元件。
+- 兩處樣式決定：「未完成」狀態標籤左右內距統一成 12px（Figma 是 10px，待同步）；選單分隔線用 1px `--color-border` 加透明度 0.5 模擬 Figma 的 0.3px 淡線（`open-questions.md` 第 10 題對應兩列改為已決定）。
+- 記錄待確認事項：Figma「案件狀態標籤」多出 3 個狀態（`data-model.md` 第 6 節第 13 項、`open-questions.md` 第 9 題），以及 Figma 與程式的 6 處小差異（`open-questions.md` 第 10 題）。
+
 ## 2026/10/20
 
 - 按鈕顏色改以 Figma「表單按鈕」（node 505:480）為準：主按鈕用 `gradient/rainbow` 漸層（原寫 `neutral/900` 黑色），次要按鈕白底、`accent/orange` 框與字，停用為 `neutral/300` 底、`neutral/500` 字。`_tokens.scss` 刪除 `--color-button-primary`，新增 `--color-button-*` 與 `--gradient-button-primary`、`--gradient-button-primary-active`，漸層角度與位置定案（Figma 匯出漏負號，已補回）；`design-spec.md` 1.1 用途表與 1.2 同步。
