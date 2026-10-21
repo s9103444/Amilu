@@ -19,8 +19,8 @@
 
 ## 目前階段
 
-骨架階段：`App.vue`、`stores/counter.ts`、空的 router 都是範本範例，`features/`、`shared/` 還沒建。
-建第一個功能時，依 structure.md 建資料夾並移除範例。功能出現後，更新或刪掉這一節。
+元件階段：`shared/components/` 已有基礎元件，`features/order/` 目前只有兩個標籤元件，還沒有頁面、store、api。
+`App.vue`、`stores/counter.ts`、空的 router 仍是範本範例，建第一個真正的頁面時依 structure.md 移除。功能出現後，更新或刪掉這一節。
 
 ## 樣式與風格
 

@@ -28,7 +28,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 | Token              | 用途                               |
 | ------------------ | ---------------------------------- |
-| `neutral/900`      | 主要文字、icon                     |
+| `neutral/900`      | 主要文字、icon、深色底（已選擇標籤實心款，`--color-bg-inverse`） |
 | `neutral/900-50`   | 圖片上的移除按鈕、標記、手機版遮罩 |
 | `neutral/500`      | 次要文字、說明、次要 icon、停用按鈕的字 |
 | `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底 |
@@ -87,6 +87,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `Amilu/Small`     | 標籤、時間戳、極小字    |
 | `Amilu/Button-md` | 主要按鈕                |
 | `Amilu/Button-sm` | 次要／小按鈕            |
+| `note`            | 可商用標籤的極小字（無 `Amilu/` 前綴，10px 固定、不隨斷點，`--fs-note`） |
 
 ---
 

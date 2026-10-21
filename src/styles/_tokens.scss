@@ -44,6 +44,7 @@
   --color-bg-subtle-hover: var(--base-150);
   // 唯讀欄位的底色（Figma 輸入框 ReadOnly 狀態）。目前與 --color-bg-main 同值，但語意不同
   --color-bg-field-readonly: var(--base-200);
+  --color-bg-inverse: var(--neutral-900); // 深色底，已選擇標籤（Figma「已選擇標籤」494:118）
   --color-accent-muted: var(--base-500);
 
   // 按鈕（Figma「表單按鈕」505:480）。主按鈕底色是漸層，見下方 --gradient-button-*
@@ -103,6 +104,7 @@
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
+  --fs-note: 10px; // 可商用標籤（Figma text style `note`），不隨斷點變化
 
   // ── 間距（8 的倍數）────────────────────────────
   --space-1: 8px;

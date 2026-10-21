@@ -207,7 +207,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 ## 6. 圖上目前已知的問題
 
-以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，目前**沒有未解決的項目**：
+以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，ER 圖本身**沒有未解決的項目**；第 13 項是 2026/10/21 發現的 Figma 與 spec 的狀態值落差，待確認：
 
 1. **已解決**（2026/10/17）：「關聯通知」那條線原本終點掛在畫布上，已重接到 NOTIFICATION。
 2. **已解決**（2026/10/17）：`TAG.created_by_id`、`ORDER.terminated_by_id` 原本沒有畫線，已補上「建立標籤」「終止發起」兩條關聯線。
@@ -223,5 +223,6 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 11. **已同步**（2026/10/17）：①`ORDER` 新增 `item_description_snapshot`（項目說明快照）②新增表 `ORDER_ITEM_SNAPSHOT_IMAGE`（`order_id`＋`seq_no`、圖片網址），並畫「項目圖片快照」關聯線③`ORDER.item_id` 改為 nullable，說明加「項目刪除後為空，案件一律讀快照」。
 12. **已同步**（2026/10/17）：`CREATOR_PROFILE.user_id` 補標 `UK`（對應 1 對 0..1）；`ORDER.payment_plan` 合法值由「全額／訂金」改為「一次付清／先付訂金」，與其他文件用詞一致。
+13. **待確認**（2026/10/21）：Figma「案件狀態標籤」有 9 個狀態，比 `ORDER.status` 的 6 個值多「待補款」「已補款待確認」「未完成」。前兩個在 features.md 4.4 補款頁出現過，但沒說是不是 `ORDER.status` 的值，也可能是由 `PAYMENT` 衍生的畫面狀態；「未完成」在 spec 裡找不到定義。確認前前端的 `OrderStatusTag` 先收全部 9 個值，**不新增 `ORDER.status` 值**。見 [open-questions.md](open-questions.md) 第 9 題。另 Figma「階段標籤」範例文字寫「第一階段」，與本文 4.2 的階段名稱（草稿、線稿、彩稿、精稿、完稿）不一致，Figma 待同步改成 `stage_no` 對照的名稱。
 
 另外 --Amilu repo 的 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在這個 repo，見 [README](README.md#外部連結)）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。
