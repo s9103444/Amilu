@@ -70,6 +70,18 @@
       <FormInput v-model="readonlyAccount" readonly>帳號</FormInput>
     </section>
 
+    <section>
+      <h2>FormTextarea</h2>
+      <FormTextarea v-model="description">委託說明</FormTextarea>
+      <p>測試同步文字：{{ description }}</p>
+      <p>必填 + 字數上限 10（打到 10 個字就打不進去）</p>
+      <FormTextarea v-model="limitedDescription" requirement="necessary" :text-limit="10">
+        備註
+      </FormTextarea>
+      <p>選填</p>
+      <FormTextarea v-model="optionalDescription" requirement="optional">補充說明</FormTextarea>
+    </section>
+
     <h2>ImageUploadSlot</h2>
 
     <section class="row">
@@ -270,6 +282,7 @@ import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
+import FormTextarea from '@/shared/components/FormTextarea.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
@@ -295,6 +308,9 @@ const input = ref('')
 const email = ref('')
 const password = ref('')
 const readonlyAccount = ref('amilu_user')
+const description = ref('')
+const limitedDescription = ref('')
+const optionalDescription = ref('')
 </script>
 
 <style lang="scss" scoped>
