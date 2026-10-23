@@ -66,7 +66,12 @@
   // 委託討論牆右下角的浮動按鈕（Figma 585:12563）
   --color-button-floating-info-bg: var(--neutral-900);
   --shadow-floating: 0 4px 16px rgba(0, 0, 0, 0.16);
+  // 下拉選單（Figma 面板 575:4929、選項 568:283）
+  --color-bg-dropdown: var(--neutral-white); // 面板底
+  --color-bg-option-hover: var(--base-200); // 選項 hover 底（面板是白底，用 base-200 才看得出來）
+  --shadow-dropdown: 0 6px 20px rgba(0, 0, 0, 0.14);
 
+  --color-required: var(--accent-orange); // 表單標籤旁的「必填」小字
   --color-error: var(--accent-orange);
   --color-error-bg: var(--accent-orange-10);
   --color-selected-bg: var(--accent-orange-30);

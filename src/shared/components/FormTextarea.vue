@@ -79,7 +79,7 @@ label {
   color: var(--color-text-secondary);
 }
 .label--nes {
-  color: var(--color-error);
+  color: var(--color-required);
 }
 
 .textarea {

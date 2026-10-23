@@ -32,10 +32,10 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `neutral/900-50`   | 圖片上的移除按鈕、標記、手機版遮罩 |
 | `neutral/500`      | 次要文字、說明、次要 icon、停用按鈕的字 |
 | `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底 |
-| `neutral/white`    | 頁面底、深底上的文字               |
+| `neutral/white`    | 頁面底、深底上的文字、下拉選單面板底 |
 | `base/100`         | 淺色區塊底、提示框                 |
 | `base/150`         | 淺色區塊 hover 底（前端自訂）      |
-| `base/200`         | 主背景、卡片底、頁籤               |
+| `base/200`         | 主背景、卡片底、頁籤、下拉選項 hover 底 |
 | `base/500`         | 次要強調、分隔、標籤               |
 | `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字 |
 | `accent/orange-10` | 狀態標籤底、警語框底               |

@@ -36,6 +36,13 @@
     </section>
     <br />
     <section>
+      <h2>SearchBar</h2>
+      <SearchBar v-model="searchText" @search="lastSearch = $event" />
+      <p>測試文字：{{ searchText }}</p>
+      <p>最近一次搜尋文字：{{ lastSearch }}</p>
+    </section>
+    <br />
+    <section>
       <h2>Follow Button</h2>
       <p>點一下切換追蹤（目前：{{ isFollowed ? '已追蹤' : '未追蹤' }}）</p>
       <FollowButton :followed="isFollowed" @click="isFollowed = !isFollowed" />
@@ -80,6 +87,18 @@
       </FormTextarea>
       <p>選填</p>
       <FormTextarea v-model="optionalDescription" requirement="optional">補充說明</FormTextarea>
+    </section>
+
+    <section>
+      <h2>FormSelect</h2>
+      <p>必填</p>
+      <FormSelect v-model="category" requirement="required" :options="CATEGORY_OPTIONS"
+        >作品類型</FormSelect
+      >
+      <p>選填</p>
+      <FormSelect v-model="purpose" requirement="optional" :options="PURPOSE_OPTIONS"
+        >作品用途</FormSelect
+      >
     </section>
 
     <h2>ImageUploadSlot</h2>
@@ -280,9 +299,11 @@
 import Button from '@/shared/components/Button.vue'
 import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
+import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
 import FormTextarea from '@/shared/components/FormTextarea.vue'
+import FormSelect from '@/shared/components/FormSelect.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
@@ -301,7 +322,9 @@ import SavedToast from '@/shared/components/SavedToast.vue'
 import DividerWithText from '@/shared/components/DividerWithText.vue'
 import MenuDivider from '@/shared/components/MenuDivider.vue'
 import { ref } from 'vue'
-
+import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
+const searchText = ref('')
+const lastSearch = ref('')
 const isMenuOpen = ref(false)
 const isFollowed = ref(false)
 const input = ref('')
@@ -311,6 +334,8 @@ const readonlyAccount = ref('amilu_user')
 const description = ref('')
 const limitedDescription = ref('')
 const optionalDescription = ref('')
+const category = ref('2')
+const purpose = ref('')
 </script>
 
 <style lang="scss" scoped>

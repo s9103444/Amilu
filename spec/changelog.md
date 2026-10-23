@@ -3,6 +3,13 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/23
+
+- `_tokens.scss` 新增 `--color-required`（`accent/orange`），用在表單標籤旁的「必填」小字，第一個使用者是 `FormSelect.vue`。`design-spec.md` 1.1 用途表原本就把「必填」列在 `accent/orange`，不用改。
+- `FormTextarea.vue` 的「必填」小字改用 `--color-required`（原本借用 `--color-error`，顏色相同但語意不同）。
+- 新增 `src/mocks/classification.ts`：作品類型、用途各 10 個選項（`features.md` 第 0 節），格式是 FormSelect 用的 `{ value, label }`，`value` 對應 `category_id`／`purpose_id`。後端 `GET /categories`、`GET /purposes` 完成後替換。id 型別 spec 尚未定，先用字串 `'1'`～`'10'`。
+- `_tokens.scss` 新增下拉選單 token：`--color-bg-dropdown`（`neutral/white`）、`--color-bg-option-hover`（`base/200`）、`--shadow-dropdown`（`0 6px 20px rgba(0,0,0,.14)`），數值取自 Figma 575:4929、568:283；`design-spec.md` 1.1 用途表同步。
+
 ## 2026/10/21
 
 - `structure.md` 放寬 `dev/` 的 import 範圍：除了 `shared/`、`layouts/`，也可以 import `features/`（元件測試頁要展示 `GoogleAuthButton`、`OrderFloatingButton` 這類放在功能資料夾的元件）。方向仍是單向，正式程式不能 import `dev/`。
