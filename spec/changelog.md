@@ -3,6 +3,18 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/24
+
+- 新增勾選框 `shared/components/FormCheckbox.vue`（Figma 535:2953，未勾選／已勾選），文字用 slot、`v-model` 是布林值。用在刪除帳號確認、同意服務條款、委託申請與付款頁的同意勾選（`features.md` 第 63、164、262、278 行），跨多個功能，所以放 `shared/`。內部保留原生 checkbox（隱藏），鍵盤與螢幕閱讀器可用；鍵盤聚焦時的外框 Figma 沒畫，前端自訂。
+- `_tokens.scss` 新增 `--color-checkbox-bg`（`neutral/white`）、`--color-checkbox-border`（`neutral/500`），勾選後的深色底沿用 `--color-bg-inverse`；`design-spec.md` 1.1 用途表同步。`public/icons/` 補 `check-white.svg`（Figma 匯出，14px 白勾）。
+- 新增選項按鈕 `features/profile/components/OptionButton.vue`（Figma 552:206，單選，選取時淺橘底＋橘框＋打勾）。目前已知用途是接案設定的訂金比例、Amilu 燈（`features.md` 3.5，開通流程 Step2 沿用同一套欄位），都屬於 profile 模組，依 `structure.md`「延後共用」先放 `features/profile/`；其他功能也要用時再升到 `shared/`。內部是隱藏的原生 radio，同一組用同一個 `name`。未選取狀態補 1px 透明框線，避免選取時尺寸跳動（Figma 未選取沒有框線）。
+- `_tokens.scss` 新增 `--color-selected-border`（`accent/orange`）；`design-spec.md` 1.1 用途表同步。`public/icons/` 補 `check-option-button.svg`（Figma 匯出，18px 深色勾，線寬 1.875；與現有 `check-option.svg` 線寬 1.65 不同，所以另存）。
+- 首頁「類型篩選」下拉的元件拆分（尚未實作，先記判斷）：Figma 觸發按鈕 490:469（Default／Clicked）、面板 496:1933（Desktop／Tablet／Mobile）、類型圖卡 496:1472。
+  - 新做兩個元件：①類型選單＝觸發按鈕＋面板合成一個元件（同 FormSelect 的做法，按鈕管開關、面板管內容；三種寬度只是 CSS 排列不同，一排 6／3／2 格，不拆元件）②類型圖卡（背景圖＋置中白字），在面板內用 `v-for` 排出。
+  - 面板底部的建議 hashtag 是 Figma 495:99，直接沿用現有 `shared/components/HashtagLabel.vue`（button 款），不另做。
+  - 目前只有首頁作品牆用，依 `structure.md` 放 `features/explore/components/`，不放 `shared/`。
+  - 待確認：觸發按鈕文字是「貼文類型」，面板標題是「作品類型」，兩者不一致。
+
 ## 2026/10/23
 
 - `_tokens.scss` 新增 `--color-required`（`accent/orange`），用在表單標籤旁的「必填」小字，第一個使用者是 `FormSelect.vue`。`design-spec.md` 1.1 用途表原本就把「必填」列在 `accent/orange`，不用改。

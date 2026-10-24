@@ -101,6 +101,22 @@
       >
     </section>
 
+    <section>
+      <h2>FormCheckbox</h2>
+      <FormCheckbox v-model="agreed">我了解刪除後無法復原，仍要刪除帳號</FormCheckbox>
+      <p>目前：{{ agreed ? '已勾選' : '未勾選' }}</p>
+    </section>
+
+    <section>
+      <h2>OptionButton</h2>
+      <div class="row">
+        <OptionButton v-model="deposit" name="deposit" value="30">30%</OptionButton>
+        <OptionButton v-model="deposit" name="deposit" value="50">50%</OptionButton>
+        <OptionButton v-model="deposit" name="deposit" value="0">無需先支付</OptionButton>
+      </div>
+      <p>目前：{{ deposit || '未選' }}</p>
+    </section>
+
     <h2>ImageUploadSlot</h2>
 
     <section class="row">
@@ -304,6 +320,8 @@ import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
 import FormTextarea from '@/shared/components/FormTextarea.vue'
 import FormSelect from '@/shared/components/FormSelect.vue'
+import FormCheckbox from '@/shared/components/FormCheckbox.vue'
+import OptionButton from '@/features/profile/components/OptionButton.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
@@ -336,6 +354,8 @@ const limitedDescription = ref('')
 const optionalDescription = ref('')
 const category = ref('2')
 const purpose = ref('')
+const agreed = ref(false)
+const deposit = ref('30')
 </script>
 
 <style lang="scss" scoped>
@@ -355,7 +375,9 @@ section {
 
 // 小元件並排顯示
 .row {
+  display: flex;
   flex-direction: row;
+  align-items: center;
   flex-wrap: wrap;
   gap: var(--space-3);
 }
