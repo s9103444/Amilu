@@ -14,6 +14,13 @@
   - 面板底部的建議 hashtag 是 Figma 495:99，直接沿用現有 `shared/components/HashtagLabel.vue`（button 款），不另做。
   - 目前只有首頁作品牆用，依 `structure.md` 放 `features/explore/components/`，不放 `shared/`。
   - 待確認：觸發按鈕文字是「貼文類型」，面板標題是「作品類型」，兩者不一致。
+- 依現有元件總檢查結果調整：
+  - `design-spec.md` 第 4 節間距規則改為兩層：頁面排版用 8 的倍數（`--space-*`），元件內部照 Figma 數值；依實際視覺刻意與 Figma 不同時要在 changelog 記原因。原規則「一律 8 的倍數」與 Figma 及現有約 20 個元件都對不上。
+  - 狀態標籤不再借用錯誤色：`_tokens.scss` 新增 `--color-status-open`（`accent/orange`）、`--color-status-waiting`（`accent/orange`）、`--color-status-waiting-bg`（`accent/orange-10`），`OpenStatusTag` 的「接案中」與 `OrderStatusTag` 的「等待某一方動作」改用；`design-spec.md` 1.1 用途表同步。
+  - `OpenStatusTag.vue` 從 `shared/components/` 搬到 `features/explore/components/`：元件寫死「接案中／暫不接案」業務文字，違反 `structure.md`「共用 UI 不認識業務」，目前只在作品牆、創作者頁的作者旁顯示。
+  - `OptionButton.vue` 圖文間距 2px、左右內距 14px（Figma 為 6px、16px），依實際視覺刻意調整。
+  - `FormSelect.vue` 補使用範例註解、選擇框加 `aria-expanded`（讓螢幕閱讀器知道清單開或關）；選項 hover 改包在 `@media (hover: hover)`，與其他元件一致，避免手機點擊後底色卡住。
+  - 尚未處理：`FormSelect` 面板的 `z-index: 10` 是暫定值，等頁面拼裝（header 固定、燈箱）時再統一規劃圖層。
 
 ## 2026/10/23
 

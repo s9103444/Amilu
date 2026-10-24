@@ -7,7 +7,13 @@
       <span class="text-small note--required" v-if="requirement === 'required'">必填</span>
       <span class="text-small note--optional" v-else-if="requirement === 'optional'">選填</span>
     </div>
-    <button type="button" :id="inputId" class="select" @click="isOpen = !isOpen">
+    <button
+      type="button"
+      :id="inputId"
+      class="select"
+      :aria-expanded="isOpen"
+      @click="isOpen = !isOpen"
+    >
       <span class="selected text-caption" v-if="selectedOption">{{ selectedOption.label }}</span>
       <span class="hint text-caption" v-else>{{ placeholder }}</span>
       <img class="arrow" src="/icons/arrow-down-gray.svg" alt="" />
@@ -26,6 +32,14 @@
 </template>
 
 <script setup lang="ts">
+/*
+元件名稱：下拉選單（Figma 欄位 568:274、選項 568:283、面板 575:4929）
+範例：
+使用前先 import：import FormSelect from '@/shared/components/FormSelect.vue'
+<FormSelect v-model="category" requirement="required" :options="CATEGORY_OPTIONS">作品類型</FormSelect>
+options 是 { value, label }[]；category 拿到的是被選那一項的 value（還沒選是 ''）
+placeholder 可以改提示字，預設「請選擇一個」
+*/
 import { computed, useId, ref, useTemplateRef, onMounted, onBeforeUnmount } from 'vue'
 const fieldEl = useTemplateRef<HTMLElement>('field')
 const inputId = useId()
@@ -142,8 +156,10 @@ label {
   border-radius: 8px;
   color: var(--color-text-primary);
   cursor: pointer;
-
-  &:hover {
+}
+// 只在有滑鼠的裝置加 hover，避免手機點一下之後底色卡住
+@media (hover: hover) {
+  .option:hover {
     background: var(--color-bg-option-hover);
   }
 }

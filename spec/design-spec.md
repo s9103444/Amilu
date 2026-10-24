@@ -37,7 +37,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `base/150`         | 淺色區塊 hover 底（前端自訂）      |
 | `base/200`         | 主背景、卡片底、頁籤、下拉選項 hover 底 |
 | `base/500`         | 次要強調、分隔、標籤               |
-| `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字、選項選取的框 |
+| `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字、選項選取的框、狀態標籤的字（接案中、等待某一方動作） |
 | `accent/orange-10` | 狀態標籤底、警語框底               |
 | `accent/orange-30` | 選項選取底、錯誤輸入框外框、次要按鈕 hover 底 |
 | `accent/green`     | 成功提示、可商用                   |
@@ -95,6 +95,9 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 - 裝置分三種：桌機（≥ 1024，設計基準寬 1440）、平板（768–1023，基準寬 768）、手機（< 768，基準寬 375）。三種都是 12 欄，gutter 與 margin 的值見 `_tokens.scss`。
 - 手機優先（mobile-first），用 `_breakpoints.scss` 的 mixin，不手寫 media query。
-- 間距一律用 8 的倍數。例外：按鈕的圓角、內距、圖文間距照 Figma，定義成 `--radius-button`、`--button-padding-*`、`--button-gap-*`。
+- 間距分兩層：
+  - **頁面排版**（區塊之間、欄與欄、頁面邊距）用 8 的倍數，讀 `--space-*`。
+  - **元件內部**（內距、圖文間距、元件內各部分的間隔）照 Figma 數值，不受 8 的倍數限制。按鈕這類多處共用的值定義成 token（`--radius-button`、`--button-padding-*`、`--button-gap-*`）。
+  - 元件數值依實際視覺刻意和 Figma 不同時，在 `changelog.md` 記一筆原因。
 - **作品牆**以元件實作，欄數由 `--gallery-columns` 控制（桌機 5／平板 3／手機 2）。
 - Figma grid style 前綴 `Amilu/Grid/`。

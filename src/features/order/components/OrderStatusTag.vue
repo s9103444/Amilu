@@ -36,8 +36,8 @@ const tone = computed(() => ORDER_STATUS_TONE[props.status])
 
 //-----等待某一方動作（橘）-----//
 .order-status-tag--waiting {
-  background: var(--color-error-bg);
-  color: var(--color-error);
+  background: var(--color-status-waiting-bg);
+  color: var(--color-status-waiting);
 }
 
 //-----進行中（藍）-----//
