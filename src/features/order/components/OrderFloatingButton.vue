@@ -5,7 +5,7 @@
     :class="{ 'btn--info': status === 'info' }"
     :aria-label="status === 'chat' ? '開啟聊天室' : '查看案件資訊'"
   >
-    <img :src="status === 'chat' ? '/icons/message.svg' : '/icons/profile.svg'" alt="" />
+    <img :src="base + (status === 'chat' ? 'icons/message.svg' : 'icons/profile.svg')" alt="" />
   </button>
 </template>
 
@@ -17,6 +17,7 @@
 <OrderFloatingButton status="info" /> ---> 查看案件資訊（深色底）
 位置（固定在右下角）由使用它的頁面決定，元件本身只負責圓形按鈕的外觀。
 */
+const base = import.meta.env.BASE_URL
 defineProps<{
   status: 'chat' | 'info'
 }>()

@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/26
+
+- `OrderFloatingButton.vue` 的圖示路徑改成在前面接 `import.meta.env.BASE_URL`：圖示用 `:src` 綁定，Vite 不會自動補 `base`，部署到子路徑時會 404。`open-questions.md` 第 4 節補上這條注意事項。
+
 ## 2026/10/24
 
 - 新增勾選框 `shared/components/FormCheckbox.vue`（Figma 535:2953，未勾選／已勾選），文字用 slot、`v-model` 是布林值。用在刪除帳號確認、同意服務條款、委託申請與付款頁的同意勾選（`features.md` 第 63、164、262、278 行），跨多個功能，所以放 `shared/`。內部保留原生 checkbox（隱藏），鍵盤與螢幕閱讀器可用；鍵盤聚焦時的外框 Figma 沒畫，前端自訂。

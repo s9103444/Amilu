@@ -65,6 +65,7 @@
 **驗證**（2026/10/19）：用 `vite build --base=/amilu/` 打包到暫存資料夾，字體 `url()`、`favicon`、JS 路徑都自動加上 `/amilu/`，所以字體路徑不用改。
 **建議**：若確定根路徑，不用改；若有子路徑可能，只需在 `vite.config.ts` 設 `base`。
 **決議**（2026/10/19）：字體路徑維持 `/fonts/…`，不改成相對路徑（有 Vue Router 的多層網址，相對路徑會找錯）。部署平台還沒選，現在不設 `base`，以免本機網址變成 `localhost:5173/<repo>/`。部署前選平台：GitHub Pages 這類子路徑就在 `vite.config.ts` 加 `base: '/<repo 名稱>/'`；Netlify、Vercel、Cloudflare Pages 這類根路徑不用改。
+**補充**（2026/10/26）：Vite 只會替 CSS 的 `url()` 和模板裡寫死的 `src="/icons/…"` 自動加上 `base`，不會改 JS 字串。用 `:src` 綁定、路徑寫在 JS 字串裡的圖片，要自己在前面接 `import.meta.env.BASE_URL`，而且路徑開頭不加 `/`（`BASE_URL` 結尾已經有 `/`）。範例：`OrderFloatingButton.vue`。已用 `vite build --base=/amilu/` 打包確認，改之前這兩個 icon 的路徑沒有加上 `/amilu/`。
 
 ## 5. `npm run format` 可能大幅改寫部分樣式檔
 
