@@ -35,5 +35,11 @@ withDefaults(
   padding: 0;
   border: none;
   background: none;
+  transition: color 0.2s ease;
+}
+@media (hover: hover) {
+  .hashtag--button:hover {
+    color: var(--color-text-primary);
+  }
 }
 </style>

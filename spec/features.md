@@ -19,7 +19,7 @@
 | --- | --- | --- |
 | 1 | 角色立繪 Character Art | 個人收藏 Personal Use |
 | 2 | 插畫 Illustration | 商業授權 Commercial Use |
-| 3 | 頭像／大頭貼 Avatar | VTuber 用途 VTuber |
+| 3 | 頭像／大頭貼 Avatar | VTuber |
 | 4 | Live2D | 遊戲美術 Game Art |
 | 5 | 漫畫 Comic | 社群媒體 Social Media |
 | 6 | 概念設定 Concept Art | 出版品 Publishing |

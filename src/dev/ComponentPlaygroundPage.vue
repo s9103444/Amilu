@@ -204,6 +204,21 @@
       </div>
     </section>
 
+    <h2>CategoryCard</h2>
+
+    <!-- 卡片寬度跟著外層；這裡用 Figma 的 180px 測試。正式的類型圖片之後放 src/assets/ -->
+    <section class="category-card-demo">
+      <CategoryCard name="角色立繪" :image-url="demoImage" />
+    </section>
+
+    <h2>CategorySelect</h2>
+
+    <!-- 面板會和最近一個有 position 的外層一樣寬，這裡模擬首頁放按鈕的那一列 -->
+    <section class="row category-select-demo">
+      <CategorySelect button-type="category" />
+      <CategorySelect button-type="purpose" />
+    </section>
+
     <h2>InfoBox</h2>
 
     <section>
@@ -334,6 +349,8 @@ import HashtagLabel from '@/shared/components/HashtagLabel.vue'
 import CommercialTag from '@/shared/components/CommercialTag.vue'
 import StepNumber from '@/shared/components/StepNumber.vue'
 import OpenStatusTag from '@/features/explore/components/OpenStatusTag.vue'
+import CategoryCard from '@/features/explore/components/CategoryCard.vue'
+import CategorySelect from '@/features/explore/components/CategorySelect.vue'
 import InfoBox from '@/shared/components/InfoBox.vue'
 import WarningBox from '@/shared/components/WarningBox.vue'
 import SavedToast from '@/shared/components/SavedToast.vue'
@@ -356,6 +373,8 @@ const category = ref('2')
 const purpose = ref('')
 const agreed = ref(false)
 const deposit = ref('30')
+// 測試圖借用 public/ 裡現有的圖。public/ 的檔案要由使用的地方自己接上 BASE_URL
+const demoImage = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 </script>
 
 <style lang="scss" scoped>
@@ -371,6 +390,16 @@ section {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+
+.category-card-demo {
+  width: 180px;
+}
+
+// 測試頁整頁限制 500px 寬，這一段刻意超出，才看得出平板／桌機的欄數
+.category-select-demo {
+  position: relative;
+  width: min(1290px, calc(100vw - 2 * var(--space-3)));
 }
 
 // 小元件並排顯示
