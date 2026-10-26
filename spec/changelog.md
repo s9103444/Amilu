@@ -5,9 +5,20 @@
 
 ## 2026/10/26
 
+<<<<<<< HEAD
 - 實作 Figma「第3層｜組合元件」第一批（優先用現有元件組裝）：委託案件卡 `features/order/components/OrderCard.vue`（Figma 558:211，內含 `OrderStatusTag`，按鈕放 `#action` slot，用 `Button`）、委託進度條 `features/order/components/StageProgress.vue`（Figma 613:554，階段名稱用 `stageLabel.ts`）、作品內容 `features/explore/components/WorkInfo.vue`（Figma 522:1214，標籤用 `HashtagLabel`）。只做外觀與 props，不做資料取得；測試頁排入全部變體。
 - 委託進度條支援三點分段：`stages` 傳 `[1, 4, 5]` 只畫 3 個節點（依 `data-model.md` 4.2 的 stage_no 編碼，不遞補）；Figma 只畫五點，三點的樣子待設計確認（`open-questions.md` 第 11 題）。`public/icons/` 補 `stage-node-current.svg`、`stage-node-done.svg`、`stage-node-todo.svg`（Figma 匯出的節點圖示）。
 - 剩下四個（付款方案卡、接案規範、個人頁作品卡、瀑布流卡片）排第二批；瀑布流卡片裡的作者列是 Figma 的「個人資訊條」，等組員做完再接。
+=======
+- `OrderFloatingButton.vue` 的圖示路徑改成在前面接 `import.meta.env.BASE_URL`：圖示用 `:src` 綁定，Vite 不會自動補 `base`，部署到子路徑時會 404。`open-questions.md` 第 4 節補上這條注意事項。
+- 新增類型圖卡 `features/explore/components/CategoryCard.vue`（Figma 496:1472，背景圖＋置中白字）。白字上的半透明遮罩是前端加的（Figma 只有圖片與文字兩層），用 `--color-overlay` 疊在 `background-image` 第一層；圓角沿用 `--radius-button`（15px，Figma 為 14px），因為圖卡也是按鈕。圖片和遮罩放在 `::before`（網址經 CSS 變數 `--card-image` 傳入），hover 時只放大圖片 1.1 倍，卡片外框與文字不動；hover 效果 Figma 沒畫，前端自訂。
+- 首頁類型下拉面板的排法：作品類型、用途各 10 項，前 6 項顯示成圖卡、後 4 項沿用 `shared/components/HashtagLabel.vue`（button 款）並在前面加「#」（「#」只在模板加，不寫進資料）。
+- 新增首頁類型下拉選單 `features/explore/components/CategorySelect.vue`（Figma 觸發按鈕 490:469、面板 496:1933），觸發按鈕＋面板合成一個元件，`button-type` 決定是作品類型或用途。卡片用 grid，一排 2／3／6 張（手機／平板／桌機），間距 20px。面板以「最近一個有 position 的外層」為寬度基準，使用的地方要在按鈕那一列加 `position: relative`。按鈕文字與面板標題定為「作品類型」「作品用途」（2026/10/26 決定）；Figma 按鈕目前寫「貼文類型」，待同步。點卡片或 hashtag 後用 `v-model` 回傳該項的 `value`（`category_id`／`purpose_id`）並關閉面板。尚未完成：面板 `z-index`（同 `FormSelect`，等頁面拼裝時統一規劃）。
+- 新增 `shared/composables/useClickOutside.ts`：點到指定元素外面時呼叫傳入的函式。`FormSelect`（shared）與 `CategorySelect`（explore）都用，所以放 `shared/`；`FormSelect` 原本自己寫的「點外面關閉」改用它，行為不變。
+- `HashtagLabel.vue` 的 button 款新增 hover 變深色（`--color-text-primary`），包在 `@media (hover: hover)`；Figma 沒畫 hover，前端自訂。
+- `src/mocks/classification.ts` 前 6 項新增 `imageUrl`，圖片放 `src/assets/category/`、`src/assets/purpose/`，檔名用 `features.md` 第 0 節的英文名。`CATEGORY`／`PURPOSE` 資料表沒有圖片欄位，這是前端自己的欄位，接後端時圖片仍由前端提供。圖片用 WebP（品質 80，720×500），12 張共約 400KB（原 PNG 約 5.5MB）。
+- 用途第 3 項「VTuber 用途」改名為「VTuber」（`features.md` 第 0 節、`mocks/classification.ts` 同步）。
+>>>>>>> timmi
 
 ## 2026/10/24
 

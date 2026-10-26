@@ -40,7 +40,8 @@
 options 是 { value, label }[]；category 拿到的是被選那一項的 value（還沒選是 ''）
 placeholder 可以改提示字，預設「請選擇一個」
 */
-import { computed, useId, ref, useTemplateRef, onMounted, onBeforeUnmount } from 'vue'
+import { computed, useId, ref, useTemplateRef } from 'vue'
+import { useClickOutside } from '@/shared/composables/useClickOutside'
 const fieldEl = useTemplateRef<HTMLElement>('field')
 const inputId = useId()
 const props = withDefaults(
@@ -64,19 +65,12 @@ function changeSelect(value: string) {
   selected.value = value
   isOpen.value = false
 }
-// 【點外面關閉：document 每次被按下時呼叫，見下方 onMounted】不在元件裡就關掉清單
-function closeOnOutsideClick(event: PointerEvent) {
-  if (!fieldEl.value?.contains(event.target as Node)) {
-    isOpen.value = false
-  }
+// 【點外面時觸發，由下方 useClickOutside 呼叫】關掉清單
+function statesOff() {
+  isOpen.value = false
 }
-// 元件出現時開始聽、消失前停止聽（document 是全站共用的，不收回會一直累積）
-onMounted(() => {
-  document.addEventListener('pointerdown', closeOnOutsideClick)
-})
-onBeforeUnmount(() => {
-  document.removeEventListener('pointerdown', closeOnOutsideClick)
-})
+// 【點外面關閉】點到 field（選擇框＋清單）以外的地方時，呼叫 statesOff
+useClickOutside(fieldEl, statesOff)
 </script>
 
 <style lang="scss" scoped>
