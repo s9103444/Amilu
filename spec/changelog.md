@@ -3,6 +3,12 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/26
+
+- 實作 Figma「第3層｜組合元件」第一批（優先用現有元件組裝）：委託案件卡 `features/order/components/OrderCard.vue`（Figma 558:211，內含 `OrderStatusTag`，按鈕放 `#action` slot，用 `Button`）、委託進度條 `features/order/components/StageProgress.vue`（Figma 613:554，階段名稱用 `stageLabel.ts`）、作品內容 `features/explore/components/WorkInfo.vue`（Figma 522:1214，標籤用 `HashtagLabel`）。只做外觀與 props，不做資料取得；測試頁排入全部變體。
+- 委託進度條支援三點分段：`stages` 傳 `[1, 4, 5]` 只畫 3 個節點（依 `data-model.md` 4.2 的 stage_no 編碼，不遞補）；Figma 只畫五點，三點的樣子待設計確認（`open-questions.md` 第 11 題）。`public/icons/` 補 `stage-node-current.svg`、`stage-node-done.svg`、`stage-node-todo.svg`（Figma 匯出的節點圖示）。
+- 剩下四個（付款方案卡、接案規範、個人頁作品卡、瀑布流卡片）排第二批；瀑布流卡片裡的作者列是 Figma 的「個人資訊條」，等組員做完再接。
+
 ## 2026/10/24
 
 - 新增勾選框 `shared/components/FormCheckbox.vue`（Figma 535:2953，未勾選／已勾選），文字用 slot、`v-model` 是布林值。用在刪除帳號確認、同意服務條款、委託申請與付款頁的同意勾選（`features.md` 第 63、164、262、278 行），跨多個功能，所以放 `shared/`。內部保留原生 checkbox（隱藏），鍵盤與螢幕閱讀器可用；鍵盤聚焦時的外框 Figma 沒畫，前端自訂。

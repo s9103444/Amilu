@@ -308,6 +308,87 @@
         <StageTag :stage_no="5" />
       </div>
     </section>
+
+    <section>
+      <h2>StageProgress</h2>
+      <p>五點分段：目前在草稿</p>
+      <div class="narrow"><StageProgress :current="1" /></div>
+      <p>目前在線稿</p>
+      <div class="narrow"><StageProgress :current="2" /></div>
+      <p>目前在彩稿</p>
+      <div class="narrow"><StageProgress :current="3" /></div>
+      <p>目前在精稿</p>
+      <div class="narrow"><StageProgress :current="4" /></div>
+      <p>目前在完稿</p>
+      <div class="narrow"><StageProgress :current="5" /></div>
+      <p>三點分段：目前在精稿</p>
+      <div class="narrow"><StageProgress :stages="[1, 4, 5]" :current="4" /></div>
+    </section>
+
+    <section class="wide">
+      <h2>OrderCard</h2>
+      <p>creator / 有金額 + 次要按鈕（查看類）</p>
+      <OrderCard
+        role="creator"
+        status="awaiting-quote"
+        title="頭像（肩膀以上）"
+        counterpart="創作者暱稱 @creator_id"
+        time-info="申請時間 2026 / 10 / 01　・　等待創作者報價"
+        amount="NT$ 4,500"
+      >
+        <template #action>
+          <Button variant="secondary" width="hug">查看委託</Button>
+        </template>
+      </OrderCard>
+      <p>commissioner / 主要按鈕（需要使用者動手）</p>
+      <OrderCard
+        role="commissioner"
+        status="awaiting-quote"
+        title="全身立繪"
+        counterpart="委託人暱稱 @commissioner_id"
+        time-info="申請時間 2026 / 10 / 02　・　等待你報價"
+        amount="NT$ 8,000"
+      >
+        <template #action>
+          <Button width="hug">前往報價</Button>
+        </template>
+      </OrderCard>
+      <p>沒有按鈕，改顯示狀態說明</p>
+      <OrderCard
+        role="creator"
+        status="awaiting-payment"
+        title="頭像（肩膀以上）"
+        counterpart="創作者暱稱 @creator_id"
+        time-info="申請時間 2026 / 10 / 01　・　等待委託人付款"
+        amount="NT$ 4,500"
+        status-note="等待委託人付款"
+      />
+      <p>標題太長會截斷</p>
+      <OrderCard
+        role="creator"
+        status="in-progress"
+        title="這是一個非常非常非常非常非常非常非常非常非常非常非常長的案件標題"
+        counterpart="創作者暱稱 @creator_id"
+        time-info="申請時間 2026 / 10 / 01"
+        amount="NT$ 12,000"
+      >
+        <template #action>
+          <Button variant="secondary" width="hug">查看委託</Button>
+        </template>
+      </OrderCard>
+    </section>
+
+    <section>
+      <h2>WorkInfo</h2>
+      <p>有標籤</p>
+      <WorkInfo
+        title="作品標題"
+        description="這是一段用於版面設計與介面視覺測試的預設佔位文字，用來呈現真實的排版樣式、字體比例與文案行距效果。"
+        :tags="['厚塗', '半厚塗', '賽璐珞', 'dsadas']"
+      />
+      <p>沒有標籤（標籤列不顯示）</p>
+      <WorkInfo title="作品標題" description="只有標題與說明。" />
+    </section>
   </div>
 </template>
 
@@ -326,6 +407,9 @@ import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
 import StageTag from '@/features/order/components/StageTag.vue'
+import StageProgress from '@/features/order/components/StageProgress.vue'
+import OrderCard from '@/features/order/components/OrderCard.vue'
+import WorkInfo from '@/features/explore/components/WorkInfo.vue'
 import ImageUploadSlot from '@/shared/components/ImageUploadSlot.vue'
 import AvatarUpload from '@/shared/components/AvatarUpload.vue'
 import DropZone from '@/shared/components/DropZone.vue'
@@ -371,6 +455,17 @@ section {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+
+// 案件卡設計稿寬 888，比頁面的 500 寬，所以這一區放寬（小螢幕時不超出視窗）
+.wide {
+  width: min(888px, calc(100vw - 2 * var(--space-3)));
+}
+
+// 進度條設計稿寬 352
+.narrow {
+  width: 352px;
+  max-width: 100%;
 }
 
 // 小元件並排顯示
