@@ -215,9 +215,11 @@
 
     <!-- 面板會和最近一個有 position 的外層一樣寬，這裡模擬首頁放按鈕的那一列 -->
     <section class="row category-select-demo">
-      <CategorySelect button-type="category" />
-      <CategorySelect button-type="purpose" />
+      <CategorySelect v-model="pickedCategory" button-type="category" />
+      <CategorySelect v-model="pickedPurpose" button-type="purpose" />
     </section>
+    <p>選到的 category_id：{{ pickedCategory || '（還沒選）' }}</p>
+    <p>選到的 purpose_id：{{ pickedPurpose || '（還沒選）' }}</p>
 
     <h2>InfoBox</h2>
 
@@ -371,6 +373,8 @@ const limitedDescription = ref('')
 const optionalDescription = ref('')
 const category = ref('2')
 const purpose = ref('')
+const pickedCategory = ref('')
+const pickedPurpose = ref('')
 const agreed = ref(false)
 const deposit = ref('30')
 // 測試圖借用 public/ 裡現有的圖。public/ 的檔案要由使用的地方自己接上 BASE_URL

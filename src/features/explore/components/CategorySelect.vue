@@ -11,12 +11,19 @@
       <p class="text-body panel-title">{{ title }}</p>
       <ul class="card-options">
         <li v-for="card in cardOptions" :key="card.value">
-          <CategoryCard v-if="card.imageUrl" :name="card.label" :image-url="card.imageUrl" />
+          <!-- 【點卡片時觸發】把這一項的 value 交給 selectPicked -->
+          <CategoryCard
+            @click="selectPicked(card.value)"
+            v-if="card.imageUrl"
+            :name="card.label"
+            :image-url="card.imageUrl"
+          />
         </li>
       </ul>
       <ul class="label-options">
         <li v-for="item in labelOptions" :key="item.value">
-          <HashtagLabel>#{{ item.label }}</HashtagLabel>
+          <!-- 【點 hashtag 時觸發】同上 -->
+          <HashtagLabel @click="selectPicked(item.value)">#{{ item.label }}</HashtagLabel>
         </li>
       </ul>
     </div>
@@ -28,20 +35,23 @@
 元件名稱：首頁類型下拉選單（Figma 觸發按鈕 490:469、面板 496:1933）
 範例：
 使用前先 import：import CategorySelect from '@/features/explore/components/CategorySelect.vue'
-<CategorySelect button-type="category" /> ---> 作品類型
-<CategorySelect button-type="purpose" /> ---> 作品用途
+<CategorySelect v-model="category" button-type="category" /> ---> 作品類型
+<CategorySelect v-model="purpose" button-type="purpose" /> ---> 作品用途
+category／purpose 拿到的是被選那一項的 value（category_id／purpose_id，還沒選是 ''）。
 面板前 6 項是圖卡、後 4 項是 hashtag，清單來自 mocks/classification.ts。
 面板會和「最近一個有 position 的外層」一樣寬：使用的地方要在放按鈕的那一列加 position: relative。
-尚未完成：點選後把選到的 value 交給外面（v-model）。
 */
 import { computed, ref, useTemplateRef } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import { useClickOutside } from '@/shared/composables/useClickOutside'
 import CategoryCard from '@/features/explore/components/CategoryCard.vue'
 import HashtagLabel from '@/shared/components/HashtagLabel.vue'
+
 const fieldEl = useTemplateRef<HTMLElement>('field')
 const base = import.meta.env.BASE_URL
 const isOpen = ref(false)
+// 外面 v-model 傳進來的值；改 selected.value 時，Vue 會自動通知外面更新
+const selected = defineModel<string>({ default: '' })
 const props = withDefaults(
   defineProps<{
     buttonType: 'category' | 'purpose'
@@ -50,6 +60,11 @@ const props = withDefaults(
     buttonType: 'category',
   },
 )
+// 【點卡片或 hashtag 時觸發，見模板】存下那一項的 value（交給外面），然後關掉面板
+function selectPicked(value: string) {
+  selected.value = value
+  isOpen.value = false
+}
 // 【點按鈕時觸發】面板開著就關、關著就開
 function changeStates() {
   isOpen.value = !isOpen.value
