@@ -31,6 +31,14 @@
     </section>
     <br />
     <section>
+      <h2>UserMenu</h2>
+      <p>點頭像打開選單；點「上傳作品」展開子項目；點選單外面關閉</p>
+      <div class="user-menu-demo">
+        <UserMenu />
+      </div>
+    </section>
+    <br />
+    <section>
       <h2>個人選單：開通創作者</h2>
       <ActivateCreatorButton />
     </section>
@@ -406,12 +414,65 @@
       <p>沒有標籤（標籤列不顯示）</p>
       <WorkInfo title="作品標題" description="只有標題與說明。" />
     </section>
+
+    <section>
+      <h2>SideMenuItem</h2>
+      <p>點一下切換選中（目前：{{ activeSide }}）；灰字項目一樣可以點</p>
+      <div class="narrow">
+        <SideMenuItem
+          v-for="item in sideMenu"
+          :key="item.key"
+          :title="item.title"
+          :status="activeSide === item.key ? 'selected' : item.secondary ? 'secondary' : 'default'"
+          @click="activeSide = item.key"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>FollowUserRow</h2>
+      <p>點按鈕切換追蹤；點頭像或名字（最後點的：{{ lastSelectedUser || '還沒點' }}）</p>
+      <FollowUserRow
+        v-for="user in MOCK_USERS"
+        :key="user.id"
+        :avatar-url="user.avatar_url"
+        :nickname="user.nickname"
+        :user-id="user.id"
+        :followed="followedIds.includes(user.id)"
+        @toggle-follow="toggleFollow(user.id)"
+        @select="lastSelectedUser = user.nickname"
+      />
+    </section>
+
+    <section>
+      <h2>UserInfoBar</h2>
+      <p>直式（預設）</p>
+      <UserInfoBar
+        :avatar-url="MOCK_USERS[0]!.avatar_url"
+        :nickname="MOCK_USERS[0]!.nickname"
+        :user-id="MOCK_USERS[0]!.id"
+      />
+      <p>橫式</p>
+      <UserInfoBar
+        :avatar-url="MOCK_USERS[0]!.avatar_url"
+        :nickname="MOCK_USERS[0]!.nickname"
+        :user-id="MOCK_USERS[0]!.id"
+        layout="horizontal"
+      />
+      <p>沒有大頭照（顯示預設圖）</p>
+      <UserInfoBar
+        :avatar-url="MOCK_USERS[1]!.avatar_url"
+        :nickname="MOCK_USERS[1]!.nickname"
+        :user-id="MOCK_USERS[1]!.id"
+      />
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import Button from '@/shared/components/Button.vue'
 import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
+import UserMenu from '@/layouts/components/header/UserMenu.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
 import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import FollowButton from '@/shared/components/FollowButton.vue'
@@ -442,6 +503,10 @@ import WarningBox from '@/shared/components/WarningBox.vue'
 import SavedToast from '@/shared/components/SavedToast.vue'
 import DividerWithText from '@/shared/components/DividerWithText.vue'
 import MenuDivider from '@/shared/components/MenuDivider.vue'
+import SideMenuItem from '@/shared/components/SideMenuItem.vue'
+import FollowUserRow from '@/features/explore/components/FollowUserRow.vue'
+import UserInfoBar from '@/features/explore/components/UserInfoBar.vue'
+import { MOCK_USERS } from '@/mocks/user'
 import { ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 const searchText = ref('')
@@ -463,6 +528,21 @@ const agreed = ref(false)
 const deposit = ref('30')
 // 測試圖借用 public/ 裡現有的圖。public/ 的檔案要由使用的地方自己接上 BASE_URL
 const demoImage = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
+// SideMenuItem 測試：委託討論牆的左側選單（spec/features.md 4.4）
+const sideMenu = [
+  { key: 'wall', title: '委託討論牆' },
+  { key: 'item', title: '委託項目檢視' },
+  { key: 'terminate', title: '申請終止合作', secondary: true },
+]
+const activeSide = ref('wall')
+// FollowUserRow 測試：記住哪些人被追蹤
+const followedIds = ref<string[]>(['painter_01'])
+const lastSelectedUser = ref('')
+function toggleFollow(id: string) {
+  followedIds.value = followedIds.value.includes(id)
+    ? followedIds.value.filter((followedId) => followedId !== id)
+    : [...followedIds.value, id]
+}
 </script>
 
 <style lang="scss" scoped>
@@ -489,6 +569,13 @@ section {
 .narrow {
   width: 352px;
   max-width: 100%;
+}
+// 個人選單的面板對齊按鈕右邊、往左長，按鈕靠右放才看得到整個面板；
+// 高度先撐開，展開後的面板才不會蓋到下一段元件
+.user-menu-demo {
+  display: flex;
+  justify-content: flex-end;
+  // min-height: 600px;
 }
 .category-card-demo {
   width: 180px;

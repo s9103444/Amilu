@@ -63,6 +63,9 @@
   --button-padding-sm: 10px 18px;
   --button-gap-md: 10px;
   --button-gap-sm: 4px;
+  // 追蹤使用者列裡的小追蹤按鈕（Figma 522:1212）
+  --button-padding-xs: 4px 20px;
+  --radius-button-xs: 12px;
   // 委託討論牆右下角的浮動按鈕（Figma 585:12563）
   --color-button-floating-info-bg: var(--neutral-900);
   --shadow-floating: 0 4px 16px rgba(0, 0, 0, 0.16);
@@ -70,6 +73,10 @@
   --color-bg-dropdown: var(--neutral-white); // 面板底
   --color-bg-option-hover: var(--base-200); // 選項 hover 底（面板是白底，用 base-200 才看得出來）
   --shadow-dropdown: 0 6px 20px rgba(0, 0, 0, 0.14);
+  --shadow-menu: 0 6px 10px rgba(0, 0, 0, 0.14); // header 個人選單（Figma 719:14347）
+  // 側邊選單項目（Figma 613:561）：選中的底色、滑過的底色
+  --color-bg-nav-selected: var(--base-200);
+  --color-bg-nav-hover: var(--base-150);
   // 勾選框（Figma 535:2953）。勾選後的深色底沿用 --color-bg-inverse
   --color-checkbox-bg: var(--neutral-white);
   --color-checkbox-border: var(--neutral-500);

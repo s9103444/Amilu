@@ -1,5 +1,12 @@
 <template>
-  <button class="text-button-sm btn" type="button" :class="{ 'btn--followed': followed }">
+  <button
+    class="btn"
+    type="button"
+    :class="[
+      size === 'xs' ? 'text-small btn--xs' : 'text-button-sm',
+      { 'btn--followed': followed },
+    ]"
+  >
     <span class="label" :class="{ 'label--hidden': followed }">Follow +</span>
     <span class="label" :class="{ 'label--hidden': !followed }">Followed</span>
   </button>
@@ -12,10 +19,15 @@
 <FollowButton :followed="isFollowed" @click="isFollowed = !isFollowed" />
 followed 為 true 顯示「Followed」灰底款，false 顯示「Follow +」外框款；
 兩段文字疊在同一格，所以切換時按鈕寬度不會跳動。追蹤狀態由外面記住，按鈕只負責顯示。
+size：預設 'sm'（個人頁、燈箱）；'xs' 是追蹤使用者列裡的小尺寸（Figma 522:1212）
 */
-defineProps<{
-  followed: boolean
-}>()
+withDefaults(
+  defineProps<{
+    followed: boolean
+    size?: 'sm' | 'xs'
+  }>(),
+  { size: 'sm' },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -34,6 +46,11 @@ defineProps<{
     color 0.3s ease,
     background-color 0.3s ease,
     border-color 0.3s ease;
+}
+// 小尺寸：只改留白和圓角，顏色和狀態跟一般尺寸一樣
+.btn--xs {
+  padding: var(--button-padding-xs);
+  border-radius: var(--radius-button-xs);
 }
 // 兩段文字疊在同一格，按鈕寬度取較寬的那段；隱藏的那段仍佔位，但不會被看到或念出
 .label {
