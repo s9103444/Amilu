@@ -7,6 +7,8 @@
 
 - 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
 - `FilterChip.vue`、`StageProgress.vue`、`OrderCard.vue` 用 `:src` 綁定的圖示與預設頭像路徑，改成在前面接 `import.meta.env.BASE_URL`（路徑開頭不加 `/`），部署到子路徑時才不會 404；畫面沒有變化（對應 `open-questions.md` 第 4 節的補充）。
+- 新增字級 token `--fs-badge`（8px，不隨斷點）給通知未讀數字用，`design-spec.md` 第 3 節字級表補一列；`NotificationItem.vue` 的未讀紅點套用這個字級，顯示實際數字、用 padding 撐開（一位數圓形，兩位數以上膠囊形）。
+- 通知中心「對話」頁籤的最新訊息，從「前 10 個字，超過以『...』取代」改成「單行顯示，超出寬度以『…』截斷」（CSS `text-overflow: ellipsis`），`features.md` 5.2 與 `acceptance.md` NTF-03 一起改；`NotificationMenuItem.vue` 依此實作。
 
 ## 2026/10/26
 
