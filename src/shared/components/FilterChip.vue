@@ -5,7 +5,7 @@
     :class="{ 'chip--outline': variant === 'outline' }"
   >
     <img
-      :src="variant === 'outline' ? '/icons/cross-black.svg' : '/icons/cross-white.svg'"
+      :src="base + (variant === 'outline' ? 'icons/cross-black.svg' : 'icons/cross-white.svg')"
       alt=""
     />
     <slot></slot>
@@ -24,6 +24,9 @@
 defineProps<{
   variant?: 'filled' | 'outline'
 }>()
+
+// 圖示用 :src 綁定，Vite 不會自動補 base，要自己接（BASE_URL 結尾已經有 /）
+const base = import.meta.env.BASE_URL
 </script>
 
 <style lang="scss" scoped>

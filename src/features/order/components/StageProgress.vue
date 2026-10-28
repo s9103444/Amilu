@@ -38,10 +38,15 @@ const props = withDefaults(
   },
 )
 
+// 圖示用 :src 綁定，Vite 不會自動補 base，要自己接（BASE_URL 結尾已經有 /）
+const base = import.meta.env.BASE_URL
+
 // 目前階段是大實心點，已完成的是小實心點，還沒到的是空心灰圈（不只靠顏色區分）
 function nodeIcon(stage: StageNo) {
-  if (stage === props.current) return '/icons/stage-node-current.svg'
-  return stage < props.current ? '/icons/stage-node-done.svg' : '/icons/stage-node-todo.svg'
+  if (stage === props.current) return base + 'icons/stage-node-current.svg'
+  return stage < props.current
+    ? base + 'icons/stage-node-done.svg'
+    : base + 'icons/stage-node-todo.svg'
 }
 </script>
 

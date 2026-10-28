@@ -2,7 +2,7 @@
   <article class="order-card">
     <div class="counterpart">
       <!-- 沒傳頭像時改用預設圖 -->
-      <img class="avatar" :src="avatarUrl ?? '/picture/default-user-pic.png'" alt="" />
+      <img class="avatar" :src="avatarUrl ?? defaultAvatar" alt="" />
       <span class="text-small role">{{ ROLE_LABEL[role] }}</span>
     </div>
 
@@ -56,6 +56,9 @@ defineProps<{
 
 // 甲方＝委託人＝commissioner；乙方＝創作者＝creator
 const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
+
+// public/ 的檔案要自己接上 BASE_URL
+const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 </script>
 
 <style lang="scss" scoped>

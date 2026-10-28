@@ -3,13 +3,16 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/28
+
+- 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
+- `FilterChip.vue`、`StageProgress.vue`、`OrderCard.vue` 用 `:src` 綁定的圖示與預設頭像路徑，改成在前面接 `import.meta.env.BASE_URL`（路徑開頭不加 `/`），部署到子路徑時才不會 404；畫面沒有變化（對應 `open-questions.md` 第 4 節的補充）。
+
 ## 2026/10/26
 
-<<<<<<< HEAD
 - 實作 Figma「第3層｜組合元件」第一批（優先用現有元件組裝）：委託案件卡 `features/order/components/OrderCard.vue`（Figma 558:211，內含 `OrderStatusTag`，按鈕放 `#action` slot，用 `Button`）、委託進度條 `features/order/components/StageProgress.vue`（Figma 613:554，階段名稱用 `stageLabel.ts`）、作品內容 `features/explore/components/WorkInfo.vue`（Figma 522:1214，標籤用 `HashtagLabel`）。只做外觀與 props，不做資料取得；測試頁排入全部變體。
 - 委託進度條支援三點分段：`stages` 傳 `[1, 4, 5]` 只畫 3 個節點（依 `data-model.md` 4.2 的 stage_no 編碼，不遞補）；Figma 只畫五點，三點的樣子待設計確認（`open-questions.md` 第 11 題）。`public/icons/` 補 `stage-node-current.svg`、`stage-node-done.svg`、`stage-node-todo.svg`（Figma 匯出的節點圖示）。
 - 剩下四個（付款方案卡、接案規範、個人頁作品卡、瀑布流卡片）排第二批；瀑布流卡片裡的作者列是 Figma 的「個人資訊條」，等組員做完再接。
-=======
 - `OrderFloatingButton.vue` 的圖示路徑改成在前面接 `import.meta.env.BASE_URL`：圖示用 `:src` 綁定，Vite 不會自動補 `base`，部署到子路徑時會 404。`open-questions.md` 第 4 節補上這條注意事項。
 - 新增類型圖卡 `features/explore/components/CategoryCard.vue`（Figma 496:1472，背景圖＋置中白字）。白字上的半透明遮罩是前端加的（Figma 只有圖片與文字兩層），用 `--color-overlay` 疊在 `background-image` 第一層；圓角沿用 `--radius-button`（15px，Figma 為 14px），因為圖卡也是按鈕。圖片和遮罩放在 `::before`（網址經 CSS 變數 `--card-image` 傳入），hover 時只放大圖片 1.1 倍，卡片外框與文字不動；hover 效果 Figma 沒畫，前端自訂。
 - 首頁類型下拉面板的排法：作品類型、用途各 10 項，前 6 項顯示成圖卡、後 4 項沿用 `shared/components/HashtagLabel.vue`（button 款）並在前面加「#」（「#」只在模板加，不寫進資料）。
@@ -18,7 +21,6 @@
 - `HashtagLabel.vue` 的 button 款新增 hover 變深色（`--color-text-primary`），包在 `@media (hover: hover)`；Figma 沒畫 hover，前端自訂。
 - `src/mocks/classification.ts` 前 6 項新增 `imageUrl`，圖片放 `src/assets/category/`、`src/assets/purpose/`，檔名用 `features.md` 第 0 節的英文名。`CATEGORY`／`PURPOSE` 資料表沒有圖片欄位，這是前端自己的欄位，接後端時圖片仍由前端提供。圖片用 WebP（品質 80，720×500），12 張共約 400KB（原 PNG 約 5.5MB）。
 - 用途第 3 項「VTuber 用途」改名為「VTuber」（`features.md` 第 0 節、`mocks/classification.ts` 同步）。
->>>>>>> timmi
 
 ## 2026/10/24
 
