@@ -86,6 +86,8 @@
   --color-error-bg: var(--accent-orange-10);
   --color-selected-bg: var(--accent-orange-30);
   --color-selected-border: var(--accent-orange); // 選項按鈕選取時的框（Figma 552:206）
+  // 付款方案卡「已選擇」小標的底（Figma 600:122），字用 --color-text-on-dark
+  --color-selected-badge-bg: var(--accent-orange);
   --color-error-border: var(--accent-orange-30);
   // 狀態標籤：顏色跟錯誤一樣是橘色，但語意是狀態，不是錯誤
   --color-status-open: var(--accent-orange); // 接案狀態標籤「接案中」

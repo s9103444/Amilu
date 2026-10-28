@@ -52,6 +52,20 @@ withDefaults(
   border: 1px solid var(--color-border);
   border-radius: 15px;
   background: var(--color-bg-subtle);
+  transition: background 0.3s ease;
+}
+
+// 用鍵盤移到這裡時顯示外框，滑鼠點擊不顯示（同 OptionButton）
+.avatar-upload:focus-visible {
+  outline: 2px solid var(--color-bg-inverse);
+  outline-offset: 2px;
+}
+
+// Figma 沒畫 hover，前端自訂：滑過整列時，左邊方塊底色深一階，同 UserMenuButton
+@media (hover: hover) {
+  .avatar-upload:hover .avatar-upload__box {
+    background: var(--color-bg-subtle-hover);
+  }
 }
 
 .avatar-upload__text {

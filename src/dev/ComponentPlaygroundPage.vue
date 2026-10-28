@@ -466,6 +466,93 @@
         :user-id="MOCK_USERS[1]!.id"
       />
     </section>
+
+    <section>
+      <h2>WorkCard</h2>
+      <p>點卡片：{{ lastWorkClick || '還沒點' }}</p>
+      <div class="row work-card-demo">
+        <div>
+          <p>橫圖</p>
+          <WorkCard
+            :image-url="illustrationImg"
+            title="作品名稱"
+            :author-id="MOCK_USERS[0]!.id"
+            :author-avatar-url="MOCK_USERS[0]!.avatar_url"
+            @click="lastWorkClick = '橫圖'"
+          />
+        </div>
+        <div>
+          <p>直圖（高度跟著圖片比例）</p>
+          <WorkCard
+            :image-url="sampleAvatarImg"
+            title="作品名稱很長很長很長很長很長"
+            :author-id="MOCK_USERS[1]!.id"
+            :author-avatar-url="MOCK_USERS[1]!.avatar_url"
+            @click="lastWorkClick = '直圖'"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ProfileWorkCard</h2>
+      <p>最後一次事件：{{ lastProfileCardEvent || '還沒點' }}</p>
+      <div class="row profile-work-card-demo">
+        <div>
+          <p>自己的專頁（有「⋯」）</p>
+          <ProfileWorkCard
+            :image-url="characterArtImg"
+            title="作品標題"
+            category="作品類型・用途"
+            @select="lastProfileCardEvent = 'select'"
+            @more="lastProfileCardEvent = 'more'"
+          />
+        </div>
+        <div>
+          <p>別人的專頁（沒有「⋯」）</p>
+          <ProfileWorkCard
+            :image-url="characterArtImg"
+            title="作品標題很長很長很長很長很長很長"
+            category="作品類型・用途"
+            :show-more-menu="false"
+            @select="lastProfileCardEvent = 'select'"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>CommissionRules</h2>
+      <p>點標題展開／收合</p>
+      <CommissionRules title="作者簡介">
+        你好，我是自由插畫家
+        [姓名/筆名]。專注於角色設計、繪本創作與視覺插畫，擅長將抽象的情感與概念轉化為具體的視覺語言。作品曾參與多個品牌合作與展出，注重畫面細節與色彩的和諧。這裡是我紀錄靈感與發表新作的空間，歡迎私訊交流，接案與合作請聯繫
+        [Email]。
+      </CommissionRules>
+    </section>
+
+    <section class="wide">
+      <h2>PaymentPlanCard</h2>
+      <p>目前：{{ paymentPlan || '未選' }}</p>
+      <div class="payment-plan-demo">
+        <PaymentPlanCard
+          v-model="paymentPlan"
+          name="payment-plan"
+          value="deposit"
+          title="先付訂金（30%）"
+          amount="NT$ 540"
+          note="其餘 NT$ 1,260 於最終結算時補齊"
+        />
+        <PaymentPlanCard
+          v-model="paymentPlan"
+          name="payment-plan"
+          value="full"
+          title="一次付清"
+          amount="NT$ 1,800"
+          note="全額由平台託管，最終結算時無需補款"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -506,6 +593,13 @@ import MenuDivider from '@/shared/components/MenuDivider.vue'
 import SideMenuItem from '@/shared/components/SideMenuItem.vue'
 import FollowUserRow from '@/features/explore/components/FollowUserRow.vue'
 import UserInfoBar from '@/features/explore/components/UserInfoBar.vue'
+import WorkCard from '@/features/explore/components/WorkCard.vue'
+import ProfileWorkCard from '@/features/explore/components/ProfileWorkCard.vue'
+import CommissionRules from '@/features/explore/components/CommissionRules.vue'
+import PaymentPlanCard from '@/features/order/components/PaymentPlanCard.vue'
+import illustrationImg from '@/assets/category/illustration.webp'
+import characterArtImg from '@/assets/category/character-art.webp'
+import sampleAvatarImg from '@/assets/user/sample-avatar.png'
 import { MOCK_USERS } from '@/mocks/user'
 import { ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
@@ -538,6 +632,10 @@ const activeSide = ref('wall')
 // FollowUserRow 測試：記住哪些人被追蹤
 const followedIds = ref<string[]>(['painter_01'])
 const lastSelectedUser = ref('')
+// 第二批組合元件測試：記住最後一次點擊、付款方案的選擇
+const lastWorkClick = ref('')
+const lastProfileCardEvent = ref('')
+const paymentPlan = ref('deposit')
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -585,6 +683,32 @@ section {
 .category-select-demo {
   position: relative;
   width: min(1290px, calc(100vw - 2 * var(--space-3)));
+}
+
+// 瀑布流卡片設計稿寬 309；兩張並排、上緣對齊，才看得出高度跟著圖片比例
+.work-card-demo {
+  align-items: flex-start;
+  & > div {
+    width: 220px;
+  }
+}
+
+// 個人頁作品卡設計稿寬 250
+.profile-work-card-demo {
+  align-items: flex-start;
+  & > div {
+    width: 220px;
+  }
+}
+
+// 付款方案卡兩張並排（features.md 4.3），外層灰底同 Figma 展示
+.payment-plan-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: 16px;
+  background: var(--color-bg-main);
 }
 
 // 小元件並排顯示

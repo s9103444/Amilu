@@ -45,6 +45,7 @@ const base = import.meta.env.BASE_URL
   background: var(--color-bg-inverse);
   color: var(--color-text-on-dark);
   white-space: nowrap;
+  transition: opacity 0.2s ease;
 
   & > img {
     width: 16px;
@@ -57,5 +58,20 @@ const base = import.meta.env.BASE_URL
   border: 1px solid var(--color-bg-inverse);
   background: none;
   color: var(--color-text-primary);
+}
+
+// 用鍵盤移到這裡時顯示外框，滑鼠點擊不顯示（同 OptionButton）
+.chip:focus-visible {
+  outline: 2px solid var(--color-bg-inverse);
+  outline-offset: 2px;
+}
+
+// Figma 沒畫 hover，前端自訂。這顆點了就會取消篩選，所以 hover 要表示「點下去會移除」，
+// 不是一般的「可以點」：整顆變淡＋文字加刪除線，實心、外框兩款共用
+@media (hover: hover) {
+  .chip:hover {
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
 }
 </style>

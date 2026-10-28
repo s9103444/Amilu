@@ -7,6 +7,11 @@
 
 - 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
 - `FilterChip.vue`、`StageProgress.vue`、`OrderCard.vue` 用 `:src` 綁定的圖示與預設頭像路徑，改成在前面接 `import.meta.env.BASE_URL`（路徑開頭不加 `/`），部署到子路徑時才不會 404；畫面沒有變化（對應 `open-questions.md` 第 4 節的補充）。
+- 實作 Figma「第3層｜組合元件」第二批（優先用現有元件組裝、做法對齊組員）：瀑布流卡片 `features/explore/components/WorkCard.vue`（Figma 494:115，下方用組員的 `UserInfoBar`，粗體字放作品標題）、個人頁作品卡 `ProfileWorkCard.vue`（Figma 568:217，事件 `select`、`more`）、接案規範 `CommissionRules.vue`（Figma 522:1207，展開狀態元件自己記住，同 `CategorySelect`）、付款方案卡 `features/order/components/PaymentPlanCard.vue`（Figma 600:122，同 `OptionButton` 用藏起來的原生 radio＋`v-model`）。只做外觀與 props／事件，測試頁排入全部變體。
+- 與組員方向對齊：Figma 沒畫的 hover 前端自訂（作品卡圖片放大 1.1 倍同 `CategoryCard`、接案規範標題變深同 `HashtagLabel`、付款方案卡未選的那張框線變橘；原本改深灰，但效果不明顯，改用與選取相同的橘色，已選另有淺橘底、2px 框、實心圓點與「已選擇」小標可區分）；兩種作品卡的圓角沿用 `--radius-button`（15px，Figma 為 14／16px），理由同 `CategoryCard`「卡片也是按鈕」。
+- `_tokens.scss` 新增 `--color-selected-badge-bg`（`accent/orange`，付款方案卡「已選擇」小標的底）；`design-spec.md` 1.1 用途表同步。
+- 記錄待討論事項（`open-questions.md` 第 12 題）：作品牆卡片要不要有「一般作品／可委託項目」標記、`UserInfoBar` 的 `nickname` 欄位用來放作品標題、我先前做的基礎元件沒有 hover。
+- 先前的基礎元件補上 hover 與鍵盤焦點外框，與組員方向一致（`open-questions.md` 第 12 題第③點改為已決議）：`DropZone`、`AvatarUpload`、`ImageUploadSlot`、`FilterChip`。`FilterChip` 點了就會取消篩選，所以 hover 用整顆變淡＋文字刪除線表示「會移除」，不用一般的變色。Figma 都沒畫，前端自訂。拖放上傳區拖曳中的提示等做上傳燈箱時再做。
 
 ## 2026/10/26
 

@@ -39,6 +39,21 @@ withDefaults(
   border-radius: 16px;
   background: var(--color-bg-subtle);
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+// 用鍵盤移到這裡時顯示外框，滑鼠點擊不顯示（同 OptionButton）
+.drop-zone:focus-visible {
+  outline: 2px solid var(--color-bg-inverse);
+  outline-offset: 2px;
+}
+
+// Figma 沒畫 hover，前端自訂：底色深一階，同 UserMenuButton
+// 拖著檔案經過時的提示屬於上傳邏輯，等做上傳燈箱時一起做（spec/open-questions.md 第 12 題）
+@media (hover: hover) {
+  .drop-zone:hover {
+    background: var(--color-bg-subtle-hover);
+  }
 }
 
 .drop-zone__icon {

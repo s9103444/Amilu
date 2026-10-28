@@ -101,6 +101,16 @@ const emit = defineEmits<{
   height: 17px;
   border-radius: 999px;
   background: var(--color-overlay);
+  transition: background 0.3s ease;
+}
+
+// 用鍵盤移到移除鈕時，外框畫在 17px 圓點外圍，滑鼠點擊不顯示（同 OptionButton）
+.upload-slot__remove:focus-visible {
+  outline: none;
+}
+.upload-slot__remove:focus-visible .upload-slot__remove-dot {
+  outline: 2px solid var(--color-bg-inverse);
+  outline-offset: 2px;
 }
 
 //-----新增圖片（虛線框）-----//
@@ -114,5 +124,22 @@ const emit = defineEmits<{
   background: var(--color-bg-page);
   color: var(--color-text-secondary);
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-slot--add:focus-visible {
+  outline: 2px solid var(--color-bg-inverse);
+  outline-offset: 2px;
+}
+
+// Figma 沒畫 hover，前端自訂：
+// 新增格白底變淺灰；移除鈕滑過整個 44px 點擊範圍時，半透明圓變實心深色
+@media (hover: hover) {
+  .upload-slot--add:hover {
+    background: var(--color-bg-subtle);
+  }
+  .upload-slot__remove:hover .upload-slot__remove-dot {
+    background: var(--color-bg-inverse);
+  }
 }
 </style>

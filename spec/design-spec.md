@@ -37,7 +37,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `base/150`         | 淺色區塊 hover 底（前端自訂）      |
 | `base/200`         | 主背景、卡片底、頁籤、下拉選項 hover 底 |
 | `base/500`         | 次要強調、分隔、標籤               |
-| `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字、選項選取的框、狀態標籤的字（接案中、等待某一方動作） |
+| `accent/orange`    | 錯誤、警示、必填、未讀紅點、次要按鈕的框與字、選項選取的框、狀態標籤的字（接案中、等待某一方動作）、付款方案卡「已選擇」小標的底（`--color-selected-badge-bg`） |
 | `accent/orange-10` | 狀態標籤底、警語框底               |
 | `accent/orange-30` | 選項選取底、錯誤輸入框外框、次要按鈕 hover 底 |
 | `accent/green`     | 成功提示、可商用                   |
