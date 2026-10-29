@@ -40,6 +40,8 @@ withDefaults(
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/breakpoints' as bp;
+
 // 先蓋掉 button 的瀏覽器預設樣式（灰底、框線、置中）
 .card {
   cursor: pointer;
@@ -74,16 +76,28 @@ withDefaults(
 }
 
 //-----可委託項目的小標-----//
-// 位置照 Figma：距上 15px、距右 13px
+// 手機：Figma 沒畫，前端自訂。手機作品牆兩欄、卡片很窄，照桌機大小會佔掉卡片一半，
+// 所以字改 Small、內距與離邊都縮到 8px（同 ImageUploadSlot 的封面小標，open-questions.md 第 12 題）
 .badge {
   position: absolute;
-  top: 15px;
-  right: 13px;
-  padding: 2px 14px;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
   border-radius: 999px;
   background: var(--color-overlay);
   color: var(--color-text-on-dark);
+  font-size: var(--fs-small);
   white-space: nowrap;
+}
+
+// 平板以上照 Figma：距上 15px、距右 13px
+@include bp.tablet-up {
+  .badge {
+    top: 15px;
+    right: 13px;
+    padding: 2px 14px;
+    font-size: var(--fs-caption);
+  }
 }
 
 // Figma 沒畫 hover，前端自訂：同 CategoryCard 只放大圖片，卡片外框與文字不動
