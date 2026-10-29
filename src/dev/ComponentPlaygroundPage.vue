@@ -559,6 +559,17 @@
             @click="lastWorkClick = '直圖'"
           />
         </div>
+        <div>
+          <p>可委託項目（type="commission-item"）</p>
+          <WorkCard
+            type="commission-item"
+            :image-url="characterArtImg"
+            title="委託項目名稱"
+            :author-id="MOCK_USERS[0]!.id"
+            :author-avatar-url="MOCK_USERS[0]!.avatar_url"
+            @click="lastWorkClick = '可委託項目'"
+          />
+        </div>
       </div>
     </section>
 

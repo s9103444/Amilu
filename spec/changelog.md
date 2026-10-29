@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/29
+
+- 瀑布流卡片 `WorkCard.vue` 新增可委託項目樣式，對應 `features.md` 2.1「兩種卡片要有視覺標記區分」：組員更新的 Figma（818:14540，`style=Service`）在圖片右上角加「可委託」小標。用 `type="commission-item"` 切換，預設 `work`；hover 時只有圖片放大，小標不動。小標位置照 Figma（距上 15px、距右 13px）。個人頁作品卡用分頁區分，不加小標。`open-questions.md` 第 12 題①改為已決議。
+
 ## 2026/10/28
 
 - 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
@@ -14,6 +18,7 @@
 - 先前的基礎元件補上 hover 與鍵盤焦點外框，與組員方向一致（`open-questions.md` 第 12 題第③點改為已決議）：`DropZone`、`AvatarUpload`、`ImageUploadSlot`、`FilterChip`。`FilterChip` 點了就會取消篩選，所以 hover 用整顆變淡＋文字刪除線表示「會移除」，不用一般的變色。Figma 都沒畫，前端自訂。拖放上傳區拖曳中的提示等做上傳燈箱時再做。
 - 新增字級 token `--fs-badge`（8px，不隨斷點）給通知未讀數字用，`design-spec.md` 第 3 節字級表補一列；`NotificationItem.vue` 的未讀紅點套用這個字級，顯示實際數字、用 padding 撐開（一位數圓形，兩位數以上膠囊形）。
 - 通知中心「對話」頁籤的最新訊息，從「前 10 個字，超過以『...』取代」改成「單行顯示，超出寬度以『…』截斷」（CSS `text-overflow: ellipsis`），`features.md` 5.2 與 `acceptance.md` NTF-03 一起改；`NotificationMenuItem.vue` 依此實作。
+- `open-questions.md` 第 12 題④：作品卡圓角照組員做法，維持 `--radius-button`。
 
 ## 2026/10/26
 

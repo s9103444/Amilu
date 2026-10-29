@@ -2,6 +2,8 @@
   <button type="button" class="card">
     <span class="image-frame">
       <img class="image" :src="imageUrl" alt="" />
+      <!-- 放在圖片外面，hover 時圖片放大、小標不動 -->
+      <span v-if="type === 'commission-item'" class="text-caption badge">可委託</span>
     </span>
     <UserInfoBar :avatar-url="authorAvatarUrl" :nickname="title" :user-id="authorId" />
   </button>
@@ -9,10 +11,12 @@
 
 <script setup lang="ts">
 /*
-元件名稱：瀑布流卡片（Figma 494:115），首頁／個人頁作品牆的一張作品
+元件名稱：瀑布流卡片（Figma 818:14540），首頁／個人頁作品牆的一張作品
 範例：
 使用前先 import：import WorkCard from '@/features/explore/components/WorkCard.vue'
-<WorkCard :image-url="work.image" title="作品名稱" author-id="im_temp_id" :author-avatar-url="author.avatar_url" @click="開啟作品燈箱" />
+<WorkCard :image-url="work.image" title="作品名稱" author-id="im_temp_id" :author-avatar-url="author.avatar_url" @click="開啟作品燈箱" /> ---> 一般作品
+<WorkCard type="commission-item" ... @click="開啟委託商店燈箱" /> ---> 可委託項目，圖片右上角有「可委託」小標
+卡片只負責外觀：可委託項目要不要出現（看 Amilu 燈）、點了開哪個燈箱，由作品牆頁面決定。
 寬度跟著外層（作品牆的欄寬），圖片高度依作品本身的比例（瀑布流高低不一）。
 image-url 要傳完整網址：src/assets/ 的圖用 import 拿（Vite 會給含 base 的網址），卡片本身不接 BASE_URL。
 下方是組員的個人資訊條 UserInfoBar：粗體字放作品標題（Figma 寫「作品名稱」）、@ID 與頭像是作者。
@@ -21,12 +25,18 @@ authorId 傳帳號 ID 本身（不含 @）；沒有大頭照時傳 null 或不�
 */
 import UserInfoBar from '@/features/explore/components/UserInfoBar.vue'
 
-defineProps<{
-  imageUrl: string // 作品圖網址
-  title: string // 作品標題
-  authorId: string // 作者帳號 ID（USER.id）
-  authorAvatarUrl?: string | null // 作者大頭照
-}>()
+withDefaults(
+  defineProps<{
+    type?: 'work' | 'commission-item' // 一般作品（WORK）／可委託項目（COMMISSION_ITEM）
+    imageUrl: string // 作品圖網址
+    title: string // 作品標題
+    authorId: string // 作者帳號 ID（USER.id）
+    authorAvatarUrl?: string | null // 作者大頭照
+  }>(),
+  {
+    type: 'work',
+  },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +56,7 @@ defineProps<{
 // 圓角沿用 --radius-button（15px，Figma 為 14px），因為整張卡片也是按鈕（同 CategoryCard）
 // overflow: hidden 讓 hover 放大的圖不會超出圓角
 .image-frame {
+  position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
@@ -60,6 +71,19 @@ defineProps<{
   width: 100%;
   height: auto;
   transition: transform 0.2s ease;
+}
+
+//-----可委託項目的小標-----//
+// 位置照 Figma：距上 15px、距右 13px
+.badge {
+  position: absolute;
+  top: 15px;
+  right: 13px;
+  padding: 2px 14px;
+  border-radius: 999px;
+  background: var(--color-overlay);
+  color: var(--color-text-on-dark);
+  white-space: nowrap;
 }
 
 // Figma 沒畫 hover，前端自訂：同 CategoryCard 只放大圖片，卡片外框與文字不動
