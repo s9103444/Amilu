@@ -119,6 +119,54 @@
     </section>
     <br />
     <section>
+      <h2>ChatMessage</h2>
+      <p>聊天室的一則訊息：對方／自己 × 文字／圖片（Figma 600:165）</p>
+      <div class="chat-demo">
+        <ChatMessage
+          sender="other"
+          :avatar-url="demoImage"
+          text="你好！草稿預計 10/11 前上傳，有想補充的參考圖可以直接傳在這裡～"
+          created-at="2026-10-29T14:02:00+08:00"
+        />
+        <ChatMessage
+          sender="other"
+          :avatar-url="demoImage"
+          :image-url="demoMessageImage"
+          created-at="2026-10-29T14:26:00+08:00"
+        />
+        <ChatMessage
+          sender="mine"
+          text="好的，我補一張服裝參考"
+          created-at="2026-10-29T14:10:00+08:00"
+        />
+        <ChatMessage
+          sender="mine"
+          :image-url="demoMessageImage"
+          created-at="2026-10-29T09:05:00+08:00"
+        />
+      </div>
+    </section>
+    <br />
+    <section>
+      <h2>ChatRoom</h2>
+      <p>
+        聊天室視窗（Figma 596:6564）。測試頁扮演「討論牆頁面」：把 mock 的訊息和「我是誰」傳進去；
+        把 current-user-id 改成 MOCK_CHAT_ORDER.partner.id，左右會整個對調
+      </p>
+      <div class="chat-room-demo">
+        <ChatRoom
+          :avatar-url="MOCK_CHAT_ORDER.partner.avatar_url ?? demoImage"
+          :other-name="MOCK_CHAT_ORDER.partner.nickname"
+          :project-name="MOCK_CHAT_ORDER.item_title_snapshot"
+          :messages="chatMessages"
+          :current-user-id="MOCK_CURRENT_USER_ID"
+          @send="onChatSend"
+          @send-image="onChatSendImage"
+        />
+      </div>
+    </section>
+    <br />
+    <section>
       <h2>Follow Button</h2>
       <p>點一下切換追蹤（目前：{{ isFollowed ? '已追蹤' : '未追蹤' }}）</p>
       <FollowButton :followed="isFollowed" @click="isFollowed = !isFollowed" />
@@ -546,6 +594,10 @@ import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationItem from '@/layouts/components/header/NotificationItem.vue'
 import NotificationMenuItem from '@/layouts/components/header/NotificationMenuItem.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
+import ChatMessage from '@/features/order/components/ChatMessage.vue'
+import ChatRoom from '@/features/order/components/ChatRoom.vue'
+import { MOCK_CHAT_ORDER, MOCK_CURRENT_USER_ID, MOCK_MESSAGES } from '@/mocks/order'
+import demoMessageImage from '@/assets/purpose/game-art.webp'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
 import FormTextarea from '@/shared/components/FormTextarea.vue'
@@ -590,6 +642,7 @@ const input = ref('')
 const email = ref('')
 const password = ref('')
 const readonlyAccount = ref('amilu_user')
+const chatMessage = ref([...MOCK_MESSAGES])
 const description = ref('')
 const limitedDescription = ref('')
 const optionalDescription = ref('')
@@ -601,6 +654,30 @@ const agreed = ref(false)
 const deposit = ref('30')
 // 測試圖借用 public/ 裡現有的圖。public/ 的檔案要由使用的地方自己接上 BASE_URL
 const demoImage = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
+// ChatRoom 測試：複製一份 mock 訊息，送出時 push 進這份，不會改到 mock 本身
+const chatMessages = ref([...MOCK_MESSAGES])
+// 【ChatRoom 按送出時觸發】做出一則「我」傳的文字訊息。正式版改成呼叫 POST /orders/{id}/messages，push 後端回傳的那則
+function onChatSend(text: string) {
+  chatMessages.value.push({
+    message_id: 'm_' + Date.now(), // 暫代後端產生的 id
+    order_id: MOCK_CHAT_ORDER.order_id,
+    sender_id: MOCK_CURRENT_USER_ID,
+    content: text,
+    image_url: null,
+    created_at: new Date().toISOString(),
+  })
+}
+// 【ChatRoom 選好圖片時觸發】只傳圖片：content 空字串，圖片用 createObjectURL 變成暫時網址來預覽
+function onChatSendImage(file: File) {
+  chatMessages.value.push({
+    message_id: 'm_' + Date.now(),
+    order_id: MOCK_CHAT_ORDER.order_id,
+    sender_id: MOCK_CURRENT_USER_ID,
+    content: '',
+    image_url: URL.createObjectURL(file),
+    created_at: new Date().toISOString(),
+  })
+}
 // SideMenuItem 測試：委託討論牆的左側選單（spec/features.md 4.4）
 const sideMenu = [
   { key: 'wall', title: '委託討論牆' },
@@ -653,6 +730,21 @@ section {
 // 通知視窗寬 340px（Figma 514:1617）
 .notification-menu-demo {
   width: 340px;
+}
+// 聊天室訊息：寬度約 Figma 600:165 的畫框；對方氣泡是白底，外面先墊淺灰才看得到（聊天視窗底色等 Figma）
+.chat-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 400px;
+  max-width: 100%;
+  padding: 16px;
+  background-color: var(--color-bg-subtle);
+}
+// 聊天室視窗寬 400px（Figma 596:6564）
+.chat-room-demo {
+  width: 400px;
+  max-width: 100%;
 }
 .category-card-demo {
   width: 180px;

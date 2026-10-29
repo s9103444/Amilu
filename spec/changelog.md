@@ -3,6 +3,11 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/29
+
+- 新增聊天室訊息元件 `features/order/components/ChatMessage.vue`（Figma 600:165，對方／自己 × 文字／圖片四種）。`_tokens.scss` 新增 `--color-chat-bubble-other`（`neutral/white`）、`--color-chat-bubble-mine`（`base/200`）、`--color-chat-time`（`neutral/300`）、`--radius-chat-bubble`（16px）、`--radius-chat-bubble-tail`（4px）、`--radius-chat-image`（12px）；聊天室視窗 `features/order/components/ChatRoom.vue`（Figma 596:6564）另加 `--radius-chat-window`（24px）、`--shadow-chat-window`；`design-spec.md` 1.1 用途表同步。
+- 聊天室圖片限制：`features.md` 4.7 補上「單張 5MB 以內（JPG／PNG／WebP）」，和其他上傳畫面一致。`ChatRoom.vue` 的選檔框已限制這三種格式；5MB 檢查還沒做。
+
 ## 2026/10/28
 
 - 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
