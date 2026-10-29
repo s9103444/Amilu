@@ -8,6 +8,8 @@
 - 瀑布流卡片 `WorkCard.vue` 新增可委託項目樣式，對應 `features.md` 2.1「兩種卡片要有視覺標記區分」：組員更新的 Figma（818:14540，`style=Service`）在圖片右上角加「可委託」小標。用 `type="commission-item"` 切換，預設 `work`；hover 時只有圖片放大，小標不動。小標位置照 Figma（距上 15px、距右 13px）。個人頁作品卡用分頁區分，不加小標。`open-questions.md` 第 12 題①改為已決議。
 - 比對 Figma mockup 的平板／手機畫面：目前做的元件排版都與桌機相同，差別只有字級（已隨斷點自動切換）與寬度（跟著外層伸縮），不另做 RWD。例外是「可委託」小標：手機作品牆卡片很窄，前端自訂縮小（字 Small、內距與離邊 8px），平板以上照 Figma；委託案件卡在 375px 實機寬度可能太擠，等做約稿管理頁時實測（`open-questions.md` 第 11、12 題）。
 - 簡化 `open-questions.md` 已決議的第 1～8 題：只留標題與決議（第 4 題的 BASE_URL 補充、第 8 題的觸發條件表照留），刪掉決議前的現況、選項表與建議；第 2、3 題決議開頭的「選 A／B」一併拿掉。題號不變，決議內容沒改，討論過程見 git 歷史。
+- 新增聊天室訊息元件 `features/order/components/ChatMessage.vue`（Figma 600:165，對方／自己 × 文字／圖片四種）。`_tokens.scss` 新增 `--color-chat-bubble-other`（`neutral/white`）、`--color-chat-bubble-mine`（`base/200`）、`--color-chat-time`（`neutral/300`）、`--radius-chat-bubble`（16px）、`--radius-chat-bubble-tail`（4px）、`--radius-chat-image`（12px）；聊天室視窗 `features/order/components/ChatRoom.vue`（Figma 596:6564）另加 `--radius-chat-window`（24px）、`--shadow-chat-window`；`design-spec.md` 1.1 用途表同步。
+- 聊天室圖片限制：`features.md` 4.7 補上「單張 5MB 以內（JPG／PNG／WebP）」，和其他上傳畫面一致。`ChatRoom.vue` 的選檔框已限制這三種格式；5MB 檢查還沒做。
 
 ## 2026/10/28
 

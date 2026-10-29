@@ -80,6 +80,16 @@
   // 勾選框（Figma 535:2953）。勾選後的深色底沿用 --color-bg-inverse
   --color-checkbox-bg: var(--neutral-white);
   --color-checkbox-border: var(--neutral-500);
+  // 聊天室訊息（Figma 600:165）：對方氣泡白底、自己氣泡 base-200；時間比次要文字再淡一階
+  --color-chat-bubble-other: var(--neutral-white);
+  --color-chat-bubble-mine: var(--base-200);
+  --color-chat-time: var(--neutral-300);
+  --radius-chat-bubble: 16px;
+  --radius-chat-bubble-tail: 4px; // 靠近說話者的那個下角
+  --radius-chat-image: 12px;
+  // 聊天室視窗（Figma 596:6564）
+  --radius-chat-window: 24px;
+  --shadow-chat-window: 0 8px 32px rgba(0, 0, 0, 0.12);
 
   --color-required: var(--accent-orange); // 表單標籤旁的「必填」小字
   --color-error: var(--accent-orange);
