@@ -12,6 +12,8 @@
 - `_tokens.scss` 新增 `--color-selected-badge-bg`（`accent/orange`，付款方案卡「已選擇」小標的底）；`design-spec.md` 1.1 用途表同步。
 - 記錄待討論事項（`open-questions.md` 第 12 題）：作品牆卡片要不要有「一般作品／可委託項目」標記、`UserInfoBar` 的 `nickname` 欄位用來放作品標題、我先前做的基礎元件沒有 hover。
 - 先前的基礎元件補上 hover 與鍵盤焦點外框，與組員方向一致（`open-questions.md` 第 12 題第③點改為已決議）：`DropZone`、`AvatarUpload`、`ImageUploadSlot`、`FilterChip`。`FilterChip` 點了就會取消篩選，所以 hover 用整顆變淡＋文字刪除線表示「會移除」，不用一般的變色。Figma 都沒畫，前端自訂。拖放上傳區拖曳中的提示等做上傳燈箱時再做。
+- 新增字級 token `--fs-badge`（8px，不隨斷點）給通知未讀數字用，`design-spec.md` 第 3 節字級表補一列；`NotificationItem.vue` 的未讀紅點套用這個字級，顯示實際數字、用 padding 撐開（一位數圓形，兩位數以上膠囊形）。
+- 通知中心「對話」頁籤的最新訊息，從「前 10 個字，超過以『...』取代」改成「單行顯示，超出寬度以『…』截斷」（CSS `text-overflow: ellipsis`），`features.md` 5.2 與 `acceptance.md` NTF-03 一起改；`NotificationMenuItem.vue` 依此實作。
 
 ## 2026/10/26
 

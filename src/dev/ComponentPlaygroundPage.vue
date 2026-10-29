@@ -51,6 +51,74 @@
     </section>
     <br />
     <section>
+      <h2>NotificationItem</h2>
+      <p>點頁籤切換（目前：{{ notifyTab === 'notify' ? '通知' : '聊天' }}）</p>
+      <div class="row">
+        <NotificationItem
+          button-type="notify"
+          :active="notifyTab === 'notify'"
+          :notice-number="999"
+          @click="notifyTab = 'notify'"
+        />
+        <NotificationItem
+          button-type="chat"
+          :active="notifyTab === 'chat'"
+          @click="notifyTab = 'chat'"
+        />
+      </div>
+    </section>
+    <br />
+    <section>
+      <h2>NotificationMenuItem</h2>
+      <p>未讀（10 分鐘前）／已讀（昨天）／已讀（超過一個月顯示日期）</p>
+      <div class="notification-menu-demo">
+        <NotificationMenuItem
+          unread
+          type="notify"
+          text="乙方使用者暱稱 已上傳「頭像（肩膀以上）」第一階段稿件，請於 5 天內確認。"
+          :past-timestamp="Date.now() - 10 * 60 * 1000"
+        />
+        <NotificationMenuItem
+          text="系統已代為確認「Q 版貼圖」第二階段稿件。"
+          type="notify"
+          :past-timestamp="Date.now() - 30 * 60 * 60 * 1000"
+        />
+        <NotificationMenuItem
+          text="系統公告：平台將於週日凌晨進行維護。"
+          type="notify"
+          :past-timestamp="Date.now() - 40 * 24 * 60 * 60 * 1000"
+        />
+      </div>
+      <p>對話：短訊息／長訊息（超出寬度變成「…」）</p>
+      <div class="notification-menu-demo">
+        <NotificationMenuItem
+          type="chat"
+          :user-photo="demoImage"
+          user-name="XXX"
+          order-title="頭像（肩膀以上）"
+          chat-content="嗨嗨～您好"
+          :past-timestamp="Date.now() - 10 * 60 * 1000"
+        />
+        <NotificationMenuItem
+          type="chat"
+          :user-photo="demoImage"
+          user-name="使用者名稱"
+          order-title="Q 版貼圖（一套 8 張）"
+          chat-content="嗨嗨～您好，我現在準備好初稿了，麻煩您有空的時候看一下，有需要修改的地方再跟我說"
+          :past-timestamp="Date.now() - 30 * 60 * 60 * 1000"
+        />
+      </div>
+    </section>
+    <br />
+    <section>
+      <h2>NotificationMenu</h2>
+      <p>點鈴鐺打開；切換「通知／聊天」頁籤；按「全部標為已讀」後紅點和數字消失；點外面關閉</p>
+      <div class="user-menu-demo">
+        <NotificationMenu />
+      </div>
+    </section>
+    <br />
+    <section>
       <h2>Follow Button</h2>
       <p>點一下切換追蹤（目前：{{ isFollowed ? '已追蹤' : '未追蹤' }}）</p>
       <FollowButton :followed="isFollowed" @click="isFollowed = !isFollowed" />
@@ -562,6 +630,9 @@ import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
 import UserMenu from '@/layouts/components/header/UserMenu.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
 import SearchBar from '@/layouts/components/header/SearchBar.vue'
+import NotificationItem from '@/layouts/components/header/NotificationItem.vue'
+import NotificationMenuItem from '@/layouts/components/header/NotificationMenuItem.vue'
+import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
 import FormTextarea from '@/shared/components/FormTextarea.vue'
@@ -606,6 +677,8 @@ import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
+// NotificationItem 測試：記住目前選中哪個頁籤
+const notifyTab = ref<'notify' | 'chat'>('notify')
 const isFollowed = ref(false)
 const input = ref('')
 const email = ref('')
@@ -675,6 +748,10 @@ section {
   justify-content: flex-end;
   // min-height: 600px;
 }
+// 通知視窗寬 340px（Figma 514:1617）
+.notification-menu-demo {
+  width: 340px;
+}
 .category-card-demo {
   width: 180px;
 }
@@ -717,6 +794,6 @@ section {
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  // gap: var(--space-3);
 }
 </style>

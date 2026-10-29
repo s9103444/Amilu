@@ -88,6 +88,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 | `Amilu/Button-md` | 主要按鈕                |
 | `Amilu/Button-sm` | 次要／小按鈕            |
 | `note`            | 可商用標籤的極小字（無 `Amilu/` 前綴，10px 固定、不隨斷點，`--fs-note`） |
+| 通知數字          | header 通知頁籤的未讀數（8px 固定、不隨斷點，`--fs-badge`） |
 
 ---
 
