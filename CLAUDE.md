@@ -19,8 +19,8 @@
 
 ## 目前階段
 
-元件階段：`shared/components/` 已有基礎元件，`features/order/` 目前只有兩個標籤元件，還沒有頁面、store、api。
-`App.vue`、`stores/counter.ts`、空的 router 仍是範本範例，建第一個真正的頁面時依 structure.md 移除。功能出現後，更新或刪掉這一節。
+元件階段：基礎元件（`shared/components/`）與 Figma「第3層｜組合元件」已做了一大部分，分散在 `features/explore/`、`features/order/`、`layouts/components/header/`。所有 feature 都還沒有頁面、store、api、routes.ts；元件只在 `/dev/components`（`src/dev/ComponentPlaygroundPage.vue`）展示。
+router 目前只登記開發用的測試頁；`stores/counter.ts` 仍是範本範例，建第一個真正的頁面時依 structure.md 移除。功能出現後，更新或刪掉這一節。
 
 ## 樣式與風格
 
