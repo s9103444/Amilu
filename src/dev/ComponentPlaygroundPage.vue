@@ -680,6 +680,84 @@
         />
       </div>
     </section>
+
+    <section>
+      <h2>CommissionItemOption</h2>
+      <p>點一列展開＝選取，點別列時前一列自動收合（目前：{{ commissionItemId || '未選' }}）</p>
+      <div class="commission-item-demo">
+        <CommissionItemOption
+          v-for="item in MOCK_COMMISSION_ITEMS"
+          :key="item.item_id"
+          v-model="commissionItemId"
+          name="commission-item"
+          :value="item.item_id"
+          :title="item.title"
+          :description="item.description"
+          :price="item.price"
+          :commercial-allowed="item.commercial_allowed"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>StageDeadlineRow</h2>
+      <p>三點分段、可編輯（創作者報價時）：點日期框選日期，沒選的顯示「確認中」</p>
+      <div class="stage-deadline-demo">
+        <StageDeadlineRow v-model="demoStartDate" label="開始日期" editable />
+        <StageDeadlineRow
+          v-for="stage in THREE_POINT_STAGES"
+          :key="stage"
+          v-model="demoEditableDeadlines[stage]"
+          :label="STAGE_LABEL[stage]"
+          editable
+        />
+      </div>
+      <p>目前的值：{{ demoStartDate || '（空）' }}／{{ demoEditableDeadlines }}</p>
+      <p>五點分段、唯讀：有日期的顯示日期，沒日期的顯示「確認中」</p>
+      <div class="stage-deadline-demo">
+        <StageDeadlineRow model-value="2026-11-01" label="開始日期" :editable="false" />
+        <StageDeadlineRow
+          v-for="stage in FIVE_POINT_STAGES"
+          :key="stage"
+          :model-value="DEMO_READONLY_DEADLINES[stage]"
+          :label="STAGE_LABEL[stage]"
+          :editable="false"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>AmountRow</h2>
+      <p>照補款卡排：應補付是這張卡的重點，加 emphasis</p>
+      <div class="amount-row-demo">
+        <AmountRow label="委託總額" value="NT$ 1,800" />
+        <AmountRow label="已付款（訂金）" value="NT$ 540" />
+        <AmountRow label="應補付" value="NT$ 1,260" emphasis />
+        <AmountRow label="補款期限" value="2026 / 10 / 30 23:59" />
+      </div>
+    </section>
+
+    <section>
+      <h2>ApplyStepItem</h2>
+      <p>
+        點按鈕模擬捲到第幾塊：已經到過的黑點黑字，還沒到的灰點灰字（目前：第
+        {{ demoApplyStep }} 塊）
+      </p>
+      <div class="apply-step-demo">
+        <ApplyStepItem
+          v-for="(title, index) in APPLY_STEP_TITLES"
+          :key="title"
+          :number="index + 1"
+          :title="title"
+          :reached="index + 1 <= demoApplyStep"
+        />
+      </div>
+      <div class="row">
+        <button v-for="n in 5" :key="n" type="button" @click="demoApplyStep = n">
+          捲到第 {{ n }} 塊
+        </button>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -731,6 +809,13 @@ import WorkCard from '@/features/explore/components/WorkCard.vue'
 import ProfileWorkCard from '@/features/explore/components/ProfileWorkCard.vue'
 import CommissionRules from '@/features/explore/components/CommissionRules.vue'
 import PaymentPlanCard from '@/features/order/components/PaymentPlanCard.vue'
+import CommissionItemOption from '@/features/explore/components/CommissionItemOption.vue'
+import { MOCK_COMMISSION_ITEMS } from '@/mocks/commissionItem'
+import StageDeadlineRow from '@/features/order/components/StageDeadlineRow.vue'
+import AmountRow from '@/features/order/components/AmountRow.vue'
+import ApplyStepItem from '@/features/order/components/ApplyStepItem.vue'
+import { STAGE_LABEL } from '@/features/order/stageLabel'
+import type { StageNo } from '@/features/order/types'
 import illustrationImg from '@/assets/category/illustration.webp'
 import characterArtImg from '@/assets/category/character-art.webp'
 import sampleAvatarImg from '@/assets/user/sample-avatar.png'
@@ -797,6 +882,23 @@ const lastSelectedUser = ref('')
 const lastWorkClick = ref('')
 const lastProfileCardEvent = ref('')
 const paymentPlan = ref('deposit')
+// CommissionItemOption 測試：預設選第一筆，模擬「從首頁點可委託項目卡片進來，預先展開被點的那列」
+const commissionItemId = ref('ci_001')
+// StageDeadlineRow 測試：三點分段 stage_no 是 1／4／5，不遞補
+const THREE_POINT_STAGES: StageNo[] = [1, 4, 5]
+const FIVE_POINT_STAGES: StageNo[] = [1, 2, 3, 4, 5]
+const demoStartDate = ref('2026-11-01')
+const demoEditableDeadlines = ref<Record<number, string>>({ 1: '2026-11-10', 4: '', 5: '' })
+// ApplyStepItem 測試：五個區塊名稱取自 mockup「委託申請 Desktop」
+const APPLY_STEP_TITLES = ['委託項目與規格', '需求描述', '授權範圍', '預算與時程', '確認委託內容']
+const demoApplyStep = ref(1)
+const DEMO_READONLY_DEADLINES: Record<StageNo, string> = {
+  1: '2026-11-08',
+  2: '2026-11-15',
+  3: '',
+  4: '',
+  5: '2026-11-30',
+}
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -889,6 +991,36 @@ section {
   padding: var(--space-4);
   border-radius: 16px;
   background: var(--color-bg-main);
+}
+
+// 寬度照 Figma 委託項目列的 336px
+.commission-item-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 336px;
+  max-width: 100%;
+}
+
+// 寬度照 Figma 排程列的 368px
+// 寬度照 Figma 款項列的 760px，明細列之間 8px（同補款卡）
+.apply-step-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.amount-row-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 760px;
+  max-width: 100%;
+}
+
+.stage-deadline-demo {
+  width: 368px;
+  max-width: 100%;
 }
 
 // 小元件並排顯示

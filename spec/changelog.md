@@ -3,6 +3,12 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/30
+
+- 新增委託商店燈箱的委託項目列 `features/explore/components/CommissionItemOption.vue`（Figma 526:216）：點一列＝選取並展開，同一組共用 `v-model`，所以同一時間只展開一列（做法同 `PaymentPlanCard`，藏起來的原生 radio）。展開時顯示說明、1.5px 橘框與右上角勾勾；hover 前端自訂，未選的那列框線變橘。`public/icons/` 補 `check-white-sm.svg`（Figma 匯出，13px，與現有的 `check-white.svg` 尺寸、線寬不同）。
+- 新增 `features/explore/types.ts` 的 `CommissionItem`（欄位照 FigJam ER 的 COMMISSION_ITEM）與假資料 `src/mocks/commissionItem.ts`（三筆）。
+- 待確認：`features.md` 2.6 寫「可商用」黑框、「不可商用」灰底兩種標籤，但 Figma 526:216 只畫灰底「可商用」，說明寫「依 commercial_allowed 開關」，元件目前照 Figma，不可商用時不顯示標籤。
+
 ## 2026/10/29
 
 - 瀑布流卡片 `WorkCard.vue` 新增可委託項目樣式，對應 `features.md` 2.1「兩種卡片要有視覺標記區分」：組員更新的 Figma（818:14540，`style=Service`）在圖片右上角加「可委託」小標。用 `type="commission-item"` 切換，預設 `work`；hover 時只有圖片放大，小標不動。小標位置照 Figma（距上 15px、距右 13px）。個人頁作品卡用分頁區分，不加小標。`open-questions.md` 第 12 題①改為已決議。
