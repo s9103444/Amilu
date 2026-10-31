@@ -3,10 +3,23 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/10/31
+
+- `shared/components/Button.vue` 新增兩個選項：`size="sm"`（Figma Amilu/Button-sm，內距、間距、字級一起變小；字級 class 改成二選一，不再同時掛 md 與 sm）與 `variant="outline"`（黑框黑字，開通清單已完成步驟的「修改」）。`_tokens.scss` 新增 `--color-button-outline`（`neutral/900`）、`--color-button-outline-bg`（`neutral/white`）、`--color-button-outline-hover-bg`（`base/100`，Figma 沒畫，前端自訂）；`design-spec.md` 1.1 用途表同步。不從外層覆寫元件 CSS：同權重時誰贏取決於載入順序，不穩定。
+- 開通創作者商店清單（`features.md` 3.4）開始做，放 `features/profile/`（模組三）：
+  - `activationSteps.ts`：step key 型別（`verify`／`settings`／`commission-item`）與三步寫死的編號、標題、說明；Step1 的說明要用手機號碼拼，由清單卡組好再傳。
+  - `components/StepStatusTag.vue`：已完成／未完成標籤。樣式與 order 的 `OrderStatusTag` 相同，但 features 之間不互相 import，所以自己帶一份。order 裡的 `incomplete` 狀態沒刪，它跟 `open-questions.md` 第 9 題綁在一起。
+  - `components/ActivationStepsItem.vue`：一步一列，props `number`、`title`、`note?`、`done`，emit `action`。`done` 決定左邊數字或黑底打勾、狀態標籤、按鈕（「修改」outline／「前往填寫」primary）。
+  - **進度**：7 步做到第 5 步。下一步是第 6 步，建清單卡 `components/ActivationSteps.vue`：吃三個事實（手機驗證了沒＋遮罩後的手機號碼、接案設定填完了沒、有沒有至少 1 筆可委託項目），`v-for` 跑 `ACTIVATION_STEPS`，往外 emit 被點的 step key。第 7 步是把 playground 換成清單卡。
+  - 待確認：Step3 說明裡的「按『前往填寫』開啟新增委託項目燈箱」看起來像設計稿註記，是否真的顯示在畫面上。
+
 ## 2026/10/30
 
 - 新增委託商店燈箱的委託項目列 `features/explore/components/CommissionItemOption.vue`（Figma 526:216）：點一列＝選取並展開，同一組共用 `v-model`，所以同一時間只展開一列（做法同 `PaymentPlanCard`，藏起來的原生 radio）。展開時顯示說明、1.5px 橘框與右上角勾勾；hover 前端自訂，未選的那列框線變橘。`public/icons/` 補 `check-white-sm.svg`（Figma 匯出，13px，與現有的 `check-white.svg` 尺寸、線寬不同）。
 - 新增 `features/explore/types.ts` 的 `CommissionItem`（欄位照 FigJam ER 的 COMMISSION_ITEM）與假資料 `src/mocks/commissionItem.ts`（三筆）。
+- 新增委託排程卡的一列 `features/order/components/StageDeadlineRow.vue`（Figma 600:144）：只吃 `label`、`editable` 與日期 `v-model`，三種狀態（可選日期、唯讀日期、唯讀「確認中」）由這兩個值推出來；點日期框用原生 date input 的 `showPicker()` 叫出日曆。階段名稱由排程卡用 `STAGE_LABEL` 組好再傳。
+- 新增款項列 `features/order/components/AmountRow.vue`（Figma 617:589，用在委託討論牆的補款卡、結算卡）：`emphasis` 時值改成 Body 黑字，平常是 Caption 灰字；`value` 由卡片格式化好再傳（不一定是金額）。
+- 新增委託申請引導列的一項 `features/order/components/ApplyStepItem.vue`（Figma 600:176）：`reached` 時黑點黑字，否則灰點灰字。Figma 的 Completed 畫打勾，改成黑點：打勾會被讀成「這塊已填完」，但這裡只代表捲到過。`_tokens.scss` 新增 `--color-step-todo`（`neutral/300`）。
 - 待確認：`features.md` 2.6 寫「可商用」黑框、「不可商用」灰底兩種標籤，但 Figma 526:216 只畫灰底「可商用」，說明寫「依 commercial_allowed 開關」，元件目前照 Figma，不可商用時不顯示標籤。
 
 ## 2026/10/29

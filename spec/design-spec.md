@@ -28,12 +28,12 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 
 | Token              | 用途                               |
 | ------------------ | ---------------------------------- |
-| `neutral/900`      | 主要文字、icon、深色底（已選擇標籤實心款，`--color-bg-inverse`） |
+| `neutral/900`      | 主要文字、icon、深色底（已選擇標籤實心款，`--color-bg-inverse`）、黑框按鈕的框與字（`--color-button-outline`） |
 | `neutral/900-50`   | 圖片上的移除按鈕、標記、手機版遮罩 |
 | `neutral/500`      | 次要文字、說明、次要 icon、停用按鈕的字、勾選框外框 |
-| `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底、聊天訊息時間 |
+| `neutral/300`      | 邊框、分隔線、placeholder、停用按鈕的底、聊天訊息時間、申請引導列未到的步驟（`--color-step-todo`） |
 | `neutral/white`    | 頁面底、深底上的文字、下拉選單面板底、對方的聊天氣泡 |
-| `base/100`         | 淺色區塊底、提示框                 |
+| `base/100`         | 淺色區塊底、提示框、黑框按鈕 hover 底（前端自訂） |
 | `base/150`         | 淺色區塊 hover 底（前端自訂）      |
 | `base/200`         | 主背景、卡片底、頁籤、下拉選項 hover 底、自己的聊天氣泡 |
 | `base/500`         | 次要強調、分隔、標籤               |

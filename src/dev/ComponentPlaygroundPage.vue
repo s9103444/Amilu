@@ -16,6 +16,11 @@
     </section>
 
     <section>
+      <p>outline / sm / hug</p>
+      <Button variant="outline" size="sm" width="hug">修改</Button>
+    </section>
+
+    <section>
       <p>primary / disabled</p>
       <Button disabled>登入</Button>
       <p>secondary / disabled</p>
@@ -758,6 +763,26 @@
         </button>
       </div>
     </section>
+    <section>
+      <h2>ActivationStepsItem</h2>
+      <p>單列測試：Step1 已完成、Step2 未完成（最後點的：{{ lastActivationAction || '無' }}）</p>
+      <div class="activation-demo">
+        <ActivationStepsItem
+          :number="1"
+          title="手機驗證"
+          note="已驗證 0912-***-678"
+          :done="true"
+          @action="lastActivationAction = 'Step1 修改'"
+        />
+        <ActivationStepsItem
+          :number="2"
+          title="接案設定"
+          note="填寫收款帳戶、訂金比例、修改次數與 Amilu 燈"
+          :done="false"
+          @action="lastActivationAction = 'Step2 前往填寫'"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -822,6 +847,7 @@ import sampleAvatarImg from '@/assets/user/sample-avatar.png'
 import { MOCK_USERS } from '@/mocks/user'
 import { ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
+import ActivationStepsItem from '@/features/profile/components/ActivationStepsItem.vue'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
@@ -892,6 +918,8 @@ const demoEditableDeadlines = ref<Record<number, string>>({ 1: '2026-11-10', 4: 
 // ApplyStepItem 測試：五個區塊名稱取自 mockup「委託申請 Desktop」
 const APPLY_STEP_TITLES = ['委託項目與規格', '需求描述', '授權範圍', '預算與時程', '確認委託內容']
 const demoApplyStep = ref(1)
+// ActivationStepsItem 測試：記住最後點的是哪一步的按鈕
+const lastActivationAction = ref('')
 const DEMO_READONLY_DEADLINES: Record<StageNo, string> = {
   1: '2026-11-08',
   2: '2026-11-15',
@@ -1004,6 +1032,14 @@ section {
 
 // 寬度照 Figma 排程列的 368px
 // 寬度照 Figma 款項列的 760px，明細列之間 8px（同補款卡）
+.activation-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 760px;
+  max-width: 100%;
+}
+
 .apply-step-demo {
   display: flex;
   flex-direction: column;

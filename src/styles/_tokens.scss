@@ -53,6 +53,10 @@
   --color-button-secondary: var(--accent-orange); // 次要按鈕的框與字
   --color-button-secondary-bg: var(--neutral-white);
   --color-button-secondary-hover-bg: var(--accent-orange-30);
+  // 黑框黑字按鈕（開通清單 Step 已完成時的「修改」）。hover 底色 Figma 沒畫，前端自訂
+  --color-button-outline: var(--neutral-900); // 框與字
+  --color-button-outline-bg: var(--neutral-white);
+  --color-button-outline-hover-bg: var(--base-100);
   --color-button-disabled-bg: var(--neutral-300);
   --color-button-disabled-text: var(--neutral-500);
   // 追蹤按鈕「已追蹤」狀態：目前沿用停用的灰色，但語意不同（仍可點擊），所以獨立一組

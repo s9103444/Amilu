@@ -1,8 +1,15 @@
 <template>
   <button
     type="button"
-    class="text-button-md btn"
-    :class="{ 'btn--secondary': variant === 'secondary', 'btn--hug': width === 'hug' }"
+    class="btn"
+    :class="[
+      size === 'sm' ? 'text-button-sm btn--sm' : 'text-button-md',
+      {
+        'btn--secondary': variant === 'secondary',
+        'btn--outline': variant === 'outline',
+        'btn--hug': width === 'hug',
+      },
+    ]"
   >
     <slot></slot>
   </button>
@@ -17,12 +24,20 @@
 <Button variant="secondary">登入</Button> ---> 次要樣式款(width 100%)
 <Button width="hug"> ---> 主要樣式款(width auto)
 <Button width="hug" variant="secondary"> ---> 次要樣式款(width auto)
+<Button variant="outline"> ---> 黑框黑字款（例如開通清單的「修改」）
 <Button disabled>登入</Button> ---> 按鈕失效
+<Button size="sm" width="hug">前往填寫</Button> ---> 小尺寸（Figma Amilu/Button-sm），字級、內距、間距都跟著變小
 */
-defineProps<{
-  variant?: 'primary' | 'secondary'
-  width?: 'full' | 'hug'
-}>()
+withDefaults(
+  defineProps<{
+    variant?: 'primary' | 'secondary' | 'outline'
+    width?: 'full' | 'hug'
+    size?: 'md' | 'sm'
+  }>(),
+  {
+    size: 'md',
+  },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -42,6 +57,7 @@ defineProps<{
   background: var(--gradient-button-primary);
   z-index: 1;
   overflow: hidden;
+  white-space: nowrap;
 }
 .btn::before {
   content: '';
@@ -64,6 +80,14 @@ defineProps<{
   transition: background 0.3s ease;
 }
 
+//-----黑框黑字按鈕樣式-----//
+.btn--outline {
+  background: var(--color-button-outline-bg);
+  color: var(--color-button-outline);
+  border: 1px solid var(--color-button-outline);
+  transition: background 0.3s ease;
+}
+
 .btn--hug {
   width: auto;
 }
@@ -77,12 +101,21 @@ defineProps<{
 }
 //-----hover裝置限制-----//
 @media (hover: hover) {
-  .btn:not(.btn--secondary):not(:disabled):hover::before {
+  // 彩虹漸層 hover 只給主按鈕；次要、黑框款各自換底色
+  .btn:not(.btn--secondary):not(.btn--outline):not(:disabled):hover::before {
     opacity: 1;
   }
 
   .btn--secondary:not(:disabled):hover {
     background: var(--color-button-secondary-hover-bg);
   }
+
+  .btn--outline:not(:disabled):hover {
+    background: var(--color-button-outline-hover-bg);
+  }
+}
+.btn--sm {
+  padding: var(--button-padding-sm);
+  gap: var(--button-gap-sm);
 }
 </style>
