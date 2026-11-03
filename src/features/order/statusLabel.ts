@@ -1,4 +1,4 @@
-import type { OrderStatusTagStatus } from './types'
+import type { OrderStatusTagStatus } from '@/features/order/types'
 
 export const ORDER_STATUS_LABEL: Record<OrderStatusTagStatus, string> = {
   'awaiting-quote': '待乙方報價',

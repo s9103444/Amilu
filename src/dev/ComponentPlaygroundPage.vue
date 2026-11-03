@@ -764,23 +764,30 @@
       </div>
     </section>
     <section>
-      <h2>ActivationStepsItem</h2>
-      <p>單列測試：Step1 已完成、Step2 未完成（最後點的：{{ lastActivationAction || '無' }}）</p>
-      <div class="activation-demo">
-        <ActivationStepsItem
-          :number="1"
-          title="手機驗證"
-          note="已驗證 0912-***-678"
-          :done="true"
-          @action="lastActivationAction = 'Step1 修改'"
+      <h2>ActivationSteps</h2>
+      <p>點下面的按鈕切換每一步完成了沒（最後點的 step key：{{ lastActivationAction || '無' }}）</p>
+      <div class="wide">
+        <ActivationSteps
+          :phone-verified="demoActivation.verify"
+          masked-phone="0912-***-678"
+          :settings-done="demoActivation.settings"
+          :has-commission-item="demoActivation.commissionItem"
+          @action="(key) => (lastActivationAction = key)"
         />
-        <ActivationStepsItem
-          :number="2"
-          title="接案設定"
-          note="填寫收款帳戶、訂金比例、修改次數與 Amilu 燈"
-          :done="false"
-          @action="lastActivationAction = 'Step2 前往填寫'"
-        />
+      </div>
+      <div class="row">
+        <button type="button" @click="demoActivation.verify = !demoActivation.verify">
+          切換 Step1
+        </button>
+        <button type="button" @click="demoActivation.settings = !demoActivation.settings">
+          切換 Step2
+        </button>
+        <button
+          type="button"
+          @click="demoActivation.commissionItem = !demoActivation.commissionItem"
+        >
+          切換 Step3
+        </button>
       </div>
     </section>
   </div>
@@ -845,9 +852,9 @@ import illustrationImg from '@/assets/category/illustration.webp'
 import characterArtImg from '@/assets/category/character-art.webp'
 import sampleAvatarImg from '@/assets/user/sample-avatar.png'
 import { MOCK_USERS } from '@/mocks/user'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
-import ActivationStepsItem from '@/features/profile/components/ActivationStepsItem.vue'
+import ActivationSteps from '@/features/profile/components/ActivationSteps.vue'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
@@ -918,7 +925,8 @@ const demoEditableDeadlines = ref<Record<number, string>>({ 1: '2026-11-10', 4: 
 // ApplyStepItem 測試：五個區塊名稱取自 mockup「委託申請 Desktop」
 const APPLY_STEP_TITLES = ['委託項目與規格', '需求描述', '授權範圍', '預算與時程', '確認委託內容']
 const demoApplyStep = ref(1)
-// ActivationStepsItem 測試：記住最後點的是哪一步的按鈕
+// ActivationSteps 測試：三個事實的開關，預設照 Figma 指示頁（只有 Step1 完成）；並記住最後點的 step key
+const demoActivation = reactive({ verify: true, settings: false, commissionItem: false })
 const lastActivationAction = ref('')
 const DEMO_READONLY_DEADLINES: Record<StageNo, string> = {
   1: '2026-11-08',
@@ -1030,14 +1038,12 @@ section {
   max-width: 100%;
 }
 
-// 寬度照 Figma 排程列的 368px
-// 寬度照 Figma 款項列的 760px，明細列之間 8px（同補款卡）
+// 清單卡寬度照 Figma 指示頁的 888px；外層墊灰底，白卡才看得出邊界
 .activation-demo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  width: 760px;
+  width: 888px;
   max-width: 100%;
+  border-radius: 16px;
+  background: var(--color-bg-main);
 }
 
 .apply-step-demo {
@@ -1046,6 +1052,7 @@ section {
   gap: var(--space-2);
 }
 
+// 寬度照 Figma 款項列的 760px，明細列之間 8px（同補款卡）
 .amount-row-demo {
   display: flex;
   flex-direction: column;
@@ -1054,6 +1061,7 @@ section {
   max-width: 100%;
 }
 
+// 寬度照 Figma 排程列的 368px
 .stage-deadline-demo {
   width: 368px;
   max-width: 100%;

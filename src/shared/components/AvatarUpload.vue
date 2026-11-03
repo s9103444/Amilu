@@ -50,7 +50,7 @@ withDefaults(
   align-items: center;
   padding: 20px;
   border: 1px solid var(--color-border);
-  border-radius: 15px;
+  border-radius: var(--radius-button);
   background: var(--color-bg-subtle);
   transition: background 0.3s ease;
 }

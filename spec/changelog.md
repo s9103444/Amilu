@@ -3,6 +3,13 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/11/3
+
+- 開通創作者商店清單卡 `features/profile/components/ActivationSteps.vue`（Figma 581:5776「步驟清單」）：白底、圓角 24px、內距 40px、列間距 24px，列與列之間是 1px `--color-border` 分隔線。props 只吃三個事實（`phoneVerified`＋`maskedPhone?`、`settingsDone`、`hasCommissionItem`），每步完成了沒由這三個值推出來、不另存；按鈕被點時往外 emit step key（`verify`／`settings`／`commission-item`）。playground 的單列測試換成清單卡，可切換三步的完成狀態。
+  - Step1 說明：已驗證時顯示「已驗證 ＋遮罩手機號碼」；還沒驗證時 Figma 沒畫說明，先不顯示。
+  - 待確認：Figma Step1 說明後面還有「（委託與接案共用，已驗證過的帳號會直接打勾）」，和 Step3 的燈箱說明一樣像設計稿註記，目前沒放進畫面。
+  - 「確認開通」按鈕與「未完成提示」在 Figma 是清單卡下方的按鈕列，屬於頁面，不在清單卡裡。
+
 ## 2026/10/31
 
 - `shared/components/Button.vue` 新增兩個選項：`size="sm"`（Figma Amilu/Button-sm，內距、間距、字級一起變小；字級 class 改成二選一，不再同時掛 md 與 sm）與 `variant="outline"`（黑框黑字，開通清單已完成步驟的「修改」）。`_tokens.scss` 新增 `--color-button-outline`（`neutral/900`）、`--color-button-outline-bg`（`neutral/white`）、`--color-button-outline-hover-bg`（`base/100`，Figma 沒畫，前端自訂）；`design-spec.md` 1.1 用途表同步。不從外層覆寫元件 CSS：同權重時誰贏取決於載入順序，不穩定。
@@ -10,7 +17,7 @@
   - `activationSteps.ts`：step key 型別（`verify`／`settings`／`commission-item`）與三步寫死的編號、標題、說明；Step1 的說明要用手機號碼拼，由清單卡組好再傳。
   - `components/StepStatusTag.vue`：已完成／未完成標籤。樣式與 order 的 `OrderStatusTag` 相同，但 features 之間不互相 import，所以自己帶一份。order 裡的 `incomplete` 狀態沒刪，它跟 `open-questions.md` 第 9 題綁在一起。
   - `components/ActivationStepsItem.vue`：一步一列，props `number`、`title`、`note?`、`done`，emit `action`。`done` 決定左邊數字或黑底打勾、狀態標籤、按鈕（「修改」outline／「前往填寫」primary）。
-  - **進度**：7 步做到第 5 步。下一步是第 6 步，建清單卡 `components/ActivationSteps.vue`：吃三個事實（手機驗證了沒＋遮罩後的手機號碼、接案設定填完了沒、有沒有至少 1 筆可委託項目），`v-for` 跑 `ACTIVATION_STEPS`，往外 emit 被點的 step key。第 7 步是把 playground 換成清單卡。
+  - **進度**：7 步做到第 5 步。下一步是第 6 步，建清單卡 `components/ActivationSteps.vue`：吃三個事實（手機驗證了沒＋遮罩後的手機號碼、接案設定填完了沒、有沒有至少 1 筆可委託項目），`v-for` 跑 `ACTIVATION_STEPS`，往外 emit 被點的 step key。第 7 步是把 playground 換成清單卡。（2026/11/3 完成，見當天紀錄）
   - 待確認：Step3 說明裡的「按『前往填寫』開啟新增委託項目燈箱」看起來像設計稿註記，是否真的顯示在畫面上。
 
 ## 2026/10/30
