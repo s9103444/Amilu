@@ -798,6 +798,50 @@
         <CommissionItemSelect />
       </div>
     </section>
+
+    <section class="wide">
+      <h2>ScheduleCard</h2>
+      <p>
+        每種分段三張：確認中（不傳資料）、可編輯（創作者報價，可以改日期和報價）、已報價（唯讀有資料）
+      </p>
+      <div class="schedule-card-demo">
+        <ScheduleCard stage-plan="五點分段" :deposit-percent="30" />
+        <ScheduleCard
+          v-model:quote-amount="demoQuote"
+          v-model:start-date="demoScheduleStart"
+          v-model:deadlines="demoFiveDeadlines"
+          stage-plan="五點分段"
+          :deposit-percent="30"
+          editable
+        />
+        <ScheduleCard
+          stage-plan="五點分段"
+          :deposit-percent="30"
+          :quote-amount="1800"
+          start-date="2026-10-07"
+          :deadlines="DEMO_FIVE_DEADLINES"
+        />
+        <ScheduleCard stage-plan="三點分段" :deposit-percent="30" />
+        <ScheduleCard
+          v-model:quote-amount="demoQuote"
+          v-model:start-date="demoScheduleStart"
+          v-model:deadlines="demoThreeDeadlines"
+          stage-plan="三點分段"
+          :deposit-percent="30"
+          editable
+        />
+        <ScheduleCard
+          stage-plan="三點分段"
+          :deposit-percent="30"
+          :quote-amount="1800"
+          start-date="2026-10-07"
+          :deadlines="DEMO_THREE_DEADLINES"
+        />
+      </div>
+      <p>
+        可編輯卡目前的值：報價 {{ demoQuote ?? '（空）' }}／開始 {{ demoScheduleStart || '（空）' }}
+      </p>
+    </section>
   </div>
 </template>
 
@@ -864,6 +908,7 @@ import { reactive, ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import ActivationSteps from '@/features/profile/components/ActivationSteps.vue'
 import CommissionItemSelect from '@/features/order/components/CommissionItemSelect.vue'
+import ScheduleCard from '@/features/order/components/ScheduleCard.vue'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
@@ -944,6 +989,29 @@ const DEMO_READONLY_DEADLINES: Record<StageNo, string> = {
   4: '',
   5: '2026-11-30',
 }
+// ScheduleCard 測試：可編輯的兩張共用報價和開始日期，各自有階段日期；已報價的兩張用 Figma 的範例日期
+const demoQuote = ref<number | null>(1800)
+const demoScheduleStart = ref('2026-10-07')
+const demoFiveDeadlines = ref<Partial<Record<StageNo, string>>>({
+  1: '2026-10-11',
+  2: '2026-10-20',
+  3: '2026-10-30',
+  4: '2026-11-20',
+  5: '2026-11-30',
+})
+const demoThreeDeadlines = ref<Partial<Record<StageNo, string>>>({
+  1: '2026-10-11',
+  4: '2026-10-20',
+  5: '2026-11-30',
+})
+const DEMO_FIVE_DEADLINES = {
+  1: '2026-10-11',
+  2: '2026-10-20',
+  3: '2026-10-30',
+  4: '2026-11-20',
+  5: '2026-11-30',
+}
+const DEMO_THREE_DEADLINES = { 1: '2026-10-11', 4: '2026-10-20', 5: '2026-11-30' }
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -1051,6 +1119,17 @@ section {
 .activation-demo {
   width: 888px;
   max-width: 100%;
+  border-radius: 16px;
+  background: var(--color-bg-main);
+}
+
+// 委託排程卡設計稿寬 432，放得下幾張就排幾張；外層墊灰底，白卡才看得出邊界
+.schedule-card-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(432px, 100%), 432px));
+  align-items: start;
+  gap: var(--space-3);
+  padding: var(--space-3);
   border-radius: 16px;
   background: var(--color-bg-main);
 }

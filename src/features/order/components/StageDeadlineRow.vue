@@ -29,7 +29,10 @@
       </button>
     </div>
     <!-- 狀態②：唯讀、已有日期（報價送出後） -->
-    <span v-else-if="date" class="text-caption date-text">{{ dateFormat }}</span>
+    <!-- muted：只供參考的日期改灰字（排程卡中間各階段，Figma 590:369） -->
+    <span v-else-if="date" class="text-caption" :class="muted ? 'pending' : 'date-text'">
+      {{ dateFormat }}
+    </span>
     <!-- 狀態③：唯讀、還沒有日期（委託人等創作者報價時） -->
     <span v-else class="text-caption pending">確認中</span>
   </div>
@@ -48,10 +51,16 @@ date 的格式是原生日期選擇器的 'YYYY-MM-DD'，沒填時是 ''。
 */
 import { computed, useTemplateRef } from 'vue'
 
-defineProps<{
-  label: string // 左邊文字，排程卡組好再傳進來
-  editable: boolean // true＝創作者報價時可以選日期
-}>()
+withDefaults(
+  defineProps<{
+    label: string // 左邊文字，排程卡組好再傳進來
+    editable: boolean // true＝創作者報價時可以選日期
+    muted?: boolean // true＝唯讀時日期用灰字（只影響唯讀、有日期的樣子）
+  }>(),
+  {
+    muted: false,
+  },
+)
 const date = defineModel<string>({ default: '' })
 
 const base = import.meta.env.BASE_URL

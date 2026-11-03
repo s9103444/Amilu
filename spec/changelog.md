@@ -5,11 +5,16 @@
 
 ## 2026/11/3
 
-- 委託項目選擇 `features/order/components/CommissionItemSelect.vue`（Figma 592:329），委託申請頁第①區最上面：收合時整塊是一顆按鈕，顯示目前選的項目（88px 封面、標題、說明、「更換項目」）；展開時收合按鈕換成右上角「收合」，下面列出該創作者所有項目（64px 封面），已選那列灰底＋橘色勾勾，點一列＝換成那個項目並收合。封面取 `COMMISSION_ITEM_IMAGE` 中 `seq_no` 為 1 的那張。`explore/types.ts` 新增 `CommissionItemImage`，`mocks/commissionItem.ts` 新增 `MOCK_COMMISSION_ITEM_IMAGES`。`_tokens.scss` 新增 `--color-border-expanded`（`neutral/500`）、`--color-bg-list-selected`（`base/200`），`design-spec.md` 1.1 同步；勾勾另存 `public/icons/check-white-bold.svg`（線條比 `check-white.svg` 粗）。沒選那列的 hover 底（`--color-bg-subtle-hover`）Figma 沒畫，前端自訂。目前資料直接讀 mock，還沒有 props。
 - 開通創作者商店清單卡 `features/profile/components/ActivationSteps.vue`（Figma 581:5776「步驟清單」）：白底、圓角 24px、內距 40px、列間距 24px，列與列之間是 1px `--color-border` 分隔線。props 只吃三個事實（`phoneVerified`＋`maskedPhone?`、`settingsDone`、`hasCommissionItem`），每步完成了沒由這三個值推出來、不另存；按鈕被點時往外 emit step key（`verify`／`settings`／`commission-item`）。playground 的單列測試換成清單卡，可切換三步的完成狀態。
   - Step1 說明：已驗證時顯示「已驗證 ＋遮罩手機號碼」；還沒驗證時 Figma 沒畫說明，先不顯示。
   - 待確認：Figma Step1 說明後面還有「（委託與接案共用，已驗證過的帳號會直接打勾）」，和 Step3 的燈箱說明一樣像設計稿註記，目前沒放進畫面。
   - 「確認開通」按鈕與「未完成提示」在 Figma 是清單卡下方的按鈕列，屬於頁面，不在清單卡裡。
+- 委託項目選擇 `features/order/components/CommissionItemSelect.vue`（Figma 592:329），委託申請頁第①區最上面：收合時整塊是一顆按鈕，顯示目前選的項目（88px 封面、標題、說明、「更換項目」）；展開時收合按鈕換成右上角「收合」，下面列出該創作者所有項目（64px 封面），已選那列灰底＋橘色勾勾，點一列＝換成那個項目並收合。封面取 `COMMISSION_ITEM_IMAGE` 中 `seq_no` 為 1 的那張。`explore/types.ts` 新增 `CommissionItemImage`，`mocks/commissionItem.ts` 新增 `MOCK_COMMISSION_ITEM_IMAGES`。`_tokens.scss` 新增 `--color-border-expanded`（`neutral/500`）、`--color-bg-list-selected`（`base/200`），`design-spec.md` 1.1 同步；勾勾另存 `public/icons/check-white-bold.svg`（線條比 `check-white.svg` 粗）。沒選那列的 hover 底（`--color-bg-subtle-hover`）Figma 沒畫，前端自訂。目前資料直接讀 mock，還沒有 props。
+- 委託排程卡 `features/order/components/ScheduleCard.vue`（Figma 590:522）：三種樣子由 `editable` 和有沒有資料推出來，不另外傳狀態——可編輯（創作者報價，日期與報價可改）、唯讀沒資料（委託人等報價，全部「確認中」）、唯讀有資料（報價送出後）。props 是 `stagePlan`、`editable`、`depositPercent`，報價、開始日期、各階段日期用 `v-model`（`deadlines` 以 `stage_no` 當鑰匙）。訂金與其餘支付額由報價即時算（訂金＝總價 × 訂金%，無條件捨去），只供顯示，實際應付金額以後端計算為準。
+  - 和 Figma 不同：Figma 的列名是「第一階段交稿」「第二階段交稿」，三點分段的 `stage_no` 是 1／4／5，寫「第N階段」會對不上，改用 `STAGE_LABEL` 加「交稿」（例如「草稿交稿」「精稿交稿」），完稿那段沿用 Figma 的「截稿日期」。
+  - `StageDeadlineRow` 新增選填 `muted`：唯讀有日期時改灰字。排程卡已報價時中間各階段的日期是灰字（只供參考），開始日期與截稿日期是黑字，照 Figma 590:369。
+  - `_tokens.scss` 新增 `--color-border-strong`（`neutral/900`），報價輸入框外框用，`design-spec.md` 1.1 同步。
+  - 待確認：訂金設「無需先支付」時訂金列怎麼顯示，Figma 沒畫，目前會顯示「訂金（0%）NT$ 0」。
 
 ## 2026/10/31
 
