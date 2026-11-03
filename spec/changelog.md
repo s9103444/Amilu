@@ -5,6 +5,7 @@
 
 ## 2026/11/3
 
+- 委託項目選擇 `features/order/components/CommissionItemSelect.vue`（Figma 592:329），委託申請頁第①區最上面：收合時整塊是一顆按鈕，顯示目前選的項目（88px 封面、標題、說明、「更換項目」）；展開時收合按鈕換成右上角「收合」，下面列出該創作者所有項目（64px 封面），已選那列灰底＋橘色勾勾，點一列＝換成那個項目並收合。封面取 `COMMISSION_ITEM_IMAGE` 中 `seq_no` 為 1 的那張。`explore/types.ts` 新增 `CommissionItemImage`，`mocks/commissionItem.ts` 新增 `MOCK_COMMISSION_ITEM_IMAGES`。`_tokens.scss` 新增 `--color-border-expanded`（`neutral/500`）、`--color-bg-list-selected`（`base/200`），`design-spec.md` 1.1 同步；勾勾另存 `public/icons/check-white-bold.svg`（線條比 `check-white.svg` 粗）。沒選那列的 hover 底（`--color-bg-subtle-hover`）Figma 沒畫，前端自訂。目前資料直接讀 mock，還沒有 props。
 - 開通創作者商店清單卡 `features/profile/components/ActivationSteps.vue`（Figma 581:5776「步驟清單」）：白底、圓角 24px、內距 40px、列間距 24px，列與列之間是 1px `--color-border` 分隔線。props 只吃三個事實（`phoneVerified`＋`maskedPhone?`、`settingsDone`、`hasCommissionItem`），每步完成了沒由這三個值推出來、不另存；按鈕被點時往外 emit step key（`verify`／`settings`／`commission-item`）。playground 的單列測試換成清單卡，可切換三步的完成狀態。
   - Step1 說明：已驗證時顯示「已驗證 ＋遮罩手機號碼」；還沒驗證時 Figma 沒畫說明，先不顯示。
   - 待確認：Figma Step1 說明後面還有「（委託與接案共用，已驗證過的帳號會直接打勾）」，和 Step3 的燈箱說明一樣像設計稿註記，目前沒放進畫面。

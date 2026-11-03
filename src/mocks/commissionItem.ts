@@ -3,7 +3,12 @@
 // 三筆刻意涵蓋：可商用／不可商用、說明很長會換行。
 // 之後後端好了，改從 GET /creators/{creator_id}/commission-items 拿（api.md 草案），到時候只要改這個檔。
 
-import type { CommissionItem } from '@/features/explore/types'
+import type { CommissionItem, CommissionItemImage } from '@/features/explore/types'
+import avatar from '@/assets/category/avatar.webp'
+import characterArt from '@/assets/category/character-art.webp'
+import comic from '@/assets/category/comic.webp'
+import conceptArt from '@/assets/category/concept-art.webp'
+import illustration from '@/assets/category/illustration.webp'
 
 export const MOCK_COMMISSION_ITEMS: CommissionItem[] = [
   {
@@ -42,5 +47,33 @@ export const MOCK_COMMISSION_ITEMS: CommissionItem[] = [
     category_id: '1',
     purpose_id: '3',
     created_at: '2026-10-05T09:00:00+08:00',
+  },
+]
+
+export const MOCK_COMMISSION_ITEM_IMAGES: CommissionItemImage[] = [
+  {
+    item_id: 'ci_001',
+    seq_no: 1,
+    image_url: avatar,
+  },
+  {
+    item_id: 'ci_001',
+    seq_no: 2,
+    image_url: characterArt,
+  },
+  {
+    item_id: 'ci_001',
+    seq_no: 3,
+    image_url: comic,
+  },
+  {
+    item_id: 'ci_002',
+    seq_no: 1,
+    image_url: conceptArt,
+  },
+  {
+    item_id: 'ci_003',
+    seq_no: 1,
+    image_url: illustration,
   },
 ]

@@ -790,6 +790,14 @@
         </button>
       </div>
     </section>
+
+    <section>
+      <h2>CommissionItemSelect</h2>
+      <p>收合時只顯示目前選的項目；點「更換項目」展開全部項目，被選的那列有勾勾</p>
+      <div class="wide">
+        <CommissionItemSelect />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -855,6 +863,7 @@ import { MOCK_USERS } from '@/mocks/user'
 import { reactive, ref } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import ActivationSteps from '@/features/profile/components/ActivationSteps.vue'
+import CommissionItemSelect from '@/features/order/components/CommissionItemSelect.vue'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)

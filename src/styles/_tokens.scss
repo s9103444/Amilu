@@ -33,6 +33,7 @@
   --color-text-secondary: var(--neutral-500);
   --color-text-on-dark: var(--neutral-white);
   --color-border: var(--neutral-300);
+  --color-border-expanded: var(--neutral-500); // 展開中的選擇框外框（Figma 委託項目選擇 592:303）
   --color-placeholder: var(--neutral-300);
   --color-step-todo: var(--neutral-300); // 申請頁引導列還沒到的步驟，灰點與灰字（Figma 600:176）
   --color-icon: var(--neutral-900);
@@ -82,6 +83,8 @@
   // 側邊選單項目（Figma 613:561）：選中的底色、滑過的底色
   --color-bg-nav-selected: var(--base-200);
   --color-bg-nav-hover: var(--base-150);
+  // 委託項目選擇展開後，已選那列的底（Figma 592:309）
+  --color-bg-list-selected: var(--base-200);
   // 勾選框（Figma 535:2953）。勾選後的深色底沿用 --color-bg-inverse
   --color-checkbox-bg: var(--neutral-white);
   --color-checkbox-border: var(--neutral-500);

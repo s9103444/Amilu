@@ -11,3 +11,8 @@ export type CommissionItem = {
   purpose_id: string | null
   created_at: string // ISO 時間字串
 }
+export type CommissionItemImage = {
+  item_id: string
+  seq_no: number
+  image_url: string
+}
