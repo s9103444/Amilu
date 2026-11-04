@@ -4,6 +4,7 @@
     class="item text-caption"
     :class="`item--${status}`"
     :aria-current="status === 'selected' ? 'page' : undefined"
+    :disabled="status === 'disabled'"
   >
     {{ title }}
   </button>
@@ -18,14 +19,15 @@
 status：
   'selected'  目前所在的項目，灰底
   'default'   一般項目
-  'secondary' 灰字的次要項目（例如「申請終止合作」），一樣可以點
+  'danger'    橘字，會造成重大後果的操作（例如可以申請時的「申請終止合作」）
+  'disabled'  灰字、不能點（例如還不能申請時的「申請終止合作」），點了不會觸發 click
 目前選到哪一項由外面記住，項目只負責顯示。寬度撐滿外層，由外層決定。
 個人中心（模組三）和委託討論牆（模組四）都會用，所以放 shared。
 */
 withDefaults(
   defineProps<{
     title: string
-    status?: 'selected' | 'default' | 'secondary'
+    status?: 'selected' | 'default' | 'danger' | 'disabled'
   }>(),
   { status: 'default' },
 )
@@ -49,13 +51,17 @@ withDefaults(
 .item--selected {
   background: var(--color-bg-nav-selected);
 }
-.item--secondary {
+.item--danger {
+  color: var(--color-danger);
+}
+.item--disabled {
   color: var(--color-text-secondary);
+  cursor: not-allowed;
 }
 // Figma 沒畫 hover：用比選中淺一階的底色，才分得出「滑過」和「選中」
 // 只在有滑鼠的裝置套用，避免手機點完後底色卡住
 @media (hover: hover) {
-  .item:not(.item--selected):hover {
+  .item:not(.item--selected):not(:disabled):hover {
     background: var(--color-bg-nav-hover);
   }
 }

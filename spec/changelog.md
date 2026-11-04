@@ -3,6 +3,16 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/11/5
+
+- 側邊選單項目 `shared/components/SideMenuItem.vue`：`status` 拿掉 `secondary`，改成 `danger`（橘字，可以按）和 `disabled`（灰字、原生 `disabled`，點了不觸發 click、沒有 hover 底），給「申請終止合作」的兩種樣子用（Figma 884:14635）。`_tokens.scss` 新增 `--color-danger`（`accent/orange`，與 `--color-error` 同色、語意不同），`design-spec.md` 1.1 同步。playground 的選單測試多兩列（可按、不能按）。
+- 委託討論牆左欄 `features/order/components/OrderSidePanel.vue`（Figma 616:517）：雙方頭像與身分標籤、案件標題＋狀態標籤、委託總額／目前階段／本階段截止／修改次數、進度條、選單。三種樣子由 `status` 和 `canTerminate` 推出來：製作中顯示目前階段與截止日，選單多「申請終止合作」；已完成、已終止改顯示結案時間並拿掉「申請終止合作」（features.md 4.5）。目前階段由頁面從 `ORDER_STAGE` 找第一個未確認的階段再傳進來。點選單只 emit `select`（`wall`／`item`／`terminate`），選中項目由頁面記；`terminate` 只開燈箱，不改選中項目。
+  - `features/order/types.ts` 新增 `OrderStatus`、`Order`、`OrderStage`（只列畫面用得到的欄位）；`mocks/order.ts` 新增三筆訂單與階段：製作中五點分段（卡在草稿）、製作中三點分段（卡在精稿）、已完成。playground 用這三筆各放一張左欄。
+  - 身分標籤黑底白字＝目前看畫面的那一方（`viewerRole`），其他是淺灰底灰字。Figma 沒有說明黑底的意思，這是推測。
+  - 和 Figma 不同：目前階段 Figma 寫「第一階段（草稿）」，三點分段的 `stage_no` 是 1／4／5，寫「第N階段」會對不上，改成只寫 `STAGE_LABEL`（例如「草稿」），同排程卡。
+  - 和 Figma 不同：@id 在 Figma 是 `neutral/300`，沒有對應的文字 token，先用 `--color-text-secondary`（同 `UserInfoBar`）。
+  - 待確認：「申請終止合作」什麼時候是灰字，spec 沒寫，見 [open-questions.md 第 13 題](open-questions.md#13-申請終止合作什麼時候不能按)。
+
 ## 2026/11/3
 
 - 開通創作者商店清單卡 `features/profile/components/ActivationSteps.vue`（Figma 581:5776「步驟清單」）：白底、圓角 24px、內距 40px、列間距 24px，列與列之間是 1px `--color-border` 分隔線。props 只吃三個事實（`phoneVerified`＋`maskedPhone?`、`settingsDone`、`hasCommissionItem`），每步完成了沒由這三個值推出來、不另存；按鈕被點時往外 emit step key（`verify`／`settings`／`commission-item`）。playground 的單列測試換成清單卡，可切換三步的完成狀態。

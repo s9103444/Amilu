@@ -25,3 +25,32 @@ export type Message = {
   image_url: string | null
   created_at: string // ISO 時間字串
 }
+
+// ORDER.status：只有 6 個值（order-lifecycle.md 一）。
+// 是 OrderStatusTagStatus 的一部分，所以可以直接傳給 OrderStatusTag；中文文字查 statusLabel.ts
+export type OrderStatus =
+  'awaiting-quote' | 'awaiting-payment' | 'in-progress' | 'completed' | 'cancelled' | 'terminated'
+
+// ORDER：委託案件（data-model.md 2.3，欄位以 FigJam 為準），只列畫面用得到的欄位
+// 「目前在哪個階段」不存在這裡，從 OrderStage 找第一個未確認的階段（data-model.md 5.1）
+export type Order = {
+  order_id: string
+  creator_id: string // 創作者的 USER.id
+  commissioner_id: string // 委託人的 USER.id
+  item_title_snapshot: string // 契約快照：送出申請時的項目標題
+  status: OrderStatus
+  quote_amount: number // 委託總額（創作者報價）
+  revision_count_snapshot: number // 契約快照：包含幾次修改
+  stage_plan_snapshot: '三點分段' | '五點分段' // 契約快照：分段方案
+  completed_at: string | null // 已完成的時間，還沒完成時是 null
+  terminated_at: string | null // 終止的時間，沒被終止時是 null
+}
+
+// ORDER_STAGE：每個階段一列，五點分段 5 列、三點分段 3 列（stage_no 是 1／4／5）
+export type OrderStage = {
+  stage_id: string
+  order_id: string
+  stage_no: StageNo
+  deadline: string // 'YYYY-MM-DD'
+  confirm_status: '未確認' | '已確認' // 值待對 FigJam（spec 只有欄位名，沒列出可能的值）
+}

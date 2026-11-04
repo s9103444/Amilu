@@ -538,13 +538,13 @@
 
     <section>
       <h2>SideMenuItem</h2>
-      <p>點一下切換選中（目前：{{ activeSide }}）；灰字項目一樣可以點</p>
+      <p>點一下切換選中（目前：{{ activeSide }}）；橘字可以點，灰字不能點</p>
       <div class="narrow">
         <SideMenuItem
           v-for="item in sideMenu"
           :key="item.key"
           :title="item.title"
-          :status="activeSide === item.key ? 'selected' : item.secondary ? 'secondary' : 'default'"
+          :status="activeSide === item.key ? 'selected' : (item.status ?? 'default')"
           @click="activeSide = item.key"
         />
       </div>
@@ -842,6 +842,37 @@
         可編輯卡目前的值：報價 {{ demoQuote ?? '（空）' }}／開始 {{ demoScheduleStart || '（空）' }}
       </p>
     </section>
+
+    <section class="wide">
+      <h2>OrderSidePanel</h2>
+      <p>
+        三張：製作中五點（可終止，我是委託人）、製作中三點（不能終止，我是創作者）、已完成。
+        三張共用同一個選中項目（目前：{{ demoPanelActive }}）；最後一次 select：{{
+          lastPanelSelect || '（還沒點）'
+        }}
+      </p>
+      <div class="side-panel-demo">
+        <OrderSidePanel
+          v-bind="toPanelProps(MOCK_ORDER_IN_PROGRESS, MOCK_STAGES_IN_PROGRESS)"
+          viewer-role="commissioner"
+          :active="demoPanelActive"
+          can-terminate
+          @select="onPanelSelect"
+        />
+        <OrderSidePanel
+          v-bind="toPanelProps(MOCK_ORDER_THREE_STAGE, MOCK_STAGES_THREE_STAGE)"
+          viewer-role="creator"
+          :active="demoPanelActive"
+          @select="onPanelSelect"
+        />
+        <OrderSidePanel
+          v-bind="toPanelProps(MOCK_ORDER_COMPLETED, MOCK_STAGES_COMPLETED)"
+          viewer-role="commissioner"
+          :active="demoPanelActive"
+          @select="onPanelSelect"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -856,7 +887,17 @@ import NotificationMenuItem from '@/layouts/components/header/NotificationMenuIt
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
 import ChatMessage from '@/features/order/components/ChatMessage.vue'
 import ChatRoom from '@/features/order/components/ChatRoom.vue'
-import { MOCK_CHAT_ORDER, MOCK_CURRENT_USER_ID, MOCK_MESSAGES } from '@/mocks/order'
+import {
+  MOCK_CHAT_ORDER,
+  MOCK_CURRENT_USER_ID,
+  MOCK_MESSAGES,
+  MOCK_ORDER_COMPLETED,
+  MOCK_ORDER_IN_PROGRESS,
+  MOCK_ORDER_THREE_STAGE,
+  MOCK_STAGES_COMPLETED,
+  MOCK_STAGES_IN_PROGRESS,
+  MOCK_STAGES_THREE_STAGE,
+} from '@/mocks/order'
 import demoMessageImage from '@/assets/purpose/game-art.webp'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import FormInput from '@/shared/components/FormInput.vue'
@@ -909,6 +950,8 @@ import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import ActivationSteps from '@/features/profile/components/ActivationSteps.vue'
 import CommissionItemSelect from '@/features/order/components/CommissionItemSelect.vue'
 import ScheduleCard from '@/features/order/components/ScheduleCard.vue'
+import OrderSidePanel from '@/features/order/components/OrderSidePanel.vue'
+import type { Order, OrderStage } from '@/features/order/types'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
@@ -959,7 +1002,8 @@ function onChatSendImage(file: File) {
 const sideMenu = [
   { key: 'wall', title: '委託討論牆' },
   { key: 'item', title: '委託項目檢視' },
-  { key: 'terminate', title: '申請終止合作', secondary: true },
+  { key: 'terminate', title: '申請終止合作', status: 'danger' as const },
+  { key: 'terminate-locked', title: '申請終止合作', status: 'disabled' as const },
 ]
 const activeSide = ref('wall')
 // FollowUserRow 測試：記住哪些人被追蹤
@@ -1012,6 +1056,39 @@ const DEMO_FIVE_DEADLINES = {
   5: '2026-11-30',
 }
 const DEMO_THREE_DEADLINES = { 1: '2026-10-11', 4: '2026-10-20', 5: '2026-11-30' }
+// OrderSidePanel 測試：把 snake_case 的訂單和階段換成元件要的 camelCase props（正式版由頁面做這件事）
+function toPanelProps(order: Order, stages: OrderStage[]) {
+  const status = order.status
+  // 左欄只用在正式委託後；等報價、等付款、已取消的案件不會進到這個畫面
+  if (status !== 'in-progress' && status !== 'completed' && status !== 'terminated') {
+    throw new Error(`OrderSidePanel 不支援狀態 ${status}`)
+  }
+  // 目前階段＝第一個未確認的階段（data-model.md 5.1）；全部確認了（已完成）就停在最後一個
+  const current = stages.find((stage) => stage.confirm_status === '未確認') ?? stages.at(-1)!
+  const toParty = (id: string) => {
+    const user = MOCK_USERS.find((u) => u.id === id)!
+    return { nickname: user.nickname, userId: user.id, avatarUrl: user.avatar_url }
+  }
+  return {
+    creator: toParty(order.creator_id),
+    commissioner: toParty(order.commissioner_id),
+    title: order.item_title_snapshot,
+    status,
+    totalAmount: order.quote_amount,
+    revisionCount: order.revision_count_snapshot,
+    stagePlan: order.stage_plan_snapshot,
+    currentStage: current.stage_no,
+    stageDeadline: current.deadline,
+    closedAt: order.completed_at ?? order.terminated_at ?? undefined,
+  }
+}
+const demoPanelActive = ref<'wall' | 'item'>('wall')
+const lastPanelSelect = ref('')
+// 【左欄選單被點時觸發】wall／item 換選中項目；terminate 只記下來（正式版是打開終止合作燈箱，不改 active）
+function onPanelSelect(key: 'wall' | 'item' | 'terminate') {
+  lastPanelSelect.value = key
+  if (key !== 'terminate') demoPanelActive.value = key
+}
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -1124,6 +1201,17 @@ section {
 }
 
 // 委託排程卡設計稿寬 432，放得下幾張就排幾張；外層墊灰底，白卡才看得出邊界
+// 委託討論牆左欄：三張並排，外層灰底才看得到白卡
+.side-panel-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 360px));
+  align-items: start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: 16px;
+  background: var(--color-bg-main);
+}
+
 .schedule-card-demo {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(432px, 100%), 432px));
