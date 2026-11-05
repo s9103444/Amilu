@@ -39,12 +39,18 @@ withDefaults(
   width: 100%;
 }
 
+// 欄位變窄時，左邊的名稱換行，右邊的金額不讓位
+// keep-all：中文不在字和字中間斷，只在括號這類標點前換行，例如「創作者可得」／「（已確認階段）」
+// overflow-wrap：名稱裡沒有標點又放不下時，才退回任意位置斷開，不會擠出卡片
 .text-label {
+  min-width: 0;
   color: var(--color-text-primary);
-  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .text-value {
+  flex-shrink: 0;
   color: var(--color-text-secondary);
   white-space: nowrap; // 金額不斷成兩行
 }

@@ -873,6 +873,77 @@
         />
       </div>
     </section>
+
+    <section class="wide">
+      <h2>PaymentSummaryCard</h2>
+      <p>
+        三張：委託人待補款（Figma
+        617:590）、創作者等待補款（沒有按鈕）、已終止（有終止說明）。後兩張的金額是隨便填的，不是照結算公式算的
+      </p>
+      <div class="payment-card-demo">
+        <PaymentSummaryCard
+          title="尚需補付 NT$ 1,260"
+          status="awaiting-top-up"
+          :rows="[
+            { label: '委託總額', value: 'NT$ 1,800' },
+            { label: '已付款（訂金）', value: 'NT$ 540' },
+            { label: '應補付', value: 'NT$ 1,260', emphasis: true },
+            { label: '補款期限', value: '2026 / 10 / 30 23:59' },
+          ]"
+          description="你選擇先付訂金，乙方已上傳最後階段稿件。補款入帳後即完成結案、解鎖原檔；到期後有 7 天等待期，期滿仍未補款，將以「最後階段未完成」結算：不收最後階段費用，你只能取得前一階段的無浮水印圖；結算後仍有欠款將鎖定帳號，付清後才會解鎖。"
+        >
+          <template #action>
+            <Button width="hug" @click="lastPaymentAction = '前往補款'">前往補款</Button>
+          </template>
+        </PaymentSummaryCard>
+        <PaymentSummaryCard
+          title="等待委託人補款"
+          status="awaiting-top-up"
+          :rows="[
+            { label: '委託總額', value: 'NT$ 1,800' },
+            { label: '已撥款（訂金）', value: 'NT$ 540' },
+            { label: '待撥款金額', value: 'NT$ 1,260', emphasis: true },
+            { label: '委託人補款期限', value: '2026 / 10 / 30 23:59' },
+          ]"
+          description="委託人補款入帳後，待撥款金額會撥給你。"
+        />
+        <PaymentSummaryCard
+          title="委託已終止"
+          status="terminated"
+          :note="'乙方使用者暱稱 於 2026/10/12 申請終止合作。\n原因：因個人因素無法繼續製作，抱歉。'"
+          :rows="[
+            { label: '委託人已付', value: 'NT$ 1,800' },
+            { label: '創作者可得', value: 'NT$ 540' },
+            { label: '委託人退款', value: 'NT$ 1,260', emphasis: true },
+          ]"
+        />
+      </div>
+      <p>最後一次按鈕：{{ lastPaymentAction || '（還沒點）' }}</p>
+    </section>
+
+    <section>
+      <h2>SettlementPreview</h2>
+      <p>退款是正數：標題「委託人退款」</p>
+      <div class="settlement-demo">
+        <SettlementPreview :paid="1800" :creator-earns="540" :refund="1260" />
+      </div>
+      <p>退款是負數：標題改成「委託人應補付」，數字顯示正數（金額是隨便填的）</p>
+      <div class="settlement-demo">
+        <SettlementPreview :paid="540" :creator-earns="900" :refund="-360" />
+      </div>
+    </section>
+
+    <section>
+      <h2>UploadStageInfo</h2>
+      <p>五點分段，目前在草稿</p>
+      <div class="upload-stage-demo">
+        <UploadStageInfo :stage-no="1" deadline="2026-10-11" />
+      </div>
+      <p>三點分段，草稿已確認，目前在精稿（stage_no 是 4，不遞補）</p>
+      <div class="upload-stage-demo">
+        <UploadStageInfo :stage-no="4" deadline="2026-10-25" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -951,6 +1022,9 @@ import ActivationSteps from '@/features/profile/components/ActivationSteps.vue'
 import CommissionItemSelect from '@/features/order/components/CommissionItemSelect.vue'
 import ScheduleCard from '@/features/order/components/ScheduleCard.vue'
 import OrderSidePanel from '@/features/order/components/OrderSidePanel.vue'
+import PaymentSummaryCard from '@/features/order/components/PaymentSummaryCard.vue'
+import SettlementPreview from '@/features/order/components/SettlementPreview.vue'
+import UploadStageInfo from '@/features/order/components/UploadStageInfo.vue'
 import type { Order, OrderStage } from '@/features/order/types'
 const searchText = ref('')
 const lastSearch = ref('')
@@ -1089,6 +1163,8 @@ function onPanelSelect(key: 'wall' | 'item' | 'terminate') {
   lastPanelSelect.value = key
   if (key !== 'terminate') demoPanelActive.value = key
 }
+// PaymentSummaryCard 測試：記住最後按了哪顆按鈕（正式版是跳到補款頁）
+const lastPaymentAction = ref('')
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -1201,6 +1277,28 @@ section {
 }
 
 // 委託排程卡設計稿寬 432，放得下幾張就排幾張；外層墊灰底，白卡才看得出邊界
+// 結算試算：設計稿寬 480
+.settlement-demo {
+  width: 480px;
+  max-width: 100%;
+}
+
+// 本次上傳階段：設計稿寬 480（同結算試算，都在燈箱裡）
+.upload-stage-demo {
+  width: 480px;
+  max-width: 100%;
+}
+
+// 款項卡：設計稿在白底的右欄裡（卡片寬 808），一張一張往下排
+.payment-card-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: 24px;
+  background: var(--color-bg-page);
+}
+
 // 委託討論牆左欄：三張並排，外層灰底才看得到白卡
 .side-panel-demo {
   display: grid;

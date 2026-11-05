@@ -12,6 +12,14 @@
   - 和 Figma 不同：目前階段 Figma 寫「第一階段（草稿）」，三點分段的 `stage_no` 是 1／4／5，寫「第N階段」會對不上，改成只寫 `STAGE_LABEL`（例如「草稿」），同排程卡。
   - 和 Figma 不同：@id 在 Figma 是 `neutral/300`，沒有對應的文字 token，先用 `--color-text-secondary`（同 `UserInfoBar`）。
   - 待確認：「申請終止合作」什麼時候是灰字，spec 沒寫，見 [open-questions.md 第 13 題](open-questions.md#13-申請終止合作什麼時候不能按)。
+- 款項卡 `features/order/components/PaymentSummaryCard.vue`（Figma 617:590），放在委託討論牆右欄最上面：委託人最後階段待補款、創作者等待委託人補款、結案結算卡（已完成、已終止）共用。由上到下是標題＋狀態標籤、終止說明（`note`，有才顯示，字串裡的 `\n` 會換行）、明細（`rows`，每列用 `AmountRow`）、灰色說明（有才顯示）、按鈕（`#action` slot，沒傳不佔位置）。卡片不算錢也不判斷狀態，金額與日期由頁面算好並格式化成文字再傳。
+  - 和 Figma 不同：Figma 按鈕左右內距 24、寬 136，沿用 `Button` 的 `width="hug"`（左右內距 18），按鈕會窄一點。
+- 結算試算 `features/order/components/SettlementPreview.vue`（Figma 626:118），放在終止合作燈箱裡（features.md 4.9）：委託人已付、創作者可得（已確認階段）、委託人退款三列，數字由後端算好以數字傳入，元件只排版與格式化。退款為負數時標題改為「委託人應補付」、數字顯示正數。底部固定說明照 spec 寫在元件裡。
+- 款項列 `AmountRow`：欄位變窄時左邊名稱可以換行（`word-break: keep-all`，只在括號等標點前斷，例如「創作者可得」／「（已確認階段）」；沒有標點又放不下時才任意斷），右邊金額不縮、不換行。之前名稱不能換行，窄的時候會把金額擠出卡片。`OrderSidePanel`、`PaymentSummaryCard`、`SettlementPreview` 一起套用。
+- 本次上傳階段 `features/order/components/UploadStageInfo.vue`（Figma 626:104），放在創作者的上傳作品燈箱裡（features.md 4.4）：唯讀兩列，上傳階段＋本階段截止。上傳目標固定是第一個未確認的階段，由頁面算好傳 `stageNo`、`deadline`，元件不判斷。左邊灰字、右邊黑字，和 `AmountRow` 顏色相反，所以不共用。
+  - 和 Figma 不同：Figma 寫「第一階段」，改顯示 `STAGE_LABEL`（例如「草稿」），理由同左欄與排程卡（三點分段 `stage_no` 是 1／4／5）。
+  - 和 Figma 不同：兩欄之間加 16px 間距，Figma 沒畫，避免窄的時候文字黏在一起。
+- playground 新增 `PaymentSummaryCard`（待補款、等待補款、已終止）、`SettlementPreview`（退款、應補付）、`UploadStageInfo`（五點草稿、三點精稿）展示；後兩者的部分金額是隨便填的，不是照結算公式算。
 
 ## 2026/11/3
 
