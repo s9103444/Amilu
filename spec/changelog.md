@@ -3,6 +3,15 @@
 > 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
 > 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
 
+## 2026/11/6
+
+- 評分卡 `features/order/components/RatingCard.vue`（Figma 617:612），放在結案畫面結算卡下方（features.md 4.5、5.1）：標題由 `rateFor`（`creator`／`commissioner`）組成「為創作者評分」「為委託人評分」，頁面不用傳文字。點第 n 顆星＝選 n 星，選幾星由卡片自己記；按「送出評價」才 emit `submit`（帶分數）給頁面，還沒選星時按鈕不能按。星星是 `<button>`，有 `aria-label`（「n 星」）和鍵盤外框。
+  - 星星圖示：Figma 的星等（617:615）是 5 顆合成一張圖，沒辦法點，所以從中切出單顆星另存 `public/icons/star-filled.svg`（`#232020`）、`star-empty.svg`（`#C2C2C2`），形狀與 Figma 相同。
+  - 待補：送出後的樣子（每個案件各評一次），Figma 沒畫。
+- 委託討論牆標題列 `features/order/components/DiscussionTitleBar.vue`（Figma 616:544）：四種樣子由 `role` 和 `isClosed` 推出來——委託人（標題＋確認進度提醒）、創作者（標題＋交稿提醒＋「＋ 上傳作品」）、已結案（只有標題）。按上傳只 emit `upload`，燈箱由頁面打開。下方分隔線用 1px `--color-border`（不用 header 選單的 `MenuDivider`）。
+  - RWD（手機優先）：1024px 以下按鈕只剩「＋」（文字用 CSS 藏起來，按鈕加 `aria-label`）、提醒用 `order`＋`flex-basis: 100%` 掉到第二排；1024px 以上回到同一排。Figma 只畫了創作者的平板版（635:14134），切換點用 `desktop-up`、委託人的窄版照同樣規則換行，是前端自訂。
+- playground 新增 `RatingCard`（雙方各一張）、`DiscussionTitleBar`（委託人、創作者、已結案）展示。
+
 ## 2026/11/5
 
 - 側邊選單項目 `shared/components/SideMenuItem.vue`：`status` 拿掉 `secondary`，改成 `danger`（橘字，可以按）和 `disabled`（灰字、原生 `disabled`，點了不觸發 click、沒有 hover 底），給「申請終止合作」的兩種樣子用（Figma 884:14635）。`_tokens.scss` 新增 `--color-danger`（`accent/orange`，與 `--color-error` 同色、語意不同），`design-spec.md` 1.1 同步。playground 的選單測試多兩列（可按、不能按）。

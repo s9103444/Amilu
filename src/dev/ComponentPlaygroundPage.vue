@@ -944,6 +944,42 @@
         <UploadStageInfo :stage-no="4" deadline="2026-10-25" />
       </div>
     </section>
+
+    <section class="wide">
+      <h2>RatingCard</h2>
+      <p>
+        點星星選分數，沒選星時「送出評價」不能按。最後一次送出：{{ lastRating || '（還沒送出）' }}
+      </p>
+      <div class="payment-card-demo">
+        <RatingCard
+          rate-for="creator"
+          @submit="(score) => (lastRating = `為創作者評 ${score} 星`)"
+        />
+        <RatingCard
+          rate-for="commissioner"
+          @submit="(score) => (lastRating = `為委託人評 ${score} 星`)"
+        />
+      </div>
+    </section>
+
+    <section class="wide">
+      <h2>DiscussionTitleBar</h2>
+      <p>
+        委託人、創作者、已結案三種。視窗 1024px
+        以下時創作者的按鈕只剩「＋」、提醒掉到第二排（拉窄視窗看）。最後一次 upload：{{
+          lastUpload || '（還沒點）'
+        }}
+      </p>
+      <div class="payment-card-demo">
+        <DiscussionTitleBar role="commissioner" :is-closed="false" />
+        <DiscussionTitleBar
+          role="creator"
+          :is-closed="false"
+          @upload="lastUpload = new Date().toLocaleTimeString()"
+        />
+        <DiscussionTitleBar role="creator" :is-closed="true" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -1025,6 +1061,8 @@ import OrderSidePanel from '@/features/order/components/OrderSidePanel.vue'
 import PaymentSummaryCard from '@/features/order/components/PaymentSummaryCard.vue'
 import SettlementPreview from '@/features/order/components/SettlementPreview.vue'
 import UploadStageInfo from '@/features/order/components/UploadStageInfo.vue'
+import RatingCard from '@/features/order/components/RatingCard.vue'
+import DiscussionTitleBar from '@/features/order/components/DiscussionTitleBar.vue'
 import type { Order, OrderStage } from '@/features/order/types'
 const searchText = ref('')
 const lastSearch = ref('')
@@ -1165,6 +1203,10 @@ function onPanelSelect(key: 'wall' | 'item' | 'terminate') {
 }
 // PaymentSummaryCard 測試：記住最後按了哪顆按鈕（正式版是跳到補款頁）
 const lastPaymentAction = ref('')
+// RatingCard 測試：記住最後一次送出的分數（正式版是送給後端）
+const lastRating = ref('')
+// DiscussionTitleBar 測試：記住最後一次按上傳的時間（正式版是打開上傳燈箱）
+const lastUpload = ref('')
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)
@@ -1289,7 +1331,7 @@ section {
   max-width: 100%;
 }
 
-// 款項卡：設計稿在白底的右欄裡（卡片寬 808），一張一張往下排
+// 款項卡、評分卡、討論牆標題列：設計稿在白底的右欄裡（卡片寬 808），一張一張往下排
 .payment-card-demo {
   display: flex;
   flex-direction: column;
