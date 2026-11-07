@@ -920,6 +920,20 @@
       </div>
       <p>最後一次按鈕：{{ lastPaymentAction || '（還沒點）' }}</p>
     </section>
+    <section class="wide">
+      <h2>ImageScrollList</h2>
+      <p>外框高 500px。捲動停下會對齊某張圖頂端；第 2 張比外框高，要捲得到下半部。</p>
+      <div style="height: 500px">
+        <ImageScrollList
+          :images="[
+            'https://picsum.photos/seed/a/600/400',
+            'https://picsum.photos/seed/b/600/1200',
+            'https://picsum.photos/seed/c/600/400',
+            'https://picsum.photos/seed/d/600/600',
+          ]"
+        />
+      </div>
+    </section>
 
     <section>
       <h2>SettlementPreview</h2>
@@ -980,10 +994,20 @@
         <DiscussionTitleBar role="creator" :is-closed="true" />
       </div>
     </section>
+
+    <section class="wide">
+      <h2>DiscussionEmptyState</h2>
+      <p>討論牆還沒有貼文時顯示。上面委託人、下面創作者。</p>
+      <div class="payment-card-demo">
+        <DiscussionEmptyState role="commissioner" />
+        <DiscussionEmptyState role="creator" />
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
+import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
 import Button from '@/shared/components/Button.vue'
 import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
 import UserMenu from '@/layouts/components/header/UserMenu.vue'
@@ -1063,6 +1087,7 @@ import SettlementPreview from '@/features/order/components/SettlementPreview.vue
 import UploadStageInfo from '@/features/order/components/UploadStageInfo.vue'
 import RatingCard from '@/features/order/components/RatingCard.vue'
 import DiscussionTitleBar from '@/features/order/components/DiscussionTitleBar.vue'
+import DiscussionEmptyState from '@/features/order/components/DiscussionEmptyState.vue'
 import type { Order, OrderStage } from '@/features/order/types'
 const searchText = ref('')
 const lastSearch = ref('')

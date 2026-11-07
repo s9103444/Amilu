@@ -11,6 +11,9 @@
 - 委託討論牆標題列 `features/order/components/DiscussionTitleBar.vue`（Figma 616:544）：四種樣子由 `role` 和 `isClosed` 推出來——委託人（標題＋確認進度提醒）、創作者（標題＋交稿提醒＋「＋ 上傳作品」）、已結案（只有標題）。按上傳只 emit `upload`，燈箱由頁面打開。下方分隔線用 1px `--color-border`（不用 header 選單的 `MenuDivider`）。
   - RWD（手機優先）：1024px 以下按鈕只剩「＋」（文字用 CSS 藏起來，按鈕加 `aria-label`）、提醒用 `order`＋`flex-basis: 100%` 掉到第二排；1024px 以上回到同一排。Figma 只畫了創作者的平板版（635:14134），切換點用 `desktop-up`、委託人的窄版照同樣規則換行，是前端自訂。
 - playground 新增 `RatingCard`（雙方各一張）、`DiscussionTitleBar`（委託人、創作者、已結案）展示。
+- 討論牆空狀態 `features/order/components/DiscussionEmptyState.vue`（Figma 616:564）：討論牆還沒有貼文時放在標題列下方，`role` 決定圖示和文字（委託人：月曆、等創作者上傳；創作者：圖片、提醒按「上傳作品」）。要不要顯示由頁面判斷。圖示沿用 `public/icons/calendar.svg`、`image.svg`（和 Figma 同形狀、同色），放大到 56px。playground 雙方各一個。
+  - 和 Figma 不同：Figma 寫「第一階段」，改顯示 `STAGE_LABEL[1]`（「草稿」），理由同左欄（三點分段 `stage_no` 是 1／4／5）。沒有貼文一定還在第一段，所以固定用 1。
+  - 未處理：第一段就終止（已結案且沒有貼文）時，「創作者正在進行草稿」不對，Figma 沒畫這種情況。
 
 ## 2026/11/5
 
