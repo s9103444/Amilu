@@ -2,7 +2,7 @@
   <button type="button" class="user-menu-btn" aria-label="使用者選單" :aria-expanded="open">
     <span class="pic">
       <!-- 沒傳頭像時改用預設圖 -->
-      <img :src="avatarUrl ?? '/picture/default-user-pic.png'" alt="" />
+      <img :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
     </span>
     <img v-if="open" src="/icons/arrow-up-gray.svg" alt="" />
     <img v-else src="/icons/arrow-down-gray.svg" alt="" />
@@ -16,6 +16,8 @@
 <UserMenuButton :avatar-url="頭像網址" :open="isOpen" @click="isOpen = !isOpen" />
 選單開關由 header 記住，按鈕只負責顯示
 */
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
+
 defineProps<{
   avatarUrl?: string
   open: boolean
@@ -47,7 +49,7 @@ defineProps<{
   width: 32px;
   height: 32px;
   aspect-ratio: 1/1;
-  border-radius: 8px;
+  border-radius: var(--radius-avatar);
   overflow: hidden;
   & > img {
     width: 100%;

@@ -45,7 +45,7 @@ selectedItemId 會變成被選那列的 item_id，「我要委託」用它帶入
 */
 import { computed } from 'vue'
 import CommercialTag from '@/shared/components/CommercialTag.vue'
-
+import { formatAmount } from '@/shared/utils/formatAmount'
 const props = defineProps<{
   name: string // 同一組的名字，瀏覽器靠它判斷「這幾列只能選一個」
   value: string // 這列代表的項目（item_id），被選時存進 v-model
@@ -55,10 +55,9 @@ const props = defineProps<{
   commercialAllowed: boolean // COMMISSION_ITEM.commercial_allowed，true 才顯示「可商用」
 }>()
 const selected = defineModel<string>({ default: '' })
-
 const base = import.meta.env.BASE_URL
 const isSelected = computed(() => selected.value === props.value)
-const priceText = computed(() => `NT$ ${props.price.toLocaleString('zh-TW')}`)
+const priceText = computed(() => formatAmount(props.price))
 </script>
 
 <style lang="scss" scoped>

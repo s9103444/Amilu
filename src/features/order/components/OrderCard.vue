@@ -2,7 +2,7 @@
   <article class="order-card">
     <div class="counterpart">
       <!-- 沒傳頭像時改用預設圖 -->
-      <img class="avatar" :src="avatarUrl ?? defaultAvatar" alt="" />
+      <img class="avatar" :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
       <span class="text-small role">{{ ROLE_LABEL[role] }}</span>
     </div>
 
@@ -42,6 +42,7 @@
 */
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
 import type { OrderStatusTagStatus } from '@/features/order/types'
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 
 defineProps<{
   role: 'creator' | 'commissioner'
@@ -56,9 +57,6 @@ defineProps<{
 
 // 甲方＝委託人＝commissioner；乙方＝創作者＝creator
 const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
-
-// public/ 的檔案要自己接上 BASE_URL
-const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 </script>
 
 <style lang="scss" scoped>
@@ -83,7 +81,7 @@ const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 .avatar {
   width: 56px;
   height: 56px;
-  border-radius: 999px;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 

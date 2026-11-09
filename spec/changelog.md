@@ -1,256 +1,162 @@
 # Amilu 修改紀錄
 
-> 規則改過什麼、什麼時候改的。新的在上面；同一天的多筆依當天發生順序排列。
-> 2026/10/7 以前的紀錄從 --Amilu repo 的 `討論紀錄/amilu_討論總結.md` 搬過來，內容未改寫，文中提到的「總結」「Part」「模組」指的是那份文件的章節。
+> 規則改過什麼、什麼時候改的。新的在上面。
+> 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
+
+## 2026/11/9
+
+- 文件瘦身：`open-questions.md` 每題縮到 3 行內；`acceptance.md` 第 5 節的已定案表刪除（都已寫回各 spec）；本檔濃縮成摘要。
+- `:src` 要接 `BASE_URL` 的規則，從 `open-questions.md` 第 4 題搬到 `structure.md` 2.2。
+- features.md 4.4：貼文照片的預覽燈箱拿掉張數提示。
+- open-questions.md 第 9～13 題決議：
+  - 「待補款」「已補款待確認」由 `ORDER`＋`PAYMENT` 算出、不存；`OrderStatusTag` 刪掉「未完成」。
+  - 內文字重維持 400，大頭照上傳維持圓角方塊，三點進度條節點平均分布，`TAG.name` 不含 #。
+  - 頭像全部改成圓角方形：新增 `--radius-avatar`（25%），9 個元件套用，design-spec.md 第 4 節補規則。
+  - `UserInfoBar` 的 `nickname` 改名 `name`；「申請終止合作」製作中永遠可以按，`OrderSidePanel` 拿掉 `canTerminate`。
+- features.md 4.4：貼文操作列改照 Figma 617:582，拿掉「喜歡」，改成「提出意見申請」（打開聊天室，不存資料）＋「確認該階段審核」；已確認時兩顆灰色按鈕。`DiscussionPostContent` 新增 `action`（`confirm`／`confirmed`／`awaiting-payment`／`none`），取代 `isClosed`；acceptance.md ORD-09、NEG-04 同步。
+- Figma 待同步項目記在 data-model.md 第 6 節 #13。
+- 整理重複程式：新增 `shared/utils/formatAmount.ts`、`features/order/formatDate.ts`、`shared/composables/useDropdown.ts`（4 個下拉選單共用）；structure.md 新增 `shared/constants.ts`（全站固定值，如預設頭像路徑）。
+
+## 2026/11/8
+
+- features.md 4.4：貼文照片改為橫向拖拉（滑鼠也能拖）、放開吸附左緣、點圖開預覽。
+- `DiscussionPostContent`：照片列改用 Embla＋`embla-carousel-wheel-gestures`（補觸控板）；照 Figma 617:582 補發文者列與照片樣式，新增 `--radius-post-image`。底部操作列未做，待確認。
+- `ImageScrollList` 的捲軸改用 OverlayScrollbars 自己畫，新增 `--color-scrollbar-thumb`。
 
 ## 2026/11/6
 
-- 評分卡 `features/order/components/RatingCard.vue`（Figma 617:612），放在結案畫面結算卡下方（features.md 4.5、5.1）：標題由 `rateFor`（`creator`／`commissioner`）組成「為創作者評分」「為委託人評分」，頁面不用傳文字。點第 n 顆星＝選 n 星，選幾星由卡片自己記；按「送出評價」才 emit `submit`（帶分數）給頁面，還沒選星時按鈕不能按。星星是 `<button>`，有 `aria-label`（「n 星」）和鍵盤外框。
-  - 星星圖示：Figma 的星等（617:615）是 5 顆合成一張圖，沒辦法點，所以從中切出單顆星另存 `public/icons/star-filled.svg`（`#232020`）、`star-empty.svg`（`#C2C2C2`），形狀與 Figma 相同。
-  - 待補：送出後的樣子（每個案件各評一次），Figma 沒畫。
-- 委託討論牆標題列 `features/order/components/DiscussionTitleBar.vue`（Figma 616:544）：四種樣子由 `role` 和 `isClosed` 推出來——委託人（標題＋確認進度提醒）、創作者（標題＋交稿提醒＋「＋ 上傳作品」）、已結案（只有標題）。按上傳只 emit `upload`，燈箱由頁面打開。下方分隔線用 1px `--color-border`（不用 header 選單的 `MenuDivider`）。
-  - RWD（手機優先）：1024px 以下按鈕只剩「＋」（文字用 CSS 藏起來，按鈕加 `aria-label`）、提醒用 `order`＋`flex-basis: 100%` 掉到第二排；1024px 以上回到同一排。Figma 只畫了創作者的平板版（635:14134），切換點用 `desktop-up`、委託人的窄版照同樣規則換行，是前端自訂。
-- playground 新增 `RatingCard`（雙方各一張）、`DiscussionTitleBar`（委託人、創作者、已結案）展示。
-- 討論牆空狀態 `features/order/components/DiscussionEmptyState.vue`（Figma 616:564）：討論牆還沒有貼文時放在標題列下方，`role` 決定圖示和文字（委託人：月曆、等創作者上傳；創作者：圖片、提醒按「上傳作品」）。要不要顯示由頁面判斷。圖示沿用 `public/icons/calendar.svg`、`image.svg`（和 Figma 同形狀、同色），放大到 56px。playground 雙方各一個。
-  - 和 Figma 不同：Figma 寫「第一階段」，改顯示 `STAGE_LABEL[1]`（「草稿」），理由同左欄（三點分段 `stage_no` 是 1／4／5）。沒有貼文一定還在第一段，所以固定用 1。
-  - 未處理：第一段就終止（已結案且沒有貼文）時，「創作者正在進行草稿」不對，Figma 沒畫這種情況。
+- 新增 `RatingCard`（評分卡）、`DiscussionTitleBar`（討論牆標題列，含 RWD）、`DiscussionEmptyState`（討論牆空狀態）。星星圖示從 Figma 切成單顆另存。
+- 階段一律顯示 `STAGE_LABEL`（草稿…），不寫 Figma 的「第一階段」：三點分段的 `stage_no` 是 1／4／5。
 
 ## 2026/11/5
 
-- 側邊選單項目 `shared/components/SideMenuItem.vue`：`status` 拿掉 `secondary`，改成 `danger`（橘字，可以按）和 `disabled`（灰字、原生 `disabled`，點了不觸發 click、沒有 hover 底），給「申請終止合作」的兩種樣子用（Figma 884:14635）。`_tokens.scss` 新增 `--color-danger`（`accent/orange`，與 `--color-error` 同色、語意不同），`design-spec.md` 1.1 同步。playground 的選單測試多兩列（可按、不能按）。
-- 委託討論牆左欄 `features/order/components/OrderSidePanel.vue`（Figma 616:517）：雙方頭像與身分標籤、案件標題＋狀態標籤、委託總額／目前階段／本階段截止／修改次數、進度條、選單。三種樣子由 `status` 和 `canTerminate` 推出來：製作中顯示目前階段與截止日，選單多「申請終止合作」；已完成、已終止改顯示結案時間並拿掉「申請終止合作」（features.md 4.5）。目前階段由頁面從 `ORDER_STAGE` 找第一個未確認的階段再傳進來。點選單只 emit `select`（`wall`／`item`／`terminate`），選中項目由頁面記；`terminate` 只開燈箱，不改選中項目。
-  - `features/order/types.ts` 新增 `OrderStatus`、`Order`、`OrderStage`（只列畫面用得到的欄位）；`mocks/order.ts` 新增三筆訂單與階段：製作中五點分段（卡在草稿）、製作中三點分段（卡在精稿）、已完成。playground 用這三筆各放一張左欄。
-  - 身分標籤黑底白字＝目前看畫面的那一方（`viewerRole`），其他是淺灰底灰字。Figma 沒有說明黑底的意思，這是推測。
-  - 和 Figma 不同：目前階段 Figma 寫「第一階段（草稿）」，三點分段的 `stage_no` 是 1／4／5，寫「第N階段」會對不上，改成只寫 `STAGE_LABEL`（例如「草稿」），同排程卡。
-  - 和 Figma 不同：@id 在 Figma 是 `neutral/300`，沒有對應的文字 token，先用 `--color-text-secondary`（同 `UserInfoBar`）。
-  - 待確認：「申請終止合作」什麼時候是灰字，spec 沒寫，見 [open-questions.md 第 13 題](open-questions.md#13-申請終止合作什麼時候不能按)。
-- 款項卡 `features/order/components/PaymentSummaryCard.vue`（Figma 617:590），放在委託討論牆右欄最上面：委託人最後階段待補款、創作者等待委託人補款、結案結算卡（已完成、已終止）共用。由上到下是標題＋狀態標籤、終止說明（`note`，有才顯示，字串裡的 `\n` 會換行）、明細（`rows`，每列用 `AmountRow`）、灰色說明（有才顯示）、按鈕（`#action` slot，沒傳不佔位置）。卡片不算錢也不判斷狀態，金額與日期由頁面算好並格式化成文字再傳。
-  - 和 Figma 不同：Figma 按鈕左右內距 24、寬 136，沿用 `Button` 的 `width="hug"`（左右內距 18），按鈕會窄一點。
-- 結算試算 `features/order/components/SettlementPreview.vue`（Figma 626:118），放在終止合作燈箱裡（features.md 4.9）：委託人已付、創作者可得（已確認階段）、委託人退款三列，數字由後端算好以數字傳入，元件只排版與格式化。退款為負數時標題改為「委託人應補付」、數字顯示正數。底部固定說明照 spec 寫在元件裡。
-- 款項列 `AmountRow`：欄位變窄時左邊名稱可以換行（`word-break: keep-all`，只在括號等標點前斷，例如「創作者可得」／「（已確認階段）」；沒有標點又放不下時才任意斷），右邊金額不縮、不換行。之前名稱不能換行，窄的時候會把金額擠出卡片。`OrderSidePanel`、`PaymentSummaryCard`、`SettlementPreview` 一起套用。
-- 本次上傳階段 `features/order/components/UploadStageInfo.vue`（Figma 626:104），放在創作者的上傳作品燈箱裡（features.md 4.4）：唯讀兩列，上傳階段＋本階段截止。上傳目標固定是第一個未確認的階段，由頁面算好傳 `stageNo`、`deadline`，元件不判斷。左邊灰字、右邊黑字，和 `AmountRow` 顏色相反，所以不共用。
-  - 和 Figma 不同：Figma 寫「第一階段」，改顯示 `STAGE_LABEL`（例如「草稿」），理由同左欄與排程卡（三點分段 `stage_no` 是 1／4／5）。
-  - 和 Figma 不同：兩欄之間加 16px 間距，Figma 沒畫，避免窄的時候文字黏在一起。
-- playground 新增 `PaymentSummaryCard`（待補款、等待補款、已終止）、`SettlementPreview`（退款、應補付）、`UploadStageInfo`（五點草稿、三點精稿）展示；後兩者的部分金額是隨便填的，不是照結算公式算。
+- `SideMenuItem` 的 `status` 改成 `danger`／`disabled`，新增 `--color-danger`。
+- 新增 `OrderSidePanel`（討論牆左欄）、`PaymentSummaryCard`（款項卡）、`SettlementPreview`（結算試算）、`UploadStageInfo`（本次上傳階段）；`order/types.ts` 新增 `Order`、`OrderStage`，`mocks/order.ts` 新增三筆訂單。
+- `AmountRow`：左邊名稱可以換行，金額不換行。
 
 ## 2026/11/3
 
-- 開通創作者商店清單卡 `features/profile/components/ActivationSteps.vue`（Figma 581:5776「步驟清單」）：白底、圓角 24px、內距 40px、列間距 24px，列與列之間是 1px `--color-border` 分隔線。props 只吃三個事實（`phoneVerified`＋`maskedPhone?`、`settingsDone`、`hasCommissionItem`），每步完成了沒由這三個值推出來、不另存；按鈕被點時往外 emit step key（`verify`／`settings`／`commission-item`）。playground 的單列測試換成清單卡，可切換三步的完成狀態。
-  - Step1 說明：已驗證時顯示「已驗證 ＋遮罩手機號碼」；還沒驗證時 Figma 沒畫說明，先不顯示。
-  - 待確認：Figma Step1 說明後面還有「（委託與接案共用，已驗證過的帳號會直接打勾）」，和 Step3 的燈箱說明一樣像設計稿註記，目前沒放進畫面。
-  - 「確認開通」按鈕與「未完成提示」在 Figma 是清單卡下方的按鈕列，屬於頁面，不在清單卡裡。
-- 委託項目選擇 `features/order/components/CommissionItemSelect.vue`（Figma 592:329），委託申請頁第①區最上面：收合時整塊是一顆按鈕，顯示目前選的項目（88px 封面、標題、說明、「更換項目」）；展開時收合按鈕換成右上角「收合」，下面列出該創作者所有項目（64px 封面），已選那列灰底＋橘色勾勾，點一列＝換成那個項目並收合。封面取 `COMMISSION_ITEM_IMAGE` 中 `seq_no` 為 1 的那張。`explore/types.ts` 新增 `CommissionItemImage`，`mocks/commissionItem.ts` 新增 `MOCK_COMMISSION_ITEM_IMAGES`。`_tokens.scss` 新增 `--color-border-expanded`（`neutral/500`）、`--color-bg-list-selected`（`base/200`），`design-spec.md` 1.1 同步；勾勾另存 `public/icons/check-white-bold.svg`（線條比 `check-white.svg` 粗）。沒選那列的 hover 底（`--color-bg-subtle-hover`）Figma 沒畫，前端自訂。目前資料直接讀 mock，還沒有 props。
-- 委託排程卡 `features/order/components/ScheduleCard.vue`（Figma 590:522）：三種樣子由 `editable` 和有沒有資料推出來，不另外傳狀態——可編輯（創作者報價，日期與報價可改）、唯讀沒資料（委託人等報價，全部「確認中」）、唯讀有資料（報價送出後）。props 是 `stagePlan`、`editable`、`depositPercent`，報價、開始日期、各階段日期用 `v-model`（`deadlines` 以 `stage_no` 當鑰匙）。訂金與其餘支付額由報價即時算（訂金＝總價 × 訂金%，無條件捨去），只供顯示，實際應付金額以後端計算為準。
-  - 和 Figma 不同：Figma 的列名是「第一階段交稿」「第二階段交稿」，三點分段的 `stage_no` 是 1／4／5，寫「第N階段」會對不上，改用 `STAGE_LABEL` 加「交稿」（例如「草稿交稿」「精稿交稿」），完稿那段沿用 Figma 的「截稿日期」。
-  - `StageDeadlineRow` 新增選填 `muted`：唯讀有日期時改灰字。排程卡已報價時中間各階段的日期是灰字（只供參考），開始日期與截稿日期是黑字，照 Figma 590:369。
-  - `_tokens.scss` 新增 `--color-border-strong`（`neutral/900`），報價輸入框外框用，`design-spec.md` 1.1 同步。
-  - 待確認：訂金設「無需先支付」時訂金列怎麼顯示，Figma 沒畫，目前會顯示「訂金（0%）NT$ 0」。
+- 新增 `ActivationSteps`（開通清單卡）、`CommissionItemSelect`（委託項目選擇）、`ScheduleCard`（委託排程卡，訂金由報價即時算、只供顯示）。
+- `StageDeadlineRow` 新增 `muted`；新增 `--color-border-expanded`、`--color-bg-list-selected`、`--color-border-strong`。
+- 待確認：訂金設「無需先支付」時，排程卡的訂金列怎麼顯示。
 
 ## 2026/10/31
 
-- `shared/components/Button.vue` 新增兩個選項：`size="sm"`（Figma Amilu/Button-sm，內距、間距、字級一起變小；字級 class 改成二選一，不再同時掛 md 與 sm）與 `variant="outline"`（黑框黑字，開通清單已完成步驟的「修改」）。`_tokens.scss` 新增 `--color-button-outline`（`neutral/900`）、`--color-button-outline-bg`（`neutral/white`）、`--color-button-outline-hover-bg`（`base/100`，Figma 沒畫，前端自訂）；`design-spec.md` 1.1 用途表同步。不從外層覆寫元件 CSS：同權重時誰贏取決於載入順序，不穩定。
-- 開通創作者商店清單（`features.md` 3.4）開始做，放 `features/profile/`（模組三）：
-  - `activationSteps.ts`：step key 型別（`verify`／`settings`／`commission-item`）與三步寫死的編號、標題、說明；Step1 的說明要用手機號碼拼，由清單卡組好再傳。
-  - `components/StepStatusTag.vue`：已完成／未完成標籤。樣式與 order 的 `OrderStatusTag` 相同，但 features 之間不互相 import，所以自己帶一份。order 裡的 `incomplete` 狀態沒刪，它跟 `open-questions.md` 第 9 題綁在一起。
-  - `components/ActivationStepsItem.vue`：一步一列，props `number`、`title`、`note?`、`done`，emit `action`。`done` 決定左邊數字或黑底打勾、狀態標籤、按鈕（「修改」outline／「前往填寫」primary）。
-  - **進度**：7 步做到第 5 步。下一步是第 6 步，建清單卡 `components/ActivationSteps.vue`：吃三個事實（手機驗證了沒＋遮罩後的手機號碼、接案設定填完了沒、有沒有至少 1 筆可委託項目），`v-for` 跑 `ACTIVATION_STEPS`，往外 emit 被點的 step key。第 7 步是把 playground 換成清單卡。（2026/11/3 完成，見當天紀錄）
-  - 待確認：Step3 說明裡的「按『前往填寫』開啟新增委託項目燈箱」看起來像設計稿註記，是否真的顯示在畫面上。
+- `Button` 新增 `size="sm"`、`variant="outline"` 和對應 token。
+- 開通清單：新增 `activationSteps.ts`、`StepStatusTag`、`ActivationStepsItem`（profile 模組）。
 
 ## 2026/10/30
 
-- 新增委託商店燈箱的委託項目列 `features/explore/components/CommissionItemOption.vue`（Figma 526:216）：點一列＝選取並展開，同一組共用 `v-model`，所以同一時間只展開一列（做法同 `PaymentPlanCard`，藏起來的原生 radio）。展開時顯示說明、1.5px 橘框與右上角勾勾；hover 前端自訂，未選的那列框線變橘。`public/icons/` 補 `check-white-sm.svg`（Figma 匯出，13px，與現有的 `check-white.svg` 尺寸、線寬不同）。
-- 新增 `features/explore/types.ts` 的 `CommissionItem`（欄位照 FigJam ER 的 COMMISSION_ITEM）與假資料 `src/mocks/commissionItem.ts`（三筆）。
-- 新增委託排程卡的一列 `features/order/components/StageDeadlineRow.vue`（Figma 600:144）：只吃 `label`、`editable` 與日期 `v-model`，三種狀態（可選日期、唯讀日期、唯讀「確認中」）由這兩個值推出來；點日期框用原生 date input 的 `showPicker()` 叫出日曆。階段名稱由排程卡用 `STAGE_LABEL` 組好再傳。
-- 新增款項列 `features/order/components/AmountRow.vue`（Figma 617:589，用在委託討論牆的補款卡、結算卡）：`emphasis` 時值改成 Body 黑字，平常是 Caption 灰字；`value` 由卡片格式化好再傳（不一定是金額）。
-- 新增委託申請引導列的一項 `features/order/components/ApplyStepItem.vue`（Figma 600:176）：`reached` 時黑點黑字，否則灰點灰字。Figma 的 Completed 畫打勾，改成黑點：打勾會被讀成「這塊已填完」，但這裡只代表捲到過。`_tokens.scss` 新增 `--color-step-todo`（`neutral/300`）。
-- 待確認：`features.md` 2.6 寫「可商用」黑框、「不可商用」灰底兩種標籤，但 Figma 526:216 只畫灰底「可商用」，說明寫「依 commercial_allowed 開關」，元件目前照 Figma，不可商用時不顯示標籤。
+- 新增 `CommissionItemOption`、`StageDeadlineRow`、`AmountRow`、`ApplyStepItem`；新增 `explore/types.ts` 的 `CommissionItem`、`mocks/commissionItem.ts`、`--color-step-todo`。
+- 待確認：「不可商用」標籤要不要顯示（features.md 2.6 和 Figma 不一致，目前不顯示）。
 
 ## 2026/10/29
 
-- 瀑布流卡片 `WorkCard.vue` 新增可委託項目樣式，對應 `features.md` 2.1「兩種卡片要有視覺標記區分」：組員更新的 Figma（818:14540，`style=Service`）在圖片右上角加「可委託」小標。用 `type="commission-item"` 切換，預設 `work`；hover 時只有圖片放大，小標不動。小標位置照 Figma（距上 15px、距右 13px）。個人頁作品卡用分頁區分，不加小標。`open-questions.md` 第 12 題①改為已決議。
-- 比對 Figma mockup 的平板／手機畫面：目前做的元件排版都與桌機相同，差別只有字級（已隨斷點自動切換）與寬度（跟著外層伸縮），不另做 RWD。例外是「可委託」小標：手機作品牆卡片很窄，前端自訂縮小（字 Small、內距與離邊 8px），平板以上照 Figma；委託案件卡在 375px 實機寬度可能太擠，等做約稿管理頁時實測（`open-questions.md` 第 11、12 題）。
-- 簡化 `open-questions.md` 已決議的第 1～8 題：只留標題與決議（第 4 題的 BASE_URL 補充、第 8 題的觸發條件表照留），刪掉決議前的現況、選項表與建議；第 2、3 題決議開頭的「選 A／B」一併拿掉。題號不變，決議內容沒改，討論過程見 git 歷史。
-- 新增聊天室訊息元件 `features/order/components/ChatMessage.vue`（Figma 600:165，對方／自己 × 文字／圖片四種）。`_tokens.scss` 新增 `--color-chat-bubble-other`（`neutral/white`）、`--color-chat-bubble-mine`（`base/200`）、`--color-chat-time`（`neutral/300`）、`--radius-chat-bubble`（16px）、`--radius-chat-bubble-tail`（4px）、`--radius-chat-image`（12px）；聊天室視窗 `features/order/components/ChatRoom.vue`（Figma 596:6564）另加 `--radius-chat-window`（24px）、`--shadow-chat-window`；`design-spec.md` 1.1 用途表同步。
-- 聊天室圖片限制：`features.md` 4.7 補上「單張 5MB 以內（JPG／PNG／WebP）」，和其他上傳畫面一致。`ChatRoom.vue` 的選檔框已限制這三種格式；5MB 檢查還沒做。
+- `WorkCard` 新增可委託項目小標（`type="commission-item"`）。
+- 新增 `ChatMessage`、`ChatRoom` 和聊天室 token；features.md 4.7：聊天室圖片限單張 5MB（JPG／PNG／WebP）。
+- RWD：元件排版與桌機相同，只有字級與寬度跟著斷點變。
 
 ## 2026/10/28
 
-- 修掉 `changelog.md` 2026/10/26 那天被一起提交進去的合併衝突標記（`<<<<<<< HEAD`、`=======`、`>>>>>>> timmi` 三行），兩邊的紀錄都保留、文字沒改。
-- `FilterChip.vue`、`StageProgress.vue`、`OrderCard.vue` 用 `:src` 綁定的圖示與預設頭像路徑，改成在前面接 `import.meta.env.BASE_URL`（路徑開頭不加 `/`），部署到子路徑時才不會 404；畫面沒有變化（對應 `open-questions.md` 第 4 節的補充）。
-- 實作 Figma「第3層｜組合元件」第二批（優先用現有元件組裝、做法對齊組員）：瀑布流卡片 `features/explore/components/WorkCard.vue`（Figma 494:115，下方用組員的 `UserInfoBar`，粗體字放作品標題）、個人頁作品卡 `ProfileWorkCard.vue`（Figma 568:217，事件 `select`、`more`）、接案規範 `CommissionRules.vue`（Figma 522:1207，展開狀態元件自己記住，同 `CategorySelect`）、付款方案卡 `features/order/components/PaymentPlanCard.vue`（Figma 600:122，同 `OptionButton` 用藏起來的原生 radio＋`v-model`）。只做外觀與 props／事件，測試頁排入全部變體。
-- 與組員方向對齊：Figma 沒畫的 hover 前端自訂（作品卡圖片放大 1.1 倍同 `CategoryCard`、接案規範標題變深同 `HashtagLabel`、付款方案卡未選的那張框線變橘；原本改深灰，但效果不明顯，改用與選取相同的橘色，已選另有淺橘底、2px 框、實心圓點與「已選擇」小標可區分）；兩種作品卡的圓角沿用 `--radius-button`（15px，Figma 為 14／16px），理由同 `CategoryCard`「卡片也是按鈕」。
-- `_tokens.scss` 新增 `--color-selected-badge-bg`（`accent/orange`，付款方案卡「已選擇」小標的底）；`design-spec.md` 1.1 用途表同步。
-- 記錄待討論事項（`open-questions.md` 第 12 題）：作品牆卡片要不要有「一般作品／可委託項目」標記、`UserInfoBar` 的 `nickname` 欄位用來放作品標題、我先前做的基礎元件沒有 hover。
-- 先前的基礎元件補上 hover 與鍵盤焦點外框，與組員方向一致（`open-questions.md` 第 12 題第③點改為已決議）：`DropZone`、`AvatarUpload`、`ImageUploadSlot`、`FilterChip`。`FilterChip` 點了就會取消篩選，所以 hover 用整顆變淡＋文字刪除線表示「會移除」，不用一般的變色。Figma 都沒畫，前端自訂。拖放上傳區拖曳中的提示等做上傳燈箱時再做。
-- 新增字級 token `--fs-badge`（8px，不隨斷點）給通知未讀數字用，`design-spec.md` 第 3 節字級表補一列；`NotificationItem.vue` 的未讀紅點套用這個字級，顯示實際數字、用 padding 撐開（一位數圓形，兩位數以上膠囊形）。
-- 通知中心「對話」頁籤的最新訊息，從「前 10 個字，超過以『...』取代」改成「單行顯示，超出寬度以『…』截斷」（CSS `text-overflow: ellipsis`），`features.md` 5.2 與 `acceptance.md` NTF-03 一起改；`NotificationMenuItem.vue` 依此實作。
-- `open-questions.md` 第 12 題④：作品卡圓角照組員做法，維持 `--radius-button`。
+- 新增 `WorkCard`、`ProfileWorkCard`、`CommissionRules`、`PaymentPlanCard`；卡片圓角沿用 `--radius-button`。
+- 基礎元件補 hover 與焦點外框（`DropZone`、`AvatarUpload`、`ImageUploadSlot`、`FilterChip`）。
+- `:src` 綁定的圖片改接 `BASE_URL`；新增 `--fs-badge`、`--color-selected-badge-bg`。
+- features.md 5.2：通知對話預覽改成單行、超出顯示「…」。
 
 ## 2026/10/26
 
-- 實作 Figma「第3層｜組合元件」第一批（優先用現有元件組裝）：委託案件卡 `features/order/components/OrderCard.vue`（Figma 558:211，內含 `OrderStatusTag`，按鈕放 `#action` slot，用 `Button`）、委託進度條 `features/order/components/StageProgress.vue`（Figma 613:554，階段名稱用 `stageLabel.ts`）、作品內容 `features/explore/components/WorkInfo.vue`（Figma 522:1214，標籤用 `HashtagLabel`）。只做外觀與 props，不做資料取得；測試頁排入全部變體。
-- 委託進度條支援三點分段：`stages` 傳 `[1, 4, 5]` 只畫 3 個節點（依 `data-model.md` 4.2 的 stage_no 編碼，不遞補）；Figma 只畫五點，三點的樣子待設計確認（`open-questions.md` 第 11 題）。`public/icons/` 補 `stage-node-current.svg`、`stage-node-done.svg`、`stage-node-todo.svg`（Figma 匯出的節點圖示）。
-- 剩下四個（付款方案卡、接案規範、個人頁作品卡、瀑布流卡片）排第二批；瀑布流卡片裡的作者列是 Figma 的「個人資訊條」，等組員做完再接。
-- `OrderFloatingButton.vue` 的圖示路徑改成在前面接 `import.meta.env.BASE_URL`：圖示用 `:src` 綁定，Vite 不會自動補 `base`，部署到子路徑時會 404。`open-questions.md` 第 4 節補上這條注意事項。
-- 新增類型圖卡 `features/explore/components/CategoryCard.vue`（Figma 496:1472，背景圖＋置中白字）。白字上的半透明遮罩是前端加的（Figma 只有圖片與文字兩層），用 `--color-overlay` 疊在 `background-image` 第一層；圓角沿用 `--radius-button`（15px，Figma 為 14px），因為圖卡也是按鈕。圖片和遮罩放在 `::before`（網址經 CSS 變數 `--card-image` 傳入），hover 時只放大圖片 1.1 倍，卡片外框與文字不動；hover 效果 Figma 沒畫，前端自訂。
-- 首頁類型下拉面板的排法：作品類型、用途各 10 項，前 6 項顯示成圖卡、後 4 項沿用 `shared/components/HashtagLabel.vue`（button 款）並在前面加「#」（「#」只在模板加，不寫進資料）。
-- 新增首頁類型下拉選單 `features/explore/components/CategorySelect.vue`（Figma 觸發按鈕 490:469、面板 496:1933），觸發按鈕＋面板合成一個元件，`button-type` 決定是作品類型或用途。卡片用 grid，一排 2／3／6 張（手機／平板／桌機），間距 20px。面板以「最近一個有 position 的外層」為寬度基準，使用的地方要在按鈕那一列加 `position: relative`。按鈕文字與面板標題定為「作品類型」「作品用途」（2026/10/26 決定）；Figma 按鈕目前寫「貼文類型」，待同步。點卡片或 hashtag 後用 `v-model` 回傳該項的 `value`（`category_id`／`purpose_id`）並關閉面板。尚未完成：面板 `z-index`（同 `FormSelect`，等頁面拼裝時統一規劃）。
-- 新增 `shared/composables/useClickOutside.ts`：點到指定元素外面時呼叫傳入的函式。`FormSelect`（shared）與 `CategorySelect`（explore）都用，所以放 `shared/`；`FormSelect` 原本自己寫的「點外面關閉」改用它，行為不變。
-- `HashtagLabel.vue` 的 button 款新增 hover 變深色（`--color-text-primary`），包在 `@media (hover: hover)`；Figma 沒畫 hover，前端自訂。
-- `src/mocks/classification.ts` 前 6 項新增 `imageUrl`，圖片放 `src/assets/category/`、`src/assets/purpose/`，檔名用 `features.md` 第 0 節的英文名。`CATEGORY`／`PURPOSE` 資料表沒有圖片欄位，這是前端自己的欄位，接後端時圖片仍由前端提供。圖片用 WebP（品質 80，720×500），12 張共約 400KB（原 PNG 約 5.5MB）。
-- 用途第 3 項「VTuber 用途」改名為「VTuber」（`features.md` 第 0 節、`mocks/classification.ts` 同步）。
+- 新增 `OrderCard`、`StageProgress`（支援三點分段）、`WorkInfo`、`CategoryCard`、`CategorySelect`。
+- 新增 `shared/composables/useClickOutside.ts`（`FormSelect`、`CategorySelect` 共用）。
+- `mocks/classification.ts` 加上分類圖片（WebP）；用途「VTuber 用途」改名「VTuber」。
 
 ## 2026/10/24
 
-- 新增勾選框 `shared/components/FormCheckbox.vue`（Figma 535:2953，未勾選／已勾選），文字用 slot、`v-model` 是布林值。用在刪除帳號確認、同意服務條款、委託申請與付款頁的同意勾選（`features.md` 第 63、164、262、278 行），跨多個功能，所以放 `shared/`。內部保留原生 checkbox（隱藏），鍵盤與螢幕閱讀器可用；鍵盤聚焦時的外框 Figma 沒畫，前端自訂。
-- `_tokens.scss` 新增 `--color-checkbox-bg`（`neutral/white`）、`--color-checkbox-border`（`neutral/500`），勾選後的深色底沿用 `--color-bg-inverse`；`design-spec.md` 1.1 用途表同步。`public/icons/` 補 `check-white.svg`（Figma 匯出，14px 白勾）。
-- 新增選項按鈕 `features/profile/components/OptionButton.vue`（Figma 552:206，單選，選取時淺橘底＋橘框＋打勾）。目前已知用途是接案設定的訂金比例、Amilu 燈（`features.md` 3.5，開通流程 Step2 沿用同一套欄位），都屬於 profile 模組，依 `structure.md`「延後共用」先放 `features/profile/`；其他功能也要用時再升到 `shared/`。內部是隱藏的原生 radio，同一組用同一個 `name`。未選取狀態補 1px 透明框線，避免選取時尺寸跳動（Figma 未選取沒有框線）。
-- `_tokens.scss` 新增 `--color-selected-border`（`accent/orange`）；`design-spec.md` 1.1 用途表同步。`public/icons/` 補 `check-option-button.svg`（Figma 匯出，18px 深色勾，線寬 1.875；與現有 `check-option.svg` 線寬 1.65 不同，所以另存）。
-- 首頁「類型篩選」下拉的元件拆分（尚未實作，先記判斷）：Figma 觸發按鈕 490:469（Default／Clicked）、面板 496:1933（Desktop／Tablet／Mobile）、類型圖卡 496:1472。
-  - 新做兩個元件：①類型選單＝觸發按鈕＋面板合成一個元件（同 FormSelect 的做法，按鈕管開關、面板管內容；三種寬度只是 CSS 排列不同，一排 6／3／2 格，不拆元件）②類型圖卡（背景圖＋置中白字），在面板內用 `v-for` 排出。
-  - 面板底部的建議 hashtag 是 Figma 495:99，直接沿用現有 `shared/components/HashtagLabel.vue`（button 款），不另做。
-  - 目前只有首頁作品牆用，依 `structure.md` 放 `features/explore/components/`，不放 `shared/`。
-  - 待確認：觸發按鈕文字是「貼文類型」，面板標題是「作品類型」，兩者不一致。
-- 依現有元件總檢查結果調整：
-  - `design-spec.md` 第 4 節間距規則改為兩層：頁面排版用 8 的倍數（`--space-*`），元件內部照 Figma 數值；依實際視覺刻意與 Figma 不同時要在 changelog 記原因。原規則「一律 8 的倍數」與 Figma 及現有約 20 個元件都對不上。
-  - 狀態標籤不再借用錯誤色：`_tokens.scss` 新增 `--color-status-open`（`accent/orange`）、`--color-status-waiting`（`accent/orange`）、`--color-status-waiting-bg`（`accent/orange-10`），`OpenStatusTag` 的「接案中」與 `OrderStatusTag` 的「等待某一方動作」改用；`design-spec.md` 1.1 用途表同步。
-  - `OpenStatusTag.vue` 從 `shared/components/` 搬到 `features/explore/components/`：元件寫死「接案中／暫不接案」業務文字，違反 `structure.md`「共用 UI 不認識業務」，目前只在作品牆、創作者頁的作者旁顯示。
-  - `OptionButton.vue` 圖文間距 2px、左右內距 14px（Figma 為 6px、16px），依實際視覺刻意調整。
-  - `FormSelect.vue` 補使用範例註解、選擇框加 `aria-expanded`（讓螢幕閱讀器知道清單開或關）；選項 hover 改包在 `@media (hover: hover)`，與其他元件一致，避免手機點擊後底色卡住。
-  - 尚未處理：`FormSelect` 面板的 `z-index: 10` 是暫定值，等頁面拼裝（header 固定、燈箱）時再統一規劃圖層。
+- 新增 `FormCheckbox`（shared）、`OptionButton`（profile）和對應 token。
+- design-spec.md 間距規則改成兩層：頁面排版用 8 的倍數，元件內部照 Figma。
+- 狀態標籤改用 `--color-status-*`，不借錯誤色；`OpenStatusTag` 搬到 explore。
 
 ## 2026/10/23
 
-- `_tokens.scss` 新增 `--color-required`（`accent/orange`），用在表單標籤旁的「必填」小字，第一個使用者是 `FormSelect.vue`。`design-spec.md` 1.1 用途表原本就把「必填」列在 `accent/orange`，不用改。
-- `FormTextarea.vue` 的「必填」小字改用 `--color-required`（原本借用 `--color-error`，顏色相同但語意不同）。
-- 新增 `src/mocks/classification.ts`：作品類型、用途各 10 個選項（`features.md` 第 0 節），格式是 FormSelect 用的 `{ value, label }`，`value` 對應 `category_id`／`purpose_id`。後端 `GET /categories`、`GET /purposes` 完成後替換。id 型別 spec 尚未定，先用字串 `'1'`～`'10'`。
-- `_tokens.scss` 新增下拉選單 token：`--color-bg-dropdown`（`neutral/white`）、`--color-bg-option-hover`（`base/200`）、`--shadow-dropdown`（`0 6px 20px rgba(0,0,0,.14)`），數值取自 Figma 575:4929、568:283；`design-spec.md` 1.1 用途表同步。
+- 新增 `--color-required`、下拉選單 token、`mocks/classification.ts`。
 
 ## 2026/10/21
 
-- `structure.md` 放寬 `dev/` 的 import 範圍：除了 `shared/`、`layouts/`，也可以 import `features/`（元件測試頁要展示 `GoogleAuthButton`、`OrderFloatingButton` 這類放在功能資料夾的元件）。方向仍是單向，正式程式不能 import `dev/`。
-
-- 新增委託討論牆右下角浮動按鈕 `features/order/components/OrderFloatingButton.vue`（Figma 585:12563，兩種狀態：聊天室、案件資訊）。`_tokens.scss` 新增 `--color-button-floating-info-bg`（`neutral/900`）與 `--shadow-floating`（`0 4px 16px rgba(0,0,0,.16)`）。這顆只出現在委託流程，歸 `features/order/`，不放 `layouts/`（`layouts/` 只放整站共用的外框）。
-
-- 新增追蹤按鈕「已追蹤」狀態的 token `--color-button-followed-bg`（`neutral/300`）、`--color-button-followed-text`（`neutral/500`），值暫時與停用相同，但語意不同（已追蹤仍可點擊）。Figma 尚未確認此狀態的外觀，確認後再調整。
-
-- 按鈕的圓角、內距、圖文間距寫進 `_tokens.scss`：新增 `--radius-button`、`--button-padding-md/sm`、`--button-gap-md/sm`（md 對應 `Amilu/Button-md`，sm 對應 `Amilu/Button-sm`），`Button.vue` 改讀 token；這些值不是 8 的倍數，`design-spec.md` 第 4 節補上例外說明。header 的「開通創作者模式」按鈕（`ActivateCreatorButton.vue`）使用 sm 規格。
-
-- 實作 Figma「基礎元件」下半部（上傳、標籤、提示與分隔）15 個元件：共用的 13 個放 `src/shared/components/`（圖片上傳格、大頭照上傳、拖放上傳區、已選擇標籤、自訂標籤、可商用、步驟編號、提示框、警語框、提示｜已儲存、分隔線（或選擇）、選單分隔線、接案狀態標籤），訂單專用的 `OrderStatusTag`、`StageTag` 放 `src/features/order/components/`（第一批 `features/` 內容）。只做外觀與 props／事件，不做上傳邏輯。測試頁 `ComponentPlaygroundPage.vue` 排入 13 個共用元件。
-- `_tokens.scss` 新增 `--color-bg-inverse`（`neutral/900` 深色底，已選擇標籤用）與 `--fs-note`（10px，可商用標籤，Figma text style `note`，不隨斷點變化）；`design-spec.md` 用途表與字級表同步。`public/icons/` 補 7 個圖示：`plus`、`plus-avatar`、`x-white`、`cross-white`、`cross-black`、`check-green`、`info`。
-- 階段名稱由 `stage_no` 對照（`features/order/stageLabel.ts`：1 草稿、2 線稿、3 彩稿、4 精稿、5 完稿），三點分段的 1／4／5 不遞補，不寫「第N階段」。
-- `structure.md` 2.2：`dev/` 可 import 的範圍加上 `features/`（元件測試頁要展示 `OrderStatusTag`、`StageTag`），正式程式仍不能 import `dev/`，依賴方向不變。測試頁同步排入這兩個元件。
-- 兩處樣式決定：「未完成」狀態標籤左右內距統一成 12px（Figma 是 10px，待同步）；選單分隔線用 1px `--color-border` 加透明度 0.5 模擬 Figma 的 0.3px 淡線（`open-questions.md` 第 10 題對應兩列改為已決定）。
-- 記錄待確認事項：Figma「案件狀態標籤」多出 3 個狀態（`data-model.md` 第 6 節第 13 項、`open-questions.md` 第 9 題），以及 Figma 與程式的 6 處小差異（`open-questions.md` 第 10 題）。
+- 實作基礎元件下半部 15 個（13 個放 shared，`OrderStatusTag`、`StageTag` 放 order）；新增 `OrderFloatingButton`。
+- 按鈕尺寸寫成 token；新增「已追蹤」、`--color-bg-inverse`、`--fs-note`。
+- 階段名稱由 `stageLabel.ts` 對照；`dev/` 可以 import `features/`。
 
 ## 2026/10/20
 
-- 按鈕顏色改以 Figma「表單按鈕」（node 505:480）為準：主按鈕用 `gradient/rainbow` 漸層（原寫 `neutral/900` 黑色），次要按鈕白底、`accent/orange` 框與字，停用為 `neutral/300` 底、`neutral/500` 字。`_tokens.scss` 刪除 `--color-button-primary`，新增 `--color-button-*` 與 `--gradient-button-primary`、`--gradient-button-primary-active`，漸層角度與位置定案（Figma 匯出漏負號，已補回）；`design-spec.md` 1.1 用途表與 1.2 同步。
-- 次要按鈕新增 hover 底色 `accent/orange-30`（`--color-button-secondary-hover-bg`），Figma 未畫此狀態，由前端補上；`design-spec.md` 1.1 用途表同步。
-- `structure.md` 新增 `src/dev/`：放只在開發模式出現的頁面（第一個是元件測試頁 `ComponentPlaygroundPage.vue`，網址 `/dev/components`），路由只在 `import.meta.env.DEV` 時登記，正式程式不能 import `dev/`。暫不安裝 Histoire／Storybook，元件變多再評估。
-- `structure.md` 新增 `src/layouts/`：放整站共用的外框（header 等），元件放 `layouts/components/`，第一個是 header 右上角的使用者選單按鈕 `UserMenuButton.vue`。目前只做外觀，頭像由外部傳入；`layouts/` 是否可以取用 `features/` 的資料，等 header 真的要接資料時再決定。`dev/` 可 import 的範圍同步加上 `layouts/`（元件測試頁要展示它）。
-- 新增前端自訂色 `base/150`（`#f1f0ef`，`base/100` 與 `base/200` 的中間值）與 `--color-bg-subtle-hover`，用在使用者選單按鈕的 hover。Figma 原本用 `base/200`，和背景太接近；Figma 色票未同步新增。`design-spec.md` 第 1 節例外說明與 1.1 用途表同步。
+- 按鈕顏色改照 Figma 505:480（主按鈕用漸層）；新增前端自訂色 `base/150`。
+- structure.md 新增 `src/dev/`（元件測試頁）和 `src/layouts/`。
 
 ## 2026/10/19
 
-- ESLint 與測試：目前都不安裝，記錄加入時機。ESLint 等第一個功能做完、`features/` 出現後；Playwright 等訂單主流程能手動跑通，且先定負責人與後端時間控制；Vitest 等有金額計算等純邏輯函式時再討論（對應 `open-questions.md` 第 8 題）。
-- favicon 換成 Amilu Logo：新增 `public/favicon.svg`、`public/favicon.png`，刪除 Vite 預設的 `public/favicon.ico`，`index.html` 改引用新檔（對應 `open-questions.md` 第 7 題）。
-- AI 工具設定：確認目前組員都用 Claude Code，只維持 `CLAUDE.md`，不另建 Cursor、Copilot 等工具的設定檔；有人改用其他工具時再討論（對應 `open-questions.md` 第 6 題）。
-- 新增 `.prettierignore` 排除 `src/styles/_fonts.scss`，避免 `npm run format` 把它從 113 行展開成幾千行；`_typography.scss`、`_tokens.scss` 已用 format 重新排版，內容未變（對應 `open-questions.md` 第 5 題）。
-- 字體路徑維持絕對路徑 `/fonts/…`，不改相對路徑；部署前選平台，子路徑部署（如 GitHub Pages）才在 `vite.config.ts` 加 `base`，打包時字體與 favicon 路徑會自動加前綴（已用 `--base` 打包驗證），根路徑部署不用改（對應 `open-questions.md` 第 4 題）。
-- `design-spec.md` 刪除色碼、字級 px、Grid 與斷點的數值表，數值只留 `src/styles/`（`_tokens.scss`、`_breakpoints.scss`）；保留 Figma 連結、命名對照、色票與字級用途、例外規則。`CLAUDE.md`、`spec/README.md`、`structure.md`、`features.md` 與 `_tokens.scss`、`_breakpoints.scss` 檔頭的指向同步（對應 `open-questions.md` 第 3 題）。
-- 字體只留 R 400／M 500／B 700，刪除 H 900（Logo 改用圖片）：`_fonts.scss` 移除 H 的 `@font-face`、`_tokens.scss` 移除 `--font-weight-heavy`、`design-spec.md` 字重表同步；不重寫 git 歷史、不做外部託管（對應 `open-questions.md` 第 2 題）。
-- 討論紀錄（文字總結、Excalidraw 流程圖、ER 草案）統一放 [--Amilu repo](https://github.com/s9103444/--Amilu)，`spec/` 以這個 repo 為唯一來源，--Amilu 內舊的 `spec/` 副本移除；`spec/README.md`、`features.md`、`order-lifecycle.md`、`data-model.md` 的路徑說明同步改寫（對應 `open-questions.md` 第 1 題）。
-- 逐檔檢查現有內容後修正：①`structure.md` 取消 `app/` 層，樣式放 `src/styles/`（對齊組員已實作的 design token）、router 放 `src/router/`②`data-model.md` 5.3 加註 `ORDER`、`USER` 是 SQL 保留字，建表需改名或加引號；第 6 節末補上缺漏的 `討論紀錄/` 路徑前綴並註明不在 repo③`README.md` 註明 `討論紀錄/` 不在 repo 內④`index.html` 的 title 與 lang 改為 Amilu／zh-Hant-TW，根目錄 `README.md` 改為 Amilu 簡介⑤新增 `open-questions.md`，整理需要組員決定的 8 件事。
-- 新增 `structure.md`：定義專案結構規範。①程式碼按功能分（`app/`、`features/` 五大模組、`shared/`），不按檔案類型分②資料依「誰擁有、活多久」決定放元件 `ref`、Pinia 或 localStorage，衍生值不存③流向固定為 page → composable／store → `api.ts` → `shared/api/client.ts`④文件規則只寫 `spec/` 一處。`README.md` 文件清單同步新增一列。尚未建立 `src/` 資料夾，下一步再依規範建骨架。
+- open-questions.md 第 1～8 題決議。
+- 新增 `structure.md`、`open-questions.md`；取消 `app/` 層。
 
 ## 2026/10/17
 
-- 逐表核對 `data-model.md` 與 FigJam ER 圖，並同步修正兩邊：FigJam 端①`CREATOR_PROFILE.user_id` 補標 `UK`②`ORDER.payment_plan` 合法值改為「一次付清／先付訂金」③「關聯通知」線重接到 NOTIFICATION④補畫 `TAG.created_by_id`（建立標籤）、`ORDER.terminated_by_id`（終止發起）兩條線⑤新增 `ORDER.item_description_snapshot`、新表 `ORDER_ITEM_SNAPSHOT_IMAGE` 與「項目圖片快照」線，`ORDER.item_id` 說明標為 nullable⑥四張備註便利貼依 `data-model.md` 4.1～4.4 改寫（原內容停在快照於確認報價時鎖定、單段、auto-confirm 等舊規則）⑦ORDER 表變長，下方四張表與一張便利貼往下移避免重疊。`data-model.md` 端：關聯線 26→29 條並補兩條關係，第 6 節 #1～#3、#11 改為已解決，修掉 #6「尚未同步／已同步」自相矛盾的句子，新增 #12。
-- 用 grill-me 再對一輪 spec，定案四點：①**補款逾期改依「完稿視同已確認」結算**，刪除「最後階段未完成」結算：舊規則下只付訂金案件，創作者在完稿窗口內搶先終止可得總價全額（S10），等委託人逾期卻只得已確認階段（S6 的 8,250），委託人拖延反而少付；改成三條路徑結果一致，S6 改為創作者可得 10,000／應補付 7,000、補付後才能下載完稿，7 天等待期保留為鎖帳號前的寬限期②**「已取消」案件維持開放評價**，「申請後立即取消再給 1 星」的刷評價風險寫進 `features.md` 5.1，demo 不處理③**鎖帳號只擋送出新委託**（`POST /orders`），登入、瀏覽、補付入口、雙方身分的進行中案件照常，避免連累沒有欠款的另一方④**項目說明與範例圖片加進快照**（`ORDER.item_description_snapshot`、新表 `ORDER_ITEM_SNAPSHOT_IMAGE`），案件畫面一律讀快照，可委託項目改為真刪、`ORDER.item_id` 改為 nullable，`creator_id` 不再是冗餘 FK。同步 `order-lifecycle.md`、`data-model.md`（表數 19→20）、`features.md`、`api.md`、`acceptance.md`（E2E-05、S6、新增 ORD-24、第 5 節 #20～#23）。FigJam 待同步項目記在 `data-model.md` 第 6 節 #11。
+- data-model.md 與 FigJam ER 逐表對齊。
+- 定案：補款逾期依「完稿視同已確認」結算；已取消案件可評價；鎖帳號只擋送出新委託；項目說明與範例圖加進快照，項目可以真刪。
 
 ## 2026/10/15
 
-- 新增 `acceptance.md`：依 `prd.md`、`features.md`、`order-lifecycle.md`、`data-model.md` 整理 8 條 E2E 主線情境（正常完成、中途終止、雙輸終止、只付訂金補款、補款逾期、逾期強制結算、契約成立前取消、Amilu 燈可見性）、各模組細部驗收條件、固定金額驗算表與反向驗收清單。對照各 spec 時發現 7 處規格有出入或未寫清楚，其中四點當天定案：①撥款只發生在訂金撥款、尾款撥款、終止結算三個時點，中間階段確認不撥款（`order-lifecycle.md` 付款方案同步修正「逐階段撥款」）②逾期強制結算時階段 1 有上傳視為已確認，先撥訂金，階段 2 起依終止結算金額處理③所有契約快照（`item_title_snapshot`、`deposit_percent_snapshot`、`revision_count_snapshot`、`stage_plan_snapshot`）統一在送出委託申請時鎖定（`data-model.md` 4.1 同步修正，原寫三者在確認報價時鎖）④已取消的案件雙方仍可互評。⑤補款期限定為 7 天（自創作者上傳最後階段起算），到期後另有 7 天等待期；`order-lifecycle.md` 計時表補上天數，`data-model.md` 問題清單第 4 點標記已解決。⑥終止結算的創作者可得定為「已確認階段金額總和」，第一階段就是訂金、不重複計算，`order-lifecycle.md` 表格文字由「訂金% ＋ 已確認階段費用」改正。測試用時間控制留待寫 `api.md` 時決定，列在 `acceptance.md` 第 5 節。同步 `README.md` 文件清單狀態改為 ✅。
-- 新增 `api.md` 草案：前端（彥廷）先依 `features.md`、`order-lifecycle.md`、`data-model.md` 列出五大模組需要的 API（方法＋路徑＋對應畫面／資料表，不展開完整 request/response，待對規格時補），並整理一份「待確認事項」給跟淳對規格用，共 8 項：後端框架與錯誤格式／分頁／驗證方式未定案、圖片上傳機制（直傳 vs presigned URL，含 `ORDER_STAGE_IMAGE` 整組覆蓋語意）、模擬金流按鈕要不要獨立 endpoint（對應之後接綠界要好拔換）、系統排程觸發動作與**測試用時間控制**（回應 `acceptance.md` 第 5 節 #6 的待決定項，列出假時間注入／可調閾值／demo 手動觸發三個選項並建議方向）、聊天室與通知輪詢頻率、雙重身份的權限判斷方式、防自刷錯誤碼、標籤比對邏輯歸屬。`README.md` 文件清單狀態改為「草案已列」，待跟後端對完規格才改 ✅。
-- 用 grill-me 逐題對過整份 spec，定案十五點，同步 `order-lifecycle.md`（整份重寫）、`features.md`、`data-model.md`、`acceptance.md`、`api.md`、`prd.md`：①**補款期限／完稿窗口起算點**＝乙方最近一次上傳完稿的時間 + 7 天，每次重傳都重算，提前交稿也從上傳當下起算（直接由 +30 軌切到 +7 軌，不等截稿日）；`submitted_at` 不再是「單純記錄、不觸發倒數」，完稿的上傳時間就是期限起算點，`ORDER.topup_due_at` 因為一次付清也用而改名 `finalize_due_at`②**+30 軌與 +7 軌以乙方是否上傳完稿互斥切換**：乙方還沒上傳完稿走 +30 天強制結算，上傳完稿的那一刻改走 +7 軌，兩者不會同時計時③**完稿上傳即視同委託人已確認**：階段 1～4 仍須委託人確認，完稿不用；一次付清與只付訂金統一走 7 天窗口，一次付清窗口內委託人可按「確認收稿」提前定稿、不按則期滿自動完成，只付訂金則補款入帳即定稿；窗口內完稿可重傳覆蓋。這是 10/12 拿掉 auto-confirm 之後唯一的例外，只限完稿（`acceptance.md` NEG-09 同步）④**單段改為「三點分段」**：草稿 1／精稿 4／完稿 5，沿用五點分段編號不另編，原「階段數＝1」的訂金公式除以 0 問題隨之消失⑤**終態案件所有操作鎖死**，只保留結案畫面、下載、評價與補付入口；匯款須全額一致才成立，Demo 無法呈現、只記 spec，`PAYMENT.status` 不新增「部分付款」⑥**鎖帳號統一**：任何結算（主動終止、強制結算、補款逾期）後只要有應補付未付，一律鎖委託人帳號，只開放一個「補付應補付金額」入口（`api.md` 新增 `settlement-due` 三支），`features.md` 3.5 過時的「平台無法強制收取」說明同步改掉⑦**強制結算只看委託人有沒有確認**，推翻同日稍早「階段 1 有上傳視為已確認」的例外：乙方有上傳但沒確認一律不算，雙輸，理由是不排除乙方草草上傳、委託人不滿而惡意延遲，系統不判斷誰對誰錯⑧**契約成立前雙方皆可取消、不加系統逾期**，狀態機「待甲方付款」補上乙方可取消⑨**雙方同意時間點**：`commissioner_agreed_at` 改記在付款頁「確認送出」時（申請時還沒有價格），`creator_agreed_at` 維持報價時，`features.md` 4.6 原「成立當下記錄一次」同步改掉⑩順手修正：已取消案件可互評同步進 `features.md` 5.1、快照表補列 `item_title_snapshot`／`deposit_percent_snapshot`、`prd.md` 殘留的批註改成說明⑪新增 `acceptance.md` E2E-09（完稿窗口）、ORD-22、ORD-23、金額表三點分段列與 S8。⑫完稿窗口期間可以申請終止合作，完稿視同已確認階段，創作者可得包含完稿費用（一次付清＝總價全額）⑬終態案件聊天室唯讀⑭`cancel_reason` 維持單一欄位，兼任取消與終止合作原因，不拆⑮補付入款用 `PAYMENT.type` 新增「補付入款」值，不新增欄位。**未定案、已記在 `data-model.md` 第 6 節 #8**：只付訂金案件在完稿窗口內終止時，完稿圖何時可下載。FigJam 另有文字需手動同步，清單見 `data-model.md` 第 6 節 #10。
-- `api.md` 待確認事項第一輪拍板（彥廷單方定案，仍待淳最終確認）：①圖片上傳用方案 A（前端 multipart/form-data 直傳後端存檔回網址），`ORDER_STAGE_IMAGE` 重傳一次送齊整組圖片、後端整組覆蓋②模擬金流按鈕（通知已付款／已補款、模擬入帳）不切獨立 endpoint，改成 `.../payment/actions`、`.../topup/actions` 吃 `action` 參數③系統排程與測試用時間控制採「可調閾值（3／7／30 天抽成設定值）＋ demo-only 手動觸發 `POST /orders/{id}/debug/actions`」組合，直接回應 `acceptance.md` 第 5 節 #6 的待決定項④雙重身份判斷：後端用 token `user_id` 比對 `ORDER` 的 `commissioner_id`／`creator_id`，前端不傳視角參數⑤標籤比對改由後端處理，建立作品／項目時標籤欄位送文字陣列而非 `tag_id`，`GET /tags?q=` 保留做自動完成建議⑥後端框架定為 **FastAPI**（理由：自動生成 API 文件可取代手動對規格、型別系統接近 TypeScript、內建檔案上傳、比 Django 輕量）⑦聊天室與通知更新機制定為輪詢、依場景分頻率（header 未讀數 15～30 秒、展開中的聊天室 5～8 秒、對話頁籤開啟時才打一次），不做 WebSocket／SSE。只剩防自刷的錯誤碼格式延後討論；錯誤格式／分頁／驗證方式仍待跟淳對規格時一起定。另因 grill-me 後新增 `settlement-due` 補付 API，同樣依第②點改成 `.../settlement-due/actions` 吃 `action` 參數；`api.md` 2.4、4.3、5.4 的衝突處依此與 grill-me 十五點合併。
+- 新增 `acceptance.md`、`api.md` 草案。
+- grill-me 定案 15 點：完稿窗口 7 天從最近一次上傳起算、+30 與 +7 兩條計時互斥、完稿上傳即視同確認、單段改三點分段（1／4／5）、終態鎖死、結算後有欠款一律鎖帳號、強制結算只看委託人有沒有確認、契約成立前雙方都可取消等。
+- api 第一輪：圖片直傳、模擬金流用 `actions`、時間控制用可調天數＋debug actions、後端用 FastAPI、輪詢不做 WebSocket。
 
 ## 2026/10/12
 
-- 拿掉 auto-confirm 與創作者惡意棄單機制，改成「整筆委託最終截稿日 +30 天後若未了結，系統依終止合作結算公式強制結算」：過程中階段 deadline、上傳／確認時間都只是參考，不再有任何中途時限。卡在「訂金%撥款前」時，系統先看創作者有沒有交過稿再決定是視為已確認撥款還是維持雙輸，避免委託人單純不理人就讓創作者的勞動完全拿不到錢。同步移除今天稍早加的「分段方案與工期門檻建議」——那條建議的前提（auto-confirm 5 天累加）已經不存在。`ORDER.status` 命名對齊 FigJam／`data-model.md`（待甲方付款、製作中），`data-model.md` 問題清單第 3 點隨之解決，並標記一個新的 FigJam 清理項（`USER.lock_reason` 的「惡意棄單」列舉值待移除）。同步 `prd.md`、`features.md`、`討論紀錄/amilu_討論總結.md`。
-- `order-lifecycle.md` 新增「分段方案與工期的合理搭配」建議：乙方傳稿不能跳階段，auto-confirm 等待完全累加，五點分段最壞情況要 5×5＝25 天的等待上限，跟實際畫稿時間無關；建議預計工期明顯短於 25～30 天時改選單段。目前只是建議，沒有在系統裡強制擋。同步計時規則表格下方說明。
-- 補完 `order-lifecycle.md` 建立時留下的待確認事項：創作者訂金%設為「無需先支付」時，委託人在付款頁只看到「一次付清」，隱藏「先付訂金」方案卡（因為沒有訂金比例可以拆出先付的金額）。同步 `order-lifecycle.md` 三、金額與結算公式。
-- 新增 `order-lifecycle.md`：把原本散在這份 changelog、`討論紀錄/延伸檔案/ER模型-實體初步草案.md`、`討論紀錄/Excalidraw/flowChart圖形放置區/` 下模組四流程圖裡的訂單狀態、計時、金額與結算規則整理收斂成一份文件。整理時解決三處新舊版本落差：①契約成立時間點採「平台確認入帳的那一刻」（依 features.md 4.3／4.8 現有文字推導，取代舊版 Excalidraw 把契約成立與已託管畫成同一節點的版本）②`ORDER.status` 收斂為六個值（待乙方報價／待付款／進行中／已完成／已取消／已終止），取代 ER 草案裡已過時的列舉命名③惡意棄單判定限定只適用創作者，委託人側的時限保護改為 auto-confirm（進度繼續）與補款逾期後的結算鎖帳（取代舊版 Excalidraw 裡「甲方惡意棄單」分支）。同步 `README.md` 文件清單狀態改為 ✅。
+- 拿掉 auto-confirm 與惡意棄單，改成最終截稿日 +30 天強制結算。
+- 新增 `order-lifecycle.md`；訂金「無需先支付」時隱藏「先付訂金」方案。
 
 ## 2026/10/7
 
-- 拆 spec 時釐清四點：①下拉導覽只有兩類（作品類型／用途）＋自訂標籤，拿掉原「四類切換＋熱門項目＋膠囊標籤＋全標籤出口」描述②作品展示燈箱原「接案規範摘要」改為顯示**作者自我介紹**（讀既有欄位 `USER.bio`）；維持 9/29 定案，創作者不自訂委託規範，ER 不補欄位（Figma 由彥廷自行修改）③結案時甲方在結算卡下載圖並送出評價，雙輸終止沒有圖可下載、只能送評價④委託申請頁年齡分級（全年齡／R-18）確認為 MVP（取代 9/24「先保留」）。同步模組二、模組四、3.4 步驟 7
-- Design spec 修正並同步 Figma：①桌機設計基準寬由 1920 改回 1440②平板、手機改為 12 欄（gutter／margin 不變），作品牆欄數不變③拿掉英文字體 Poppins，中英文皆用源泉圓體（GenSenRounded2 TC）④Figma `design spec` 頁：Grid 圖與三個 grid style 改為 12 欄、`Amilu/Grid/Desktop 1920` 改名為 `Desktop 1440`，刪除「text style 先用 Noto Sans TC 佔位」說明。同步 1.1、品牌規格速查、`spec/design-spec.md`
-- 色票整併與重新命名：①mockup（新）頁相近色合併，從主元件改起（`#000000`／`#242424`→`#232020`、`#979797`／`#787878`→`#959595`、`#c3c3c3`→`#c2c2c2`、`#ec5f22`→`#eb5919`、`#f5f7f6`→`#f7f7f7`、`#eeeeee`→`#ebe9e6`、橘色透明度 20%→30%）②色票定為 14 個 variable，分三組：灰階 `neutral/900`、`neutral/900-50`、`neutral/500`、`neutral/300`、`neutral/white`；底色 `base/100`、`base/200`、`base/500`；強調色 `accent/orange`、`accent/orange-10`、`accent/orange-30`、`accent/green`、`accent/green-30`、`accent/blue`（「-數字」為同色透明度版本）③兩個漸層建成 paint style：`gradient/rainbow`（按鈕）、`gradient/side-bg`（首頁兩側）④拿掉 text／bg／status／tint 語意層，Figma 全檔改綁新名稱；舊語意 variable、`accent/pink`、`accent/yellow`（只出現在漸層裡）、舊 variable collection 與舊 paint style 待確認後刪除⑤Google 登入標誌色不列入色票。同步品牌規格速查、`spec/design-spec.md`、Figma `design spec` 頁色彩區
+- 下拉導覽只剩作品類型／用途＋自訂標籤；作品燈箱改顯示作者自我介紹；年齡分級列入 MVP。
+- Design spec：桌機基準 1440、全部 12 欄、只用源泉圓體；色票整併成 14 個 variable。
 
 ## 2026/10/1
 
-- 分段方案改為每個委託項目各自設定：①Figma 新增／編輯委託項目燈箱在「是否可商用」下方加「分段方案」（單段／五點分段，必填），底部警語改為「訂金比例與修改次數沿用接案設定」；接案設定與開通 Step2 的分段方案區塊隱藏，相關提示文案拿掉「分段方案」②ER `stage_plan_pref` 從 `CREATOR_PROFILE` 移到 `COMMISSION_ITEM`（沿用欄位名）③`ORDER.stage_plan_snapshot` 改在甲方**送出委託申請時**就從委託項目複製鎖定（其餘快照仍在契約成立時），避免乙方報價前改項目分段；FigJam 快照便利貼同步說明④同步 `functionMap`、`模組三-開通創作者商店流程`（分段方案方塊由 Step2 移到 Step3）、`模組四-委託申請引導式表單`（分段照委託項目、訂金照接案設定）
-- Design spec 定案：①Figma 新增 `design spec` 頁，排出色彩、字體、字級（11 級，桌機／平板／手機三種尺寸）與 Grid②Primary 定為 `#ebe9e6`（取代 Figma 舊 style 的 `#f0eeec`）；文字灰階由 6 個合併為 3 個（`#232020`／`#959595`／`#c2c2c2`）③1.1 Grid 由暫定改為定案：桌機設計基準寬改為 1920（12 欄、gutter 24、margin 48，沿用 mockup 現有設定），取代原 max-width 1440；平板、手機與作品牆欄數不變④建立色彩 variable、三個 mode 的字級 variable、text style `Amilu/*` 與 grid style；源泉圓體外掛無法載入，text style 暫用 Noto Sans TC，正式稿再換回
+- 分段方案改成每個委託項目各自設定（`stage_plan_pref` 移到 `COMMISSION_ITEM`）。
+- Figma 新增 design spec 頁。
 
 ## 2026/9/29
 
-- 乙方「上傳作品」燈箱規則定案並同步 ER：①每次上傳 1～5 張、單張 5MB 以內（JPG／PNG／WebP），不附文字說明；上傳目標固定為目前未確認階段，燈箱唯讀顯示階段與截止日②多張圖在討論牆貼文以橫向拖拉呈現，附張數提示③重傳維持「覆蓋前一版」，並更新 `ORDER_STAGE.submitted_at`（auto-confirm 從最近一次上傳重新起算）④甲方確認該階段後不可重傳⑤ER 圖：一個階段可有多張圖，`ORDER_STAGE` 移除 `draft_url`／`final_url`，新增弱實體 `ORDER_STAGE_IMAGE`（`stage_id`＋`seq_no` 複合 PK、`draft_url`、`final_url`，ORDER_STAGE 1 對 0..N），附便利貼說明上傳規則。同步模組四
-- 上傳作品（一般貼文／委託項目）燈箱規則定案：①一般貼文圖片 1～20 張、單張 5MB，至少 1 張圖＋標題才能送出，ER 圖 `WORK` 新增 `title`（必填）、`created_at`②委託項目圖片 1～5 張、單張 5MB，標題／說明／價格必填③未開通創作者身份者點「委託項目」直接導向開通流程④自訂標籤 `TAG.name` 不可重複，比對時去前後空白、英文不分大小寫，打到既有標籤直接沿用⑤更新 `模組三-創作者作品上架流程`：移除已廢除的「選擇風格分類」、作品類型／用途改為可選、補上張數與必填條件、委託項目分支前加「是否已開通創作者身份？」判斷、加註自訂標籤規則⑥待辦新增：商用授權是否改為每個委託項目各自設定、未開通商店時委託項目「可儲存不顯示」的細節。同步模組三
-- 約稿管理、接案設定、個人資料設定定案並同步 ER：①是否可商用改為每個委託項目各自設定，ER `COMMISSION_ITEM` 新增 `commercial_allowed`、`CREATOR_PROFILE` 移除 `license_scope`，委託項目燈箱加開關（待辦此項結案）②接案設定頁只留收款帳戶、委託規範、訂金比例、分段方案、修改次數、Amilu 燈與唯讀開通狀態；拿掉價目表與工作日設定（同步模組二委託商店燈箱描述），頁面加註「修改設定只影響之後新委託，已成立案件照快照」③收款帳戶拆成銀行代碼／帳號／戶名，ER `payout_account` 拆成 `payout_bank_code`、`payout_account_no`、`payout_account_name`④新增修改次數 `CREATOR_PROFILE.revision_count` 與契約快照 `ORDER.revision_count_snapshot`，以純文字唯讀顯示於委託申請頁右側、委託第二階段左側、討論牆左側⑤約稿管理分「已委託／已接案」頁籤，卡片顯示甲乙雙方大頭照，歷史卡片有評價入口，ER `ORDER` 新增 `created_at`；未開通創作者者在「已接案」與接案設定頁都顯示「尚未開通創作者模式，前往開通」⑥新增個人資料設定頁（大頭照、暱稱、簡介 150 字、刪除帳號），ER `USER` 新增 `bio`、`deleted_at`，`account_status` 加「已刪除」（軟刪除）；進行中委託或未補款時不可刪除，刪除前跳確認燈箱⑦同步 `functionMap`、`模組三-開通創作者商店流程`、`模組三-創作者作品上架流程`、`模組四-委託申請引導式表單` 的對應文字
-- 拿掉創作者自訂委託規範（ToS）：平台統一提供一份完整《服務條款》給所有委託共用。①Figma 接案設定頁移除「委託規範（ToS）」欄位；委託階段第二階段（甲乙兩視角）的同意文字改為「已閱讀並同意 Amilu《服務條款》與本委託授權條款」；三處項目說明佔位文字拿掉「規範摘要」②ER `CREATOR_PROFILE` 移除 `tos_rules`③同步模組三接案設定與開通 Step2、3.3、`functionMap`、`模組三-開通創作者商店流程`（原「委託規範」方塊改為「分段方案」）、`模組四-委託申請引導式表單`
-- 開通流程與結案規則定案：①開通創作者身份／模式／商店為同一件事，手機驗證＋接案設定＋至少 1 筆委託項目都完成才 `store_approved`＝true，無人工審核、不記開通時間；是否為創作者改以 `store_approved` 判斷。同步刪除 `模組三-創作者作品上架流程` 中「是否已通過商店申請 → 仍可儲存但不顯示」分支，待辦該項結案②申請終止合作：燈箱加結算試算，送出後跳二次確認燈箱，確認即生效、不需對方同意；Figma 新增「申請終止合作燈箱（訂金已撥款／訂金未撥款｜雙輸）」與「終止合作二次確認燈箱」③ER `ORDER` 新增 `completed_at`；結案方式不另設欄位，以 `status`＋`terminated_by_id` 比對 `commissioner_id`＋第一階段 `paid` 判斷，附便利貼說明④補款金額由後端以 `quote_amount` − PAYMENT 已託管入款加總計算，不存欄位⑤結案頁做成討論牆的結案狀態；惡意棄單版延後
-- 精簡申請終止合作燈箱的結算試算：拿掉依情況變動的說明文字（目前進度、各階段退款範圍、可取得哪一階段的圖），改為三個固定欄位「委託人已付／創作者可得（已確認階段）／委託人退款」，數字皆由 ER 既有資料計算，圖片權利改為一句固定說明；退款為負數時欄位改稱「委託人應補付」並顯示正數。同步 3.1
-- Figma 補開通與結案畫面：①開通創作者模式：指示頁（未完成／三步皆完成）、Step1 手機驗證（已發送／驗證碼錯誤）、Step2 接案設定（開通流程）、開通成功頁；Step3 沿用新增委託項目燈箱②委託討論牆結案狀態：甲方最後階段待補款、甲方已完成、乙方已完成（系統代為確認）、甲方已終止（訂金已撥款）、乙方已終止（雙輸），各含結算卡與評價區
-- Figma 補款流程補畫面：新增「請前往完成補款頁（甲方視角）」（含「通知平台已補款」按鈕）與「委託討論牆（甲方視角｜最後階段已補款待確認）」；「已成功發布」頁內文拿掉過時的「委託項目顯示需先開通創作者模式」說明，改為「你的作品已公開在個人專頁與首頁了。」
-- 付款頁按鈕定案：補款頁與第一次付款頁下方皆為「返回（討論牆／約稿管理）」「通知已補款／通知已付款」「模擬入帳」三個按鈕；demo 沒有後台，由「模擬入帳」代替平台確認入帳
-- ER `PAYMENT.status` 新增「已通知待確認」：甲方按「通知已付款／通知已補款」後進入此狀態，按「模擬入帳」改為「已託管」；不新增欄位（同步 FigJam ER 與 `ER模型-實體初步草案.md`）
-- 聊天室與通知中心畫面：①Figma 新增「委託討論牆（甲方視角｜聊天室展開）」：浮動聊天視窗顯示對方暱稱、對方訊息附大頭貼縮圖、輸入列有上傳圖片 icon（`tabler:photo-plus`）②通知中心改為「通知／對話」兩個頁籤，新增「通知中心展開（通知）」「通知中心展開（對話）」，對話預覽取訊息前 10 字，超過以「...」取代③ui flow 頁所有 header 拿掉聊天室 icon（共 29 處）
-- ①只付訂金的補款規則改為**補款入帳即視同確認最後階段**，直接完成結案（撥清款項、解鎖原檔），同步 3.1、3.4 步驟 6、ER `ORDER.completed_at` 說明，並更新 Figma 待補款／已補款待確認／補款頁說明文字②第一次付款按「通知已付款」回到委託項目確認頁（按鈕顯示等待狀態）③通知中心對話頁籤不做未讀，`NOTIFICATION.category` 拿掉「互動」（同步 FigJam ER 與 ER 草案）
-- 只付訂金的最後階段規則確認：維持「補款在甲方確認最後階段之前完成、補齊前不能確認」，補款入帳即切為已結案（已完成）；補款期限仍自乙方上傳最後階段起算；待補款時確認按鈕為不可按的「付款完成後取得完稿」；最後階段不 auto-confirm，到期甲方仍未付款以「最後階段未完成」結算（最後階段費用退還、乙方拿已確認階段費用、甲方只拿前一階段無浮水印圖）。同步 Figma 待補款與甲方已完成畫面文字、ER `completed_at` 說明
-- 逾期未補款時序定案：補款期限到期 → 7 天等待期 → 期滿以「最後階段未完成」結算 → 結算後仍有「委託人應補付」（已確認階段費用超過已付訂金的部分）未付就鎖帳號直到付清；原 7 天等待期與鎖帳號機制保留
-- ui flow 對照總結補齊畫面與修正：①新增 Google 登入補填資料頁（ID／暱稱必填、大頭照選填，中途關掉下次登入再跳回）、付款逾期自動取消通知頁、手機驗證（第一次送出委託）、乙方最後階段等待委託人補款、甲方第一階段系統代為確認、約稿管理（已委託｜歷史）與（已接案｜進行中）、追蹤清單燈箱（followers／following）②「我要委託」防手滑改用瀏覽器 confirm③逾期未補款結案沿用「已終止」顯示，`terminated_by_id` 為空＝系統結算④首頁、作品燈箱、類型下拉選單拿掉「作品風格」；個人頁作品卡說明改為「作品類型、用途」⑤乙方討論牆「上傳進度」改名「上傳作品」並修正提示錯字；所有討論牆貼文加上張數提示與橫向拖拉指示⑥追蹤改為 MVP，ER 新增 `FOLLOW`（follower_id、following_id、created_at）⑦3.4 步驟 3 付款頁按鈕改為三顆
-- 可委託項目燈箱與項目展開畫面：每個項目名稱旁補上「可商用／不可商用」標籤（讀 `COMMISSION_ITEM.commercial_allowed`）
+- 上傳規則：階段稿 1～5 張、一般作品 1～20 張、委託項目 1～5 張，單張 5MB；新增 `ORDER_STAGE_IMAGE`。
+- 可商用改成每個項目設定；拿掉創作者自訂 ToS；手機驗證＋接案設定＋至少 1 筆項目即開通。
+- 付款、補款、結案、聊天室、通知中心畫面定案；追蹤列入 MVP。
 
 ## 2026/9/27
 
-- 乙方報價畫面定案並同步 Figma：①報價階段乙方只能編輯實際報價金額、實際開始／結束日期、各分段 deadline；分段方式、訂金%、授權範圍一律沿用接案設定不可改（甲方是看過條件才申請，事後改動對甲方不公平）②Figma `ui flow` 新增「委託階段第二階段（乙方視角）」：左欄甲方需求全唯讀，右欄委託排程日期與最終報價改為輸入框，訂金／其餘支付額由系統依報價自動計算，按鈕為「確認並送出報價」「取消委託」③另繪單段排程小塊（只有開始日期與截稿日期）④新增「確認合作中繼頁」，但因 ATM 匯款非即時，已不在付款流程中，保留待定
-- 付款與取消流程定案並同步 Figma：①付款方式為 ATM 虛擬帳號，流程為委託頁「前往付款」→ 付款資訊頁（先付訂金／一次付清兩張方案卡並排點選）→ 請前往完成付款頁（付款期限、銀行代碼、收款帳號、匯款金額＋委託摘要，按鈕「前往約稿管理」「查看當前委託內容」）②付款期限 3 天，逾期自動取消，Figma 甲方視角報價區最終報價下方加註③匯款非即時，移除「付款成功」頁，入帳確認改為站內通知＋Email④等待入帳期間委託頁只開放「前往付款」（回付款資訊頁）與「取消委託」⑤新增取消委託燈箱（甲乙共用，原因必填、附匯款退回警語，按鈕返回／送出）與「已成功取消本次委託」通知頁（按鈕「查看約稿管理」「看看其他作品」）。同步 3.2、3.4
-- 補款時點與 ER 同步：①只付訂金的差額補款定為**甲方確認最後階段之前**完成，自乙方上傳最後階段起算補款期限，未補齊不能確認、最後階段也不 auto-confirm，逾期走 7 天等待期＋鎖帳號（同步 3.1、3.4 步驟 6）②3 天付款期限自產生虛擬帳號起算③ER 圖補欄位：`ORDER_STAGE.submitted_at`；`PAYMENT.virtual_account_no／bank_code／due_at／paid_at`、status 加「已逾期／已取消」；`ORDER.payment_method` 改名 `payment_plan`，新增 `topup_due_at`、`cancel_reason`，status 列出六種狀態；`USER.account_status／lock_reason`
-- 委託討論牆與階段編碼定案：①五點分段改為 **5 個階段**（每節點各一次交稿確認），金額與結算公式不變、階段數代入 5；單段維持 1 個階段②`ORDER_STAGE.stage_no` 編碼：五點 1～5、單段僅 5，5＝完稿③討論牆只放乙方階段稿件（無文字留言），甲方有「喜歡」（demo、不存資料）與「確認該階段審核」，乙方改為右上「上傳作品」；選單「取消本次合作」改名「申請終止合作」④原「合作區圖文留言區」改稱**聊天室**（`MESSAGE`，文字＋圖片），修改要求與製作中補充參考圖都在聊天室，`ORDER_REFERENCE_IMAGE` 僅存申請時原始參考圖⑤ER 圖新增 `USER.avatar_url`、`ORDER.item_title_snapshot`（契約快照，附便利貼說明原因），`ORDER_STAGE.stage_no` 註明編碼並附便利貼。同步模組四、模組五、3.1、3.3
+- 報價時乙方只能改金額與日期；付款用 ATM 虛擬帳號，期限 3 天。
+- 討論牆只放稿件，修改要求走聊天室。
 
 ## 2026/9/24
 
-- 逐項釐清掃描時發現的矛盾：①分段套餐統一為「單段（草稿>完稿）」與「五點分段（草稿>線稿>彩稿>精稿>完稿，4 個階段）」兩種，移除 3 段／5 段等舊寫法（同步 3.1、3.4、Part 4）；②移除所有「方向 A／方向 B」字樣與已廢除的方向 B 說明，逾時機制改稱「甲方不確認 → 保護乙方」；③訂金＝第一階段費用：第一階段＝總價×訂金%，其餘階段＝剩餘金額÷(階段數−1)，無條件捨去、餘數併入最後階段；選「無需先支付」時改為總價÷階段數；終止合作結算不再把訂金%跟第一階段費用重複加算；④付款改為甲方確認報價後立即跳轉付款頁、確認收款後才進入第一階段；選「無需先支付」時中途終止仍由系統計算甲方應付金額，但平台無法強制收取，於模組三 Step2 訂金選項旁加說明提醒乙方設定訂金；⑤各階段 deadline 改由乙方在報價階段填寫，甲方確認時鎖入契約；⑥定案契約成立前三段式流程（甲方填需求＋同意 ToS＋預算與預期收稿日期送出、乙方確認前可取消 → 乙方填實際報價＋起訖日期＋各分段日期送出、乙方可取消 → 甲方確認後付款、確認收款才進第一階段），取代 9/20 紀錄的議價聊天室構想，同步 3.2、3.4 與模組四；⑦Part 4 MVP 邊界同步加入帳號 ID、手機驗證、三段式報價、終止合作、惡意棄單；⑧auto-confirm 逾時天數定為 5 天
-- 委託申請頁 UI flow 定案並同步文件：①可委託項目燈箱 CTA 統一稱「我要委託」（Figma 原「立即申請委託」已改名）；②分段方式改由乙方自主決定單段／五點分段，甲方在申請頁唯讀、不可微調（修正 3.1「委託人下單時可微調」）；③申請頁顯示乙方設定的項目價格（唯讀），下方另有甲方預算輸入欄；④年齡分級（全年齡／R-18）先保留；⑤Figma `ui flow` 頁新增「委託申請頁（甲方填寫）」五區 wireframe（①委託項目與規格 ②需求描述 ③授權範圍 ④預算與時程 ⑤確認委託內容，⑤帶入①～④摘要）；⑥同步修正 `模組四-委託申請引導式表單.excalidraw.md`：價格區間改為唯讀項目價格、金額改由乙方報價時填寫並於甲方確認後鎖定、分段方案改為單段／五點分段且甲方唯讀、訂金選項補上「無需先支付」、送出後銜接節點改為「待乙方報價」、「預期交件日」改稱「預期收稿日期」
+- 訂金＝第一階段費用；契約成立前三段式流程（申請 → 報價 → 付款）。
+- 委託申請頁五區 wireframe 定案。
 
 ## 2026/9/22
 
-- 補充上傳圖片／作品流程的標籤規則：不論一般圖文（作品集管理）或可委託項目，送出時都必須至少掛一個標籤（母標籤或自訂標籤皆可，最少 1 個，不可空白送出），同步更新模組三「作品集管理」「Step3新增可委託項目」「自訂標籤新增」三處描述
-- 大幅修正標籤與帳號設計，取代上一行的規則：①拿掉「風格 By Style」母類型，原10項改列為系統建議的常見自訂標籤；②母標籤（作品類型／作品用途）與自訂標籤全面改為**非必填**，可以完全不掛標籤；同一母類型軸仍只能選一個；③修正用途軸「社群／頭像」跟類型軸「頭像／大頭貼」字面重複，改名「社群媒體」；④全站標籤（母標籤＋自訂標籤）共用同一唯一命名空間，同名一律視為同一個標籤；⑤可委託項目的標籤規則比照一般作品，完全同一套；⑥註冊新增「帳號ID」（使用者自訂、全站唯一、取代 email 作主鍵）與「暱稱」欄位，第三方登入也需補填；⑦首頁瀑布流改成一般作品與可委託項目混合顯示，可委託項目是否出現跟隨創作者 Amilu 燈狀態自動決定（非手動篩選），另外新增「一般作品／可委託項目」互斥篩選標籤，以及「點首頁可委託項目卡片直接進入完整委託商店燈箱並定位到該項目」的新入口
+- 拿掉「風格」母類型；標籤全面非必填、全站共用命名；新增帳號 ID 與暱稱；首頁混合顯示作品與可委託項目。
 
 ## 2026/9/21
 
-- 使用者決定拿掉 6% 平台抽成計算這項功能（demo 規模不做這塊計算），移除品牌規格速查的「平台抽成：6%（市場約 15%）」與 Part 3.2 模擬金流呈現重點裡的「6% 抽成計算（總額→扣 6%→實拿）」，同步更新 `ER模型-實體初步草案.md` 的 Payment 實體，拿掉抽成後實拿金額欄位
+- 拿掉 6% 平台抽成。
 
 ## 2026/9/20
 
-- 全專案 flowchart 與本文件逐一核對後修正：①訂金%新增「無需先支付」第三選項（同步 3.1 與模組三 Step2）；②新增 3.1「惡意棄單機制」子段落（乙方逾 deadline 5 天未交稿→只留訂金＋封鎖帳戶；甲方逾 deadline 5 天未確認/未提修改→僅退回該階段外金額＋不得用圖），與現有逾時機制、終止合作機制並存；③記錄「委託申請引導式表單」與「委託申請至契約成立完整狀態流」在區間定價金額鎖定時機上的矛盾——委託人送出後雙方將有一個議價聊天室、創作者確認委託時同步輸入最終金額、再由甲方確認金額才契約成立，此三段式流程細節待與彥廷討論後定案，目前尚未實作進任何圖檔
+- 訂金新增「無需先支付」；新增惡意棄單機制（10/12 已拿掉）。
 
 ## 2026/9/16
 
-- 簡化終止合作結算規則，移除「爭議階段費用對半分」設計，訂金%撥款後的所有終止情境統一改為：乙方拿訂金%＋已確認階段全額；甲方拿雙方最近一次共同確認過的那一版圖（去浮水印）＋爭議中未確認階段費用（全額退還）＋尚未開始階段費用（全額退還）。同步更新 3.1 與 3.4 步驟 5 的對應文字
-- 金流模型新增付款方式選項：甲方可選「一次付清全額」或「先付訂金金額」，兩者皆先進第三方託管，訂金撥給乙方的時間點不受影響。若選只付訂金，差額補齊延到最終結算（正常完稿或中途終止合作）才一次補齊，不逐階段補款；結算金額由系統依實際託管餘額＋階段確認狀態運算，不另立規則。新增手機驗證為交易前提、補款逾期鎖帳號（7 天等待期）機制。同步更新 3.1、3.2、3.4 步驟 3，並在模組一新增手機驗證 MVP 項目
-- 依「委託註冊.md」補完模組三「開通創作者商店」的 Step1／Step2 具體欄位（收款戶頭、規範、授權範圍、訂金%30/50；可委託項目圖片、標題說明、價格）與開通條件（可委託項目至少 1 筆）；補完模組二燈箱的左右佈局、工作日設定、燈狀態開放/暫停細節，以及點擊作者頭像前往個人頁分頁籤瀏覽的流程
-- 釐清「委託註冊.md」步驟二「針對案子規格設定選項及對應價錢」與 Part 1.2「規格 By Spec 已移除」定案的矛盾：確認維持 Part 1.2 定案，規格細節不做結構化選項＋加價，統一由創作者自訂標籤＋說明欄自由文字處理，同步修正模組三 Step2 描述
-- 檢查整理結果後修正四點：①更新文件頂端更新日期為 2026/9/16；②模組二「作品展示燈箱」與「委託商店燈箱」拆成兩個獨立 MVP 元件（原本誤合併在同一條）；③新增「創作者個人頁」為獨立 MVP 項目，明定上方個人資訊＋下方分頁籤（作品分頁開作品展示燈箱／可委託項目分頁開委託商店燈箱）；④釐清作品集管理上傳圖文時需同時選擇作品類型與風格分類，供瀏覽牆篩選使用
+- 終止合作結算簡化（不再對半分）；新增一次付清／先付訂金；手機驗證是交易前提。
 
 ## 2026/9/15
 
-- grill-me 訪談定案九項：①階段金額拆分（總價/階段數，無條件捨去、餘數併入最後階段）②最後階段 auto-confirm 一次到位（驗收＋完款＋解鎖同時觸發）③修改次數不計次、不設按鈕，改為契約宣告值歸入 3.3 ToS ④授權範圍鎖定於下單當下、事後不可變更，需寫入頁尾聲明 ⑤契約同意僅發生一次，中途金額/規格異動一律視為平台範疇外、需寫入服務條款 ⑥Amilu 燈號：額滿由系統自動疊加，創作者不需手動切燈 ⑦逾時提醒與自動判定結果通知，站內＋email 雙管道並行 ⑧不論結案方式（正常結案或方向 A/B 提前結案），雙方皆保留互評權利 ⑨新增同帳號自委託防呆（擋自刷評價）；新增取消申請兩段式規則（契約成立前可免費取消；成立後需等乙方交付第一階段內容才能取消，且需支付第一階段金額）
-- grill-me 第二輪，改寫金流與終止合作模型：①ToS 個人/商業授權區隔定案（是否營利為判準、商業授權預設非獨家、模糊用途由委託人自行勾選、不可轉授權）②金流模型從「頭尾兩節點訂金」改為「契約成立即全額託管」，乙方可設定訂金%（20/30/50）決定第一階段撥款比例，剩餘款項壓到最後一階段一次撥清③新增「終止合作」機制取代舊版「取消申請/取消委託」：第一階段（或單段）訂金未撥款前終止＝雙輸（甲方拿不到圖、乙方拿不到錢）；第二階段以後終止＝已確認階段全額歸乙方、未開始階段全額退甲方、爭議中未確認階段費用對半分且甲方可拿去浮水印圖④終止合作按鈕甲乙雙方對稱開放，方向 A 逾時 auto-confirm 機制保留並與終止合作並存⑤移除舊版「總完成期限（參考 pixiv 60 天）」，完全交給終止合作機制處理⑥新增 3.4「一筆買賣的完整流程」文字狀態流
+- grill-me 定案：階段金額拆分、授權鎖定、契約只同意一次、契約成立即全額託管、新增終止合作。
 
 ## 2026/9/14
 
-- 定案階段數（可選預設套餐＋雙向逾時）與聊天室（砍即時、留非即時留言區）；刪除 Part 7 衝突區
+- 定案階段數與非即時聊天室。

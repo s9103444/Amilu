@@ -25,14 +25,14 @@
 import { computed } from 'vue'
 import { STAGE_LABEL } from '@/features/order/stageLabel'
 import type { StageNo } from '@/features/order/types'
-
+import { formatDate } from '@/features/order/formatDate'
 const props = defineProps<{
   stageNo: StageNo // ORDER_STAGE.stage_no，目前第一個未確認的階段
   deadline: string // ORDER_STAGE.deadline，'YYYY-MM-DD'
 }>()
 
 // '2026-10-11' → '2026 / 10 / 11'（Figma 的寫法）
-const formattedDeadline = computed(() => props.deadline.slice(0, 10).replaceAll('-', ' / '))
+const formattedDeadline = computed(() => formatDate(props.deadline))
 </script>
 
 <style lang="scss" scoped>

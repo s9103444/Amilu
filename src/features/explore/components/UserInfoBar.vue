@@ -1,8 +1,8 @@
 <template>
   <div class="info" :class="`info--${layout}`">
-    <img class="avatar" :src="avatarUrl ?? defaultAvatar" alt="" />
+    <img class="avatar" :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
     <div class="text">
-      <span class="nickname text-button-sm">{{ nickname }}</span>
+      <span class="name text-button-sm">{{ name }}</span>
       <span class="user-id text-small">@{{ userId }}</span>
     </div>
   </div>
@@ -13,25 +13,25 @@
 元件名稱：個人資訊條（Figma 490:1132）：大頭照＋使用者名稱＋帳號 ID
 範例：
 使用前先 import：import UserInfoBar from '@/features/explore/components/UserInfoBar.vue'
-<UserInfoBar :avatar-url="user.avatar_url" :nickname="user.nickname" :user-id="user.id" layout="horizontal" />
+<UserInfoBar :avatar-url="user.avatar_url" :name="user.nickname" :user-id="user.id" layout="horizontal" />
 layout：
   'vertical'   名稱和 ID 上下排（預設）
   'horizontal' 名稱和 ID 左右排
+name：粗體那一行，不一定是暱稱（瀑布流卡片放的是作品標題）
 userId 傳帳號 ID 本身（USER.id，不含 @），畫面上會自動加「@」；沒有大頭照時傳 null 或不傳，會顯示預設圖。
 先放在 explore；之後別的功能也要用，再搬到 shared。
 */
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
+
 withDefaults(
   defineProps<{
     avatarUrl?: string | null
-    nickname: string
+    name: string
     userId: string
     layout?: 'vertical' | 'horizontal'
   }>(),
   { layout: 'vertical' },
 )
-
-// public/ 的檔案要自己接上 BASE_URL
-const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 </script>
 
 <style lang="scss" scoped>
@@ -39,19 +39,19 @@ const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
   display: flex;
   align-items: center;
 }
-// 大頭照是圓角方形，不是圓形（Figma）
+// 大頭照是圓角方形（全站統一 --radius-avatar）
 .avatar {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 .text {
   display: flex;
   white-space: nowrap;
 }
-.nickname {
+.name {
   color: var(--color-text-primary);
 }
 .user-id {

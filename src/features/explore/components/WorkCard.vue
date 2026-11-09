@@ -5,7 +5,7 @@
       <!-- 放在圖片外面，hover 時圖片放大、小標不動 -->
       <span v-if="type === 'commission-item'" class="text-caption badge">可委託</span>
     </span>
-    <UserInfoBar :avatar-url="authorAvatarUrl" :nickname="title" :user-id="authorId" />
+    <UserInfoBar :avatar-url="authorAvatarUrl" :name="title" :user-id="authorId" />
   </button>
 </template>
 

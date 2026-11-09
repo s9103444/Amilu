@@ -43,7 +43,8 @@ src/
 │  ├─ composables/          useDebounce、usePolling …
 │  ├─ api/client.ts         唯一的 fetch 包裝：base URL、token、錯誤格式
 │  ├─ types/                跨功能型別（分頁、錯誤格式）
-│  └─ utils/                純函式（金額格式化、日期、storage 包裝）
+│  ├─ utils/                純函式（金額格式化、日期、storage 包裝）
+│  └─ constants.ts          全站固定值（預設頭像路徑等），不含業務
 ├─ assets/                  需經 Vite 處理的圖、字型
 ├─ dev/                     只在開發模式出現的頁面（如元件測試頁），正式版不登記路由
 └─ mocks/                   後端未完成前的假資料
@@ -76,6 +77,7 @@ features/order/
 | **元件不直接 fetch**，一律經 `api.ts`。 | 之後換後端路徑、補驗證、加 mock，只改一處。 |
 | **一律用別名** `@/features/order/…`（vite.config.ts 已設定），不寫 `../../..`。 | 搬檔案時 import 不會斷。 |
 | **共用 UI 不認識業務**：`shared/components/` 裡不出現 order、creator 這類詞。 | 一旦認識業務，就該回到某個功能裡。 |
+| **`:src` 綁定的圖片路徑要接 `import.meta.env.BASE_URL`**，路徑開頭不加 `/`（例：`base + 'icons/x.svg'`）。模板寫死的 `src="/icons/…"` 和 CSS `url()` 不用。 | Vite 只會替寫死的路徑自動補部署子路徑，不會改 JS 字串；不接的話部署到子路徑會 404（2026/10/26 用 `--base` 打包驗證過）。 |
 
 ### 2.3 命名
 

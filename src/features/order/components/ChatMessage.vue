@@ -61,7 +61,7 @@ const timeText = computed(() => {
   flex-shrink: 0; // 文字很長時頭像不被擠扁
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 // 對方的文字氣泡：左下角是小圓角，指向左邊的頭像

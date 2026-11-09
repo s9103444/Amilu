@@ -2,7 +2,7 @@
   <div class="row">
     <!-- 頭像＋名字是一個可點區塊；追蹤按鈕放在它旁邊，因為 button 裡不能再放 button -->
     <button type="button" class="user" @click="emit('select')">
-      <img class="avatar" :src="avatarUrl ?? defaultAvatar" alt="" />
+      <img class="avatar" :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
       <span class="name">
         <span class="nickname text-caption">{{ nickname }}</span>
         <span class="user-id text-small">@{{ userId }}</span>
@@ -31,6 +31,7 @@ userId 傳帳號 ID 本身（USER.id，不含 @），畫面上會自動加「@�
   toggle-follow  點右邊的追蹤按鈕；追蹤狀態由外面記住，這一列只負責顯示
 */
 import FollowButton from '@/shared/components/FollowButton.vue'
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 
 defineProps<{
   avatarUrl?: string | null
@@ -43,9 +44,6 @@ const emit = defineEmits<{
   select: []
   'toggle-follow': []
 }>()
-
-// public/ 的檔案要自己接上 BASE_URL
-const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
 </script>
 
 <style lang="scss" scoped>
@@ -73,7 +71,7 @@ const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 // min-width: 0 讓過長的名字可以被截斷，不會把追蹤按鈕擠出去

@@ -417,10 +417,6 @@
         <OrderStatusTag status="cancelled" />
       </div>
       <div>
-        <p>incomplete</p>
-        <OrderStatusTag status="incomplete" />
-      </div>
-      <div>
         <p>awaiting-top-up</p>
         <OrderStatusTag status="awaiting-top-up" />
       </div>
@@ -570,20 +566,20 @@
       <p>直式（預設）</p>
       <UserInfoBar
         :avatar-url="MOCK_USERS[0]!.avatar_url"
-        :nickname="MOCK_USERS[0]!.nickname"
+        :name="MOCK_USERS[0]!.nickname"
         :user-id="MOCK_USERS[0]!.id"
       />
       <p>橫式</p>
       <UserInfoBar
         :avatar-url="MOCK_USERS[0]!.avatar_url"
-        :nickname="MOCK_USERS[0]!.nickname"
+        :name="MOCK_USERS[0]!.nickname"
         :user-id="MOCK_USERS[0]!.id"
         layout="horizontal"
       />
       <p>沒有大頭照（顯示預設圖）</p>
       <UserInfoBar
         :avatar-url="MOCK_USERS[1]!.avatar_url"
-        :nickname="MOCK_USERS[1]!.nickname"
+        :name="MOCK_USERS[1]!.nickname"
         :user-id="MOCK_USERS[1]!.id"
       />
     </section>
@@ -856,7 +852,6 @@
           v-bind="toPanelProps(MOCK_ORDER_IN_PROGRESS, MOCK_STAGES_IN_PROGRESS)"
           viewer-role="commissioner"
           :active="demoPanelActive"
-          can-terminate
           @select="onPanelSelect"
         />
         <OrderSidePanel
@@ -1003,6 +998,43 @@
         <DiscussionEmptyState role="creator" />
       </div>
     </section>
+
+    <section class="wide">
+      <h2>DiscussionPostContent</h2>
+      <p>
+        照片高
+        450px、寬照原圖比例，可拖拉、放開吸附左緣。點一張開預覽燈箱，從被點的那張開始；拖曳放開不會開。
+      </p>
+      <p>
+        操作列：
+        <label v-for="option in POST_ACTIONS" :key="option">
+          <input v-model="postAction" type="radio" :value="option" />
+          {{ option }}
+        </label>
+        ／最後一次按：{{ lastPostEvent || '（還沒按）' }}
+      </p>
+      <!-- 【流程①：點貼文照片】貼文 emit preview(index)，記到 previewIndex -->
+      <DiscussionPostContent
+        user-img-url="https://picsum.photos/seed/avatar/48/48"
+        user-name="小明"
+        user-id="xiaoming"
+        upload-time-stamp="2026 / 11 / 8 14:30"
+        :current-stage="1"
+        :upload-image-url="uploadImageUrl"
+        :action="postAction"
+        @mod-request="lastPostEvent = 'modRequest（提出意見申請）'"
+        @stage-confirm="lastPostEvent = 'stageConfirm（確認該階段審核）'"
+        @preview="(index: number) => (previewIndex = index)"
+      />
+      <!-- 【流程②：previewIndex 有值就打開燈箱】用 v-if：每次打開都重建，startIndex 才會重新讀 -->
+      <!-- 【流程③：按關閉】previewIndex 設回 null，燈箱消失 -->
+      <ImagePreview
+        v-if="previewIndex !== null"
+        :images="uploadImageUrl"
+        :start-index="previewIndex"
+        @close="previewIndex = null"
+      />
+    </section>
   </div>
 </template>
 
@@ -1088,7 +1120,9 @@ import UploadStageInfo from '@/features/order/components/UploadStageInfo.vue'
 import RatingCard from '@/features/order/components/RatingCard.vue'
 import DiscussionTitleBar from '@/features/order/components/DiscussionTitleBar.vue'
 import DiscussionEmptyState from '@/features/order/components/DiscussionEmptyState.vue'
+import DiscussionPostContent from '@/features/order/components/DiscussionPostContent.vue'
 import type { Order, OrderStage } from '@/features/order/types'
+import ImagePreview from '@/features/order/components/ImagePreview.vue'
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)
@@ -1219,6 +1253,17 @@ function toPanelProps(order: Order, stages: OrderStage[]) {
     closedAt: order.completed_at ?? order.terminated_at ?? undefined,
   }
 }
+const uploadImageUrl = [
+  'https://picsum.photos/seed/p1/600/900',
+  'https://picsum.photos/seed/p2/900/600',
+  'https://picsum.photos/seed/p3/600/600',
+  'https://picsum.photos/seed/p4/600/900',
+  'https://picsum.photos/seed/p5/900/600',
+]
+// DiscussionPostContent 測試：切換操作列的四種樣子
+const POST_ACTIONS = ['confirm', 'confirmed', 'awaiting-payment', 'none'] as const
+const postAction = ref<(typeof POST_ACTIONS)[number]>('confirm')
+const lastPostEvent = ref('')
 const demoPanelActive = ref<'wall' | 'item'>('wall')
 const lastPanelSelect = ref('')
 // 【左欄選單被點時觸發】wall／item 換選中項目；terminate 只記下來（正式版是打開終止合作燈箱，不改 active）
@@ -1232,6 +1277,8 @@ const lastPaymentAction = ref('')
 const lastRating = ref('')
 // DiscussionTitleBar 測試：記住最後一次按上傳的時間（正式版是打開上傳燈箱）
 const lastUpload = ref('')
+// DiscussionPostContent ＋ ImagePreview 測試：點的是第幾張（從 0 開始）；null＝燈箱關著
+const previewIndex = ref<number | null>(null)
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)

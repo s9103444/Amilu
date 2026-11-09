@@ -100,5 +100,6 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
   - **頁面排版**（區塊之間、欄與欄、頁面邊距）用 8 的倍數，讀 `--space-*`。
   - **元件內部**（內距、圖文間距、元件內各部分的間隔）照 Figma 數值，不受 8 的倍數限制。按鈕這類多處共用的值定義成 token（`--radius-button`、`--button-padding-*`、`--button-gap-*`）。
   - 元件數值依實際視覺刻意和 Figma 不同時，在 `changelog.md` 記一筆原因。
+- **頭像一律圓角方形**（2026/11/9 決議），圓角讀 `--radius-avatar`（邊長的 25%，各種尺寸等比例），不用圓形。
 - **作品牆**以元件實作，欄數由 `--gallery-columns` 控制（桌機 5／平板 3／手機 2）。
 - Figma grid style 前綴 `Amilu/Grid/`。

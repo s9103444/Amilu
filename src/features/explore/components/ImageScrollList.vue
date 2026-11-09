@@ -1,9 +1,13 @@
 <template>
-  <div class="image-scroll-list">
+  <OverlayScrollbarsComponent
+    class="image-scroll-list"
+    :options="{ scrollbars: { autoHide: 'scroll' } }"
+    defer
+  >
     <div v-for="(url, index) in images" :key="index" class="item">
       <img :src="url" alt="" />
     </div>
-  </div>
+  </OverlayScrollbarsComponent>
 </template>
 
 <script setup lang="ts">
@@ -16,6 +20,8 @@
 使用前先 import：import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
 <ImageScrollList :images="['/works/a.jpg', '/works/b.jpg']" />
 */
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+
 defineProps<{
   images: string[]
 }>()
@@ -25,19 +31,15 @@ defineProps<{
 // height: 100% 跟著外層燈箱的高度；沒寫的話會被圖片撐高，捲的會是外層，snap 就沒作用
 .image-scroll-list {
   height: 100%;
-  overflow-y: auto;
-
+}
+.image-scroll-list :deep([data-overlayscrollbars-viewport]) {
   scroll-snap-type: y mandatory;
 }
-.image-scroll-list::-webkit-scrollbar {
-  width: 8px;
-  background: transparent;
-}
-
-/* 2. 必須加上這段：定義滑條（Thumb）的顏色，不然會完全隱形！ */
-.image-scroll-list::-webkit-scrollbar-thumb {
-  background-color: rgb(0 0 0 / 30%);
-  border-radius: 99px;
+.image-scroll-list :deep(.os-theme-dark) {
+  --os-handle-bg: var(--color-scrollbar-thumb);
+  --os-handle-bg-hover: var(--color-scrollbar-thumb);
+  --os-handle-bg-active: var(--color-scrollbar-thumb);
+  --os-size: 10px;
 }
 
 .item {

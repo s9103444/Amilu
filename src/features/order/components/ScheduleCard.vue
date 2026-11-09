@@ -100,7 +100,7 @@ import StageDeadlineRow from '@/features/order/components/StageDeadlineRow.vue'
 import type { StageNo } from '@/features/order/types'
 import { computed } from 'vue'
 import { STAGE_LABEL } from '@/features/order/stageLabel'
-
+import { formatAmount } from '@/shared/utils/formatAmount'
 const quoteAmount = defineModel<number | null>('quoteAmount', { default: null })
 const startDate = defineModel<string>('startDate', { default: '' })
 const deadlines = defineModel<Partial<Record<StageNo, string>>>('deadlines', {
@@ -142,11 +142,11 @@ const rest = computed<number | null>(() => {
   return quoteAmount.value - deposit.value
 })
 
-function formatPrice(n: number | null) {
+function formatPrice(n: number | null): string {
   if (n === null) {
     return '確認中'
   }
-  return `NT$ ${n.toLocaleString('zh-TW')}`
+  return formatAmount(n)
 }
 
 // 每一列左邊的文字：完稿那段是整筆委託的截稿日，其他是「草稿交稿」這種

@@ -50,7 +50,7 @@
 date 的格式是原生日期選擇器的 'YYYY-MM-DD'，沒填時是 ''。
 */
 import { computed, useTemplateRef } from 'vue'
-
+import { formatDate } from '@/features/order/formatDate'
 withDefaults(
   defineProps<{
     label: string // 左邊文字，排程卡組好再傳進來
@@ -62,11 +62,9 @@ withDefaults(
   },
 )
 const date = defineModel<string>({ default: '' })
-
 const base = import.meta.env.BASE_URL
 const dateInput = useTemplateRef<HTMLInputElement>('dateInput')
-// '2026-11-30' → '2026 / 11 / 30'（Figma 的寫法）
-const dateFormat = computed(() => date.value.replaceAll('-', ' / '))
+const dateFormat = computed(() => formatDate(date.value))
 
 // 點日期框時叫出原生日曆。舊版 Safari（16 以前）沒有 showPicker，退而求其次讓 input 取得焦點
 function showPick() {

@@ -1,9 +1,9 @@
 <template>
   <div class="settlement-preview">
     <span class="text-caption preview-title">結算試算</span>
-    <AmountRow label="委託人已付" :value="formatPrice(paid)" />
-    <AmountRow label="創作者可得（已確認階段）" :value="formatPrice(creatorEarns)" />
-    <AmountRow :label="refundLabel" :value="formatPrice(Math.abs(refund))" emphasis />
+    <AmountRow label="委託人已付" :value="formatAmount(paid)" />
+    <AmountRow label="創作者可得（已確認階段）" :value="formatAmount(creatorEarns)" />
+    <AmountRow :label="refundLabel" :value="formatAmount(Math.abs(refund))" emphasis />
     <span class="text-small note"
       >委託人可取得最近一次雙方確認過的階段稿件（去浮水印）；尚無確認階段時不提供。</span
     >
@@ -23,15 +23,13 @@
 */
 import { computed } from 'vue'
 import AmountRow from '@/features/order/components/AmountRow.vue'
+import { formatAmount } from '@/shared/utils/formatAmount'
 const props = defineProps<{
   paid: number // 委託人已付
   creatorEarns: number // 創作者可得
   refund: number // 委託人退款，負數＝委託人應補付
 }>()
 
-function formatPrice(n: number) {
-  return `NT$ ${n.toLocaleString('zh-TW')}`
-}
 const refundLabel = computed(() => {
   if (props.refund < 0) {
     return '委託人應補付'

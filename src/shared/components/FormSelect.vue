@@ -7,13 +7,7 @@
       <span class="text-small note--required" v-if="requirement === 'required'">必填</span>
       <span class="text-small note--optional" v-else-if="requirement === 'optional'">選填</span>
     </div>
-    <button
-      type="button"
-      :id="inputId"
-      class="select"
-      :aria-expanded="isOpen"
-      @click="isOpen = !isOpen"
-    >
+    <button type="button" :id="inputId" class="select" :aria-expanded="isOpen" @click="toggle">
       <span class="selected text-caption" v-if="selectedOption">{{ selectedOption.label }}</span>
       <span class="hint text-caption" v-else>{{ placeholder }}</span>
       <img class="arrow" src="/icons/arrow-down-gray.svg" alt="" />
@@ -40,9 +34,11 @@
 options 是 { value, label }[]；category 拿到的是被選那一項的 value（還沒選是 ''）
 placeholder 可以改提示字，預設「請選擇一個」
 */
-import { computed, useId, ref, useTemplateRef } from 'vue'
-import { useClickOutside } from '@/shared/composables/useClickOutside'
+import { computed, useId, useTemplateRef } from 'vue'
+import { useDropdown } from '@/shared/composables/useDropdown'
 const fieldEl = useTemplateRef<HTMLElement>('field')
+// 清單開關＋點 field（選擇框＋清單）以外的地方自動關閉
+const { isOpen, toggle, close } = useDropdown(fieldEl)
 const inputId = useId()
 const props = withDefaults(
   defineProps<{
@@ -59,18 +55,11 @@ const selected = defineModel<string>({ default: '' })
 const selectedOption = computed(() =>
   props.options.find((option) => option.value === selected.value),
 )
-const isOpen = ref<boolean>(false)
 // 【第 5 步：點清單裡的某一行時觸發】存下那一行的代號，然後關掉清單
 function changeSelect(value: string) {
   selected.value = value
-  isOpen.value = false
+  close()
 }
-// 【點外面時觸發，由下方 useClickOutside 呼叫】關掉清單
-function statesOff() {
-  isOpen.value = false
-}
-// 【點外面關閉】點到 field（選擇框＋清單）以外的地方時，呼叫 statesOff
-useClickOutside(fieldEl, statesOff)
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="order-side-panel">
     <div class="parties">
       <div v-for="party in parties" :key="party.role" class="party">
-        <img class="avatar" :src="party.info.avatarUrl ?? defaultAvatar" alt="" />
+        <img class="avatar" :src="party.info.avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
         <span
           class="text-small role-tag"
           :class="{ 'role-tag--me': party.role === props.viewerRole }"
@@ -21,12 +21,12 @@
     </div>
 
     <div class="info-rows">
-      <AmountRow label="委託總額" :value="formatPrice(props.totalAmount)" />
+      <AmountRow label="委託總額" :value="formatAmount(props.totalAmount)" />
       <template v-if="status === 'in-progress'">
         <AmountRow label="目前階段" :value="STAGE_LABEL[currentStage]" />
-        <AmountRow label="本階段截止" :value="formatDate(props.stageDeadline)" />
+        <AmountRow label="本階段截止" :value="formatDate(props.stageDeadline ?? '')" />
       </template>
-      <AmountRow v-else label="結案時間" :value="formatDate(props.closedAt)" />
+      <AmountRow v-else label="結案時間" :value="formatDate(props.closedAt ?? '')" />
       <AmountRow label="修改次數" :value="`包含 ${revisionCount} 次`" />
     </div>
     <StageProgress :stages="stageNos" :current="currentStage" />
@@ -45,7 +45,7 @@
       <SideMenuItem
         v-if="status === 'in-progress'"
         title="申請終止合作"
-        :status="canTerminate ? 'danger' : 'disabled'"
+        :status="'danger'"
         @click="emit('select', 'terminate')"
       />
     </nav>
@@ -55,9 +55,8 @@
 <script setup lang="ts">
 /*
 元件名稱：委託討論牆左欄（Figma 616:517），正式委託後（製作中、已完成、已終止）的案件頁左側
-三種樣子由 status 和 canTerminate 推出來，不另外傳狀態：
-- status 為 'in-progress'：顯示目前階段、本階段截止，選單多一個「申請終止合作」
-  - canTerminate 為 true：橘字可以按；false：灰字不能按
+三種樣子由 status 推出來，不另外傳狀態：
+- status 為 'in-progress'：顯示目前階段、本階段截止，選單多一個「申請終止合作」（製作中永遠可以按，橘字）
 - status 為 'completed' 或 'terminated'：改顯示結案時間，沒有「申請終止合作」
 目前在哪個階段不存在訂單裡，由頁面從 OrderStage 找第一個未確認的階段再傳進來（data-model.md 5.1）
 範例：
@@ -74,7 +73,6 @@
   :current-stage="1"
   stage-deadline="2026-10-11"
   :active="active"
-  can-terminate
   @select="onSelect"
 />
 點選單時只送 select 事件，這個元件自己不換選中項目：
@@ -88,30 +86,28 @@ import AmountRow from '@/features/order/components/AmountRow.vue'
 import { STAGE_LABEL } from '@/features/order/stageLabel'
 import StageProgress from '@/features/order/components/StageProgress.vue'
 import SideMenuItem from '@/shared/components/SideMenuItem.vue'
-const defaultAvatar = import.meta.env.BASE_URL + 'picture/default-user-pic.png'
+import { formatAmount } from '@/shared/utils/formatAmount'
+import { formatDate } from '@/features/order/formatDate'
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 type Party = {
   nickname: string
   userId: string
   avatarUrl?: string | null
 }
-const props = withDefaults(
-  defineProps<{
-    creator: Party
-    commissioner: Party
-    viewerRole: 'creator' | 'commissioner'
-    title: string
-    status: 'in-progress' | 'completed' | 'terminated'
-    totalAmount: number
-    revisionCount: number
-    stagePlan: '三點分段' | '五點分段'
-    currentStage: StageNo
-    stageDeadline?: string
-    closedAt?: string
-    active: 'wall' | 'item'
-    canTerminate?: boolean
-  }>(),
-  { canTerminate: false },
-)
+const props = defineProps<{
+  creator: Party
+  commissioner: Party
+  viewerRole: 'creator' | 'commissioner'
+  title: string
+  status: 'in-progress' | 'completed' | 'terminated'
+  totalAmount: number
+  revisionCount: number
+  stagePlan: '三點分段' | '五點分段'
+  currentStage: StageNo
+  stageDeadline?: string
+  closedAt?: string
+  active: 'wall' | 'item'
+}>()
 const emit = defineEmits<{
   select: [key: 'wall' | 'item' | 'terminate']
 }>()
@@ -119,15 +115,6 @@ const parties = computed(() => [
   { role: 'creator', label: '創作者', info: props.creator },
   { role: 'commissioner', label: '委託人', info: props.commissioner },
 ])
-
-function formatPrice(n: number) {
-  return `NT$ ${n.toLocaleString('zh-TW')}`
-}
-
-function formatDate(date?: string) {
-  if (!date) return ''
-  return date.slice(0, 10).replaceAll('-', ' / ')
-}
 
 const stageNos = computed<StageNo[]>(() => {
   if (props.stagePlan === '三點分段') {
@@ -167,11 +154,11 @@ const stageNos = computed<StageNo[]>(() => {
   min-width: 0;
 }
 
-// 圓形頭像（UserInfoBar 的是 46px 圓角方形，所以不共用）
+// 頭像（圓角方形，全站統一 --radius-avatar）
 .avatar {
   width: 64px;
   height: 64px;
-  border-radius: 50%;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 

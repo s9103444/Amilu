@@ -1,7 +1,7 @@
 <template>
   <div ref="menu" class="user-menu">
-    <UserMenuButton :open="isMenuOpen" @click="isMenuOpen = !isMenuOpen" />
-    <ul v-if="isMenuOpen" class="panel">
+    <UserMenuButton :open="isOpen" @click="toggle" />
+    <ul v-if="isOpen" class="panel">
       <li class="menu-title text-small">個人選單</li>
       <li v-for="item in profile" :key="item.key">
         <UserMenuItem
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 import type { UserMenuItemData } from '@/layouts/components/header/userMenuItems'
 import UserMenuItem from '@/layouts/components/header/UserMenuItem.vue'
 import UserSubMenuItem from '@/layouts/components/header/UserSubMenuItem.vue'
@@ -48,23 +48,28 @@ import {
   LOGOUT_ITEM as logout,
 } from '@/layouts/components/header/userMenuItems'
 import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
-import { useClickOutside } from '@/shared/composables/useClickOutside'
 import MenuDivider from '@/shared/components/MenuDivider.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
-
+import { useDropdown } from '@/shared/composables/useDropdown'
 const menuEl = useTemplateRef<HTMLElement>('menu')
-const isMenuOpen = ref(false)
+// 外層選單開關＋點外面自動關閉
+const { isOpen, toggle } = useDropdown(menuEl)
+// 子選單（「上傳」底下）自己的開關，不歸 useDropdown 管
 const isUploadOpen = ref(false)
 
-useClickOutside(menuEl, () => {
-  isMenuOpen.value = false
-  isUploadOpen.value = false
-})
+// 【點有子選單的那一列時觸發】展開或收起子選單，外層選單不關
 function subOpen(item: UserMenuItemData) {
   if (item.children) {
     isUploadOpen.value = !isUploadOpen.value
   }
 }
+
+// 【外層選單關閉時觸發（點外面、或再按一次頭像）】子選單一起收起，下次打開不會還展開著
+watch(isOpen, (open) => {
+  if (!open) {
+    isUploadOpen.value = false
+  }
+})
 </script>
 
 <style lang="scss" scoped>

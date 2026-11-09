@@ -1,6 +1,6 @@
 <template>
   <div class="field" ref="field">
-    <button type="button" class="btn" @click="changeStates" :class="{ 'btn--active': isOpen }">
+    <button type="button" class="btn" @click="toggle" :class="{ 'btn--active': isOpen }">
       <span class="text-button-md">{{ title }}</span>
       <img
         :src="base + (isOpen ? 'icons/arrow-up-black.svg' : 'icons/arrow-down-gray.svg')"
@@ -41,15 +41,16 @@ category／purpose 拿到的是被選那一項的 value（category_id／purpose_
 面板前 6 項是圖卡、後 4 項是 hashtag，清單來自 mocks/classification.ts。
 面板會和「最近一個有 position 的外層」一樣寬：使用的地方要在放按鈕的那一列加 position: relative。
 */
-import { computed, ref, useTemplateRef } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
-import { useClickOutside } from '@/shared/composables/useClickOutside'
+import { useDropdown } from '@/shared/composables/useDropdown'
 import CategoryCard from '@/features/explore/components/CategoryCard.vue'
 import HashtagLabel from '@/shared/components/HashtagLabel.vue'
 
 const fieldEl = useTemplateRef<HTMLElement>('field')
 const base = import.meta.env.BASE_URL
-const isOpen = ref(false)
+// 面板開關＋點 field（按鈕＋面板）以外的地方自動關閉
+const { isOpen, toggle, close } = useDropdown(fieldEl)
 // 外面 v-model 傳進來的值；改 selected.value 時，Vue 會自動通知外面更新
 const selected = defineModel<string>({ default: '' })
 const props = withDefaults(
@@ -63,18 +64,8 @@ const props = withDefaults(
 // 【點卡片或 hashtag 時觸發，見模板】存下那一項的 value（交給外面），然後關掉面板
 function selectPicked(value: string) {
   selected.value = value
-  isOpen.value = false
+  close()
 }
-// 【點按鈕時觸發】面板開著就關、關著就開
-function changeStates() {
-  isOpen.value = !isOpen.value
-}
-// 【點外面時觸發，由下方 useClickOutside 呼叫】關掉面板
-function statesOff() {
-  isOpen.value = false
-}
-// 【點外面關閉】點到 field（按鈕＋面板）以外的地方時，呼叫 statesOff
-useClickOutside(fieldEl, statesOff)
 
 // 按鈕文字和面板標題共用
 const title = computed(() => (props.buttonType === 'category' ? '作品類型' : '作品用途'))

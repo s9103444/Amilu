@@ -57,11 +57,4 @@ const tone = computed(() => ORDER_STATUS_TONE[props.status])
   background: var(--color-bg-main);
   color: var(--color-text-secondary);
 }
-
-//-----未完成（淺灰）-----//
-// Figma 左右內距是 10px，其他狀態是 12px，這裡統一成 12px
-.order-status-tag--incomplete {
-  background: var(--color-bg-subtle);
-  color: var(--color-text-secondary);
-}
 </style>

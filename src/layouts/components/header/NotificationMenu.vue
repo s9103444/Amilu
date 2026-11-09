@@ -7,7 +7,7 @@
       :class="{ 'bell--unread': unreadCount > 0 }"
       aria-label="通知中心"
       :aria-expanded="isOpen"
-      @click="isOpen = !isOpen"
+      @click="toggle"
       @mouseenter="isBellHover = true"
       @mouseleave="isBellHover = false"
     >
@@ -52,7 +52,7 @@
         <li v-for="chat in chats" :key="chat.order_id">
           <NotificationMenuItem
             type="chat"
-            :user-photo="chat.partner.avatar_url ?? defaultAvatar"
+            :user-photo="chat.partner.avatar_url ?? DEFAULT_AVATAR_URL"
             :user-name="chat.partner.nickname"
             :order-title="chat.item_title_snapshot"
             :chat-content="chat.message.content || '[圖片]'"
@@ -77,17 +77,18 @@
   列表 → NotificationMenuItem，type 跟著目前的頁籤切換
 資料目前讀 src/mocks/notification.ts，後端好了改成從 API／store 拿
 */
-import { computed, ref, useTemplateRef } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 import NotificationItem from '@/layouts/components/header/NotificationItem.vue'
 import NotificationMenuItem from '@/layouts/components/header/NotificationMenuItem.vue'
-import { useClickOutside } from '@/shared/composables/useClickOutside'
+import { useDropdown } from '@/shared/composables/useDropdown'
 import { MOCK_CHAT_PREVIEWS, MOCK_NOTIFICATIONS } from '@/mocks/notification'
+import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 
 const base = import.meta.env.BASE_URL
-const defaultAvatar = base + 'picture/default-user-pic.png'
 
 const menuEl = useTemplateRef<HTMLElement>('menu')
-const isOpen = ref(false)
+// 面板開關＋點視窗外面自動關閉
+const { isOpen, toggle } = useDropdown(menuEl)
 const isBellHover = ref(false)
 const tab = ref<'notify' | 'chat'>('notify')
 
@@ -105,10 +106,9 @@ const bellIcon = computed(() => {
   return `${base}icons/notification-${status}.svg`
 })
 
-// 【點視窗外面時觸發】關閉視窗，下次打開回到「通知」頁籤
-useClickOutside(menuEl, () => {
-  isOpen.value = false
-  tab.value = 'notify'
+// 【視窗關閉時觸發（點外面、或再按一次鈴鐺）】下次打開回到「通知」頁籤
+watch(isOpen, (open) => {
+  if (!open) tab.value = 'notify'
 })
 
 // 【按「全部標為已讀」時觸發】所有通知改成已讀，紅點和頁籤數字會跟著消失

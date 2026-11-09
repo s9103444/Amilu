@@ -152,7 +152,7 @@ function onPickImage(event: Event) {
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: var(--radius-avatar);
   object-fit: cover;
 }
 // 文字＋關閉鈕：關閉鈕靠右上角（Figma 距標題列上緣、右緣各 17px）

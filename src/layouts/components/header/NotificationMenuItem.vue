@@ -136,7 +136,7 @@ const timeText = computed(() => {
   flex-shrink: 0;
   width: 52px;
   height: 52px;
-  border-radius: 50%;
+  border-radius: var(--radius-avatar);
   object-fit: cover; // 上傳的頭像不是正方形時裁切，不變形
 }
 
