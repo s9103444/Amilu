@@ -19,8 +19,9 @@
 
 ## 目前階段
 
-元件階段：基礎元件（`shared/components/`）與 Figma「第3層｜組合元件」已做了一大部分，分散在 `features/explore/`、`features/order/`、`features/profile/`、`features/account/`、`layouts/components/header/`。所有 feature 都還沒有頁面、store、api、routes.ts；元件只在 `/dev/components`（`src/dev/ComponentPlaygroundPage.vue`）展示。
-router 目前只登記開發用的測試頁；`stores/counter.ts` 仍是範本範例，建第一個真正的頁面時依 structure.md 移除。功能出現後，更新或刪掉這一節。
+拼裝頁面階段（2026/11/10 開始）：元件大多做好，分散在 `features/*/components/`、`layouts/components/`，可在 `/dev/components`（`src/dev/ComponentPlaygroundPage.vue`）預覽。
+外框 `layouts/DefaultLayout.vue`（`AppHeader`＋內容＋`AppFooter`）已接上巢狀路由；頁面與網址清單見 [spec/structure.md 3.5](spec/structure.md#35-頁面與網址)。
+登入狀態是假的：`features/account/store.ts`（`useAuthStore`）讀 `mocks/user.ts`，在 playground 的「登入身份（假）」切換。進度記在 `docs/progress.md`。
 
 ## 樣式與風格
 

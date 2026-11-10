@@ -10,7 +10,7 @@
 
 ## 目前在做
 
-拼裝頁面：先做所有頁面共用的外框、網址、登入狀態，再做第一頁（首頁作品牆）。
+拼裝頁面：開始前的外框、網址、登入狀態都完成（2026/11/10）。下一步：首頁作品牆。
 
 ---
 
@@ -22,8 +22,9 @@
   - ✅ `DefaultLayout`（header＋頁面內容＋footer）＋巢狀路由；`explore/routes.ts`、`HomePage.vue`（目前只有標題）
   - ✅ `AppHeader`（Figma 484:98 登入前、569:3299 登入後），`DefaultLayout` 已換上；登入狀態先寫死 false
   - ⬜ 瀏覽器確認三種寬度；375px 手機會不會擠爆（Figma 手機版只畫 767 寬）
-- ⬜ 頁面與網址清單：哪個功能是哪一頁、網址是什麼，寫進 spec
-- ⬜ 假的登入狀態：`features/account/store.ts` 讀 `mocks/user.ts`，加切換身份的開關；刪掉 `stores/counter.ts`
+- ✅ 頁面與網址清單：寫進 structure.md 3.5（2026/11/10）
+- ✅ 假的登入狀態：`features/account/store.ts`（`useAuthStore`）讀 `mocks/user.ts`；playground「登入身份（假）」切換；`DefaultLayout` 讀 store；已刪 `stores/counter.ts`
+  - ✅ 瀏覽器確認：登入切換後 header 跟著換（2026/11/10）
 
 ## 第一頁：首頁作品牆
 
@@ -34,6 +35,8 @@
 
 ## 做到再處理
 
+- 帳號頁外框（只有左上 Logo，不套 header／footer）：做登入頁時建在 `layouts/`
+- 個人中心外框（左側選單＋右邊內容）：做第一個個人中心頁時建
 - 共用燈箱外框（黑底、關閉鈕、Esc 關閉、背景不捲動）：做第一個燈箱時建在 `shared/components/`
 - 申請委託的參考圖（`ImageUploadSlot`）要補「點圖開預覽」
 - 頁尾與 header 的連結（Logo、瞭解網站、登入、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由

@@ -5,6 +5,8 @@
 
 ## 2026/11/10
 
+- 新增 `features/account/store.ts`（`useAuthStore`，假登入狀態讀 `mocks/user.ts`），`DefaultLayout` 改讀 store；刪除範本 `stores/counter.ts`。
+- structure.md 新增 3.5「頁面與網址」：18 個網址；燈箱沒有網址；同一筆訂單共用 `/orders/:orderId` 依狀態切換；個人中心每項各有網址、共用左側選單；帳號頁不套 header／footer，只有左上 Logo。features.md 3 開頭同步。
 - 新增 `layouts/components/AppFooter.vue`（頁尾，Figma 641:302，桌機／平板／手機三版由斷點切換）和 `--color-footer-bg`、`--color-footer-text`。Logo 與社群圖示從 Figma 切出，放 `public/`。
 - 待確認：頁尾導覽與社群連結的網址（目前都是 `#`）。
 - 頁面左右留白與最大寬度全站統一用 `.container`（`--grid-margin`＋最寬 1440 置中，design-spec.md 第 4 節）：header、footer 內容、`DefaultLayout` 的內容區都掛它（footer 手機原本 44、header 平板原本 48）。

@@ -1050,6 +1050,23 @@
         @close="previewIndex = null"
       />
     </section>
+    <!-- 登入頁做好前，用這裡假裝登入；要用 RouterLink 換頁，重新整理 store 會清空 -->
+    <section>
+      <h2>登入身份（假）</h2>
+      <p>目前：{{ auth.currentUser?.nickname ?? '未登入' }}</p>
+      <div>
+        <button type="button" @click="auth.logOut()">登出</button>
+        <button
+          v-for="user in MOCK_USERS"
+          :key="user.id"
+          type="button"
+          @click="auth.loginAs(user.id)"
+        >
+          {{ user.nickname }}
+        </button>
+      </div>
+      <RouterLink to="/">前往首頁 →</RouterLink>
+    </section>
   </div>
 </template>
 
@@ -1140,6 +1157,9 @@ import DiscussionEmptyState from '@/features/order/components/DiscussionEmptySta
 import DiscussionPostContent from '@/features/order/components/DiscussionPostContent.vue'
 import type { Order, OrderStage } from '@/features/order/types'
 import ImagePreview from '@/features/order/components/ImagePreview.vue'
+import { useAuthStore } from '@/features/account/store'
+// 呼叫一次拿到 store 本身；不加 () 拿到的是「產生 store 的函式」，上面沒有 currentUser
+const auth = useAuthStore()
 const searchText = ref('')
 const lastSearch = ref('')
 const isMenuOpen = ref(false)

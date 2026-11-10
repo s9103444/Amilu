@@ -122,6 +122,45 @@ page ─▶ composable／store ─▶ api.ts ─▶ shared/api/client.ts ─▶ 
 
 ---
 
+## 3.5 頁面與網址
+
+> 2026/11/10 定案。每個 feature 的 `routes.ts` 照這張表登記；新增頁面先改這張表。功能內容見 [features.md](features.md)。
+
+| 規則 | 為什麼 |
+| --- | --- |
+| **燈箱沒有網址**（作品燈箱、委託商店燈箱、追蹤清單、上傳燈箱等），由所在頁面用狀態打開。 | MVP 不需要分享燈箱連結；有網址就要處理「直接打開網址時背後顯示哪一頁」。 |
+| **同一筆訂單共用一個網址** `/orders/:orderId`，頁面依 `ORDER.status` 切換（待報價、報價、討論牆、結案）。離開案件畫面的頁面（付款、取消通知、契約）才另開網址。 | 狀態是同一筆資料在不同時間的樣子，拆網址反而要處理「網址和狀態對不上」。 |
+| **個人中心每項各有網址**，共用左側選單外框，只換右邊內容（巢狀路由）。 | 看起來和「不換頁」一樣，但重新整理、上一頁都會停在原本那項。 |
+| **篩選、頁籤放網址參數**（`?q=`、`?tab=`），不另開網址。 | 同一頁的不同顯示方式；放參數才能重新整理後保留。 |
+| **外框分兩種**：一般頁面套 `DefaultLayout`（header＋footer）；帳號頁（登入、註冊、補填資料、手機驗證）只有左上角 Logo，不套 header、footer。 | 帳號流程要專心填完，不放其他入口。 |
+
+🔒＝要登入。
+
+| 模組 | 網址 | 頁面 | 外框 | spec |
+| --- | --- | --- | --- | --- |
+| 帳號 | `/login` | 登入 | 只有 Logo | 1.1 |
+| 帳號 | `/register` | 註冊 | 只有 Logo | 1.1 |
+| 帳號 | `/register/google` | Google 補填資料 | 只有 Logo | 1.1 |
+| 帳號 | `/verify-phone` 🔒 | 手機驗證（兩個入口共用，完成後回原頁） | 只有 Logo | 1.2 |
+| 探索 | `/` | 首頁作品牆（搜尋、篩選放參數） | Default | 2.1–2.4 |
+| 探索 | `/users/:userId` | 創作者個人頁（`?tab=items` 切到可委託項目） | Default | 2.7 |
+| 個人中心 | `/me/profile` 🔒 | 個人資料設定 | Default＋左側選單 | 3.1 |
+| 個人中心 | `/me/settings` 🔒 | 接案設定 | Default＋左側選單 | 3.5 |
+| 個人中心 | `/me/orders` 🔒 | 約稿管理（`?tab=commissioned`／`received`） | Default＋左側選單 | 3.7 |
+| 個人中心 | `/me/activate` 🔒 | 開通創作者商店（三步驟清單） | Default＋左側選單 | 3.4 |
+| 個人中心 | `/me/activate/done` 🔒 | 開通成功 | Default＋左側選單 | 3.4 |
+| 委託 | `/orders/new?item=:itemId` 🔒 | 委託申請頁 | Default | 4.1 |
+| 委託 | `/orders/:orderId` 🔒 | 案件頁（依狀態：待報價、報價、討論牆、結案） | Default | 4.2、4.4、4.5 |
+| 委託 | `/orders/:orderId/payment` 🔒 | 付款資訊頁 | Default | 4.3 |
+| 委託 | `/orders/:orderId/payment/transfer` 🔒 | 請前往完成付款（補款、補付共用） | Default | 4.3、4.4、4.5 |
+| 委託 | `/orders/:orderId/cancelled` 🔒 | 已成功取消／付款逾期通知 | Default | 4.3、4.8 |
+| 委託 | `/orders/:orderId/contract` 🔒 | 契約紀錄 | Default | 4.6 |
+| 其他 | `/about` | 網站說明（header「瞭解網站」、footer「網站說明」） | Default | — |
+
+通知與評價沒有獨立頁面：通知是 header 下拉，評價在結案畫面與約稿管理。`:userId` 是 `USER.id`（帳號 ID）。
+
+---
+
 ## 4. 專案層的文件與資產
 
 ```

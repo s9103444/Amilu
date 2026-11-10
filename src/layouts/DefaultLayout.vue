@@ -1,7 +1,7 @@
 <template>
   <div class="default-layout">
-    <!-- 登入狀態先寫死 false，之後改讀 account 的 store -->
-    <AppHeader :logged-in="false" />
+    <!-- 登入狀態讀 account 的 store：登入、登出後 header 自動跟著換 -->
+    <AppHeader :logged-in="auth.isLoggedIn" />
     <!-- container：左右留白＋最寬 1440 置中（main.scss），各頁不用自己寫 -->
     <main class="container">
       <RouterView />
@@ -14,6 +14,9 @@
 import { RouterView } from 'vue-router'
 import AppHeader from '@/layouts/components/header/AppHeader.vue'
 import AppFooter from '@/layouts/components/AppFooter.vue'
+import { useAuthStore } from '@/features/account/store'
+
+const auth = useAuthStore()
 </script>
 
 <style lang="scss" scoped>
