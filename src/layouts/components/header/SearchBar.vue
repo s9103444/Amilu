@@ -43,16 +43,14 @@ function onSubmit() {
   border-radius: 14px;
   border: 1px solid var(--color-border);
   background: var(--color-bg-subtle);
-
-  // input 拿掉了 outline，改由外框變深提示「焦點在這裡」
   &:focus-within {
     border-color: var(--color-text-secondary);
   }
 }
 .layout {
+  display: flex;
   cursor: text;
   padding: 8px 12px;
-  display: flex;
   align-items: center;
   gap: 4px;
   width: 100%;

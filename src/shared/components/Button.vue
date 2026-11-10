@@ -74,7 +74,7 @@ withDefaults(
 
 //-----次要按鈕樣式-----//
 .btn--secondary {
-  background: var(--color-button-secondary-bg);
+  background: transparent;
   color: var(--color-button-secondary);
   border: 1px solid var(--color-button-secondary);
   transition: background 0.3s ease;

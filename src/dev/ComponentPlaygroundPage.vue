@@ -1000,6 +1000,15 @@
     </section>
 
     <section class="wide">
+      <h2>AppHeader</h2>
+      <p>
+        <label><input v-model="headerLoggedIn" type="checkbox" /> 已登入</label>
+        ／版型跟著視窗寬度切換，拉窄看平板、手機版。
+      </p>
+      <AppHeader :logged-in="headerLoggedIn" />
+    </section>
+
+    <section class="wide">
       <h2>AppFooter</h2>
       <p>版型跟著視窗寬度切換：拉窄到 1023 以下看平板版、767 以下看手機版。</p>
       <AppFooter />
@@ -1055,6 +1064,7 @@ import NotificationItem from '@/layouts/components/header/NotificationItem.vue'
 import NotificationMenuItem from '@/layouts/components/header/NotificationMenuItem.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
 import AppFooter from '@/layouts/components/AppFooter.vue'
+import AppHeader from '@/layouts/components/header/AppHeader.vue'
 import ChatMessage from '@/features/order/components/ChatMessage.vue'
 import ChatRoom from '@/features/order/components/ChatRoom.vue'
 import {
@@ -1271,6 +1281,7 @@ const uploadImageUrl = [
 const POST_ACTIONS = ['confirm', 'confirmed', 'awaiting-payment', 'none'] as const
 const postAction = ref<(typeof POST_ACTIONS)[number]>('confirm')
 const lastPostEvent = ref('')
+const headerLoggedIn = ref(false)
 const demoPanelActive = ref<'wall' | 'item'>('wall')
 const lastPanelSelect = ref('')
 // 【左欄選單被點時觸發】wall／item 換選中項目；terminate 只記下來（正式版是打開終止合作燈箱，不改 active）

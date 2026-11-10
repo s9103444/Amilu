@@ -1,27 +1,30 @@
 <template>
+  <!-- 灰底滿版；裡面的內容用 container 置中、左右留白（main.scss），和 header、頁面對齊 -->
   <footer class="app-footer">
-    <div class="top">
-      <!-- 品牌：Logo＋標語＋社群圖示 -->
-      <div class="brand">
-        <img class="logo" :src="base + 'picture/logo-footer.svg'" alt="Amilu" />
-        <p class="slogan text-small">致每個小小的、多彩的靈魂。</p>
-        <ul class="social">
-          <li v-for="item in SOCIAL_LINKS" :key="item.label">
-            <a :href="item.href" :aria-label="item.label">
-              <img :src="base + item.icon" alt="" />
-            </a>
-          </li>
-        </ul>
+    <div class="inner container">
+      <div class="top">
+        <!-- 品牌：Logo＋標語＋社群圖示 -->
+        <div class="brand">
+          <img class="logo" :src="base + 'picture/logo-footer.svg'" alt="Amilu" />
+          <p class="slogan text-small">致每個小小的、多彩的靈魂。</p>
+          <ul class="social">
+            <li v-for="item in SOCIAL_LINKS" :key="item.label">
+              <a :href="item.href" :aria-label="item.label">
+                <img :src="base + item.icon" alt="" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- 導覽：桌機、平板在右邊一排；手機在品牌下方、放不下就換行 -->
+        <nav class="nav text-small" aria-label="頁尾導覽">
+          <a v-for="item in NAV_LINKS" :key="item.label" :href="item.href">{{ item.label }}</a>
+        </nav>
       </div>
-      <!-- 導覽：桌機、平板在右邊一排；手機在品牌下方、放不下就換行 -->
-      <nav class="nav text-caption" aria-label="頁尾導覽">
-        <a v-for="item in NAV_LINKS" :key="item.label" :href="item.href">{{ item.label }}</a>
-      </nav>
-    </div>
-    <hr class="divider" />
-    <div class="bottom text-small">
-      <p>本平台為個人專題作品，僅供作品集展示之用。</p>
-      <p>© 2026 Amilu. All rights reserved.</p>
+      <hr class="divider" />
+      <div class="bottom text-note">
+        <p>本平台為個人專題作品，僅供作品集展示之用。</p>
+        <p>© 2026 Amilu. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 </template>
@@ -61,21 +64,24 @@ const NAV_LINKS = [
 // 數值取自 Figma 641:302。手機優先：先寫手機（641:268），再往上疊平板、桌機
 // 字級 --fs-small／--fs-caption 本身就會跟著斷點變，這裡不另外設
 .app-footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
   width: 100%;
-  padding: var(--space-5) 44px; // 手機左右 44 照 Figma
+  padding-block: var(--space-5);
   background: var(--color-footer-bg);
   color: var(--color-footer-text);
 
   @include tablet-up {
-    gap: var(--space-4);
-    padding: 56px var(--space-4) var(--space-5);
+    padding-block: 56px var(--space-5);
   }
+}
 
-  @include desktop-up {
-    padding: 56px var(--space-6) var(--space-5);
+// 內容：左右留白和最寬 1440 由 .container 給
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  @include tablet-up {
+    gap: var(--space-4);
   }
 }
 
@@ -111,8 +117,8 @@ a {
 
 .logo {
   display: block;
-  width: 163px;
-  height: 52px;
+  width: 120px;
+  height: auto;
 }
 
 .social {

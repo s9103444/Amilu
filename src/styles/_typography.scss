@@ -33,6 +33,10 @@
 .text-small {
   @include text-style(--fs-small, 1.5, --font-weight-medium);
 }
+// 極小字（Figma text style `note`）：10px 固定、不隨斷點變，其他同 .text-small
+.text-note {
+  @include text-style(--fs-note, 1.5, --font-weight-medium);
+}
 .text-button-md {
   @include text-style(--fs-button-md, 1, --font-weight-bold);
 }

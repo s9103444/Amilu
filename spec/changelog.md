@@ -7,6 +7,14 @@
 
 - 新增 `layouts/components/AppFooter.vue`（頁尾，Figma 641:302，桌機／平板／手機三版由斷點切換）和 `--color-footer-bg`、`--color-footer-text`。Logo 與社群圖示從 Figma 切出，放 `public/`。
 - 待確認：頁尾導覽與社群連結的網址（目前都是 `#`）。
+- 頁面左右留白與最大寬度全站統一用 `.container`（`--grid-margin`＋最寬 1440 置中，design-spec.md 第 4 節）：header、footer 內容、`DefaultLayout` 的內容區都掛它（footer 手機原本 44、header 平板原本 48）。
+- 新增字級 class `.text-note`（讀既有的 `--fs-note` 10px，字重 500、行高 1.5），design-spec.md 第 3 節同步。
+- header 手機版（< 768）改兩行：第一行 Logo＋右側按鈕，第二行搜尋欄撐滿；「瞭解網站」手機不顯示（footer 有「網站說明」）。Figma 沒畫 375 寬，767 寬會和 Figma 的單行不同。
+- 新增 `DefaultLayout`（header＋頁面＋footer，巢狀路由）與 `AppHeader`（Figma 484:98／569:3299，`loggedIn` 切換登入前後）；首頁的分類下拉與標籤列屬於 explore，不放 header。
+- 圖片呈現收尾（瀏覽器測試完成）：
+  - features.md 2.5、2.6：燈箱圖片改寫成「垂直捲動、停下對齊頂端、整張顯示、不輪播」，取代原本的「多圖切換」。
+  - 三種圖片呈現分工：燈箱用 `ImageScrollList`（explore，CSS scroll-snap＋OverlayScrollbars）；貼文照片列用 Embla 橫向拖拉；點貼文照片開 `ImagePreview`＋`ImageCarousel`（order，Embla 一次一張）。
+  - 新增套件 `embla-carousel-vue`。`ImageCarousel` 放 order，因為目前只有討論牆的預覽用到（延後共用）。
 
 ## 2026/11/9
 

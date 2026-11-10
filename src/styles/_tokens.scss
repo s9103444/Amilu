@@ -66,7 +66,7 @@
   --color-button-followed-text: var(--neutral-500);
   // 按鈕尺寸：數值取自 Figma，不受 8 的倍數限制（md 對應 Amilu/Button-md，sm 對應 Amilu/Button-sm）
   --radius-button: 15px;
-  --button-padding-md: 14px 18px;
+  --button-padding-md: 10px 18px;
   --button-padding-sm: 10px 18px;
   --button-gap-md: 10px;
   --button-gap-sm: 4px;
@@ -183,7 +183,7 @@
   --fs-body: 16px;
   --fs-caption: 14px;
   --fs-small: 12px;
-  --fs-button-md: 16px;
+  --fs-button-md: 14px;
   --fs-button-sm: 14px;
 
   @include bp.tablet-up {
@@ -200,8 +200,8 @@
     --fs-body: 18px;
     --fs-caption: 14px;
     --fs-small: 12px;
-    --fs-button-md: 20px;
-    --fs-button-sm: 16px;
+    --fs-button-md: 16px;
+    --fs-button-sm: 14px;
   }
 
   @include bp.desktop-up {
@@ -218,7 +218,7 @@
     --fs-body: 20px;
     --fs-caption: 16px;
     --fs-small: 14px;
-    --fs-button-md: 22px;
-    --fs-button-sm: 18px;
+    --fs-button-md: 18px;
+    --fs-button-sm: 14px;
   }
 }
