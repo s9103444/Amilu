@@ -84,6 +84,9 @@
   // 側邊選單項目（Figma 613:561）：選中的底色、滑過的底色
   --color-bg-nav-selected: var(--base-200);
   --color-bg-nav-hover: var(--base-150);
+  // 頁尾（Figma 641:302）：底色、文字與分隔線同色（分隔線另外疊 40% 透明度，見 AppFooter）
+  --color-footer-bg: var(--base-200);
+  --color-footer-text: var(--base-500);
   // 委託項目選擇展開後，已選那列的底（Figma 592:309）
   --color-bg-list-selected: var(--base-200);
   // 勾選框（Figma 535:2953）。勾選後的深色底沿用 --color-bg-inverse

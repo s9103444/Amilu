@@ -1000,6 +1000,12 @@
     </section>
 
     <section class="wide">
+      <h2>AppFooter</h2>
+      <p>版型跟著視窗寬度切換：拉窄到 1023 以下看平板版、767 以下看手機版。</p>
+      <AppFooter />
+    </section>
+
+    <section class="wide">
       <h2>DiscussionPostContent</h2>
       <p>
         照片高
@@ -1048,6 +1054,7 @@ import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationItem from '@/layouts/components/header/NotificationItem.vue'
 import NotificationMenuItem from '@/layouts/components/header/NotificationMenuItem.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
+import AppFooter from '@/layouts/components/AppFooter.vue'
 import ChatMessage from '@/features/order/components/ChatMessage.vue'
 import ChatRoom from '@/features/order/components/ChatRoom.vue'
 import {

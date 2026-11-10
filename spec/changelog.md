@@ -3,6 +3,11 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/10
+
+- 新增 `layouts/components/AppFooter.vue`（頁尾，Figma 641:302，桌機／平板／手機三版由斷點切換）和 `--color-footer-bg`、`--color-footer-text`。Logo 與社群圖示從 Figma 切出，放 `public/`。
+- 待確認：頁尾導覽與社群連結的網址（目前都是 `#`）。
+
 ## 2026/11/9
 
 - 文件瘦身：`open-questions.md` 每題縮到 3 行內；`acceptance.md` 第 5 節的已定案表刪除（都已寫回各 spec）；本檔濃縮成摘要。
