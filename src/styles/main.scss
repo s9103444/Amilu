@@ -24,3 +24,16 @@ body {
   margin-inline: auto;
   padding-inline: var(--grid-margin);
 }
+
+// 可拖曳區域（Embla 標籤列、稿件照片列）：游標顯示手掌、按住變握拳；拖的時候不會選到文字
+// 用法：在拖曳的外層加 class="grab-area"
+// -webkit- 給 Safari（還沒支援標準寫法）；Firefox、新版 Edge 吃標準寫法，不用 -moz-、-ms-
+.grab-area {
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}

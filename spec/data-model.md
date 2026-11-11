@@ -14,12 +14,12 @@
 
 每張表是一個 FigJam table，4 欄：
 
-| 欄 | 內容 |
-| --- | --- |
-| 1 | 資料型別：`string`、`number`、`boolean`、`date`、`datetime` |
-| 2 | 欄位名稱（英文 snake_case） |
-| 3 | 鍵：`PK` 主鍵、`FK` 外鍵、`UK` 唯一；複合主鍵寫 `PK, FK` 或兩列都標 `PK` |
-| 4 | 中文說明 |
+| 欄  | 內容                                                                     |
+| --- | ------------------------------------------------------------------------ |
+| 1   | 資料型別：`string`、`number`、`boolean`、`date`、`datetime`              |
+| 2   | 欄位名稱（英文 snake_case）                                              |
+| 3   | 鍵：`PK` 主鍵、`FK` 外鍵、`UK` 唯一；複合主鍵寫 `PK, FK` 或兩列都標 `PK` |
+| 4   | 中文說明                                                                 |
 
 - 第一列是表名，格式為「`TABLE_NAME`（中文名稱）」。
 - 表名一律大寫加底線，例如 `COMMISSION_ITEM`。
@@ -29,12 +29,12 @@
 
 線上的文字是關係名稱（例如「刊登」「分段紀錄」），線的兩端是 crow's foot 基數符號。畫面左上角的 `Components` 區塊有四種符號的圖例：
 
-| 符號 | 意思 |
-| --- | --- |
-| One | 剛好一個 |
-| Zero or One | 零或一個 |
-| Zero or Many | 零或多個 |
-| One or Many | 一或多個（圖例有，目前沒有關聯線用到） |
+| 符號         | 意思                                   |
+| ------------ | -------------------------------------- |
+| One          | 剛好一個                               |
+| Zero or One  | 零或一個                               |
+| Zero or Many | 零或多個                               |
+| One or Many  | 一或多個（圖例有，目前沒有關聯線用到） |
 
 圖上所有關聯線都是「一方是 One、另一方是 Zero or Many 或 Zero or One」，沒有多對多的線。多對多一律拆成中介表（見 2.2）。
 
@@ -44,43 +44,43 @@
 
 ### 2.1 帳號與身份
 
-| 表 | 中文 | PK | 重點 |
-| --- | --- | --- | --- |
-| `USER` | 使用者帳號 | `id` | 使用者自訂、全站唯一；`email` 是 UK 但不是主鍵；`account_status` 含正常／鎖定／封鎖／已刪除 |
-| `CREATOR_PROFILE` | 創作者接案設定 | `creator_id` | `user_id` 指向 USER 且為 UK，一個帳號最多一份；`store_approved` 判斷是否已開通 |
-| `FOLLOW` | 追蹤關係 | `follower_id` ＋ `following_id` | USER 對 USER 的自我關聯，一組關係一列 |
+| 表                | 中文           | PK                              | 重點                                                                                        |
+| ----------------- | -------------- | ------------------------------- | ------------------------------------------------------------------------------------------- |
+| `USER`            | 使用者帳號     | `id`                            | 使用者自訂、全站唯一；`email` 是 UK 但不是主鍵；`account_status` 含正常／鎖定／封鎖／已刪除 |
+| `CREATOR_PROFILE` | 創作者接案設定 | `user_id`                       | `user_id` 同時是 PK 與 FK（指向 USER），一個帳號最多一份；`store_approved` 判斷是否已開通 |
+| `FOLLOW`          | 追蹤關係       | `follower_id` ＋ `following_id` | USER 對 USER 的自我關聯，一組關係一列                                                       |
 
 ### 2.2 作品與分類
 
-| 表 | 中文 | PK | 重點 |
-| --- | --- | --- | --- |
-| `WORK` | 作品集（一般作品） | `work_id` | `user_id` 指向 USER（不需開通商店也能發）；`category_id`、`purpose_id` 皆可為空 |
-| `COMMISSION_ITEM` | 可委託項目 | `item_id` | `creator_id` 指向 CREATOR_PROFILE；`commercial_allowed`、`stage_plan_pref` 各項目各自設定 |
-| `CATEGORY` | 作品類型（查找表） | `category_id` | `name` 為 UK；WORK 與 COMMISSION_ITEM 共用 |
-| `PURPOSE` | 作品用途（查找表） | `purpose_id` | `name` 為 UK；WORK 與 COMMISSION_ITEM 共用 |
-| `TAG` | 自訂標籤 | `tag_id` | `name` 為 UK，全站共用字典；`created_by_id` 只供稽核，不做權限控制 |
-| `WORK_TAG` | 作品標籤中介表 | `work_id` ＋ `tag_id` | WORK 與 TAG 多對多 |
-| `COMMISSION_ITEM_TAG` | 可委託項目標籤中介表 | `item_id` ＋ `tag_id` | COMMISSION_ITEM 與 TAG 多對多 |
-| `WORK_IMAGE` | 作品集圖片 | `work_id` ＋ `seq_no` | 弱實體，`seq_no` 兼顯示順序，第一張為封面 |
-| `COMMISSION_ITEM_IMAGE` | 可委託項目圖片 | `item_id` ＋ `seq_no` | 弱實體，同 WORK_IMAGE |
+| 表                      | 中文                 | PK                    | 重點                                                                                      |
+| ----------------------- | -------------------- | --------------------- | ----------------------------------------------------------------------------------------- |
+| `WORK`                  | 作品集（一般作品）   | `work_id`             | `user_id` 指向 USER（不需開通商店也能發）；`category_id`、`purpose_id` 皆可為空           |
+| `COMMISSION_ITEM`       | 可委託項目           | `item_id`             | `creator_id` 存創作者帳號 ID，指向 `CREATOR_PROFILE.user_id`；`commercial_allowed`、`stage_plan_pref` 各項目各自設定 |
+| `CATEGORY`              | 作品類型（查找表）   | `category_id`         | `name` 為 UK；WORK 與 COMMISSION_ITEM 共用                                                |
+| `PURPOSE`               | 作品用途（查找表）   | `purpose_id`          | `name` 為 UK；WORK 與 COMMISSION_ITEM 共用                                                |
+| `TAG`                   | 自訂標籤             | `tag_id`              | `name` 為 UK，全站共用字典；`created_by_id` 只供稽核，不做權限控制                        |
+| `WORK_TAG`              | 作品標籤中介表       | `work_id` ＋ `tag_id` | WORK 與 TAG 多對多                                                                        |
+| `COMMISSION_ITEM_TAG`   | 可委託項目標籤中介表 | `item_id` ＋ `tag_id` | COMMISSION_ITEM 與 TAG 多對多                                                             |
+| `WORK_IMAGE`            | 作品集圖片           | `work_id` ＋ `seq_no` | 弱實體，`seq_no` 兼顯示順序，第一張為封面                                                 |
+| `COMMISSION_ITEM_IMAGE` | 可委託項目圖片       | `item_id` ＋ `seq_no` | 弱實體，同 WORK_IMAGE                                                                     |
 
 ### 2.3 訂單與金流
 
-| 表 | 中文 | PK | 重點 |
-| --- | --- | --- | --- |
-| `ORDER` | 委託案件／契約 | `order_id` | 核心表；含契約快照欄位、雙方同意時間、評分、終止資訊 |
-| `ORDER_STAGE` | 訂單分段紀錄 | `stage_id` | 一筆訂單 3 列（三點分段）或 5 列（五點分段） |
-| `ORDER_STAGE_IMAGE` | 階段稿件圖片 | `stage_id` ＋ `seq_no` | 弱實體；每階段最多 5 張，存浮水印預覽與正式稿兩個網址 |
-| `ORDER_REFERENCE_IMAGE` | 委託申請參考圖片 | `order_id` ＋ `seq_no` | 弱實體；只存申請時附的原始參考圖 |
-| `ORDER_ITEM_SNAPSHOT_IMAGE` | 項目範例圖片快照 | `order_id` ＋ `seq_no` | 弱實體；送出申請時從 `COMMISSION_ITEM_IMAGE` 複製（2026/10/17 新增） |
-| `PAYMENT` | 模擬金流／託管紀錄 | `payment_id` | 一筆訂單多筆：託管入款、撥款、退款、結算後補付入款（`type` 區分） |
+| 表                          | 中文               | PK                     | 重點                                                                 |
+| --------------------------- | ------------------ | ---------------------- | -------------------------------------------------------------------- |
+| `ORDER`                     | 委託案件／契約     | `order_id`             | 核心表；含契約快照欄位、雙方同意時間、評分、終止資訊                 |
+| `ORDER_STAGE`               | 訂單分段紀錄       | `stage_id`             | 一筆訂單 3 列（三點分段）或 5 列（五點分段）                         |
+| `ORDER_STAGE_IMAGE`         | 階段稿件圖片       | `stage_id` ＋ `seq_no` | 弱實體；每階段最多 5 張，存浮水印預覽與正式稿兩個網址                |
+| `ORDER_REFERENCE_IMAGE`     | 委託申請參考圖片   | `order_id` ＋ `seq_no` | 弱實體；只存申請時附的原始參考圖                                     |
+| `ORDER_ITEM_SNAPSHOT_IMAGE` | 項目範例圖片快照   | `order_id` ＋ `seq_no` | 弱實體；送出申請時從 `COMMISSION_ITEM_IMAGE` 複製（2026/10/17 新增） |
+| `PAYMENT`                   | 模擬金流／託管紀錄 | `payment_id`           | 一筆訂單多筆：託管入款、撥款、退款、結算後補付入款（`type` 區分）    |
 
 ### 2.4 溝通與通知
 
-| 表 | 中文 | PK | 重點 |
-| --- | --- | --- | --- |
-| `MESSAGE` | 非即時聊天室 | `message_id` | 綁定單一訂單；一則最多 1 張圖；沒有已讀欄位 |
-| `NOTIFICATION` | 通知 | `notification_id` | `order_id` 可為空（系統公告不綁案件）；`email_sent` 記錄是否已寄信 |
+| 表             | 中文         | PK                | 重點                                                               |
+| -------------- | ------------ | ----------------- | ------------------------------------------------------------------ |
+| `MESSAGE`      | 非即時聊天室 | `message_id`      | 綁定單一訂單；一則最多 1 張圖；沒有已讀欄位                        |
+| `NOTIFICATION` | 通知         | `notification_id` | `order_id` 可為空（系統公告不綁案件）；`email_sent` 記錄是否已寄信 |
 
 ---
 
@@ -90,52 +90,52 @@
 
 ### 3.1 帳號與身份
 
-| 關係名稱 | 一方 | 多方 | 基數 |
-| --- | --- | --- | --- |
-| 開通創作者身份 | USER | CREATOR_PROFILE | 1 對 0..1 |
-| 追蹤（follower） | USER | FOLLOW | 1 對 0..N |
-| 被追蹤（following） | USER | FOLLOW | 1 對 0..N |
+| 關係名稱            | 一方 | 多方            | 基數      |
+| ------------------- | ---- | --------------- | --------- |
+| 開通創作者身份      | USER | CREATOR_PROFILE | 1 對 0..1 |
+| 追蹤（follower）    | USER | FOLLOW          | 1 對 0..N |
+| 被追蹤（following） | USER | FOLLOW          | 1 對 0..N |
 
 FOLLOW 有兩條線都連到 USER，分別對應 `follower_id` 與 `following_id`。
 
 ### 3.2 作品與分類
 
-| 關係名稱 | 一方 | 多方 | 基數 |
-| --- | --- | --- | --- |
-| 上傳 | USER | WORK | 1 對 0..N |
-| 刊登 | CREATOR_PROFILE | COMMISSION_ITEM | 1 對 0..N |
-| 分類 | CATEGORY | WORK | 1 對 0..N |
-| 分類 | PURPOSE | WORK | 1 對 0..N |
-| 分類 | CATEGORY | COMMISSION_ITEM | 1 對 0..N |
-| 分類 | PURPOSE | COMMISSION_ITEM | 1 對 0..N |
-| 包含 | WORK | WORK_IMAGE | 1 對 0..N |
-| 包含 | COMMISSION_ITEM | COMMISSION_ITEM_IMAGE | 1 對 0..N |
-| 掛標籤／被掛用 | WORK、TAG | WORK_TAG | 各 1 對 0..N |
-| 掛標籤／被掛用 | COMMISSION_ITEM、TAG | COMMISSION_ITEM_TAG | 各 1 對 0..N |
-| 建立標籤 | USER | TAG | 1 對 0..N，對應 `TAG.created_by_id`（只供稽核） |
+| 關係名稱       | 一方                 | 多方                  | 基數                                            |
+| -------------- | -------------------- | --------------------- | ----------------------------------------------- |
+| 上傳           | USER                 | WORK                  | 1 對 0..N                                       |
+| 刊登           | CREATOR_PROFILE      | COMMISSION_ITEM       | 1 對 0..N                                       |
+| 分類           | CATEGORY             | WORK                  | 1 對 0..N                                       |
+| 分類           | PURPOSE              | WORK                  | 1 對 0..N                                       |
+| 分類           | CATEGORY             | COMMISSION_ITEM       | 1 對 0..N                                       |
+| 分類           | PURPOSE              | COMMISSION_ITEM       | 1 對 0..N                                       |
+| 包含           | WORK                 | WORK_IMAGE            | 1 對 0..N                                       |
+| 包含           | COMMISSION_ITEM      | COMMISSION_ITEM_IMAGE | 1 對 0..N                                       |
+| 掛標籤／被掛用 | WORK、TAG            | WORK_TAG              | 各 1 對 0..N                                    |
+| 掛標籤／被掛用 | COMMISSION_ITEM、TAG | COMMISSION_ITEM_TAG   | 各 1 對 0..N                                    |
+| 建立標籤       | USER                 | TAG                   | 1 對 0..N，對應 `TAG.created_by_id`（只供稽核） |
 
 ### 3.3 訂單
 
-| 關係名稱 | 一方 | 多方 | 基數 |
-| --- | --- | --- | --- |
-| 委託（甲方） | USER | ORDER | 1 對 0..N，對應 `ORDER.commissioner_id` |
-| 承接（乙方） | CREATOR_PROFILE | ORDER | 1 對 0..N，對應 `ORDER.creator_id` |
-| 對應項目 | COMMISSION_ITEM | ORDER | 1 對 0..N，對應 `ORDER.item_id` |
-| 分段紀錄 | ORDER | ORDER_STAGE | 1 對 0..N |
-| 稿件圖片 | ORDER_STAGE | ORDER_STAGE_IMAGE | 1 對 0..N |
-| 金流紀錄 | ORDER | PAYMENT | 1 對 0..N |
-| 參考圖片 | ORDER | ORDER_REFERENCE_IMAGE | 1 對 0..N |
-| 項目圖片快照 | ORDER | ORDER_ITEM_SNAPSHOT_IMAGE | 1 對 0..N |
-| 留言 | ORDER | MESSAGE | 1 對 0..N |
-| 關聯通知 | ORDER | NOTIFICATION | 1 對 0..N |
-| 終止發起 | USER | ORDER | 1 對 0..N，對應 `ORDER.terminated_by_id`（可為空） |
+| 關係名稱     | 一方            | 多方                      | 基數                                               |
+| ------------ | --------------- | ------------------------- | -------------------------------------------------- |
+| 委託（甲方） | USER            | ORDER                     | 1 對 0..N，對應 `ORDER.commissioner_id`            |
+| 承接（乙方） | CREATOR_PROFILE | ORDER                     | 1 對 0..N，對應 `ORDER.creator_id`（創作者帳號 ID） |
+| 對應項目     | COMMISSION_ITEM | ORDER                     | 1 對 0..N，對應 `ORDER.item_id`                    |
+| 分段紀錄     | ORDER           | ORDER_STAGE               | 1 對 0..N                                          |
+| 稿件圖片     | ORDER_STAGE     | ORDER_STAGE_IMAGE         | 1 對 0..N                                          |
+| 金流紀錄     | ORDER           | PAYMENT                   | 1 對 0..N                                          |
+| 參考圖片     | ORDER           | ORDER_REFERENCE_IMAGE     | 1 對 0..N                                          |
+| 項目圖片快照 | ORDER           | ORDER_ITEM_SNAPSHOT_IMAGE | 1 對 0..N                                          |
+| 留言         | ORDER           | MESSAGE                   | 1 對 0..N                                          |
+| 關聯通知     | ORDER           | NOTIFICATION              | 1 對 0..N                                          |
+| 終止發起     | USER            | ORDER                     | 1 對 0..N，對應 `ORDER.terminated_by_id`（可為空） |
 
 ### 3.4 溝通與通知
 
-| 關係名稱 | 一方 | 多方 | 基數 |
-| --- | --- | --- | --- |
-| 發送 | USER | MESSAGE | 1 對 0..N，對應 `MESSAGE.sender_id` |
-| 接收 | USER | NOTIFICATION | 1 對 0..N，對應 `NOTIFICATION.user_id` |
+| 關係名稱 | 一方 | 多方         | 基數                                   |
+| -------- | ---- | ------------ | -------------------------------------- |
+| 發送     | USER | MESSAGE      | 1 對 0..N，對應 `MESSAGE.sender_id`    |
+| 接收     | USER | NOTIFICATION | 1 對 0..N，對應 `NOTIFICATION.user_id` |
 
 ---
 
@@ -165,7 +165,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 ### 4.4 ORDER 結案方式判斷（不另設欄位）
 
-- **已完成**：`status` ＝ 已完成，時間看 `completed_at`；階段 1～4 的 `ORDER_STAGE.confirm_status` 一律是人工確認（過程沒有自動確認機制）；完稿（`stage_no` ＝ 5）則是乙方上傳即視同確認，定稿時點見 order-lifecycle.md。
+- **已完成**：`status` ＝ 已完成，時間看 `completed_at`；階段 1～4 的 `ORDER_STAGE.confirm_status` 一律是已確認（過程沒有自動確認機制）；完稿（`stage_no` ＝ 5）則是乙方上傳即視同確認，定稿時點見 order-lifecycle.md。
 - **已終止**：`status` ＝ 已終止，發起方送出時寫入 `terminated_by_id`，與 `commissioner_id` 比對即知是甲方或乙方發起；第一階段 `ORDER_STAGE.paid` 決定是雙輸或已撥款結算。
 - **補款金額**：後端即時計算 ＝ `quote_amount` − PAYMENT 已託管入款的 `amount` 加總，不存欄位。
 
@@ -177,15 +177,15 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 這些值都能從來源資料算出來，存起來只會有跟來源對不上的風險：
 
-| 值 | 怎麼得到 |
-| --- | --- |
-| 是否為創作者 | 看 `CREATOR_PROFILE.store_approved`，USER 沒有身份欄位 |
-| Amilu 燈對外顯示 | 手動開放 ＋ 可委託項目至少 1 筆 ＋ 已開通商店，三者同時成立才顯示「開放中」 |
-| 每階段金額 | 由總價、訂金比例、階段數算出，ORDER_STAGE 沒有金額欄位 |
-| 目前進行到哪一階段 | 查 ORDER_STAGE，ORDER 不存快取 |
-| 補款金額 | 見 4.4 |
-| 結案方式 | 見 4.4 |
-| followers／following 數字 | 由 FOLLOW 即時計數 |
+| 值                        | 怎麼得到                                                                    |
+| ------------------------- | --------------------------------------------------------------------------- |
+| 是否為創作者              | 看 `CREATOR_PROFILE.store_approved`，USER 沒有身份欄位                      |
+| Amilu 燈對外顯示          | 手動開放 ＋ 可委託項目至少 1 筆 ＋ 已開通商店，三者同時成立才顯示「開放中」 |
+| 每階段金額                | 由總價、訂金比例、階段數算出，ORDER_STAGE 沒有金額欄位                      |
+| 目前進行到哪一階段        | 查 ORDER_STAGE，ORDER 不存快取                                              |
+| 補款金額                  | 見 4.4                                                                      |
+| 結案方式                  | 見 4.4                                                                      |
+| followers／following 數字 | 由 FOLLOW 即時計數                                                          |
 
 ### 5.2 什麼時候拆表、什麼時候併回父表
 
@@ -199,6 +199,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 - **標籤共用字典**：`TAG.name` 全站唯一。寫入前去除前後空白、英文不分大小寫比對；比對到既有標籤（含 CATEGORY、PURPOSE 的項目）就沿用，不新增。
 - **單選分類用直接 FK，不用中介表**：同一軸只能選一個，所以 WORK 與 COMMISSION_ITEM 直接放 `category_id`、`purpose_id`，且可為空。
 - **軟刪除**：刪除帳號只改 `USER.account_status` ＝ 已刪除並寫入 `deleted_at`，不刪列，歷史案件才不會指向不存在的帳號。
+- **CREATOR_PROFILE 用帳號 ID 當主鍵**（2026/11/11）：CREATOR_PROFILE 與 USER 是 1 對 0..1，直接用 `user_id` 當 PK，不另發創作者編號。`ORDER.creator_id`、`COMMISSION_ITEM.creator_id` 存的就是創作者帳號 ID（FK → `CREATOR_PROFILE.user_id`），和 `commissioner_id` 同一種值，前端直接跟登入者 `USER.id` 比對；同時資料庫保證乙方一定有接案設定。帳號 ID 設定後不可修改（features.md 1.1），當主鍵不會有連帶修改的問題。
 - **`ORDER.creator_id` 必須保留**：原本可從 `item_id` 推得、算是冗餘 FK；2026/10/17 起項目可真刪、`item_id` 可能為空，`creator_id` 成為判斷乙方的唯一依據。
 - **金額與狀態欄位的型別**：訂金比例、分段方案、各種狀態在圖上都標為 `string`，合法值見欄位說明；是否改用 enum 由後端決定。
 - **表名避開 SQL 保留字**：`ORDER`、`USER` 是 SQL 保留字（PostgreSQL 的 `USER` 也是）。實際建表時請改名（如 `orders`、`users`）或全程加引號，這是後端的事。
@@ -207,7 +208,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 ## 6. 圖上目前已知的問題
 
-以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，ER 圖本身**沒有未解決的項目**；第 13 項是 Figma 與 spec 的落差，已決議、Figma 待同步：
+以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，ER 圖本身**沒有未解決的項目**；第 13 項是 Figma 與 spec 的落差，已決議、Figma 待同步；第 14 項 FigJam 待同步：
 
 1. **已解決**（2026/10/17）：「關聯通知」那條線原本終點掛在畫布上，已重接到 NOTIFICATION。
 2. **已解決**（2026/10/17）：`TAG.created_by_id`、`ORDER.terminated_by_id` 原本沒有畫線，已補上「建立標籤」「終止發起」兩條關聯線。
@@ -224,5 +225,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 11. **已同步**（2026/10/17）：①`ORDER` 新增 `item_description_snapshot`（項目說明快照）②新增表 `ORDER_ITEM_SNAPSHOT_IMAGE`（`order_id`＋`seq_no`、圖片網址），並畫「項目圖片快照」關聯線③`ORDER.item_id` 改為 nullable，說明加「項目刪除後為空，案件一律讀快照」。
 12. **已同步**（2026/10/17）：`CREATOR_PROFILE.user_id` 補標 `UK`（對應 1 對 0..1）；`ORDER.payment_plan` 合法值由「全額／訂金」改為「一次付清／先付訂金」，與其他文件用詞一致。
 13. **已決議**（2026/11/9）：Figma「案件狀態標籤」的 9 個狀態裡，「待補款」「已補款待確認」不存進 `ORDER.status`，由 `ORDER`＋`PAYMENT` 算出來（衍生值不存）；「未完成」不屬於案件狀態，從 `OrderStatusTag` 刪掉。**Figma 待同步**：①案件狀態標籤拿掉「未完成」②階段標籤範例「第一階段」改成階段名稱（草稿…）③左欄「申請終止合作」拿掉灰字版（製作中永遠可以按）④頭像全部改成圓角方形。
+
+14. **已決議、FigJam 待同步**（2026/11/11，欄位表試算表已改）：①`CREATOR_PROFILE` 拿掉 `creator_id`，`user_id` 改為 PK（同時是 FK → USER.id），不再標 UK②`ORDER.creator_id`、`COMMISSION_ITEM.creator_id` 說明改為「創作者帳號 ID」，FK 改指 `CREATOR_PROFILE.user_id`③`ORDER_STAGE.confirm_status` 合法值為「未確認／已確認」（原「人工確認」）④`COMMISSION_ITEM.category_id`、`purpose_id` 為 nullable（同 WORK）。
 
 另外 --Amilu repo 的 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在這個 repo，見 [README](README.md#外部連結)）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。

@@ -14,7 +14,7 @@
         <StageTag :stage_no="currentStage" />
       </div>
     </div>
-    <div ref="emblaRef" class="photos">
+    <div ref="emblaRef" class="photos grab-area">
       <div class="tracks">
         <button
           v-for="(url, index) in uploadImageUrl"
@@ -144,8 +144,7 @@ const [emblaRef] = emblaCarouselVue({ align: 'start' }, [WheelGesturesPlugin()])
 
 //-----② 稿件照片列（Embla：可拖拉，放開吸附左緣）-----//
 .photos {
-  overflow: hidden;
-  cursor: grab;
+  overflow: hidden; // 游標、禁止選字由 .grab-area 給（main.scss）
   & .tracks {
     display: flex;
     gap: var(--space-1);

@@ -97,6 +97,7 @@ Figma variable collection「Amilu｜色彩」，共 14 色，分灰階、底色�
 - 裝置分三種：桌機（≥ 1024，設計基準寬 1440）、平板（768–1023，基準寬 768）、手機（< 768，基準寬 375）。三種都是 12 欄，gutter 與 margin 的值見 `_tokens.scss`。
 - 手機優先（mobile-first），用 `_breakpoints.scss` 的 mixin，不手寫 media query。
 - **頁面左右留白與最大寬度全站統一**用 `.container`（`main.scss`：左右讀 `--grid-margin` 手機 16、平板 32、桌機 48；最寬 1440 置中）。header、footer 內容、頁面內容（`DefaultLayout` 的 `main`）都掛它，各頁不自己寫。Figma 個別頁面數字不同時以這條為準。
+- **可拖曳區域**（Embla 橫向拖拉的外層，例如首頁標籤列、討論牆稿件照片列）掛 `.grab-area`（`main.scss`）：游標手掌、按住握拳、拖曳時不選到文字。各元件不自己寫 `cursor: grab`。
 - 間距分兩層：
   - **頁面排版**（區塊之間、欄與欄、頁面邊距）用 8 的倍數，讀 `--space-*`。
   - **元件內部**（內距、圖文間距、元件內各部分的間隔）照 Figma 數值，不受 8 的倍數限制。按鈕這類多處共用的值定義成 token（`--radius-button`、`--button-padding-*`、`--button-gap-*`）。

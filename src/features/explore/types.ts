@@ -1,7 +1,7 @@
 // COMMISSION_ITEM：可委託項目（data-model.md 2.2，欄位以 FigJam ER 為準）
 export type CommissionItem = {
   item_id: string
-  creator_id: string // 指向 CREATOR_PROFILE
+  creator_id: string // 創作者帳號 ID（＝USER.id），FK → CREATOR_PROFILE.user_id
   title: string
   description: string
   price: number // 新台幣整數，畫面上才格式化成 NT$ 1,500

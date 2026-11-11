@@ -3,6 +3,13 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/11
+
+- 首頁篩選列改成三顆下拉：新增「作品分類」（`ContentTypeSelect`，全部作品／可委託／一般貼文，預設全部作品），取代原本「再點一次取消」的切換寫法；features.md 2.2、2.3 同步。按鈕名稱維持「作品類型」，不改成「作品風格」（風格不做固定分類，見 features.md 第 0 節）。
+- 新增自訂標籤假資料 `mocks/tag.ts`（14 個，Figma 484:98）。待確認：首頁標籤列要顯示哪些標籤（spec 2.4 沒寫、api.md 沒有對應 API）。
+- 新增共用 class `.grab-area`（可拖曳區域的游標與禁止選字，design-spec.md 第 4 節），首頁標籤列與討論牆稿件照片列改用它。
+- 資料表調整（欄位表試算表已改，FigJam 待同步，data-model.md 5.3、第 6 節 #14）：`CREATOR_PROFILE` 改用 `user_id` 當主鍵、拿掉 `creator_id` 編號；`ORDER.creator_id`、`COMMISSION_ITEM.creator_id` 改存創作者帳號 ID（FK → `CREATOR_PROFILE.user_id`）。`ORDER_STAGE.confirm_status` 合法值統一為「未確認／已確認」。`COMMISSION_ITEM` 的 `category_id`、`purpose_id` 確認為 nullable。
+
 ## 2026/11/10
 
 - 新增 `features/account/store.ts`（`useAuthStore`，假登入狀態讀 `mocks/user.ts`），`DefaultLayout` 改讀 store；刪除範本 `stores/counter.ts`。

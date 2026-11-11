@@ -34,7 +34,7 @@ export type OrderStatus =
 // 「目前在哪個階段」不存在這裡，從 OrderStage 找第一個未確認的階段（data-model.md 5.1）
 export type Order = {
   order_id: string
-  creator_id: string // 創作者的 USER.id
+  creator_id: string // 創作者帳號 ID（＝USER.id），FK → CREATOR_PROFILE.user_id
   commissioner_id: string // 委託人的 USER.id
   item_title_snapshot: string // 契約快照：送出申請時的項目標題
   status: OrderStatus
@@ -51,5 +51,5 @@ export type OrderStage = {
   order_id: string
   stage_no: StageNo
   deadline: string // 'YYYY-MM-DD'
-  confirm_status: '未確認' | '已確認' // 值待對 FigJam（spec 只有欄位名，沒列出可能的值）
+  confirm_status: '未確認' | '已確認' // 欄位表 2026/11/11 定案（data-model.md 第 6 節 #14）
 }

@@ -10,7 +10,7 @@
 
 ## 目前在做
 
-拼裝頁面：開始前的外框、網址、登入狀態都完成（2026/11/10）。下一步：首頁作品牆。
+拼裝頁面：首頁作品牆進行中（2026/11/11）。篩選列與標籤列完成，下一步：瀑布流（`types.ts` 加 `Work` 型別 → `mocks/work.ts`）。
 
 ---
 
@@ -28,8 +28,17 @@
 
 ## 第一頁：首頁作品牆
 
-- ⬜ 定下 `api.ts` 回傳假資料的寫法（之後每個功能照抄）
-- ⬜ （細項做到再拆）
+- ✅ 篩選列：`ContentTypeSelect`（作品分類，新元件）＋兩顆 `CategorySelect`（作品類型／用途）
+- ✅ 自訂標籤列：`mocks/tag.ts`（14 個，寫死）＋ Embla 拖曳；共用 class `.grab-area`
+- ✅ 欄位表核對（2026/11/11）：CREATOR_PROFILE 改用 `user_id` 當主鍵等，FigJam 待同步（data-model.md 第 6 節 #14）
+- 🔄 瀑布流
+  - ✅ 作品圖 16 張轉 webp：`src/assets/work/work-01～16.webp`（舊專案 Amilu.js 的 works 順序）
+  - ⬜ `explore/types.ts` 加 `Work`（欄位：work_id、user_id、title、content、category_id、purpose_id、created_at；封面取 WORK_IMAGE seq_no 1）
+  - ⬜ `mocks/work.ts`
+  - ⬜ 定下 `api.ts` 回傳假資料的寫法（之後每個功能照抄）
+  - ⬜ `HomePage` 用 CSS columns 排 `WorkCard`
+- ⬜ 點標籤的選取狀態、「已選擇」列
+- ⬜ 可委託項目卡片混進牆上
 
 ---
 
@@ -42,4 +51,6 @@
 - 頁尾與 header 的連結（Logo、瞭解網站、登入、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由
 - header 上傳圖示要不要打開「上傳作品選單」（Figma 573:3489）
 - 搜尋列和 Figma 的小差異：提示字（程式「輸入搜尋關鍵字」／Figma「輸入關鍵字搜尋」）、放大鏡和字的間距（程式 4／Figma 14）
+- 欄位表試算表還有 3 處 `CREATOR_PROFILE.creator_id` 沒改成 `user_id`（COMMISSION_ITEM、ORDER 的外來鍵欄，ORDER.creator_id 那列）
+- 首頁自訂標籤列要顯示哪些標籤（熱門前 N 個／固定清單／跟著牆上作品）：spec 2.4 沒寫、api.md 沒有對應 API，目前寫死在 `mocks/tag.ts`，要跟後端討論
 - features.md 4.4 的「確認收稿」「前往補款」Figma 貼文裡沒有，做討論牆時確認放哪

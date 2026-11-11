@@ -90,6 +90,7 @@ const labelOptions = computed(() => options.value.slice(6))
   align-items: center;
   gap: 8px;
   color: var(--color-text-secondary);
+  white-space: nowrap; // 按鈕文字不換行，被擠時整顆維持一行
 }
 .btn--active {
   color: var(--color-text-primary);
