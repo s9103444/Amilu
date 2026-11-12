@@ -107,6 +107,7 @@ const labelOptions = computed(() => options.value.slice(6))
   box-shadow: var(--shadow-dropdown);
   padding: 24px 30px;
   border-radius: 14px;
+  z-index: 50;
 }
 .panel-title {
   margin: 0;

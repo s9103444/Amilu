@@ -60,6 +60,7 @@ features/order/
 ├─ api.ts          這個功能的後端呼叫，只做 request
 ├─ store.ts        Pinia，需要跨頁共享才建
 ├─ types.ts        型別，對應 data-model.md 的表
+├─ constants.ts    這個功能共用的固定選項（例：作品分類清單），元件和頁面都要用時放這裡
 ├─ routes.ts       這個功能的路由
 └─ index.ts        （選用）對外公開的東西
 ```

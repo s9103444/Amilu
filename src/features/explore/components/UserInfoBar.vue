@@ -2,8 +2,8 @@
   <div class="info" :class="`info--${layout}`">
     <img class="avatar" :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
     <div class="text">
-      <span class="name text-button-sm">{{ name }}</span>
-      <span class="user-id text-small">@{{ userId }}</span>
+      <span class="name text-small">{{ name }}</span>
+      <span class="user-id text-note">@{{ userId }}</span>
     </div>
   </div>
 </template>
@@ -42,13 +42,23 @@ withDefaults(
 // 大頭照是圓角方形（全站統一 --radius-avatar）
 .avatar {
   flex-shrink: 0;
-  width: 46px;
-  height: 46px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-avatar);
   object-fit: cover;
 }
+// 文字區：吃掉頭像以外的寬度；min-width: 0 讓它能縮得比文字窄，裡面的字才有機會被截斷
 .text {
   display: flex;
+  width: 100%;
+  min-width: 0;
+}
+// 太長時截成「…」：text-overflow 只對「直接裝著文字的元素」有效，
+// 所以三件套要寫在 .name／.user-id 上，寫在 flex 容器 .text 上不會觸發
+.name,
+.user-id {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .name {

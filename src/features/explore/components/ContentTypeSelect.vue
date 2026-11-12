@@ -24,19 +24,14 @@
 <script setup lang="ts">
 import { useDropdown } from '@/shared/composables/useDropdown'
 import { useTemplateRef, computed } from 'vue'
-
+import { CONTENT_TYPE_OPTIONS } from '@/features/explore/constants'
 const fieldEl = useTemplateRef<HTMLElement>('field')
 const base = import.meta.env.BASE_URL
 // 面板開關＋點 field（按鈕＋面板）以外的地方自動關閉
 const { isOpen, toggle, close } = useDropdown(fieldEl)
 // 外面 v-model 傳進來的值；改 selected.value 時，Vue 會自動通知外面更新
 const selected = defineModel<string>({ default: 'all' })
-// 內容類型篩選（spec features.md 2.2）；value 之後給 HomePage 決定要抓哪種卡片
-const CONTENT_TYPE_OPTIONS = [
-  { value: 'all', label: '全部作品' },
-  { value: 'commission', label: '開放委託' },
-  { value: 'work', label: '一般貼文' },
-]
+
 // 按鈕文字：用 selected 存的 value 找出對應的中文 label；selected 一變就自動重算
 const selectedLabel = computed(() => {
   const selectedOne = CONTENT_TYPE_OPTIONS.find((option) => option.value === selected.value)

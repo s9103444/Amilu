@@ -16,3 +16,20 @@ export type CommissionItemImage = {
   seq_no: number
   image_url: string
 }
+
+// WORK：一般作品（data-model.md 2.2）；封面不在這張表，取 WORK_IMAGE 的 seq_no 1
+export type Work = {
+  work_id: string
+  user_id: string // 作者帳號 ID（＝USER.id），不需開通商店也能發
+  title: string
+  content: string // 作品說明
+  category_id: string | null // 欄位一定有，值可為空（同 CommissionItem）
+  purpose_id: string | null
+  created_at: string // ISO 時間字串
+}
+// WORK_IMAGE：作品圖片，一件作品 1～20 張；seq_no 兼顯示順序，1 是封面
+export type WorkImage = {
+  work_id: string
+  seq_no: number
+  image_url: string
+}

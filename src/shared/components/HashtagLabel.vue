@@ -1,5 +1,5 @@
 <template>
-  <button v-if="variant === 'button'" type="button" class="text-button-sm hashtag hashtag--button">
+  <button v-if="variant === 'button'" type="button" class="text-small hashtag hashtag--button">
     <slot></slot>
   </button>
   <span v-else class="text-caption hashtag"><slot></slot></span>

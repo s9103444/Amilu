@@ -33,11 +33,13 @@
 - ✅ 欄位表核對（2026/11/11）：CREATOR_PROFILE 改用 `user_id` 當主鍵等，FigJam 待同步（data-model.md 第 6 節 #14）
 - 🔄 瀑布流
   - ✅ 作品圖 16 張轉 webp：`src/assets/work/work-01～16.webp`（舊專案 Amilu.js 的 works 順序）
-  - ⬜ `explore/types.ts` 加 `Work`（欄位：work_id、user_id、title、content、category_id、purpose_id、created_at；封面取 WORK_IMAGE seq_no 1）
-  - ⬜ `mocks/work.ts`
-  - ⬜ 定下 `api.ts` 回傳假資料的寫法（之後每個功能照抄）
-  - ⬜ `HomePage` 用 CSS columns 排 `WorkCard`
-- ⬜ 點標籤的選取狀態、「已選擇」列
+  - ✅ `explore/types.ts` 加 `Work`、`WorkImage`（欄位：work_id、user_id、title、content、category_id、purpose_id、created_at；封面取 WORK_IMAGE seq_no 1）
+  - ✅ `mocks/work.ts`（16 筆＋16 張封面）
+  - ✅ 定下 `explore/api.ts` 回傳假資料的寫法（之後每個功能照抄）
+  - ✅ `explore/composables/useGalleryColumns.ts`：讀 `--gallery-columns` 欄數＋第 i 張放第 i % N 欄（2026/11/11 選定自己分欄，不用 CSS columns／Masonry 外掛：載入更多時舊卡片不跳）
+  - ✅ `HomePage` 兩層 `v-for` 排 `WorkCard`＋樣式（2026/11/12）；⬜ 瀏覽器看三種寬度；⬜ 桌機欄數 Figma 484:98 畫 4 欄、design-spec 寫 5 欄，待定
+  - ⬜ 之後升級：放最矮的那欄（需要圖片高度，WORK_IMAGE 沒有寬高欄位，要另想辦法）
+- 🔄 「已選擇」列（Figma 490:490）：✅ `explore/constants.ts` 放作品分類清單；✅ `selectedTags`＋addTag／removeTag；✅ 名稱、selectedTagList、hasSelection 等 computed；✅ 模板；✅ 樣式（2026/11/12）；⬜ 瀏覽器確認
 - ⬜ 可委託項目卡片混進牆上
 
 ---

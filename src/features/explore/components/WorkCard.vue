@@ -47,7 +47,7 @@ withDefaults(
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 20px; // 圖片與資訊條之間（Figma）
+  gap: 10px; // 圖片與資訊條之間（Figma）
   width: 100%;
   padding: 0;
   border: none;
