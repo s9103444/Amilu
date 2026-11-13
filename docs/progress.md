@@ -12,6 +12,12 @@
 
 拼裝頁面：首頁作品牆（2026/11/13）。篩選＋可委託卡片混排都已寫完（type-check 通過，瀏覽器還沒測）。
 下一步：**瀏覽器確認**篩選與混排結果；之後做 Amilu 燈過濾（CREATOR_PROFILE.light_status）。
+明天（2026/11/14）計畫：**登入／註冊頁**、**作品展示燈箱**、**委託商店燈箱**（見下方「明天預定」）。
+
+- 分支：在 `timmi` 上開發，最新 commit 68ea770。
+- 分工：Opus（主對話）討論結構、寫交辦單；Sonnet 子代理 `implementer`（`~/.claude/agents/implementer.md`，2026/11/13 建立）照交辦單實作，回報後由主對話看 diff、跑 type-check。
+  - implementer 規則：先讀 CLAUDE.md、structure.md；只用 semantic token；改完跑 type-check；不 commit、不 push；回報改了哪些檔、type-check 結果、自己做的決定。
+  - 已載入可用（重開 Claude Code 後才會出現在子代理清單）。我要自己寫的部分仍走引導模式，只有明說「幫我做」才交給 implementer。
 
 ---
 
@@ -60,6 +66,13 @@
   - ⬜ 瀏覽器確認：「開放委託」→ ci_003、ci_002、ci_001 且有「可委託」標示；「一般貼文」→ 16 張作品無標示；只選 #厚塗 → w_001、002、005、009＋ci_001、ci_003
   - ⬜ Amilu 燈：`CREATOR_PROFILE` 假資料（user_id、light_status），燈「暫停」的創作者項目不回傳（features.md 2.1、api.md「依 Amilu 燈自動過濾」）；假資料要多幾位創作者，至少一位暫停
   - ⬜ 卡片點擊行為（作品開燈箱／可委託項目開委託商店燈箱）
+
+
+## 明天預定（2026/11/14）
+
+- ⬜ 登入／註冊頁：先讀 features.md、structure.md 3.5 的網址，以及「做到再處理」裡的帳號頁外框（只有左上 Logo，建在 `layouts/`）
+- ⬜ 作品展示燈箱（features.md 2.5）：點牆上的一般作品卡片開啟；先建共用燈箱外框（見「做到再處理」）
+- ⬜ 委託商店燈箱：點牆上的可委託卡片開啟；`mocks/commissionItem.ts` 原本就是給燈箱的 `CommissionItemOption` 用
 
 ---
 
