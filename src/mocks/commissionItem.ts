@@ -2,8 +2,13 @@
 // 形狀用 features/explore/types.ts 的 CommissionItem（對齊 COMMISSION_ITEM，欄位以 FigJam 為準）。
 // 三筆刻意涵蓋：可商用／不可商用、說明很長會換行。
 // 之後後端好了，改從 GET /creators/{creator_id}/commission-items 拿（api.md 草案），到時候只要改這個檔。
+// 首頁作品牆也用這份。
 
-import type { CommissionItem, CommissionItemImage } from '@/features/explore/types'
+import type {
+  CommissionItem,
+  CommissionItemImage,
+  CommissionItemTag,
+} from '@/features/explore/types'
 import avatar from '@/assets/category/avatar.webp'
 import characterArt from '@/assets/category/character-art.webp'
 import comic from '@/assets/category/comic.webp'
@@ -76,4 +81,21 @@ export const MOCK_COMMISSION_ITEM_IMAGES: CommissionItemImage[] = [
     seq_no: 1,
     image_url: illustration,
   },
+]
+
+// 項目掛了哪些標籤（COMMISSION_ITEM_TAG，一列＝一組項目＋標籤）；tag_id 對應 mocks/tag.ts，每個至少 3 個
+// 刻意安排來測作品牆混排：只選 #厚塗（1）→ 作品 4 件＋ci_001、ci_003；ci_002 沒有 #厚塗，不該出現
+export const MOCK_COMMISSION_ITEM_TAGS: CommissionItemTag[] = [
+  // ci_001
+  { item_id: 'ci_001', tag_id: '1' },
+  { item_id: 'ci_001', tag_id: '11' },
+  { item_id: 'ci_001', tag_id: '12' },
+  // ci_002
+  { item_id: 'ci_002', tag_id: '8' },
+  { item_id: 'ci_002', tag_id: '10' },
+  { item_id: 'ci_002', tag_id: '14' },
+  // ci_003
+  { item_id: 'ci_003', tag_id: '1' },
+  { item_id: 'ci_003', tag_id: '5' },
+  { item_id: 'ci_003', tag_id: '9' },
 ]

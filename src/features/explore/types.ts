@@ -33,3 +33,20 @@ export type WorkImage = {
   seq_no: number
   image_url: string
 }
+//WORK_TAG：作品與標籤的中介表（多對多）
+export type WorkTag = {
+  work_id: string
+  tag_id: string
+}
+export type CommissionItemTag = {
+  item_id: string
+  tag_id: string
+}
+export type GalleryCard = {
+  id: string
+  type: 'work' | 'commission-item'
+  image_url: string
+  title: string
+  author_id: string
+  created_at: string
+}

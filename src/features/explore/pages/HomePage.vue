@@ -35,17 +35,18 @@
       >
     </div>
   </div>
-  <!-- 作品牆（瀑布流）：外層一欄一個直排容器，內層畫這一欄分到的作品；分欄邏輯在 useGalleryColumns -->
+  <!-- 作品牆（瀑布流）：外層一欄一個直排容器，內層畫這一欄分到的卡片（作品＋可委託項目混排）；分欄邏輯在 useGalleryColumns -->
   <div class="gallery">
     <!-- 欄沒有自己的 ID，它就是「第幾欄」，用位置當 key -->
     <div class="gallery-column" v-for="(column, index) in columns" :key="index">
       <!-- 大頭照先不傳（顯示預設圖）：作者資料要另外抓，之後再接 -->
       <WorkCard
-        v-for="work in column"
-        :key="work.work_id"
-        :image-url="coverOf(work.work_id)"
-        :title="work.title"
-        :author-id="work.user_id"
+        v-for="card in column"
+        :type="card.type"
+        :key="card.id"
+        :image-url="card.image_url"
+        :title="card.title"
+        :author-id="card.author_id"
       />
     </div>
   </div>
@@ -54,18 +55,23 @@
 <script setup lang="ts">
 import ContentTypeSelect from '@/features/explore/components/ContentTypeSelect.vue'
 import CategorySelect from '@/features/explore/components/CategorySelect.vue'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { MOCK_TAGS } from '@/mocks/tag'
 import HashtagLabel from '@/shared/components/HashtagLabel.vue'
 import emblaCarouselVue from 'embla-carousel-vue'
 import WheelGesturesPlugin from 'embla-carousel-wheel-gestures'
-import { fetchWorks, fetchWorkImages } from '@/features/explore/api'
+import {
+  fetchWorks,
+  fetchWorkImages,
+  fetchCommissionItems,
+  fetchCommissionImages,
+} from '@/features/explore/api'
 import { useGalleryColumns } from '@/features/explore/composables/useGalleryColumns'
 import WorkCard from '@/features/explore/components/WorkCard.vue'
-import type { Work, WorkImage } from '@/features/explore/types'
 import { CONTENT_TYPE_OPTIONS } from '@/features/explore/constants'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import FilterChip from '@/shared/components/FilterChip.vue'
+import type { GalleryCard } from '@/features/explore/types'
 // 三個篩選值：下拉選了什麼，透過 v-model 存在這裡；之後拿來決定作品牆要抓哪些卡片
 const contentType = ref('all')
 const category = ref('')
@@ -113,27 +119,61 @@ const hasSelection = computed(
 
 // 【頁面載入時】Embla 接手標籤列：滑鼠拖、觸控板、手機滑都能左右移動；dragFree：放開停在原地，不吸附
 const [tagEmblaRef] = emblaCarouselVue({ align: 'start', dragFree: true }, [WheelGesturesPlugin()])
-// 作品與圖片：一開始是空的，【頁面掛上後】onMounted 拿到資料才填進來
-// <Work[]> 不能省：只寫 ref([])，TypeScript 會當成永遠裝不了東西的陣列
-const works = ref<Work[]>([])
-const images = ref<WorkImage[]>([])
-// 【頁面建立時】交給 useGalleryColumns 分欄；傳 ref 本身（不是 works.value），fetch 回來後 columns 會自動重算
-const { columns } = useGalleryColumns(works)
+// 作品牆的卡片（作品＋可委託項目已轉成同一個形狀）：一開始是空的，loadWorks 跑完才填進來
+// <GalleryCard[]> 不能省：只寫 ref([])，TypeScript 會當成永遠裝不了東西的陣列
+const cards = ref<GalleryCard[]>([])
+// 【頁面建立時】交給 useGalleryColumns 分欄；傳 ref 本身（不是 cards.value），fetch 回來後 columns 會自動重算
+const { columns } = useGalleryColumns(cards)
 
-// 【每張卡片畫出來時，模板呼叫】作品本身沒有圖片欄位，用 work_id 去圖片清單找 seq_no 1（封面）的網址
-// 找不到時 find 回傳 undefined，用 ?? 換成空字串（WorkCard 的 imageUrl 一定要是字串）
-function coverOf(workId: string) {
-  return (
-    images.value.find((image) => image.work_id === workId && image.seq_no === 1)?.image_url ?? ''
+// 【頁面掛上後、篩選值改變時呼叫】抓作品＋可委託項目 → 轉成同一種卡片 → 新到舊排
+async function loadWorks() {
+  // ① 依作品分類決定要抓哪幾種（值見 constants.ts：all／commission／work）
+  const wantWorks = contentType.value !== 'commission'
+  const wantItems = contentType.value !== 'work'
+  const filter = { category: category.value, purpose: purpose.value, tag_ids: selectedTags.value }
+
+  // ② 不需要的那種直接給空陣列
+  const works = wantWorks ? await fetchWorks(filter) : []
+  const items = wantItems ? await fetchCommissionItems(filter) : []
+  const workImages = await fetchWorkImages()
+  const itemImages = await fetchCommissionImages()
+
+  // ③ 轉成同一個形狀；封面在這裡就找好：用 id 去圖片清單找 seq_no 1，找不到用 ?? 換成空字串
+  const workCards = works.map((work): GalleryCard => ({
+    id: work.work_id,
+    type: 'work',
+    image_url:
+      workImages.find((image) => image.work_id === work.work_id && image.seq_no === 1)?.image_url ??
+      '',
+    title: work.title,
+    author_id: work.user_id,
+    created_at: work.created_at,
+  }))
+  const itemCards = items.map((item): GalleryCard => ({
+    id: item.item_id,
+    type: 'commission-item',
+    image_url:
+      itemImages.find((image) => image.item_id === item.item_id && image.seq_no === 1)?.image_url ??
+      '',
+    title: item.title,
+    author_id: item.creator_id,
+    created_at: item.created_at,
+  }))
+
+  // ④ 合併後新到舊；created_at 格式都一樣（ISO＋08:00），字串比大小就等於比時間
+  cards.value = [...workCards, ...itemCards].sort(
+    (a, b) => b.created_at.localeCompare(a.created_at), //比較兩件作品的建立時間，讓比較新的排在前面
   )
 }
 
-// 【頁面掛上後】跟 api.ts 拿作品和圖片；await 只能寫在 async 函式裡，所以包在 onMounted(async ...)
+// 【頁面掛上後】第一次載入作品牆；await 只能寫在 async 函式裡，所以包在 onMounted(async ...)
 // 不在 script 最上層直接 await：那會把元件變成非同步元件，要外層包 <Suspense> 才能顯示
 onMounted(async () => {
-  works.value = await fetchWorks()
-  images.value = await fetchWorkImages()
+  await loadWorks()
 })
+
+// 【任何篩選值改變時】重新載入；deep：selectedTags 用 push 改內容，不加 deep 監看不到
+watch([contentType, category, purpose, selectedTags], loadWorks, { deep: true })
 </script>
 
 <style lang="scss" scoped>

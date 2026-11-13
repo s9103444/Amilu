@@ -10,7 +10,8 @@
 
 ## 目前在做
 
-拼裝頁面：首頁作品牆進行中（2026/11/11）。篩選列與標籤列完成，下一步：瀑布流（`types.ts` 加 `Work` 型別 → `mocks/work.ts`）。
+拼裝頁面：首頁作品牆（2026/11/13）。篩選＋可委託卡片混排都已寫完（type-check 通過，瀏覽器還沒測）。
+下一步：**瀏覽器確認**篩選與混排結果；之後做 Amilu 燈過濾（CREATOR_PROFILE.light_status）。
 
 ---
 
@@ -40,7 +41,25 @@
   - ✅ `HomePage` 兩層 `v-for` 排 `WorkCard`＋樣式（2026/11/12）；⬜ 瀏覽器看三種寬度；⬜ 桌機欄數 Figma 484:98 畫 4 欄、design-spec 寫 5 欄，待定
   - ⬜ 之後升級：放最矮的那欄（需要圖片高度，WORK_IMAGE 沒有寬高欄位，要另想辦法）
 - 🔄 「已選擇」列（Figma 490:490）：✅ `explore/constants.ts` 放作品分類清單；✅ `selectedTags`＋addTag／removeTag；✅ 名稱、selectedTagList、hasSelection 等 computed；✅ 模板；✅ 樣式（2026/11/12）；⬜ 瀏覽器確認
-- ⬜ 可委託項目卡片混進牆上
+- 🔄 篩選接上作品牆（2026/11/13）
+  - ✅ 規則定案寫進 features.md 2.4＋changelog：多標籤全部符合（AND）；類型、用途、標籤三者之間也全部符合；選了類型／用途時，該欄位空的作品不顯示
+  - ✅ `explore/types.ts` 加 `WorkTag`（work_id、tag_id，對應 WORK_TAG）
+  - ✅ `mocks/work.ts` 加 `MOCK_WORK_TAGS`：每件至少 3 個標籤；只選 #厚塗 → 01、02、05、09，加 #水彩風 → 01、05
+  - ✅ `explore/api.ts`：`fetchWorks(filter: WorkFilter)`（category、purpose、tag_ids） 在假資料上篩；參數名稱 api.md 沒寫（`GET /works` 只寫「支援分類／用途／標籤篩選」），註明要跟後端確認，不自己定成正式規格
+  - ✅ `HomePage`：`loadWorks()`＋`watch(..., { deep: true })`；三個篩選值＋`selectedTags` 一變就重抓（`selectedTags` 用 push 改，watch 要能偵測陣列內容變化）；圖片只抓一次
+  - ✅ 作品分類選「開放委託」時改由下面的可委託卡片處理
+  - ⬜ 瀏覽器確認：上面三組結果＋類型「角色立繪」＋用途「個人收藏」→ 01、16
+- 🔄 可委託項目卡片混進牆上（2026/11/13）
+  - ✅ 對照欄位表：COMMISSION_ITEM、COMMISSION_ITEM_IMAGE 與現有型別一致；缺 COMMISSION_ITEM_TAG、CREATOR_PROFILE（light_status）
+  - ✅ 混排順序定案：兩種卡片依 `created_at` 從新到舊，寫進 features.md 2.1＋changelog
+  - ✅ `explore/types.ts` 加 `CommissionItemTag`、`GalleryCard`（前端用的統一卡片形狀：id、type、image_url、title、author_id、created_at）
+  - ✅ `mocks/commissionItem.ts` 加 `MOCK_COMMISSION_ITEM_TAGS`（每個 3 個；ci_001、ci_003 有 #厚塗）
+  - ✅ `explore/api.ts` 加 `fetchCommissionItems(filter)`（篩選規則同作品）、`fetchCommissionImages()`；對應 `GET /commission-items`，參數待跟後端確認
+  - ✅ `useGalleryColumns` 改泛型 `<T>`（只排位置不讀欄位）
+  - ✅ `HomePage.loadWorks`：依作品分類決定抓哪幾種 → 轉成 `GalleryCard`（封面在這裡找好）→ 合併排序；模板傳 `type` 給 `WorkCard`
+  - ⬜ 瀏覽器確認：「開放委託」→ ci_003、ci_002、ci_001 且有「可委託」標示；「一般貼文」→ 16 張作品無標示；只選 #厚塗 → w_001、002、005、009＋ci_001、ci_003
+  - ⬜ Amilu 燈：`CREATOR_PROFILE` 假資料（user_id、light_status），燈「暫停」的創作者項目不回傳（features.md 2.1、api.md「依 Amilu 燈自動過濾」）；假資料要多幾位創作者，至少一位暫停
+  - ⬜ 卡片點擊行為（作品開燈箱／可委託項目開委託商店燈箱）
 
 ---
 

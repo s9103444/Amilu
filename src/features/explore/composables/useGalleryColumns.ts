@@ -1,18 +1,18 @@
 /*
-作品牆分欄：讀出現在該排幾欄，把作品依「第 i 張放第 i % N 欄」分好，交給頁面用兩層 v-for 畫出來。
+作品牆分欄：讀出現在該排幾欄，把卡片依「第 i 張放第 i % N 欄」分好，交給頁面用兩層 v-for 畫出來。
 欄數不在 JS 寫死，讀 _tokens.scss 的 --gallery-columns（手機 2／平板 3／桌機 5），規則只有一份。
-不用 CSS columns：那種排法是直的往下排，載入更多時舊卡片會跳；這裡新作品只會接在後面，舊卡片不動。
+不用 CSS columns：那種排法是直的往下排，載入更多時舊卡片會跳；這裡新卡片只會接在後面，舊卡片不動。
 範例：
 使用前先 import：import { useGalleryColumns } from '@/features/explore/composables/useGalleryColumns'
-const works = ref<Work[]>([])
-const { columns } = useGalleryColumns(works)   // 傳 ref 本身，不是 works.value，fetch 回來才會自動重算
-模板：v-for="column in columns" 畫每一欄，裡面 v-for="work in column" 畫卡片
+const cards = ref<GalleryCard[]>([])
+const { columns } = useGalleryColumns(cards)   // 傳 ref 本身，不是 cards.value，fetch 回來才會自動重算
+模板：v-for="column in columns" 畫每一欄，裡面 v-for="card in column" 畫卡片
 要在 <script setup> 最上層呼叫（不能放在函式或 if 裡），onMounted／onBeforeUnmount 才會綁到這個元件。
 */
 import { ref, computed, onMounted, onBeforeUnmount, type Ref } from 'vue'
-import type { Work } from '@/features/explore/types'
 
-export function useGalleryColumns(works: Ref<Work[]>) {
+// <T>：這裡只管排位置、不讀卡片欄位，所以不限型別；傳 GalleryCard[] 進來，T 就是 GalleryCard
+export function useGalleryColumns<T>(items: Ref<T[]>) {
   // 讀 _tokens.scss 的 --gallery-columns（手機 2／平板 3／桌機 5）
   // 讀不到時 Number('') 是 0，用 || 改成 2，避免 i % 0 變 NaN 讓整面牆消失（?? 攔不到 0）
   function readColumnCount() {
@@ -38,15 +38,15 @@ export function useGalleryColumns(works: Ref<Work[]>) {
     window.removeEventListener('resize', handleResize)
   })
 
-  // 【works 或欄數一變就自動重算】第 i 張放第 i % N 欄
+  // 【items 或欄數一變就自動重算】第 i 張放第 i % N 欄
   // 例：3 欄、7 張 A～G → [[A, D, G], [B, E], [C, F]]；之後第 8 張進第 1 欄，A～G 不動
   const columns = computed(() => {
     const n = columnCount.value
     // n 個「各自獨立」的空陣列（不能用 fill([])，那會是同一個陣列放 n 次）
-    const result: Work[][] = Array.from({ length: n }, () => [])
-    works.value.forEach((work, i) => {
+    const result: T[][] = Array.from({ length: n }, () => [])
+    items.value.forEach((item, i) => {
       // ?.：專案開了 noUncheckedIndexedAccess，取 result[某數] 可能是 undefined
-      result[i % n]?.push(work)
+      result[i % n]?.push(item)
     })
     return result
   })
