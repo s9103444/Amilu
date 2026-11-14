@@ -1,7 +1,7 @@
 <template>
   <div class="divider-with-text">
     <span class="divider-with-text__line"></span>
-    <span class="text-caption divider-with-text__text"><slot>或選擇</slot></span>
+    <span class="text-small divider-with-text__text"><slot>或選擇</slot></span>
     <span class="divider-with-text__line"></span>
   </div>
 </template>

@@ -21,7 +21,8 @@
         <UserMenu />
       </template>
       <!-- 登入前：只有登入按鈕 -->
-      <Button v-else variant="secondary" width="hug">登入</Button>
+      <!-- 不用 RouterLink 包 Button：<a> 裡放 <button> 是不合法的 HTML，還會多出連結底線 -->
+      <Button v-else variant="secondary" width="hug" @click="router.push('/login')">登入</Button>
     </div>
   </header>
 </template>
@@ -34,10 +35,11 @@
 <AppHeader :logged-in="false" />
 loggedIn：false 顯示「登入」按鈕；true 顯示通知、上傳、個人選單。
 登入狀態之後改由 account 的 store 提供，由 DefaultLayout 傳進來。
-連結（Logo、瞭解網站、登入、上傳）還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
+「登入」已接 /login；其他連結（Logo、瞭解網站、上傳）還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
 首頁的分類下拉、自訂標籤列不在這裡，屬於首頁（explore）。
 */
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import Button from '@/shared/components/Button.vue'
 import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
@@ -47,6 +49,7 @@ defineProps<{
   loggedIn: boolean
 }>()
 
+const router = useRouter()
 const base = import.meta.env.BASE_URL
 const keyword = ref('')
 </script>

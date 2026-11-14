@@ -10,11 +10,10 @@
 
 ## 目前在做
 
-拼裝頁面：首頁作品牆（2026/11/13）。篩選＋可委託卡片混排都已寫完（type-check 通過，瀏覽器還沒測）。
-下一步：**瀏覽器確認**篩選與混排結果；之後做 Amilu 燈過濾（CREATOR_PROFILE.light_status）。
-明天（2026/11/14）計畫：**登入／註冊頁**、**作品展示燈箱**、**委託商店燈箱**（見下方「明天預定」）。
+拼裝頁面：登入／註冊頁畫面完成（2026/11/14），送出邏輯還沒做。
+下一步：作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
-- 分支：在 `timmi` 上開發，最新 commit 68ea770。
+- 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
 - 分工：Opus（主對話）討論結構、寫交辦單；Sonnet 子代理 `implementer`（`~/.claude/agents/implementer.md`，2026/11/13 建立）照交辦單實作，回報後由主對話看 diff、跑 type-check。
   - implementer 規則：先讀 CLAUDE.md、structure.md；只用 semantic token；改完跑 type-check；不 commit、不 push；回報改了哪些檔、type-check 結果、自己做的決定。
   - 已載入可用（重開 Claude Code 後才會出現在子代理清單）。我要自己寫的部分仍走引導模式，只有明說「幫我做」才交給 implementer。
@@ -68,9 +67,19 @@
   - ⬜ 卡片點擊行為（作品開燈箱／可委託項目開委託商店燈箱）
 
 
-## 明天預定（2026/11/14）
+## 登入／註冊頁（2026/11/14）
 
-- ⬜ 登入／註冊頁：先讀 features.md、structure.md 3.5 的網址，以及「做到再處理」裡的帳號頁外框（只有左上 Logo，建在 `layouts/`）
+- ✅ 帳號頁外框 `layouts/AuthLayout.vue`（只有左上 Logo，點了回首頁）＋ `account/routes.ts`（`/login`、`/register`）
+- ✅ `LoginPage`（Figma 977:14307）：左表單、右裝飾圖 `assets/account/login-cover.webp`，手機隱藏圖；「註冊」鈕 push `/register`
+- ✅ `RegisterPage`（Figma 502:672）：Email、ID＋暱稱並排、密碼、確認密碼、同意條款、Google
+- ✅ header「登入」鈕 push `/login`（不用 RouterLink 包 Button：`<a>` 裡放 `<button>` 不合法）
+- ✅ `FormInput`：新增 `placeholder` prop；密碼欄自動有眼睛切換顯示；input `line-height: normal`（行高 1.5 會切掉 g、y 下緣）
+- ℹ️ 字級、間距、`min-width: 375px` 是彥廷刻意調整，和 Figma 不同屬正常，之後統一做視覺微調
+- ⬜ 送出邏輯：必填檢查、兩次密碼一致、勾同意條款、帳號 ID 重複提示（acceptance ACC-01）；登入成功後 `auth.loginAs` 再回首頁
+- ⬜ `/register/google` Google 補填資料頁（features.md 1.1、ACC-03、ACC-04）
+
+## 預定
+
 - ⬜ 作品展示燈箱（features.md 2.5）：點牆上的一般作品卡片開啟；先建共用燈箱外框（見「做到再處理」）
 - ⬜ 委託商店燈箱：點牆上的可委託卡片開啟；`mocks/commissionItem.ts` 原本就是給燈箱的 `CommissionItemOption` 用
 
@@ -78,11 +87,12 @@
 
 ## 做到再處理
 
-- 帳號頁外框（只有左上 Logo，不套 header／footer）：做登入頁時建在 `layouts/`
+- 「忘記密碼？」：spec 沒有這個流程、也沒有網址，目前是純文字，要跟後端確認做不做
+- 「服務條款與隱私權政策」連結：條款頁還沒有，註冊頁目前只有底線
 - 個人中心外框（左側選單＋右邊內容）：做第一個個人中心頁時建
 - 共用燈箱外框（黑底、關閉鈕、Esc 關閉、背景不捲動）：做第一個燈箱時建在 `shared/components/`
 - 申請委託的參考圖（`ImageUploadSlot`）要補「點圖開預覽」
-- 頁尾與 header 的連結（Logo、瞭解網站、登入、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由
+- 頁尾與 header 的連結（Logo、瞭解網站、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由
 - header 上傳圖示要不要打開「上傳作品選單」（Figma 573:3489）
 - 搜尋列和 Figma 的小差異：提示字（程式「輸入搜尋關鍵字」／Figma「輸入關鍵字搜尋」）、放大鏡和字的間距（程式 4／Figma 14）
 - 欄位表試算表還有 3 處 `CREATOR_PROFILE.creator_id` 沒改成 `user_id`（COMMISSION_ITEM、ORDER 的外來鍵欄，ORDER.creator_id 那列）
