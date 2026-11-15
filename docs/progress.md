@@ -80,8 +80,11 @@
 
 ## 預定
 
-- ⬜ 作品展示燈箱（features.md 2.5）：點牆上的一般作品卡片開啟；先建共用燈箱外框（見「做到再處理」）
-- ⬜ 委託商店燈箱：點牆上的可委託卡片開啟；`mocks/commissionItem.ts` 原本就是給燈箱的 `CommissionItemOption` 用
+- 🟡 作品展示燈箱（features.md 2.5，`WorkLightbox`）：已接首頁卡片，待瀏覽器確認；還沒做「我要委託」、點頭像看完整專頁
+- 🟡 委託商店燈箱（features.md 2.6，`CommissionShopLightbox`）：已接首頁可委託卡片與作品燈箱的「查看可委託項目」，待瀏覽器確認；「我要委託」等申請頁路由
+- 燈箱共用：外框 `shared/components/Lightbox.vue`（黑底、✕、Esc、背景不捲動）、左右版型 `explore/components/LightboxLayout.vue`；手機版上圖下文是前端自訂（Figma 只有桌機）
+- 燈箱圖片捲動方向（2026/11/16 彥廷決定）：手機**橫向**左右滑、對齊左緣；平板以上垂直、捲軸放左側。spec 2.5 與 changelog 已同步
+- mock 補了 `USER.bio`、`mocks/creatorProfile.ts`（`light_status`、`store_approved`）、w_001／w_003 多張圖
 
 ---
 
@@ -90,7 +93,6 @@
 - 「忘記密碼？」：spec 沒有這個流程、也沒有網址，目前是純文字，要跟後端確認做不做
 - 「服務條款與隱私權政策」連結：條款頁還沒有，註冊頁目前只有底線
 - 個人中心外框（左側選單＋右邊內容）：做第一個個人中心頁時建
-- 共用燈箱外框（黑底、關閉鈕、Esc 關閉、背景不捲動）：做第一個燈箱時建在 `shared/components/`
 - 申請委託的參考圖（`ImageUploadSlot`）要補「點圖開預覽」
 - 頁尾與 header 的連結（Logo、瞭解網站、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由
 - header 上傳圖示要不要打開「上傳作品選單」（Figma 573:3489）

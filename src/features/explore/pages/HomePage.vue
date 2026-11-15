@@ -47,9 +47,23 @@
         :image-url="card.image_url"
         :title="card.title"
         :author-id="card.author_id"
+        @click="openCard(card)"
       />
     </div>
   </div>
+  <!-- 燈箱沒有網址，用狀態打開（structure.md）：值有東西＝開著，清空＝關掉 -->
+  <WorkLightbox
+    v-if="openedWorkId"
+    :work-id="openedWorkId"
+    @close="openedWorkId = null"
+    @open-shop="openShopFromWork"
+  />
+  <CommissionShopLightbox
+    v-if="shopCreatorId"
+    :creator-id="shopCreatorId"
+    :item-id="shopItemId"
+    @close="shopCreatorId = null"
+  />
 </template>
 
 <script setup lang="ts">
@@ -68,6 +82,8 @@ import {
 } from '@/features/explore/api'
 import { useGalleryColumns } from '@/features/explore/composables/useGalleryColumns'
 import WorkCard from '@/features/explore/components/WorkCard.vue'
+import WorkLightbox from '@/features/explore/components/WorkLightbox.vue'
+import CommissionShopLightbox from '@/features/explore/components/CommissionShopLightbox.vue'
 import { CONTENT_TYPE_OPTIONS } from '@/features/explore/constants'
 import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
 import FilterChip from '@/shared/components/FilterChip.vue'
@@ -171,6 +187,29 @@ async function loadWorks() {
 onMounted(async () => {
   await loadWorks()
 })
+
+// ── 燈箱 ──
+// 開著哪件作品的燈箱（work_id）；null＝沒開
+const openedWorkId = ref<string | null>(null)
+// 開著哪位創作者的委託商店（帳號 ID）；null＝沒開。shopItemId：要預先展開的項目，沒有就 undefined
+const shopCreatorId = ref<string | null>(null)
+const shopItemId = ref<string | undefined>(undefined)
+
+// 【點作品牆的卡片時，模板呼叫】一般作品開作品燈箱；可委託項目開該創作者的委託商店，並預先展開被點的那筆（features.md 2.6）
+function openCard(card: GalleryCard) {
+  if (card.type === 'work') {
+    openedWorkId.value = card.id
+  } else {
+    shopItemId.value = card.id
+    shopCreatorId.value = card.author_id
+  }
+}
+// 【作品燈箱點「查看可委託項目」時】關掉作品燈箱，改開這位作者的委託商店（不預選項目）
+function openShopFromWork(creatorId: string) {
+  openedWorkId.value = null
+  shopItemId.value = undefined
+  shopCreatorId.value = creatorId
+}
 
 // 【任何篩選值改變時】重新載入；deep：selectedTags 用 push 改內容，不加 deep 監看不到
 watch([contentType, category, purpose, selectedTags], loadWorks, { deep: true })

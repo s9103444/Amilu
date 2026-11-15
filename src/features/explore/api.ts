@@ -2,13 +2,22 @@
 // 現在回傳假資料，後端好了只改這個檔，頁面不用動。
 // 真正打後端的 shared/api/client.ts 還沒建（專案目前沒有），接後端時再建。
 // 函式都用 async：現在假資料瞬間就有，之後真 API 要等回應；先回傳 Promise，頁面一律 await，換後端時寫法不變。
-import type { CommissionItem, CommissionItemImage, Work, WorkImage } from '@/features/explore/types'
+import type {
+  CommissionItem,
+  CommissionItemImage,
+  LightboxAuthor,
+  Work,
+  WorkImage,
+} from '@/features/explore/types'
 import {
   MOCK_COMMISSION_ITEMS,
   MOCK_COMMISSION_ITEM_TAGS,
   MOCK_COMMISSION_ITEM_IMAGES,
 } from '@/mocks/commissionItem'
 import { MOCK_WORKS, MOCK_WORK_IMAGES, MOCK_WORK_TAGS } from '@/mocks/work'
+import { MOCK_USERS } from '@/mocks/user'
+import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
+import { MOCK_TAGS } from '@/mocks/tag'
 // 參數名稱 api.md 沒寫，要跟後端確認
 export type WorkFilter = {
   category: string
@@ -56,4 +65,60 @@ export async function fetchCommissionItems(filter: WorkFilter): Promise<Commissi
 // 同 fetchWorkImages，會不會跟清單一起回傳要跟後端確認
 export async function fetchCommissionImages(): Promise<CommissionItemImage[]> {
   return [...MOCK_COMMISSION_ITEM_IMAGES]
+}
+
+// ── 燈箱 ──────────────────────────────────────────
+
+// 【作品燈箱打開時由 WorkLightbox 呼叫】一件作品＋它的所有圖片（依 seq_no）＋標籤名稱
+// 對應 GET /works/{id}（api.md 草案）；找不到回傳 null
+export async function fetchWorkDetail(
+  workId: string,
+): Promise<{ work: Work; images: string[]; tags: string[] } | null> {
+  const work = MOCK_WORKS.find((row) => row.work_id === workId)
+  if (!work) {
+    return null
+  }
+  const images = MOCK_WORK_IMAGES.filter((row) => row.work_id === workId)
+    .sort((a, b) => a.seq_no - b.seq_no)
+    .map((row) => row.image_url)
+  // WORK_TAG 只有 tag_id，用 MOCK_TAGS 查回名稱；查不到的略過
+  const tags = MOCK_WORK_TAGS.filter((row) => row.work_id === workId)
+    .map((row) => MOCK_TAGS.find((tag) => tag.tag_id === row.tag_id)?.name)
+    .filter((name): name is string => name !== undefined)
+  return { work, images, tags }
+}
+
+// 【兩個燈箱打開時呼叫】作者資料＋Amilu 燈
+// 對應 GET /users/{id}（api.md 草案）；Amilu 燈之後應由後端算好回傳，現在在這裡模擬
+export async function fetchAuthor(userId: string): Promise<LightboxAuthor | null> {
+  const user = MOCK_USERS.find((row) => row.id === userId)
+  if (!user) {
+    return null
+  }
+  const profile = MOCK_CREATOR_PROFILES.find((row) => row.user_id === userId)
+  const hasItem = MOCK_COMMISSION_ITEMS.some((item) => item.creator_id === userId)
+  return {
+    id: user.id,
+    nickname: user.nickname,
+    avatar_url: user.avatar_url,
+    bio: user.bio,
+    store_approved: profile?.store_approved ?? false,
+    // 三者同時成立才是接案中（data-model.md 5.1）：手動開放＋至少 1 筆可委託項目＋已開通
+    is_open: profile?.light_status === '開放' && hasItem && profile.store_approved,
+  }
+}
+
+// 【委託商店燈箱打開時由 CommissionShopLightbox 呼叫】某創作者的所有可委託項目＋每個項目的圖片
+// 對應 GET /creators/{creator_id}/commission-items（api.md 草案）
+export async function fetchCreatorCommissionItems(
+  creatorId: string,
+): Promise<{ items: CommissionItem[]; images: string[] }> {
+  const items = MOCK_COMMISSION_ITEMS.filter((item) => item.creator_id === creatorId)
+  // 左側圖片：照項目順序，每個項目內再照 seq_no（features.md 2.6「依序排列」）
+  const images = items.flatMap((item) =>
+    MOCK_COMMISSION_ITEM_IMAGES.filter((row) => row.item_id === item.item_id)
+      .sort((a, b) => a.seq_no - b.seq_no)
+      .map((row) => row.image_url),
+  )
+  return { items, images }
 }

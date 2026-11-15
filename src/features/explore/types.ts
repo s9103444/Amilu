@@ -50,3 +50,14 @@ export type GalleryCard = {
   author_id: string
   created_at: string
 }
+
+// 燈箱的作者資料：USER 的公開欄位＋CREATOR_PROFILE 的開通狀態＋算好的 Amilu 燈
+// 後端會怎麼回傳 api.md 沒寫（GET /users/{id}），先照燈箱需要的組起來，接後端時再對
+export type LightboxAuthor = {
+  id: string // USER.id
+  nickname: string
+  avatar_url: string | null
+  bio: string | null
+  store_approved: boolean // 沒有 CREATOR_PROFILE 也算 false
+  is_open: boolean // Amilu 燈對外顯示「接案中」；衍生值，由 fetchAuthor 算好，不存（data-model.md 5.1）
+}

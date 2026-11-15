@@ -1,6 +1,7 @@
 // 假的一般作品，給首頁作品牆（瀑布流）用。16 筆對應 src/assets/work/ 的 16 張圖。
 // 形狀用 features/explore/types.ts 的 Work／WorkImage（對齊 WORK、WORK_IMAGE）。
-// 每件作品先只放一張圖（seq_no 1 ＝ 封面），作品牆只需要封面；燈箱要多張時再補。
+// 每件作品至少一張圖（seq_no 1 ＝ 封面），作品牆只用封面。
+// w_001（3 張）、w_003（2 張）多放幾張，給燈箱測垂直捲動與對齊；多出來的圖借用其他作品的圖。
 // user_id 用 mocks/user.ts 現有的帳號；category_id／purpose_id 對應 mocks/classification.ts 的 value，
 // 刻意留幾筆 null（data-model：可為空），之後做篩選時可以測到。
 // 之後後端好了，改從 GET /works 拿（api.md 草案），到時候只要改這個檔。
@@ -171,7 +172,7 @@ export const MOCK_WORKS: Work[] = [
   },
 ]
 
-// 每件作品一張封面（seq_no 1），順序同 MOCK_WORKS
+// 每件作品一張封面（seq_no 1），順序同 MOCK_WORKS；最後幾列是燈箱用的第 2、3 張
 export const MOCK_WORK_IMAGES: WorkImage[] = [
   { work_id: 'w_001', seq_no: 1, image_url: work01 },
   { work_id: 'w_002', seq_no: 1, image_url: work02 },
@@ -189,6 +190,10 @@ export const MOCK_WORK_IMAGES: WorkImage[] = [
   { work_id: 'w_014', seq_no: 1, image_url: work14 },
   { work_id: 'w_015', seq_no: 1, image_url: work15 },
   { work_id: 'w_016', seq_no: 1, image_url: work16 },
+  // 燈箱用：多張圖
+  { work_id: 'w_001', seq_no: 2, image_url: work02 },
+  { work_id: 'w_001', seq_no: 3, image_url: work03 },
+  { work_id: 'w_003', seq_no: 2, image_url: work04 },
 ]
 
 // 作品掛了哪些標籤（WORK_TAG，一列＝一組作品＋標籤）；tag_id 對應 mocks/tag.ts

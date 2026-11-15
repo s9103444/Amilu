@@ -50,7 +50,7 @@ withDefaults(
 // 文字區：吃掉頭像以外的寬度；min-width: 0 讓它能縮得比文字窄，裡面的字才有機會被截斷
 .text {
   display: flex;
-  width: 100%;
+  width: fit-content;
   min-width: 0;
 }
 // 太長時截成「…」：text-overflow 只對「直接裝著文字的元素」有效，

@@ -1,14 +1,14 @@
 <template>
   <div class="rules">
     <button type="button" class="header" :aria-expanded="isOpen" @click="changeStates">
-      <span class="title text-body">{{ title }}</span>
+      <span class="title text-caption">{{ title }}</span>
       <img
         class="arrow"
         :src="base + (isOpen ? 'icons/arrow-up-gray.svg' : 'icons/arrow-down-gray.svg')"
         alt=""
       />
     </button>
-    <div v-if="isOpen" class="content text-caption">
+    <div v-if="isOpen" class="content text-small">
       <slot></slot>
     </div>
   </div>
@@ -32,7 +32,7 @@ defineProps<{
 
 // 圖示用 :src 綁定，Vite 不會自動補 base，要自己接（BASE_URL 結尾已經有 /）
 const base = import.meta.env.BASE_URL
-const isOpen = ref(false)
+const isOpen = ref(true)
 
 // 【點標題時觸發】開著就收、收著就開
 function changeStates() {
@@ -76,6 +76,7 @@ function changeStates() {
 .content {
   padding: 0 16px;
   color: var(--color-text-primary);
+  font-weight: var(--font-weight-regular); // text-small 預設 medium，內文改回一般粗細
   word-break: break-word;
 }
 

@@ -106,6 +106,10 @@
   --radius-avatar: 25%;
   // 討論牆貼文的稿件圖片（Figma 617:476）
   --radius-post-image: 16px;
+  // 燈箱外框（Figma 作品燈箱 521:1065、委託商店燈箱 526:1848）
+  --radius-lightbox: 24px;
+  --color-bg-lightbox: var(--neutral-white);
+  --color-bg-lightbox-media: var(--base-100); // 燈箱左側圖片區的底
   // 登入頁右側裝飾圖（Figma 497:488）
   --radius-login-cover: 14px;
   // 文字連結（登入頁「忘記密碼？」Figma 497:470）
@@ -159,6 +163,7 @@
   --font-weight-bold: 700;
   --fs-note: 10px; // 可商用標籤（Figma text style `note`），不隨斷點變化
   --fs-badge: 8px; // 通知未讀數字（header 通知頁籤的圓形紅點），不隨斷點變化
+  --fs-follow-lightbox: 12px; // 燈箱作者列的 Follow 按鈕（彥廷調整，比 Figma 的 small 小一階），不隨斷點變化
 
   // ── 間距（8 的倍數）────────────────────────────
   --space-1: 8px;

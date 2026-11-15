@@ -5,7 +5,7 @@
     <span class="header">
       <span class="name-price">
         <span class="name-tag">
-          <span class="title text-caption">{{ title }}</span>
+          <span class="title text-small">{{ title }}</span>
           <CommercialTag v-if="commercialAllowed" />
         </span>
         <span class="price text-small">{{ priceText }}</span>
@@ -127,6 +127,7 @@ const priceText = computed(() => formatAmount(props.price))
 
 .title {
   color: var(--color-text-primary);
+  font-weight: var(--font-weight-regular); // 字級比 Figma 小一階（彥廷調整）；text-small 預設 medium，名稱維持一般粗細，價格才分得出來
   overflow-wrap: anywhere; // 標題太長時換行，不撐破卡片
 }
 

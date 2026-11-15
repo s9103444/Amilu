@@ -1,7 +1,7 @@
 <template>
   <div class="work-info">
-    <p class="text-body title">{{ title }}</p>
-    <p class="text-caption description">{{ description }}</p>
+    <p class="text-caption title">{{ title }}</p>
+    <p class="text-small description">{{ description }}</p>
     <div v-if="tags?.length" class="tags">
       <HashtagLabel v-for="tag in tags" :key="tag" variant="post">#{{ tag }}</HashtagLabel>
     </div>
@@ -38,6 +38,13 @@ defineProps<{
 .description {
   margin: 0;
   color: var(--color-text-primary);
+}
+// 燈箱裡字級比 Figma 小一階（彥廷調整）：標題 caption 加粗、說明 small 改回一般粗細
+.title {
+  font-weight: var(--font-weight-medium);
+}
+.description {
+  font-weight: var(--font-weight-regular);
 }
 
 // 標籤太多時換行：列距 8、欄距 12（Figma）
