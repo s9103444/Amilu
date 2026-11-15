@@ -4,7 +4,7 @@
       <label class="text-caption" :for="inputId"
         ><slot>{{ defaultLabels[type] }}</slot></label
       >
-      <span v-if="error" :id="errorId" class="text-caption label--error">{{ error }}</span>
+      <span v-if="error" :id="errorId" class="text-note label--error">{{ error }}</span>
       <span v-else-if="readonly" class="text-caption label--hint">唯讀，不可修改</span>
     </div>
     <div class="control">
@@ -107,6 +107,8 @@ label {
 }
 .label-content {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 4px;
 }
 .control {

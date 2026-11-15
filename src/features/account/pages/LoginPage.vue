@@ -8,9 +8,9 @@
           <p class="text-small">登入 Amilu，在專業的節奏裡，與創作者並肩完成每一次委託。</p>
         </div>
         <!-- 在輸入框按 Enter 或點「登入」都會觸發送出；.prevent 擋掉整頁重新載入 -->
-        <form @submit.prevent>
-          <FormInput v-model="email" type="email">Email</FormInput>
-          <FormInput v-model="password" type="password" />
+        <form novalidate @submit.prevent="handleSubmit">
+          <FormInput v-model="email" type="email" :error="errors.email">Email</FormInput>
+          <FormInput v-model="password" type="password" :error="errors.password" />
           <p class="forgot text-small">忘記密碼？</p>
           <div class="action">
             <Button type="submit">登入</Button>
@@ -32,16 +32,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FormInput from '@/shared/components/FormInput.vue'
 import Button from '@/shared/components/Button.vue'
 import DividerWithText from '@/shared/components/DividerWithText.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import loginCover from '@/assets/account/login-cover.webp'
+import { emailError, requiredError } from '@/features/account/validation'
+
 const router = useRouter()
 const email = ref('')
 const password = ref('')
+// 每欄的錯誤文字，空字串＝沒錯；直接綁到 FormInput 的 :error
+const errors = reactive({ email: '', password: '' })
+
+// 檢查每一欄、把錯誤文字寫進 errors；全部通過回傳 true
+function validate(): boolean {
+  errors.email = emailError(email.value)
+  errors.password = requiredError(password.value, '密碼')
+  return !errors.email && !errors.password
+}
+
+// 【流程：按「登入」或在輸入框按 Enter 時觸發（form 的 @submit）】
+function handleSubmit() {
+  // ① 先檢查，有錯就停在這裡，畫面上會顯示錯誤文字
+  if (!validate()) {
+    return
+  }
+  // ② TODO 通過後：呼叫登入 API，成功後 auth.loginAs 並回首頁（認證方式等後端確認）
+}
 </script>
 
 <style lang="scss" scoped>
