@@ -13,7 +13,10 @@
       <!-- 作者已開通創作者商店才有入口（features.md 2.5）；Figma 按鈕文字是「查看可委託項目」 -->
       <template v-if="author?.store_approved" #action>
         <!-- 【點按鈕時觸發】交給首頁：關掉作品燈箱、改開這位作者的委託商店燈箱 -->
-        <Button @click="emit('open-shop', author.id)">查看可委託項目</Button>
+        <!-- 暫不接案時停用：is_open 由 fetchAuthor 算好（light_status＋至少 1 筆項目＋已開通） -->
+        <Button :disabled="!author.is_open" @click="emit('open-shop', author.id)">
+          查看可委託項目
+        </Button>
       </template>
     </LightboxLayout>
   </Lightbox>
