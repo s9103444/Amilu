@@ -40,8 +40,11 @@ import DividerWithText from '@/shared/components/DividerWithText.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import loginCover from '@/assets/account/login-cover.webp'
 import { emailError, requiredError } from '@/features/account/validation'
+import { login } from '@/features/account/api'
+import { useAuthStore } from '@/features/account/store'
 
 const router = useRouter()
+const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 // 每欄的錯誤文字，空字串＝沒錯；直接綁到 FormInput 的 :error
@@ -55,12 +58,21 @@ function validate(): boolean {
 }
 
 // 【流程：按「登入」或在輸入框按 Enter 時觸發（form 的 @submit）】
-function handleSubmit() {
+async function handleSubmit() {
   // ① 先檢查，有錯就停在這裡，畫面上會顯示錯誤文字
   if (!validate()) {
     return
   }
-  // ② TODO 通過後：呼叫登入 API，成功後 auth.loginAs 並回首頁（認證方式等後端確認）
+  // ② 問後端這組帳密對不對
+  const userId = await login(email.value, password.value)
+  // ③ 對不上：顯示錯誤、停在登入頁（不說是哪一欄錯，避免被試出哪些 email 有註冊）
+  if (!userId) {
+    errors.password = 'Email 或密碼錯誤'
+    return
+  }
+  // ④ 對上了：記住登入者（header 跟著換），再回首頁
+  auth.loginAs(userId)
+  router.push('/')
 }
 </script>
 
