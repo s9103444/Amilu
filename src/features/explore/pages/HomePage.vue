@@ -51,6 +51,8 @@
       />
     </div>
   </div>
+  <!-- 哨兵：捲到這裡（提早 300px）就多顯示 PAGE_SIZE 張；observer 在 onMounted 建立 -->
+  <div ref="sentinelRef" class="sentinel"></div>
   <!-- 燈箱沒有網址，用狀態打開（structure.md）：值有東西＝開著，清空＝關掉 -->
   <WorkLightbox
     v-if="openedWorkId"
@@ -69,7 +71,7 @@
 <script setup lang="ts">
 import ContentTypeSelect from '@/features/explore/components/ContentTypeSelect.vue'
 import CategorySelect from '@/features/explore/components/CategorySelect.vue'
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue'
 import { MOCK_TAGS } from '@/mocks/tag'
 import HashtagLabel from '@/shared/components/HashtagLabel.vue'
 import emblaCarouselVue from 'embla-carousel-vue'
@@ -135,10 +137,16 @@ const hasSelection = computed(
 
 // 【頁面載入時】Embla 接手標籤列：滑鼠拖、觸控板、手機滑都能左右移動；dragFree：放開停在原地，不吸附
 const [tagEmblaRef] = emblaCarouselVue({ align: 'start', dragFree: true }, [WheelGesturesPlugin()])
-// 作品牆的卡片（作品＋可委託項目已轉成同一個形狀）：一開始是空的，loadWorks 跑完才填進來
+// 一次多顯示幾張（捲到底時加這麼多）
+const PAGE_SIZE = 8
+// 符合篩選的全部卡片（作品＋可委託項目已轉成同一個形狀）：一開始是空的，loadWorks 跑完才填進來
 // <GalleryCard[]> 不能省：只寫 ref([])，TypeScript 會當成永遠裝不了東西的陣列
-const cards = ref<GalleryCard[]>([])
-// 【頁面建立時】交給 useGalleryColumns 分欄；傳 ref 本身（不是 cards.value），fetch 回來後 columns 會自動重算
+const allCards = ref<GalleryCard[]>([])
+// 目前畫面上要顯示幾張；loadMore 會加、loadWorks 會歸回 PAGE_SIZE
+const visibleCount = ref(PAGE_SIZE)
+// 畫面上的卡片：從全部裡切前 visibleCount 張；visibleCount 一變就自動重切
+const cards = computed(() => allCards.value.slice(0, visibleCount.value))
+// 【頁面建立時】交給 useGalleryColumns 分欄；傳 computed 本身（不是 cards.value），切片變了 columns 會自動重算
 const { columns } = useGalleryColumns(cards)
 
 // 【頁面掛上後、篩選值改變時呼叫】抓作品＋可委託項目 → 轉成同一種卡片 → 新到舊排
@@ -177,16 +185,50 @@ async function loadWorks() {
   }))
 
   // ④ 合併後新到舊；created_at 格式都一樣（ISO＋08:00），字串比大小就等於比時間
-  cards.value = [...workCards, ...itemCards].sort(
+  allCards.value = [...workCards, ...itemCards].sort(
     (a, b) => b.created_at.localeCompare(a.created_at), //比較兩件作品的建立時間，讓比較新的排在前面
   )
+  // ⑤ 篩選換了，從前 PAGE_SIZE 張重新開始；等畫面更新完，再請 observer 回報一次哨兵在不在畫面裡
+  visibleCount.value = PAGE_SIZE
+  await nextTick()
+  reobserve()
 }
 
+// ── 捲到底多顯示 ──
+const sentinelRef = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
+
+// 重新觀察：observer 只在哨兵「進出畫面」時通知。
+// 螢幕很高時，加完一批哨兵可能還在畫面裡，沒有進出就不會再通知，
+// 所以拆掉再掛一次，讓它立刻回報一次現在的狀態
+// 第一次 loadWorks 時 observer 還沒建立，這裡直接 return，等 onMounted 建好再呼叫
+function reobserve() {
+  if (!sentinelRef.value || !observer) return
+  observer.unobserve(sentinelRef.value)
+  observer.observe(sentinelRef.value)
+}
+// 【流程④：哨兵進畫面時，observer 呼叫】
+async function loadMore() {
+  if (visibleCount.value >= allCards.value.length) return
+  visibleCount.value += PAGE_SIZE
+  await nextTick()
+  reobserve()
+}
 // 【頁面掛上後】第一次載入作品牆；await 只能寫在 async 函式裡，所以包在 onMounted(async ...)
 // 不在 script 最上層直接 await：那會把元件變成非同步元件，要外層包 <Suspense> 才能顯示
 onMounted(async () => {
   await loadWorks()
+  // 【流程③】開始盯哨兵；rootMargin 下方 300px：還沒捲到底就提早載入
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0]?.isIntersecting) loadMore()
+    },
+    { rootMargin: '0px 0px 300px 0px' },
+  )
+  reobserve()
 })
+// 【流程⑥：離開首頁前】不拆的話，observer 會一直留著
+onBeforeUnmount(() => observer?.disconnect())
 
 // ── 燈箱 ──
 // 開著哪件作品的燈箱（work_id）；null＝沒開
@@ -303,5 +345,10 @@ watch([contentType, category, purpose, selectedTags], loadWorks, { deep: true })
   flex-direction: column;
   gap: var(--grid-gutter);
   min-width: 0;
+}
+
+// 哨兵：給 1px 高，observer 才有東西可以偵測
+.sentinel {
+  height: 1px;
 }
 </style>

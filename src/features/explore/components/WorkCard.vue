@@ -1,7 +1,7 @@
 <template>
   <button type="button" class="card">
     <span class="image-frame">
-      <img class="image" :src="imageUrl" alt="" />
+      <img class="image" :src="imageUrl" alt="" loading="lazy" />
       <!-- 放在圖片外面，hover 時圖片放大、小標不動 -->
       <span v-if="type === 'commission-item'" class="text-caption badge">可委託</span>
     </span>
@@ -68,10 +68,14 @@ withDefaults(
 }
 
 // 寬度撐滿、高度依圖片比例（Figma：圖片高度依作品比例調整）
+// aspect-ratio: auto 1 / 1：圖還沒載入時先當正方形佔位，載入後改用圖片本身的比例
+// 沒有佔位的話，沒載入的圖高度是 0，整面牆很矮，首頁的哨兵一直在畫面裡，會連續載到全部
+// 之後後端若給圖片寬高，可改成依真實比例佔位，載入時卡片就不會跳（progress.md 瀑布流的升級項）
 .image {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: auto 1 / 1;
   transition: transform 0.2s ease;
 }
 
