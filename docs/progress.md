@@ -77,7 +77,10 @@
 - ✅ header「登入」鈕 push `/login`（不用 RouterLink 包 Button：`<a>` 裡放 `<button>` 不合法）
 - ✅ `FormInput`：新增 `placeholder` prop；密碼欄自動有眼睛切換顯示；input `line-height: normal`（行高 1.5 會切掉 g、y 下緣）
 - ℹ️ 字級、間距、`min-width: 375px` 是彥廷刻意調整，和 Figma 不同屬正常，之後統一做視覺微調
-- ⬜ 送出邏輯：必填檢查、兩次密碼一致、勾同意條款、帳號 ID 重複提示（acceptance ACC-01）；登入成功後 `auth.loginAs` 再回首頁
+- ✅ 前端欄位檢查：必填、兩次密碼一致、勾同意條款（2dd7f7a）
+- ✅ 登入送出（2026/11/16）：`account/api.ts` 的 `login()` 比對 `mocks/user.ts`（email＋密碼，假資料密碼放明碼），成功 `auth.loginAs` 回首頁、失敗顯示「Email 或密碼錯誤」；測試帳號密碼都是 `demo1234`
+- ⬜ 註冊送出：呼叫註冊 API，帳號 ID 重複由後端回錯（acceptance ACC-01）
+- ℹ️ 重新整理會變回未登入：登入狀態只存在 Pinia，等後端給 token 再處理
 - ⬜ `/register/google` Google 補填資料頁（features.md 1.1、ACC-03、ACC-04）
 
 ## 預定
@@ -96,7 +99,7 @@
 - 「服務條款與隱私權政策」連結：條款頁還沒有，註冊頁目前只有底線
 - 個人中心外框（左側選單＋右邊內容）：做第一個個人中心頁時建
 - 申請委託的參考圖（`ImageUploadSlot`）要補「點圖開預覽」
-- 頁尾與 header 的連結（Logo、瞭解網站、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由
+- 頁尾與 header 的連結（瞭解網站、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由。header Logo 已接（2026/11/16）：回首頁；已在首頁時 `DefaultLayout` 改 `RouterView` 的 key 重建首頁（登入狀態保留）
 - header 上傳圖示要不要打開「上傳作品選單」（Figma 573:3489）
 - 搜尋列和 Figma 的小差異：提示字（程式「輸入搜尋關鍵字」／Figma「輸入關鍵字搜尋」）、放大鏡和字的間距（程式 4／Figma 14）
 - 欄位表試算表還有 3 處 `CREATOR_PROFILE.creator_id` 沒改成 `user_id`（COMMISSION_ITEM、ORDER 的外來鍵欄，ORDER.creator_id 那列）

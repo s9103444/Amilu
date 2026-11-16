@@ -1,9 +1,10 @@
 <template>
   <!-- container：左右留白＋最寬 1440 置中（main.scss），全站共用 -->
   <header class="app-header container">
-    <a class="logo" href="#" aria-label="回到首頁">
+    <!-- 【流程①：點 Logo】通知外框；在首頁時由外框重建頁面 -->
+    <RouterLink class="logo" to="/" aria-label="回到首頁" @click="emit('logo-click')">
       <img :src="base + 'picture/logo-header.png'" alt="Amilu" />
-    </a>
+    </RouterLink>
 
     <div class="search-area">
       <SearchBar v-model="keyword" />
@@ -35,11 +36,11 @@
 <AppHeader :logged-in="false" />
 loggedIn：false 顯示「登入」按鈕；true 顯示通知、上傳、個人選單。
 登入狀態之後改由 account 的 store 提供，由 DefaultLayout 傳進來。
-「登入」已接 /login；其他連結（Logo、瞭解網站、上傳）還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
+「登入」已接 /login；Logo 回首頁（已在首頁時發 logo-click，由 DefaultLayout 重建首頁）；其他連結（瞭解網站、上傳）還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
 首頁的分類下拉、自訂標籤列不在這裡，屬於首頁（explore）。
 */
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import Button from '@/shared/components/Button.vue'
 import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
@@ -49,6 +50,9 @@ defineProps<{
   loggedIn: boolean
 }>()
 
+const emit = defineEmits<{
+  'logo-click': [] // 點 Logo 時通知 DefaultLayout，不帶資料
+}>()
 const router = useRouter()
 const base = import.meta.env.BASE_URL
 const keyword = ref('')
