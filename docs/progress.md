@@ -44,6 +44,8 @@
   - ✅ 定下 `explore/api.ts` 回傳假資料的寫法（之後每個功能照抄）
   - ✅ `explore/composables/useGalleryColumns.ts`：讀 `--gallery-columns` 欄數＋第 i 張放第 i % N 欄（2026/11/11 選定自己分欄，不用 CSS columns／Masonry 外掛：載入更多時舊卡片不跳）
   - ✅ `HomePage` 兩層 `v-for` 排 `WorkCard`＋樣式（2026/11/12）；⬜ 瀏覽器看三種寬度；⬜ 桌機欄數 Figma 484:98 畫 4 欄、design-spec 寫 5 欄，待定
+  - ✅ 捲到底多顯示（2026/11/16，fddc605）：`allCards` 全部＋`visibleCount` 切片，IntersectionObserver 盯哨兵、每次加 8 張；`WorkCard` 圖片 `loading="lazy"`＋`aspect-ratio: auto 1 / 1` 佔位（沒佔位時圖片高度 0，哨兵一直在畫面裡會連續載到全部）
+  - ⬜ 分頁 API、圖片寬高、未登入限制：open-questions.md 第 14 題
   - ⬜ 之後升級：放最矮的那欄（需要圖片高度，WORK_IMAGE 沒有寬高欄位，要另想辦法）
 - 🔄 「已選擇」列（Figma 490:490）：✅ `explore/constants.ts` 放作品分類清單；✅ `selectedTags`＋addTag／removeTag；✅ 名稱、selectedTagList、hasSelection 等 computed；✅ 模板；✅ 樣式（2026/11/12）；⬜ 瀏覽器確認
 - 🔄 篩選接上作品牆（2026/11/13）
