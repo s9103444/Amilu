@@ -33,6 +33,7 @@
   --color-text-secondary: var(--neutral-500);
   --color-text-on-dark: var(--neutral-white);
   --color-border: var(--neutral-300);
+  --color-border-light: var(--base-100);
   --color-border-expanded: var(--neutral-500); // 展開中的選擇框外框（Figma 委託項目選擇 592:303）
   --color-border-strong: var(--neutral-900); // 醒目的輸入框外框（Figma 590:365）
   --color-placeholder: var(--neutral-300);
@@ -112,6 +113,8 @@
   --color-bg-lightbox-media: var(--base-100); // 燈箱左側圖片區的底
   // 登入頁右側裝飾圖（Figma 497:488）
   --radius-login-cover: 14px;
+  --color-bg-card: var(--neutral-white); // 白色內容卡片（個人資料設定 Figma 547:3030）
+  --radius-card: 24px;
   // 文字連結（登入頁「忘記密碼？」Figma 497:470）
   --color-text-link: var(--accent-orange);
 

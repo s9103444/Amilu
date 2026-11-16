@@ -8,7 +8,7 @@
           :icon="item.icon"
           :main-title="item.mainTitle"
           :sub-title="item.subTitle"
-          @click="subOpen(item)"
+          @click="handleItemClick(item)"
           :sub-require="!!item.children"
           :is-open="isUploadOpen"
         />
@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import { ref, useTemplateRef, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import type { UserMenuItemData } from '@/layouts/components/header/userMenuItems'
 import UserMenuItem from '@/layouts/components/header/UserMenuItem.vue'
 import UserSubMenuItem from '@/layouts/components/header/UserSubMenuItem.vue'
@@ -53,14 +54,21 @@ import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorBu
 import { useDropdown } from '@/shared/composables/useDropdown'
 const menuEl = useTemplateRef<HTMLElement>('menu')
 // 外層選單開關＋點外面自動關閉
-const { isOpen, toggle } = useDropdown(menuEl)
+const { isOpen, toggle, close } = useDropdown(menuEl)
 // 子選單（「上傳」底下）自己的開關，不歸 useDropdown 管
 const isUploadOpen = ref(false)
+const router = useRouter()
 
-// 【點有子選單的那一列時觸發】展開或收起子選單，外層選單不關
-function subOpen(item: UserMenuItemData) {
+// 【流程①：點個人選單的項目時觸發】
+function handleItemClick(item: UserMenuItemData) {
+  // 有子選單（上傳作品）：展開或收起子選單，外層選單不關
   if (item.children) {
     isUploadOpen.value = !isUploadOpen.value
+  }
+  // 有網址（個人資料設定等）：換頁，並關掉選單
+  if (item.to) {
+    router.push(item.to)
+    close()
   }
 }
 

@@ -71,7 +71,7 @@ features/order/
 
 | 規則 | 為什麼 |
 | --- | --- |
-| **依賴方向單向**：`features → shared`（`router/`、`main.ts` 這類啟動檔可以引用 `features`）。`features` 之間不互相 import。 | 避免 A 依賴 B、B 又依賴 A 的纏繞。真要共用就升到 `shared/`。 |
+| **依賴方向單向**：`features → shared`（`router/`、`main.ts` 這類啟動檔可以引用 `features`）。`features` 之間不互相 import。**例外**：其他功能可以 import `features/account/store.ts` 的 `useAuthStore`，只讀登入者（`currentUser`、`isLoggedIn`），登入／登出仍只由 account 呼叫（2026/11/16）。 | 避免 A 依賴 B、B 又依賴 A 的纏繞。真要共用就升到 `shared/`。登入狀態全站都要讀，又屬於帳號模組，所以開唯讀例外，不搬到 `shared/`。 |
 | **開發用頁面放 `dev/`**：檔名照頁面規則（`ComponentPlaygroundPage.vue`），路由寫在 `router/index.ts`，只在 `import.meta.env.DEV` 時登記，網址以 `/dev/` 開頭。`dev/` 可以 import `shared/`、`layouts/`、`features/`，任何正式程式都不能 import `dev/`。 | 元件測試頁不屬於任何功能；只在開發模式登記，正式網站就不會多出這些頁面。要展示 `features/` 內的元件（如 `OrderStatusTag`）所以允許引用；`dev/` 沒人引用，依賴方向不變。 |
 | **頁面薄、邏輯下沉**：`pages/*.vue` 只組裝，邏輯進 `composables/`。 | 頁面一長就難讀；邏輯在 `.ts` 裡才好測試。 |
 | **訂單狀態判斷寫成純函式**，放 `features/order/`。 | 狀態機規則多（見 [order-lifecycle.md](order-lifecycle.md)），純函式可以單獨測，不需要開瀏覽器。 |
@@ -145,7 +145,7 @@ page ─▶ composable／store ─▶ api.ts ─▶ shared/api/client.ts ─▶ 
 | 帳號 | `/verify-phone` 🔒 | 手機驗證（兩個入口共用，完成後回原頁） | 只有 Logo | 1.2 |
 | 探索 | `/` | 首頁作品牆（搜尋、篩選放參數） | Default | 2.1–2.4 |
 | 探索 | `/users/:userId` | 創作者個人頁（`?tab=items` 切到可委託項目） | Default | 2.7 |
-| 個人中心 | `/me/profile` 🔒 | 個人資料設定 | Default＋左側選單 | 3.1 |
+| 個人中心 | `/me/profile` 🔒 | 個人資料設定 | Default（Figma 547:3017 沒畫左側選單，先照 Figma；外框待做第二個個人中心頁時決定） | 3.1 |
 | 個人中心 | `/me/settings` 🔒 | 接案設定 | Default＋左側選單 | 3.5 |
 | 個人中心 | `/me/orders` 🔒 | 約稿管理（`?tab=commissioned`／`received`） | Default＋左側選單 | 3.7 |
 | 個人中心 | `/me/activate` 🔒 | 開通創作者商店（三步驟清單） | Default＋左側選單 | 3.4 |

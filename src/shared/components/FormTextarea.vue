@@ -4,14 +4,14 @@
       <div class="note">
         <label class="text-caption" :for="inputId"><slot>標籤</slot></label>
         <span
-          class="text-small label--hint"
+          class="text-note label--hint"
           :class="{ 'label--nes': requirement == 'necessary' }"
           v-if="requirement"
           >{{ defaultRequirement[requirement] }}</span
         >
       </div>
       <div>
-        <span class="text-small note">{{ description?.length }} / {{ textLimit }}字</span>
+        <span class="text-note note">{{ description?.length }} / {{ textLimit }}字</span>
       </div>
     </div>
     <textarea
@@ -70,7 +70,7 @@ const defaultRequirement = {
 .note {
   display: flex;
   gap: 4px;
-  align-items: flex-end;
+  align-items: baseline; // 標籤和選填／必填小字對齊文字基線（同 FormInput）
 }
 label {
   color: var(--color-text-primary);

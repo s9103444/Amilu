@@ -4,8 +4,8 @@
       <img src="/icons/plus-avatar.svg" alt="" />
     </span>
     <span class="avatar-upload__text">
-      <span class="text-body avatar-upload__title">{{ title }}</span>
-      <span class="text-caption avatar-upload__description">{{ description }}</span>
+      <span class="text-caption avatar-upload__title">{{ title }}</span>
+      <span class="text-note avatar-upload__description">{{ description }}</span>
     </span>
   </button>
 </template>

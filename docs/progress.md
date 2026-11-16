@@ -83,7 +83,20 @@
 - ℹ️ 重新整理會變回未登入：登入狀態只存在 Pinia，等後端給 token 再處理
 - ⬜ `/register/google` Google 補填資料頁（features.md 1.1、ACC-03、ACC-04）
 
+## 個人資料設定頁（2026/11/16 開始）
+
+- ✅ 第 1 輪：`/me/profile`（`features/profile/routes.ts`、`ProfileSettingsPage.vue`，Figma 547:3017）；個人選單「個人資料設定」用 `to` 換頁並關選單；帳號 ID、email 唯讀，暱稱、簡介複製成草稿
+- ✅ 照 Figma 先不放左側選單；features 可唯讀 import `useAuthStore`（structure.md 2.2、3.5）
+- ✅ `FormInput` 新增 `requirement`（必填／選填小字）；表單提示小字改 `text-note`、與標籤對齊基線
+- ✅ 登入記憶：`useAuthStore` 把帳號 ID 存 localStorage，重新整理會還原（後端好了改存 token）
+- ⬜ 第 2 輪 儲存變更：暱稱必填檢查 → `PATCH /me/profile`（假）→ 更新登入者，header 暱稱跟著換、顯示 `SavedToast`
+- ⬜ 第 3 輪 大頭照選檔：JPG／PNG／WebP、5MB 以內
+- ⬜ 第 4 輪 刪除帳號燈箱：可刪／不可刪兩種狀態（features.md 3.1）
+- ⬜ 沒登入進 `/me/*` 導回登入頁（路由守衛）
+
 ## 預定
+
+- ✅ header 上傳圖示打開上傳選單（`UploadMenu`，2026/11/16）：一般貼文／委託項目，和頭像選單共用 `UPLOAD_ITEMS`；點選項目前只關選單，等上傳頁路由
 
 - 🟡 作品展示燈箱（features.md 2.5，`WorkLightbox`）：已接首頁卡片，待瀏覽器確認；還沒做「我要委託」、點頭像看完整專頁
 - 🟡 委託商店燈箱（features.md 2.6，`CommissionShopLightbox`）：已接首頁可委託卡片與作品燈箱的「查看可委託項目」，待瀏覽器確認；「我要委託」等申請頁路由
@@ -97,10 +110,9 @@
 
 - 「忘記密碼？」：spec 沒有這個流程、也沒有網址，目前是純文字，要跟後端確認做不做
 - 「服務條款與隱私權政策」連結：條款頁還沒有，註冊頁目前只有底線
-- 個人中心外框（左側選單＋右邊內容）：做第一個個人中心頁時建
+- 個人中心外框（左側選單＋右邊內容）：Figma 547:3017 沒畫，`/me/profile` 先不放；做第二個個人中心頁（接案設定）時決定
 - 申請委託的參考圖（`ImageUploadSlot`）要補「點圖開預覽」
 - 頁尾與 header 的連結（瞭解網站、上傳、頁尾導覽、社群）：目前都沒接，等頁面路由。header Logo 已接（2026/11/16）：回首頁；已在首頁時 `DefaultLayout` 改 `RouterView` 的 key 重建首頁（登入狀態保留）
-- header 上傳圖示要不要打開「上傳作品選單」（Figma 573:3489）
 - 搜尋列和 Figma 的小差異：提示字（程式「輸入搜尋關鍵字」／Figma「輸入關鍵字搜尋」）、放大鏡和字的間距（程式 4／Figma 14）
 - 欄位表試算表還有 3 處 `CREATOR_PROFILE.creator_id` 沒改成 `user_id`（COMMISSION_ITEM、ORDER 的外來鍵欄，ORDER.creator_id 那列）
 - 首頁自訂標籤列要顯示哪些標籤（熱門前 N 個／固定清單／跟著牆上作品）：spec 2.4 沒寫、api.md 沒有對應 API，目前寫死在 `mocks/tag.ts`，要跟後端討論

@@ -1,18 +1,27 @@
 <template>
   <div class="field">
     <div class="label-content">
-      <label class="text-caption" :for="inputId"
-        ><slot>{{ defaultLabels[type] }}</slot></label
-      >
+      <!-- 標籤＋必填／選填小字放一組，靠左；錯誤或唯讀提示靠右 -->
+      <span class="label-group">
+        <label class="text-caption" :for="inputId"
+          ><slot>{{ defaultLabels[type] }}</slot></label
+        >
+        <span
+          v-if="requirement"
+          class="text-note label--hint"
+          :class="{ 'label--required': requirement === 'necessary' }"
+          >{{ requirementLabels[requirement] }}</span
+        >
+      </span>
       <span v-if="error" :id="errorId" class="text-note label--error">{{ error }}</span>
-      <span v-else-if="readonly" class="text-caption label--hint">唯讀，不可修改</span>
+      <span v-else-if="readonly" class="text-note label--hint">唯讀，不可修改</span>
     </div>
     <div class="control">
       <input
         :id="inputId"
         :type="type === 'password' && isVisible ? 'text' : type"
         v-model="input"
-        class="input text-small"
+        class="input text-caption"
         :class="{
           'input--error': error,
           'input--readonly': readonly,
@@ -52,6 +61,7 @@ error 傳錯誤訊息文字，有字就在標籤旁顯示並把外框變橘，�
 <FormInput v-model="userId" placeholder="請輸入英文與數字">使用者ID</FormInput> ---> 提示字預設依 type 決定，傳 placeholder 就覆蓋。
 <FormInput v-model="account" readonly /> ---> 唯讀：灰底、無外框、右側鎖頭，標籤旁顯示「唯讀，不可修改」，
 用原生 readonly（不是 disabled），所以仍可選取複製、表單送出時也會帶上。有 error 時以錯誤訊息優先。
+<FormInput v-model="nickname" requirement="necessary">暱稱</FormInput> ---> 標籤旁顯示「必填」小字（optional ＝「選填」），同 FormTextarea。
 type="password" 時右側自動出現眼睛按鈕，點了切換顯示／隱藏密碼（唯讀時不出現）。
 */
 import { computed, ref, useId } from 'vue'
@@ -61,6 +71,11 @@ const defaultLabels = {
   text: '標籤',
   email: 'email',
   password: '密碼',
+}
+// 寫法同 FormTextarea 的 requirement
+const requirementLabels = {
+  necessary: '必填',
+  optional: '選填',
 }
 const defaultPlaceholders = {
   text: '請輸入於此',
@@ -74,6 +89,7 @@ const props = withDefaults(
     error?: string
     readonly?: boolean
     placeholder?: string
+    requirement?: 'necessary' | 'optional' // 標籤旁的小字：necessary ＝「必填」、optional ＝「選填」，不傳就不顯示
   }>(),
   {
     type: 'text',
@@ -178,5 +194,15 @@ label {
 }
 .label--hint {
   color: var(--color-text-secondary);
+}
+.label--required {
+  color: var(--color-required); // 同 FormTextarea 的「必填」
+}
+// 標籤和必填／選填小字：對齊文字基線
+// 不用 flex-end：兩種字級的行高留白不同，對齊的是外框底部，字的底部反而會差幾 px
+.label-group {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
 }
 </style>
