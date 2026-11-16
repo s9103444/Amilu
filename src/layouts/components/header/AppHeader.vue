@@ -15,10 +15,7 @@
       <!-- 登入後：通知、上傳、個人選單 -->
       <template v-if="loggedIn">
         <NotificationMenu />
-        <button type="button" class="upload" aria-label="上傳">
-          <img src="/icons/upload-default.svg" alt="" class="upload-default" />
-          <img src="/icons/upload-hover.svg" alt="" class="upload-hover" />
-        </button>
+        <UploadMenu />
         <UserMenu />
       </template>
       <!-- 登入前：只有登入按鈕 -->
@@ -45,6 +42,7 @@ import Button from '@/shared/components/Button.vue'
 import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
 import UserMenu from '@/layouts/components/header/UserMenu.vue'
+import UploadMenu from '@/layouts/components/header/UploadMenu.vue'
 
 defineProps<{
   loggedIn: boolean
@@ -128,32 +126,6 @@ const keyword = ref('')
 
   @include bp.tablet-up {
     display: inline;
-  }
-}
-
-// 上傳圖示：兩張圖疊在一起，滑過去換 hover 那張
-.upload {
-  display: grid;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  & img {
-    grid-area: 1 / 1;
-    display: block;
-  }
-
-  & .upload-hover {
-    opacity: 0;
-  }
-
-  &:hover .upload-hover {
-    opacity: 1;
-  }
-
-  &:hover .upload-default {
-    opacity: 0;
   }
 }
 </style>

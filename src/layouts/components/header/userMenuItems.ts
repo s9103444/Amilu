@@ -11,11 +11,18 @@ export type UserSubMenuItemData = {
   title: string
 }
 
+// 上傳的兩個選項：頭像選單的上傳子選單、header 上傳按鈕的選單（UploadMenu）共用這份
+export const UPLOAD_ITEMS: UserSubMenuItemData[] = [
+  { key: 'upload-post', icon: 'icons/circle-plus-sm.svg', title: '一般貼文' },
+  { key: 'upload-commission-item', icon: 'icons/circle-plus-sm.svg', title: '委託項目' },
+]
+
 export type UserMenuItemData = {
   key: string
   icon: string
   mainTitle: string
   subTitle?: string // 沒有就只顯示標題（登出）
+  to?: string // 點了要去的網址；有子選單的項目不用
   children?: UserSubMenuItemData[] // 有子選單時才有，右側會出現箭頭
 }
 
@@ -27,16 +34,14 @@ export const PROFILE_ITEMS: UserMenuItemData[] = [
     icon: 'icons/settings.svg',
     mainTitle: '個人資料設定',
     subTitle: '大頭照・暱稱・簡介',
+    to: '/me/profile',
   },
   {
     key: 'upload',
     icon: 'icons/circle-plus.svg',
     mainTitle: '上傳作品',
     subTitle: '一般 or 委託項目',
-    children: [
-      { key: 'upload-post', icon: 'icons/circle-plus-sm.svg', title: '一般貼文' },
-      { key: 'upload-commission-item', icon: 'icons/circle-plus-sm.svg', title: '委託項目' },
-    ],
+    children: UPLOAD_ITEMS,
   },
 ]
 
