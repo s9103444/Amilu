@@ -10,8 +10,8 @@
 
 ## 目前在做
 
-拼裝頁面：登入／註冊頁畫面完成（2026/11/14），送出邏輯還沒做。
-下一步：作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
+拼裝頁面：個人資料設定頁可儲存暱稱、簡介、大頭照（2026/11/17）；登入已接假資料，註冊送出還沒做。
+下一步：個人資料設定第 4 輪（刪除帳號燈箱）、路由守衛；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
 - 分工：Opus（主對話）討論結構、寫交辦單；Sonnet 子代理 `implementer`（`~/.claude/agents/implementer.md`，2026/11/13 建立）照交辦單實作，回報後由主對話看 diff、跑 type-check。
@@ -89,8 +89,15 @@
 - ✅ 照 Figma 先不放左側選單；features 可唯讀 import `useAuthStore`（structure.md 2.2、3.5）
 - ✅ `FormInput` 新增 `requirement`（必填／選填小字）；表單提示小字改 `text-note`、與標籤對齊基線
 - ✅ 登入記憶：`useAuthStore` 把帳號 ID 存 localStorage，重新整理會還原（後端好了改存 token）
-- ⬜ 第 2 輪 儲存變更：暱稱必填檢查 → `PATCH /me/profile`（假）→ 更新登入者，header 暱稱跟著換、顯示 `SavedToast`
-- ⬜ 第 3 輪 大頭照選檔：JPG／PNG／WebP、5MB 以內
+- ✅ 第 2 輪 儲存變更（2026/11/17，瀏覽器確認完成）：暱稱必填檢查 → `profile/api.ts` 的 `updateProfile`（假 `PATCH /me/profile`）→ `auth.updateCurrentUser` 寫回登入者＋草稿換成存好的值 → `SavedToast` 2 秒（absolute 疊在頁面上方置中）
+  - 結構例外補充：其他功能可以呼叫 `updateCurrentUser()` 寫回登入者（structure.md 2.2）
+  - ℹ️ 重新整理會變回 `mocks/user.ts` 原值（假資料只在記憶體），等後端；先不用 localStorage 假裝存檔
+- 🔄 第 3 輪 大頭照（2026/11/17，瀏覽器確認完成）
+  - ✅ `AvatarUpload`：`image-url` 顯示照片、`select` 事件、右側「更換大頭貼」（有圖才出現）；外層改 div（按鈕不能包按鈕）
+  - ✅ 選檔＋格式／5MB 檢查＋預覽（`createObjectURL`）；按「儲存變更」才和暱稱、簡介一起送（`ProfileChanges.avatar` 送檔案、`ProfileResult.avatar_url` 回網址）
+  - ✅ header 頭像讀登入者：`UserMenu` 傳 `avatar-url` 給 `UserMenuButton`，存好後跟著換
+  - ⬜ 正方形檢查：spec 已定（features.md 3.1），程式先不做；做法是 `createImageBitmap` 量長寬
+  - ℹ️ 預覽網址沒有 `revokeObjectURL`，換圖多次會多佔記憶體，demo 先不處理
 - ⬜ 第 4 輪 刪除帳號燈箱：可刪／不可刪兩種狀態（features.md 3.1）
 - ⬜ 沒登入進 `/me/*` 導回登入頁（路由守衛）
 

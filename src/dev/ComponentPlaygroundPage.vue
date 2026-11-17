@@ -274,6 +274,7 @@
 
     <section>
       <AvatarUpload />
+      <AvatarUpload :image-url="sampleAvatarImg" title="上傳／更換大頭照" />
     </section>
 
     <h2>DropZone</h2>

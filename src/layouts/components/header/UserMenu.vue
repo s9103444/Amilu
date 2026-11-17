@@ -1,6 +1,7 @@
 <template>
   <div ref="menu" class="user-menu">
-    <UserMenuButton :open="isOpen" @click="toggle" />
+    <!-- 頭像讀登入者：個人資料設定存好新大頭照後，這裡跟著換 -->
+    <UserMenuButton :avatar-url="auth.currentUser?.avatar_url" :open="isOpen" @click="toggle" />
     <ul v-if="isOpen" class="panel">
       <li class="menu-title text-small">個人選單</li>
       <li v-for="item in profile" :key="item.key">
@@ -52,6 +53,10 @@ import UserMenuButton from '@/layouts/components/header/UserMenuButton.vue'
 import MenuDivider from '@/shared/components/MenuDivider.vue'
 import ActivateCreatorButton from '@/layouts/components/header/ActivateCreatorButton.vue'
 import { useDropdown } from '@/shared/composables/useDropdown'
+import { useAuthStore } from '@/features/account/store'
+
+// 登入者（唯讀，structure.md 2.2）：傳頭像給 UserMenuButton
+const auth = useAuthStore()
 const menuEl = useTemplateRef<HTMLElement>('menu')
 // 外層選單開關＋點外面自動關閉
 const { isOpen, toggle, close } = useDropdown(menuEl)

@@ -19,7 +19,7 @@
 import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 
 defineProps<{
-  avatarUrl?: string
+  avatarUrl?: string | null // 登入者沒上傳大頭照時是 null，顯示預設圖
   open: boolean
 }>()
 </script>

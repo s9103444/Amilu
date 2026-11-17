@@ -7,6 +7,7 @@ const auth = useAuthStore()
 auth.isLoggedIn            // 有沒有登入（不用 .value）
 auth.currentUser?.nickname // 登入者資料，未登入是 null
 auth.loginAs('im_temp_id') / auth.logOut()
+auth.updateCurrentUser({ nickname: '新暱稱' }) // 個人資料存好後寫回（其他功能唯一能寫的入口）
 目前讀 mocks/user.ts 的假使用者（demo 切換身份用）；後端好了，loginAs 改成呼叫登入 API
 登入的帳號 ID 存在 localStorage，重新整理會還原；後端好了改存 token
 委託人或創作者不存在這裡：同一個帳號可以兩種都是，在案件頁比對 currentUser.id 和 order.creator_id
@@ -38,6 +39,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // 【流程③-2：ProfileSettingsPage 存好後呼叫】把後端回傳的欄位寫回登入者；只開放能改的欄位（structure.md 2.2）
+  // 換成新物件（不改舊物件的欄位），MOCK_USERS 裡的原始資料才不會被一起改掉
+  function updateCurrentUser(changes: Partial<Pick<MockUser, 'nickname' | 'bio' | 'avatar_url'>>) {
+    // 沒登入就沒有人可以改；判斷 currentUser.value 本身，TS 才知道下面它不是 null
+    if (!currentUser.value) {
+      return
+    }
+    currentUser.value = { ...currentUser.value, ...changes }
+  }
+
   // 【按登出時觸發】
   function logOut() {
     currentUser.value = null
@@ -62,5 +73,5 @@ export const useAuthStore = defineStore('auth', () => {
   }
   restore()
 
-  return { currentUser, isLoggedIn, loginAs, logOut }
+  return { currentUser, isLoggedIn, loginAs, logOut, updateCurrentUser }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-caption saved-toast" role="status">
+  <div class="text-note saved-toast" role="status">
     <img src="/icons/check-green.svg" alt="" />
     <slot>已儲存變更</slot>
   </div>
@@ -22,9 +22,9 @@
   // 圖示在前時，inline-flex 的基線會跟著圖片底部，整個標籤會往上飄；改成依方框置中對齊
   vertical-align: middle;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   width: fit-content;
-  padding: 12px 24px 12px 20px;
+  padding: 6px 12px;
   border: 1px solid var(--color-success);
   border-radius: 999px;
   background: var(--color-success-bg);

@@ -3,6 +3,11 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/17
+
+- 大頭照需為正方形（features.md 3.1）：長寬不相等就不接受，格式限 JPG／PNG／WebP。
+- 結構例外（structure.md 2.2）補充：其他功能可以呼叫 `useAuthStore` 的 `updateCurrentUser()`，把存好的個人資料寫回登入者；其餘仍只能讀。
+
 ## 2026/11/16
 
 - 結構例外（structure.md 2.2）：其他功能可以 import `useAuthStore` 唯讀登入者，登入／登出仍只由 account 呼叫。
