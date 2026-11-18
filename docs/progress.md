@@ -101,8 +101,24 @@
 - ✅ 第 4 輪 刪除帳號燈箱（2026/11/18，瀏覽器確認完成）：`DeleteProfileLightbox` 兩層（Figma 545:2014 確認、545:2096 無法刪除）；按「確認刪除」才呼叫 `deleteAccount`（假 `DELETE /me`），有進行中案件或帳號鎖定就換無法刪除層；能刪就登出回首頁
   - 共用元件：`Lightbox` 加 `size="sm"`（寬 560、高度跟內容）；`Button` 加 `variant="danger"`（實心橘）
   - spec：features.md 3.1、acceptance CTR-02 改兩層流程；structure.md 2.2 例外補 `logOut()`（只限刪除帳號後）
-  - ⬜ 「前往約稿管理」等 `/me/orders` 做好再接；假資料不會真的改 `account_status`
+  - ⬜ 「前往約稿管理」還沒接（`/me/orders` 已有，下一步接 `router.push('/me/orders')`）；假資料不會真的改 `account_status`
 - ⬜ 沒登入進 `/me/*` 導回登入頁（路由守衛）
+
+## 約稿管理（2026/11/18 開始）
+
+- ✅ 共用準備：`OptionButton` 搬到 `shared/` 並改成 generic（v-model 可綁精確字串型別）；新增 `shared/components/TabBar.vue`（token `--color-tab-active`）；`public/icons/store.svg`（第 4 輪未開通空狀態用）
+- ✅ 第 1 輪 頁面骨架：`/me/orders`（`order/routes.ts`、`OrderManagementPage.vue`，Figma 559:2525）；個人選單「約稿管理」接上（`UserMenu` 第二組補 `@click`）；主頁籤記在網址 `?tab=commissioned|received`（computed get／set ＋ `router.replace`），子頁籤 `phase` 用 ref
+- ✅ 第 2 輪 列表資料：`order/api.ts` 的 `fetchOrders(role, phase)`（假 `GET /orders`）依角色篩、依狀態分進行中／歷史、`created_at` 新到舊；`watch([tab, phase], …, { immediate: true })` 重拿
+  - `Order` 補 `created_at`、`quote_amount` 改可 null（待報價沒有金額）；mocks 補到 8 筆（o_001～o_008，im_temp_id 兩種身分都有）
+  - spec：features.md 3.7 寫進行中＝待報價／待付款／製作中，歷史＝三種終態
+- ✅ 第 3 輪 卡片細節（程式完成，待瀏覽器確認）：對方暱稱／頭像、金額、時間列後半段（`timeInfoOf`）、右側按鈕或灰字（`actionOf`）
+  - 新型別 `OrderListItem`（ORDER ＋ 雙方 USER 摘要 ＋ `payment_due_at` ＋ `current_stage`），mock `MOCK_ORDER_LIST`；api.md 寫進列表回應草案，**待和淳確認**
+  - features.md 3.7 補案件卡右側規則表（Figma 只畫已委託｜進行中）；按鈕先不接換頁（報價、付款、討論牆頁還沒做）
+  - ℹ️ 時間列連接符號用 `|`（彥廷決定，Figma 是 `・`）；子頁籤文字目前「已結案」，spec／Figma 是「歷史」，待彥廷決定
+- ⬜ 第 4 輪 空狀態（明天接著做）：
+  - 已接案＋未開通創作者（Figma 559:3073）：只顯示「尚未開通創作者模式，前往開通」，沒有子頁籤；判斷看 `mocks/creatorProfile.ts` 的 `store_approved`（`a_very_long_account_id_for_test` 沒有 profile ＝ 未開通）
+  - 沒有案件：沿用同一個版型，按鈕「去逛逛作品」回首頁（features.md 3.7）
+  - 空狀態版型適合做成共用元件（圖示＋標題＋說明＋按鈕），我先做元件、彥廷接判斷邏輯
 
 ## 預定
 

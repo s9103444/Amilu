@@ -237,6 +237,18 @@
     </section>
 
     <section>
+      <h2>TabBar</h2>
+      <TabBar
+        v-model="ordersTab"
+        :items="[
+          { value: 'commissioned', label: '已委託' },
+          { value: 'received', label: '已接案' },
+        ]"
+      />
+      <p>目前：{{ ordersTab }}</p>
+    </section>
+
+    <section>
       <h2>OptionButton</h2>
       <div class="row">
         <OptionButton v-model="deposit" name="deposit" value="30">30%</OptionButton>
@@ -1102,7 +1114,8 @@ import FormInput from '@/shared/components/FormInput.vue'
 import FormTextarea from '@/shared/components/FormTextarea.vue'
 import FormSelect from '@/shared/components/FormSelect.vue'
 import FormCheckbox from '@/shared/components/FormCheckbox.vue'
-import OptionButton from '@/features/profile/components/OptionButton.vue'
+import OptionButton from '@/shared/components/OptionButton.vue'
+import TabBar from '@/shared/components/TabBar.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
@@ -1283,7 +1296,7 @@ function toPanelProps(order: Order, stages: OrderStage[]) {
     commissioner: toParty(order.commissioner_id),
     title: order.item_title_snapshot,
     status,
-    totalAmount: order.quote_amount,
+    totalAmount: order.quote_amount ?? 0, // 討論牆只有契約成立後才進得來，那時一定有報價；?? 0 只是讓型別過
     revisionCount: order.revision_count_snapshot,
     stagePlan: order.stage_plan_snapshot,
     currentStage: current.stage_no,
@@ -1318,6 +1331,7 @@ const lastRating = ref('')
 const lastUpload = ref('')
 // DiscussionPostContent ＋ ImagePreview 測試：點的是第幾張（從 0 開始）；null＝燈箱關著
 const previewIndex = ref<number | null>(null)
+const ordersTab = ref<'commissioned' | 'received'>('commissioned')
 function toggleFollow(id: string) {
   followedIds.value = followedIds.value.includes(id)
     ? followedIds.value.filter((followedId) => followedId !== id)

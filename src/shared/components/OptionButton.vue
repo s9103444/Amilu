@@ -2,29 +2,30 @@
   <label class="option-button">
     <!-- 真正的 radio 藏起來：同一個 name 的一組只能選一個，鍵盤可用方向鍵切換 -->
     <input v-model="selected" class="native" type="radio" :name="name" :value="value" />
-    <span class="face text-caption">
+    <span class="face text-small">
       <img v-if="selected === value" class="check" src="/icons/check-option-button.svg" alt="" />
       <slot></slot>
     </span>
   </label>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string">
 /*
 元件名稱：選項按鈕（Figma 552:206，單選：Amilu 燈開放／暫停、訂金比例）
 選取時除了換底色，還會加打勾圖示，不只靠顏色區分。
 範例：
-使用前先 import：import OptionButton from '@/features/profile/components/OptionButton.vue'
+使用前先 import：import OptionButton from '@/shared/components/OptionButton.vue'
 <OptionButton v-model="deposit" name="deposit" value="30">30%</OptionButton>
 <OptionButton v-model="deposit" name="deposit" value="50">50%</OptionButton>
 <OptionButton v-model="deposit" name="deposit" value="0">無需先支付</OptionButton>
 同一組共用同一個 v-model 和 name；deposit 會變成被選那顆的 value
+v-model 綁的 ref 可以是精確的字串型別，例：ref<'ongoing' | 'history'>('ongoing')
 */
 defineProps<{
   name: string // 同一組的名字，瀏覽器靠它判斷「這幾顆只能選一個」
-  value: string // 這顆代表的值，被選時存進 v-model
+  value: T // 這顆代表的值，被選時存進 v-model
 }>()
-const selected = defineModel<string>({ default: '' })
+const selected = defineModel<T>()
 </script>
 
 <style lang="scss" scoped>

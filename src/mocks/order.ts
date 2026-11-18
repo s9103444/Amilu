@@ -3,7 +3,7 @@
 // 之後後端好了，訊息改從 GET /orders/{id}/messages 拿（api.md 草案），到時候只要改這個檔。
 // 訂單與階段給委託討論牆左欄（OrderSidePanel）測試用。
 
-import type { Message, Order, OrderStage } from '@/features/order/types'
+import type { Message, Order, OrderListItem, OrderStage } from '@/features/order/types'
 import { MOCK_USERS } from '@/mocks/user'
 import gameArt from '@/assets/purpose/game-art.webp'
 import characterArt from '@/assets/category/character-art.webp'
@@ -93,6 +93,7 @@ export const MOCK_ORDER_IN_PROGRESS: Order = {
   quote_amount: 1800,
   revision_count_snapshot: 2,
   stage_plan_snapshot: '五點分段',
+  created_at: '2026-10-01T10:00:00+08:00',
   completed_at: null,
   terminated_at: null,
 }
@@ -144,6 +145,7 @@ export const MOCK_ORDER_THREE_STAGE: Order = {
   quote_amount: 1800,
   revision_count_snapshot: 2,
   stage_plan_snapshot: '三點分段',
+  created_at: '2026-09-28T15:30:00+08:00',
   completed_at: null,
   terminated_at: null,
 }
@@ -182,6 +184,7 @@ export const MOCK_ORDER_COMPLETED: Order = {
   quote_amount: 1800,
   revision_count_snapshot: 2,
   stage_plan_snapshot: '五點分段',
+  created_at: '2026-09-20T11:00:00+08:00',
   completed_at: '2026-10-30T18:00:00+08:00',
   terminated_at: null,
 }
@@ -223,3 +226,122 @@ export const MOCK_STAGES_COMPLETED: OrderStage[] = [
     confirm_status: '已確認',
   },
 ]
+
+// ── 約稿管理列表用（features.md 3.7）──
+// 以 me（im_temp_id）為主角：前半是「我委託別人」，後半是「別人委託我」，六種狀態都至少出現一次
+// created_at 刻意錯開，測排序（新到舊）
+
+// 已委託｜進行中：待報價，還沒有報價金額
+export const MOCK_ORDER_AWAITING_QUOTE: Order = {
+  order_id: 'o_004',
+  creator_id: 'painter_01',
+  commissioner_id: me.id,
+  item_title_snapshot: '全身立繪',
+  status: 'awaiting-quote',
+  quote_amount: null,
+  revision_count_snapshot: 2,
+  stage_plan_snapshot: '五點分段',
+  created_at: '2026-10-12T09:20:00+08:00',
+  completed_at: null,
+  terminated_at: null,
+}
+
+// 已委託｜歷史：契約成立前取消
+export const MOCK_ORDER_CANCELLED: Order = {
+  order_id: 'o_005',
+  creator_id: 'painter_01',
+  commissioner_id: me.id,
+  item_title_snapshot: 'Q版貼圖 8 張',
+  status: 'cancelled',
+  quote_amount: 2400,
+  revision_count_snapshot: 1,
+  stage_plan_snapshot: '三點分段',
+  created_at: '2026-09-10T20:00:00+08:00',
+  completed_at: null,
+  terminated_at: null,
+}
+
+// 已接案｜進行中：我報價了，等委託人付款
+export const MOCK_ORDER_RECEIVED_AWAITING_PAYMENT: Order = {
+  order_id: 'o_006',
+  creator_id: me.id,
+  commissioner_id: 'painter_01',
+  item_title_snapshot: '頭像（肩膀以上）',
+  status: 'awaiting-payment',
+  quote_amount: 1500,
+  revision_count_snapshot: 2,
+  stage_plan_snapshot: '三點分段',
+  created_at: '2026-10-14T13:00:00+08:00',
+  completed_at: null,
+  terminated_at: null,
+}
+
+// 已接案｜進行中：製作中
+export const MOCK_ORDER_RECEIVED_IN_PROGRESS: Order = {
+  order_id: 'o_007',
+  creator_id: me.id,
+  commissioner_id: 'moon_sketch',
+  item_title_snapshot: '全身立繪',
+  status: 'in-progress',
+  quote_amount: 4500,
+  revision_count_snapshot: 3,
+  stage_plan_snapshot: '五點分段',
+  created_at: '2026-10-03T16:45:00+08:00',
+  completed_at: null,
+  terminated_at: null,
+}
+
+// 已接案｜歷史：終止合作
+export const MOCK_ORDER_RECEIVED_TERMINATED: Order = {
+  order_id: 'o_008',
+  creator_id: me.id,
+  commissioner_id: 'moon_sketch',
+  item_title_snapshot: 'Q版貼圖 8 張',
+  status: 'terminated',
+  quote_amount: 2400,
+  revision_count_snapshot: 1,
+  stage_plan_snapshot: '三點分段',
+  created_at: '2026-08-25T10:10:00+08:00',
+  completed_at: null,
+  terminated_at: '2026-09-15T18:00:00+08:00',
+}
+
+// 全部案件（沒排序、沒篩選）：order/api.ts 從這裡挑出要的
+export const MOCK_ORDERS: Order[] = [
+  MOCK_ORDER_IN_PROGRESS,
+  MOCK_ORDER_THREE_STAGE,
+  MOCK_ORDER_COMPLETED,
+  MOCK_ORDER_AWAITING_QUOTE,
+  MOCK_ORDER_CANCELLED,
+  MOCK_ORDER_RECEIVED_AWAITING_PAYMENT,
+  MOCK_ORDER_RECEIVED_IN_PROGRESS,
+  MOCK_ORDER_RECEIVED_TERMINATED,
+]
+
+// ── 約稿管理列表的回應（GET /orders，api.md 2.3 草案）──
+// 假裝是後端組好的：ORDER ＋ 雙方 USER 摘要 ＋ 付款期限 ＋ 目前階段
+
+// 付款期限（PAYMENT.due_at）：只有待付款、且已產生虛擬帳號的案件有
+const PAYMENT_DUE_AT: Record<string, string> = {
+  o_006: '2026-10-17T13:00:00+08:00',
+}
+
+// 目前階段（第一個未確認的階段）：只有製作中的案件有
+const CURRENT_STAGE: Record<string, OrderListItem['current_stage']> = {
+  o_001: { stage_no: 1, deadline: '2026-10-11' }, // 同 MOCK_STAGES_IN_PROGRESS
+  o_002: { stage_no: 4, deadline: '2026-10-25' }, // 同 MOCK_STAGES_THREE_STAGE（草稿已確認）
+  o_007: { stage_no: 3, deadline: '2026-10-24' },
+}
+
+function toParty(userId: string) {
+  const user = MOCK_USERS.find((u) => u.id === userId)!
+  return { id: user.id, nickname: user.nickname, avatar_url: user.avatar_url }
+}
+
+export const MOCK_ORDER_LIST: OrderListItem[] = MOCK_ORDERS.map((order) => ({
+  ...order,
+  creator: toParty(order.creator_id),
+  commissioner: toParty(order.commissioner_id),
+  payment_due_at: PAYMENT_DUE_AT[order.order_id] ?? null,
+  current_stage: CURRENT_STAGE[order.order_id] ?? null,
+}))

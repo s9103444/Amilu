@@ -5,6 +5,10 @@
 
 ## 2026/11/18
 
+- 約稿管理案件卡右側按鈕／說明規則（features.md 3.7）；`GET /orders` 回應草案加帶雙方 USER 摘要、付款期限、目前階段（api.md，待後端確認）。
+- 約稿管理子頁籤（features.md 3.7）：進行中＝待報價、待付款、製作中；歷史＝三種終態。前端 `Order` 型別補 `created_at`（排序用），`quote_amount` 待報價時為 null。
+- 約稿管理（features.md 3.7）：沒有案件時沿用未開通空狀態版型，按鈕「去逛逛作品」回首頁；`/me/orders` 先照 Figma 不放左側選單（structure.md 3.5）。
+- `OptionButton` 從 `features/profile/components/` 搬到 `shared/components/`：約稿管理子頁籤也要用。
 - 結構例外（structure.md 2.2）補充：刪除帳號成功後，profile 可以呼叫 `useAuthStore` 的 `logOut()`。
 - 刪除帳號燈箱改成兩層（features.md 3.1、acceptance CTR-02）：一律先顯示確認層，按「確認刪除」才檢查，不可刪除時換成無法刪除層（照 Figma 545:2014、545:2096），不列出案件清單。不可刪除的「未補款項」以帳號「鎖定」判斷；已完成、已取消、已終止不擋。
 

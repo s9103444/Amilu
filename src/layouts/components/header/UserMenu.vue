@@ -23,7 +23,12 @@
         <MenuDivider />
       </li>
       <li v-for="item in work" :key="item.key">
-        <UserMenuItem :icon="item.icon" :main-title="item.mainTitle" :sub-title="item.subTitle" />
+        <UserMenuItem
+          :icon="item.icon"
+          :main-title="item.mainTitle"
+          :sub-title="item.subTitle"
+          @click="handleItemClick(item)"
+        />
       </li>
       <li class="activate">
         <ActivateCreatorButton />

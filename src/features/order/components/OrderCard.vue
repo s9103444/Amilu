@@ -11,8 +11,8 @@
         <h3 class="text-title title">{{ title }}</h3>
         <OrderStatusTag :status="status" />
       </div>
-      <p class="text-caption meta">{{ counterpart }}</p>
-      <p class="text-small meta">{{ timeInfo }}</p>
+      <p class="text-small meta">{{ counterpart }}</p>
+      <p class="text-note meta">{{ timeInfo }}</p>
     </div>
 
     <div v-if="amount || statusNote || $slots.action" class="side">
@@ -52,7 +52,7 @@ defineProps<{
   timeInfo: string
   amount?: string
   statusNote?: string
-  avatarUrl?: string
+  avatarUrl?: string | null // USER.avatar_url 可以直接傳，null 或沒傳都用預設圖
 }>()
 
 // 甲方＝委託人＝commissioner；乙方＝創作者＝creator

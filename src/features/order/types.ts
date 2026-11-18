@@ -38,9 +38,10 @@ export type Order = {
   commissioner_id: string // 委託人的 USER.id
   item_title_snapshot: string // 契約快照：送出申請時的項目標題
   status: OrderStatus
-  quote_amount: number // 委託總額（創作者報價）
+  quote_amount: number | null // 委託總額（創作者報價）；待報價時還沒有，是 null
   revision_count_snapshot: number // 契約快照：包含幾次修改
   stage_plan_snapshot: '三點分段' | '五點分段' // 契約快照：分段方案
+  created_at: string // 委託申請建立時間，約稿管理依這個排序（features.md 3.7）
   completed_at: string | null // 已完成的時間，還沒完成時是 null
   terminated_at: string | null // 終止的時間，沒被終止時是 null
 }
@@ -52,4 +53,18 @@ export type OrderStage = {
   stage_no: StageNo
   deadline: string // 'YYYY-MM-DD'
   confirm_status: '未確認' | '已確認' // 欄位表 2026/11/11 定案（data-model.md 第 6 節 #14）
+}
+
+// 約稿管理列表的一筆（GET /orders 回應，api.md 2.3 草案，待後端確認）
+// 除了 ORDER 本身，順便帶回卡片要顯示、但不在 ORDER 表的東西，前端就不用每張卡片再打一次 API
+export type OrderPartySummary = {
+  id: string // USER.id
+  nickname: string // USER.nickname
+  avatar_url: string | null // USER.avatar_url，null ＝ 用預設圖
+}
+export type OrderListItem = Order & {
+  creator: OrderPartySummary // 雙方都帶，頁面依頁籤挑「對方」
+  commissioner: OrderPartySummary
+  payment_due_at: string | null // PAYMENT.due_at：產生 ATM 虛擬帳號後才有，之前是 null
+  current_stage: { stage_no: StageNo; deadline: string } | null // 第一個未確認的階段；製作中以外是 null
 }

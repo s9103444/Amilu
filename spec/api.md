@@ -86,6 +86,14 @@
 | `PATCH /me/creator-settings/amilu-light`                            | Amilu 燈開關切換                             | [3.6 Amilu 燈](features.md#36-amilu-燈)             | `CREATOR_PROFILE`                          |
 | `GET /orders?role={commissioner\|creator}&phase={ongoing\|history}` | 約稿管理列表（已委託／已接案，進行中／歷史） | [3.7 約稿管理](features.md#37-約稿管理)             | `ORDER`                                    |
 
+`GET /orders` 每一筆的回應（2026/11/18 前端草案，**待後端確認**）：除了 `ORDER` 欄位，順便帶回卡片要顯示、但不在 `ORDER` 表的資料，避免每張卡片再打一次 API。
+
+| 欄位 | 來源 | 說明 |
+| --- | --- | --- |
+| `creator`、`commissioner` | `USER` | 雙方的 `id`、`nickname`、`avatar_url`；頁面依頁籤挑「對方」 |
+| `payment_due_at` | `PAYMENT.due_at` | 產生 ATM 虛擬帳號後才有，之前是 null |
+| `current_stage` | `ORDER_STAGE` | 第一個未確認的階段 `{ stage_no, deadline }`；製作中以外是 null |
+
 ### 2.4 模組四｜委託流程與協作
 
 | 方法與路徑                                                                                                                             | 用途                                                                                                                                            | 對應畫面                                                                 | 對應資料表                                            |

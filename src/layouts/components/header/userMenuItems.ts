@@ -48,7 +48,13 @@ export const PROFILE_ITEMS: UserMenuItemData[] = [
 // 第二組：網站說明與接案
 export const WORK_ITEMS: UserMenuItemData[] = [
   { key: 'help', icon: 'icons/help.svg', mainTitle: '網站說明', subTitle: '操作流程說明' },
-  { key: 'orders', icon: 'icons/list.svg', mainTitle: '約稿管理', subTitle: '接案 & 委託列表' },
+  {
+    key: 'orders',
+    icon: 'icons/list.svg',
+    mainTitle: '約稿管理',
+    subTitle: '接案 & 委託列表',
+    to: '/me/orders',
+  },
   {
     key: 'creator-settings',
     icon: 'icons/settings.svg',
