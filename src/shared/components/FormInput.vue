@@ -165,9 +165,7 @@ label {
   border: 1px solid var(--color-border);
   background: var(--color-bg-subtle);
   width: 100%;
-  // input 會把文字裁在「行高」範圍內（一般文字不會）；.text-small 的行高 1.5 太緊，g、y 的下緣會被切掉
-  // 改回 normal，由字體自己的上下高度決定；垂直置中靠固定的 height: 48px，不受影響
-  line-height: normal;
+  line-height: 1.6;
   &::placeholder {
     color: var(--color-placeholder);
   }

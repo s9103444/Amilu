@@ -42,7 +42,7 @@ defineProps<{
     scroll-snap-type: y mandatory;
   }
 }
-// 直向捲軸放左側（彥廷調整）：套件預設貼右邊（right: 0），改成貼左邊；手機是橫向捲軸，在底部不用動
+// 直向捲軸放左側：套件預設貼右邊（right: 0），改成貼左邊；手機是橫向捲軸，在底部不用動
 .image-scroll-list :deep(.os-scrollbar-vertical) {
   @include bp.tablet-up {
     right: auto;
