@@ -60,6 +60,9 @@
   --color-button-outline: var(--neutral-900); // 框與字
   --color-button-outline-bg: var(--neutral-white);
   --color-button-outline-hover-bg: var(--base-100);
+  // 危險動作按鈕（刪除帳號燈箱「確認刪除」，Figma 545:2094）：實心橘底白字；hover Figma 沒畫，前端自訂混 15% 黑
+  --color-button-danger-bg: var(--accent-orange);
+  --color-button-danger-hover-bg: color-mix(in srgb, var(--accent-orange) 85%, var(--neutral-900));
   --color-button-disabled-bg: var(--neutral-300);
   --color-button-disabled-text: var(--neutral-500);
   // 追蹤按鈕「已追蹤」狀態：目前沿用停用的灰色，但語意不同（仍可點擊），所以獨立一組

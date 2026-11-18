@@ -10,8 +10,8 @@
 
 ## 目前在做
 
-拼裝頁面：個人資料設定頁可儲存暱稱、簡介、大頭照（2026/11/17）；登入已接假資料，註冊送出還沒做。
-下一步：個人資料設定第 4 輪（刪除帳號燈箱）、路由守衛；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
+拼裝頁面：個人資料設定頁完成儲存、大頭照、刪除帳號（2026/11/18）；登入已接假資料，註冊送出還沒做。
+下一步：路由守衛（沒登入進 `/me/*` 導回登入頁）；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
 - 分工：Opus（主對話）討論結構、寫交辦單；Sonnet 子代理 `implementer`（`~/.claude/agents/implementer.md`，2026/11/13 建立）照交辦單實作，回報後由主對話看 diff、跑 type-check。
@@ -98,7 +98,10 @@
   - ✅ header 頭像讀登入者：`UserMenu` 傳 `avatar-url` 給 `UserMenuButton`，存好後跟著換
   - ⬜ 正方形檢查：spec 已定（features.md 3.1），程式先不做；做法是 `createImageBitmap` 量長寬
   - ℹ️ 預覽網址沒有 `revokeObjectURL`，換圖多次會多佔記憶體，demo 先不處理
-- ⬜ 第 4 輪 刪除帳號燈箱：可刪／不可刪兩種狀態（features.md 3.1）
+- ✅ 第 4 輪 刪除帳號燈箱（2026/11/18，瀏覽器確認完成）：`DeleteProfileLightbox` 兩層（Figma 545:2014 確認、545:2096 無法刪除）；按「確認刪除」才呼叫 `deleteAccount`（假 `DELETE /me`），有進行中案件或帳號鎖定就換無法刪除層；能刪就登出回首頁
+  - 共用元件：`Lightbox` 加 `size="sm"`（寬 560、高度跟內容）；`Button` 加 `variant="danger"`（實心橘）
+  - spec：features.md 3.1、acceptance CTR-02 改兩層流程；structure.md 2.2 例外補 `logOut()`（只限刪除帳號後）
+  - ⬜ 「前往約稿管理」等 `/me/orders` 做好再接；假資料不會真的改 `account_status`
 - ⬜ 沒登入進 `/me/*` 導回登入頁（路由守衛）
 
 ## 預定

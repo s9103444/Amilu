@@ -3,7 +3,7 @@
   <Teleport to="body">
     <!-- 【點黑底時觸發】.self：只有點到黑底本身才關，點框裡面不會 -->
     <div class="overlay" @click.self="emit('close')">
-      <div class="frame" role="dialog" aria-modal="true">
+      <div class="frame" :class="{ 'frame--sm': size === 'sm' }" role="dialog" aria-modal="true">
         <slot></slot>
         <!-- 【點 ✕ 時觸發】放在 slot 後面，才會疊在內容上面 -->
         <button type="button" class="close" aria-label="關閉" @click="emit('close')">
@@ -20,13 +20,16 @@
 範例：
 使用前先 import：import Lightbox from '@/shared/components/Lightbox.vue'
 <Lightbox v-if="isOpen" @close="isOpen = false">內容</Lightbox>
+<Lightbox v-if="isOpen" size="sm" @close="isOpen = false">內容</Lightbox> ---> 小燈箱（確認類，例如刪除帳號，Figma 545:2014）
 開關由外面用 v-if 控制：掛上去＝打開、拿掉＝關閉；元件自己不記開關。
 關閉的三種方式（點 ✕、點黑底、按 Esc）都只送出 close，由外面把 v-if 的值改掉。
 打開期間背景頁面不能捲動。
-框的大小固定（桌機 Figma 1200×724，螢幕矮時跟著縮），內容自己決定怎麼排、哪裡要捲動。
+size 預設 lg：框的大小固定（桌機 Figma 1200×724，螢幕矮時跟著縮），內容自己決定怎麼排、哪裡要捲動。
+size="sm"：寬 560、高度跟著內容，框自帶內距（手機 24／平板以上 40）；✕ 對齊內容第一行的 text-h3 標題，標題列右邊要留空給 ✕。
 */
 import { onMounted, onUnmounted } from 'vue'
 
+withDefaults(defineProps<{ size?: 'lg' | 'sm' }>(), { size: 'lg' })
 const emit = defineEmits<{ close: [] }>()
 const base = import.meta.env.BASE_URL
 
@@ -101,6 +104,27 @@ onUnmounted(() => {
     display: block;
     width: 12px;
     height: 12px;
+  }
+}
+
+// 小燈箱（size="sm"）：寬 560、高度跟著內容（Figma 545:2014）；內容太高時框裡面捲
+// --dialog-padding 同時給框的內距和 ✕ 的位置用，兩邊才會對齊
+.frame--sm {
+  --dialog-padding: var(--space-3);
+  max-width: 560px;
+  height: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--dialog-padding);
+
+  @include bp.tablet-up {
+    --dialog-padding: var(--space-5);
+  }
+
+  // ✕ 對齊標題列：右邊貼內距；上下對齊 text-h3 標題的中線（標題行高約 39px，✕ 按鈕 24px 加上 -6px 外距，往下 14px 剛好置中）
+  .close {
+    top: calc(var(--dialog-padding) + 14px);
+    right: var(--dialog-padding);
   }
 }
 </style>

@@ -47,9 +47,15 @@
           刪除後將無法登入，也無法復原。有進行中的委託或尚未補齊的款項時無法刪除。
         </p>
       </div>
-      <!-- 第 4 輪接確認燈箱 -->
-      <Button variant="secondary" width="hug">刪除帳號</Button>
+      <!-- 【流程④-1：按「刪除帳號」】打開刪除燈箱 -->
+      <Button @click="showDelete = true" variant="secondary" width="hug">刪除帳號</Button>
     </section>
+    <DeleteProfileLightbox
+      v-if="showDelete"
+      :user-id="user.id"
+      @close="showDelete = false"
+      @deleted="handleDeleted"
+    />
   </div>
 </template>
 
@@ -57,11 +63,12 @@
 /*
 頁面：個人資料設定（/me/profile，Figma 547:3017，features.md 3.1）
 入口：header 個人選單「個人資料設定」。照 Figma 先不放左側選單（structure.md 3.5）。
-分 4 輪做：①畫面與資料（本輪）②儲存變更 ③大頭照選檔 ④刪除帳號燈箱
+分 4 輪做：①畫面與資料 ②儲存變更 ③大頭照選檔 ④刪除帳號燈箱
 帳號 ID、email 只顯示；暱稱、簡介複製一份當草稿，按「儲存變更」才寫回登入者（打字時登入者資料不會跟著變）。
 登入者讀 account 的 useAuthStore；存好後用 updateCurrentUser 寫回（structure.md 2.2 的例外）。
 */
 import { computed, ref, reactive, onUnmounted, useTemplateRef } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/features/account/store'
 import AvatarUpload from '@/shared/components/AvatarUpload.vue'
 import FormInput from '@/shared/components/FormInput.vue'
@@ -69,7 +76,9 @@ import FormTextarea from '@/shared/components/FormTextarea.vue'
 import Button from '@/shared/components/Button.vue'
 import { updateProfile } from '@/features/profile/api'
 import SavedToast from '@/shared/components/SavedToast.vue'
+import DeleteProfileLightbox from '@/features/profile/components/DeleteProfileLightbox.vue'
 
+const router = useRouter()
 const auth = useAuthStore()
 // 登入者；重新整理後是 null（登入狀態沒存），模板用 v-if 不顯示表單，「沒登入導回登入頁」之後再做
 const user = computed(() => auth.currentUser)
@@ -84,6 +93,8 @@ const errors = reactive({ nickname: '', avatar: '' })
 const avatarInput = useTemplateRef<HTMLInputElement>('avatarInput')
 const avatarFile = ref<File | null>(null)
 const avatarPreview = ref(user.value?.avatar_url ?? null)
+// 刪除帳號燈箱開著沒（燈箱用 v-if，打開＝重新建立）
+const showDelete = ref(false)
 
 // 「已儲存變更」提示：showSaved 控制顯示；savedTimer 存「2 秒後收起」計時器的號碼牌，放在函式外，下次儲存才拿得到上一次的
 const showSaved = ref(false)
@@ -145,6 +156,14 @@ async function handleSave() {
   savedTimer = setTimeout(() => {
     showSaved.value = false
   }, 2000)
+}
+
+// 【流程④-3：燈箱送出 deleted（帳號已刪除）時觸發】關燈箱、登出、回首頁
+// 登出是 structure.md 2.2 的例外：只限刪除帳號成功後
+function handleDeleted() {
+  showDelete.value = false
+  auth.logOut()
+  router.push('/')
 }
 
 // 【離開頁面時】取消還沒到期的計時器，不留下還在跑的計時器

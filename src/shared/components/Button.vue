@@ -7,6 +7,7 @@
       {
         'btn--secondary': variant === 'secondary',
         'btn--outline': variant === 'outline',
+        'btn--danger': variant === 'danger',
         'btn--hug': width === 'hug',
       },
     ]"
@@ -25,12 +26,13 @@
 <Button width="hug"> ---> 主要樣式款(width auto)
 <Button width="hug" variant="secondary"> ---> 次要樣式款(width auto)
 <Button variant="outline"> ---> 黑框黑字款（例如開通清單的「修改」）
+<Button variant="danger"> ---> 實心橘底白字款（不可復原的確認，例如刪除帳號燈箱的「確認刪除」，Figma 545:2094）
 <Button disabled>登入</Button> ---> 按鈕失效
 <Button size="sm" width="hug">前往填寫</Button> ---> 小尺寸（Figma Amilu/Button-sm），字級、內距、間距都跟著變小
 */
 withDefaults(
   defineProps<{
-    variant?: 'primary' | 'secondary' | 'outline'
+    variant?: 'primary' | 'secondary' | 'outline' | 'danger'
     width?: 'full' | 'hug'
     size?: 'md' | 'sm'
   }>(),
@@ -92,6 +94,13 @@ withDefaults(
   width: auto;
 }
 
+//-----危險動作按鈕樣式（實心橘）-----//
+.btn--danger {
+  background: var(--color-button-danger-bg);
+  color: var(--color-button-text-primary);
+  transition: background 0.3s ease;
+}
+
 //-----按鈕失效樣式-----//
 .btn:disabled {
   cursor: not-allowed;
@@ -101,8 +110,8 @@ withDefaults(
 }
 //-----hover裝置限制-----//
 @media (hover: hover) {
-  // 彩虹漸層 hover 只給主按鈕；次要、黑框款各自換底色
-  .btn:not(.btn--secondary):not(.btn--outline):not(:disabled):hover::before {
+  // 彩虹漸層 hover 只給主按鈕；次要、黑框、危險款各自換底色
+  .btn:not(.btn--secondary):not(.btn--outline):not(.btn--danger):not(:disabled):hover::before {
     opacity: 1;
   }
 
@@ -112,6 +121,11 @@ withDefaults(
 
   .btn--outline:not(:disabled):hover {
     background: var(--color-button-outline-hover-bg);
+  }
+
+  // Figma 沒畫 hover，前端自訂：底色深一階
+  .btn--danger:not(:disabled):hover {
+    background: var(--color-button-danger-hover-bg);
   }
 }
 .btn--sm {
