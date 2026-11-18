@@ -11,7 +11,7 @@
     </div>
 
     <div class="actions">
-      <a class="about text-button-md" href="#">瞭解網站</a>
+      <a class="about text-button-sm" href="#">瞭解網站</a>
       <!-- 登入後：通知、上傳、個人選單 -->
       <template v-if="loggedIn">
         <NotificationMenu />
@@ -20,7 +20,9 @@
       </template>
       <!-- 登入前：只有登入按鈕 -->
       <!-- 不用 RouterLink 包 Button：<a> 裡放 <button> 是不合法的 HTML，還會多出連結底線 -->
-      <Button v-else variant="secondary" width="hug" @click="router.push('/login')">登入</Button>
+      <Button v-else size="sm" variant="secondary" width="hug" @click="router.push('/login')"
+        >登入</Button
+      >
     </div>
   </header>
 </template>
@@ -110,10 +112,10 @@ const keyword = ref('')
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 26px;
+  gap: 16px;
 
   @include bp.tablet-up {
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 }
 
