@@ -3,7 +3,7 @@
     <span class="image-frame">
       <img class="image" :src="imageUrl" alt="" loading="lazy" />
       <!-- 放在圖片外面，hover 時圖片放大、小標不動 -->
-      <span v-if="type === 'commission-item'" class="text-caption badge">可委託</span>
+      <span v-if="type === 'commission-item'" class="text-note badge">可委託</span>
     </span>
     <UserInfoBar :avatar-url="authorAvatarUrl" :name="title" :user-id="authorId" />
   </button>
@@ -86,11 +86,11 @@ withDefaults(
   position: absolute;
   top: 8px;
   right: 8px;
-  padding: 2px 8px;
+  padding: 3px 8px 2px;
   border-radius: 999px;
   background: var(--color-overlay);
   color: var(--color-text-on-dark);
-  font-size: var(--fs-small);
+  // 字級交給 class 的 text-note（彥廷調整）；這裡不要再寫 font-size，scoped 樣式優先順序較高，會蓋掉它
   white-space: nowrap;
 }
 
@@ -99,8 +99,6 @@ withDefaults(
   .badge {
     top: 15px;
     right: 13px;
-    padding: 2px 14px;
-    font-size: var(--fs-caption);
   }
 }
 
