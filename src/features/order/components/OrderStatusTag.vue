@@ -1,5 +1,5 @@
 <template>
-  <span class="text-small order-status-tag" :class="`order-status-tag--${tone}`">
+  <span class="text-note order-status-tag" :class="`order-status-tag--${tone}`">
     {{ ORDER_STATUS_LABEL[status] }}
   </span>
 </template>
@@ -29,7 +29,7 @@ const tone = computed(() => ORDER_STATUS_TONE[props.status])
 .order-status-tag {
   display: inline-block;
   width: fit-content;
-  padding: 2px 12px;
+  padding: 2px 8px;
   border-radius: 999px;
   white-space: nowrap;
 }

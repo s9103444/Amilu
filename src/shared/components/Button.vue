@@ -84,7 +84,7 @@ withDefaults(
 
 //-----黑框黑字按鈕樣式-----//
 .btn--outline {
-  background: var(--color-button-outline-bg);
+  background: transparent;
   color: var(--color-button-outline);
   border: 1px solid var(--color-button-outline);
   transition: background 0.3s ease;
@@ -120,7 +120,7 @@ withDefaults(
   }
 
   .btn--outline:not(:disabled):hover {
-    background: var(--color-button-outline-hover-bg);
+    background: var(--color-button-followed-bg);
   }
 
   // Figma 沒畫 hover，前端自訂：底色深一階

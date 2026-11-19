@@ -15,15 +15,38 @@
           { value: 'received', label: '已接案' },
         ]"
       />
-      <div class="sub-tabs">
+      <!-- 未開通時沒有子頁籤（Figma 559:3073） -->
+      <div v-if="!showNotActivated" class="sub-tabs">
         <OptionButton v-model="phase" name="phase" value="ongoing">進行中</OptionButton>
         <OptionButton v-model="phase" name="phase" value="history">已結案</OptionButton>
       </div>
     </div>
 
-    <!-- 案件列表（Figma 559:2611）：orders 已由 api 篩好、排好（新到舊），這裡照順序畫 -->
+    <!-- 列表區三選一，順序不能換：先判斷未開通（沒開通的人在已接案本來就沒案件，要先攔下來） -->
+    <!-- ① 已接案＋未開通創作者（Figma 559:3152） -->
+    <EmptyState
+      v-if="showNotActivated"
+      icon="icons/store.svg"
+      title="尚未開通創作者模式"
+      description="開通後即可在這裡查看接到的委託。"
+    >
+      <!-- 開通頁 /me/activate 還沒做，先不接 -->
+      <template #action><Button>前往開通</Button></template>
+    </EmptyState>
+
+    <!-- ② 這個頁籤沒有案件：沿用未開通的版型（features.md 3.7） -->
+    <EmptyState
+      v-else-if="orders.length === 0"
+      icon="icons/store.svg"
+      title="目前沒有案件"
+      description="有新的委託時會顯示在這裡。"
+    >
+      <template #action><Button @click="router.push('/')">去逛逛作品</Button></template>
+    </EmptyState>
+
+    <!-- ③ 案件列表（Figma 559:2611）：orders 已由 api 篩好、排好（新到舊），這裡照順序畫 -->
     <!-- OrderCard 的 role 是「對方」：已委託的對方是創作者，已接案的對方是委託人 -->
-    <div class="order-list">
+    <div v-else class="order-list">
       <OrderCard
         v-for="order in orders"
         :key="order.order_id"
@@ -38,7 +61,12 @@
       >
         <!-- 有按鈕文字才放按鈕；按鈕先不接換頁（報價、付款、討論牆頁面都還沒做） -->
         <template v-if="actionOf(order).button" #action>
-          <Button width="hug" :variant="actionOf(order).primary ? 'primary' : 'secondary'">
+          <!-- size="sm"：比 Figma 小一階，對齊首頁比例（彥廷調整） -->
+          <Button
+            size="sm"
+            width="hug"
+            :variant="actionOf(order).primary ? 'primary' : 'secondary'"
+          >
             {{ actionOf(order).button }}
           </Button>
         </template>
@@ -48,17 +76,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import TabBar from '@/shared/components/TabBar.vue'
 import OptionButton from '@/shared/components/OptionButton.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { formatDate } from '@/features/order/formatDate'
 import type { OrderListItem } from '@/features/order/types'
-import { fetchOrders } from '@/features/order/api'
+import { fetchOrders, fetchIsCreator } from '@/features/order/api'
 import OrderCard from '@/features/order/components/OrderCard.vue'
 import Button from '@/shared/components/Button.vue'
 import { formatAmount } from '@/shared/utils/formatAmount'
 import { STAGE_LABEL } from '@/features/order/stageLabel'
+import EmptyState from '@/shared/components/EmptyState.vue'
 /*
 頁面：約稿管理（/me/orders，Figma 559:2525，features.md 3.7）
 主頁籤（已委託／已接案）記在網址 ?tab=，重新整理或從別頁連過來都能停在指定頁籤
@@ -68,6 +97,10 @@ const phase = ref<'ongoing' | 'history'>('ongoing') // 改掉原本的 ref('ongo
 const orders = ref<OrderListItem[]>([]) // 目前要畫的案件
 const route = useRoute() // 讀現在的網址
 const router = useRouter() // 換網址
+const isCreator = ref(false) // 我有沒有開通創作者
+
+// 列表區要不要顯示「尚未開通」：在已接案頁籤，而且沒開通（isCreator 由流程⑤填入）
+const showNotActivated = computed(() => tab.value === 'received' && !isCreator.value)
 
 // 主頁籤：值永遠從網址讀出來，改的時候也是去改網址，畫面和網址才不會對不上
 const tab = computed({
@@ -141,6 +174,11 @@ function actionOf(order: OrderListItem): CardAction {
   }
   return { note: '委託已取消' } // 剩下的只有已取消：沒有結案畫面可進（features.md 4.5），不放按鈕
 }
+
+// 【流程⑤：頁面打開時跑一次】問我有沒有開通創作者；切頁籤不會改變這件事，所以不放進 watch
+onMounted(async () => {
+  isCreator.value = await fetchIsCreator()
+})
 </script>
 
 <style lang="scss" scoped>

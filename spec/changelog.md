@@ -3,6 +3,12 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/19
+
+- 接案設定（features.md 3.5）：訂金選項「無需先支付」畫面改顯示「不收訂金（一次付清）」，資料值不變；說明文字改照 spec（風險在 30%／50% 先付訂金的應補付，不在無需先支付）。Figma 原文字把風險寫在「無需先支付」底下，與 order-lifecycle 三矛盾。是否連資料值一起改名，待和淳確認。
+- 接案設定（features.md 3.5）：Amilu 燈跟著「儲存設定」一起存，不是點了立即生效；`/me/settings` 先照 Figma 不放左側選單（structure.md 3.5）。
+- `mocks/creatorProfile.ts` 補齊 CREATOR_PROFILE 欄位（`payout_bank_code`、`payout_account_no`、`payout_account_name`、`deposit_percent`、`revision_count`）。
+
 ## 2026/11/18
 
 - 約稿管理案件卡右側按鈕／說明規則（features.md 3.7）；`GET /orders` 回應草案加帶雙方 USER 摘要、付款期限、目前階段（api.md，待後端確認）。

@@ -60,6 +60,7 @@ export const WORK_ITEMS: UserMenuItemData[] = [
     icon: 'icons/settings.svg',
     mainTitle: '接案設定',
     subTitle: '設定接案所需細項',
+    to: '/me/settings',
   },
 ]
 

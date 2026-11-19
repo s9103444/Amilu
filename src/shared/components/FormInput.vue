@@ -2,7 +2,8 @@
   <div class="field">
     <div class="label-content">
       <!-- 標籤＋必填／選填小字放一組，靠左；錯誤或唯讀提示靠右 -->
-      <span class="label-group">
+      <!-- label-hidden 只藏標籤，錯誤訊息照常顯示 -->
+      <span class="label-group" :class="{ 'visually-hidden': labelHidden }">
         <label class="text-caption" :for="inputId"
           ><slot>{{ defaultLabels[type] }}</slot></label
         >
@@ -29,6 +30,8 @@
         }"
         :placeholder="placeholder ?? defaultPlaceholders[type]"
         :readonly="readonly"
+        :maxlength="maxlength"
+        :inputmode="inputmode"
         :aria-invalid="!!error"
         :aria-describedby="error ? errorId : undefined"
       />
@@ -63,6 +66,8 @@ error 傳錯誤訊息文字，有字就在標籤旁顯示並把外框變橘，�
 用原生 readonly（不是 disabled），所以仍可選取複製、表單送出時也會帶上。有 error 時以錯誤訊息優先。
 <FormInput v-model="nickname" requirement="necessary">暱稱</FormInput> ---> 標籤旁顯示「必填」小字（optional ＝「選填」），同 FormTextarea。
 type="password" 時右側自動出現眼睛按鈕，點了切換顯示／隱藏密碼（唯讀時不出現）。
+<FormInput v-model="code" :maxlength="3" inputmode="numeric">銀行代碼</FormInput> ---> 限制字數；手機跳出數字鍵盤（仍是文字欄，值是字串）
+<FormInput v-model="count" label-hidden>修改次數</FormInput> ---> 標籤只給螢幕閱讀器，畫面上不顯示（外面已經有標題時用）
 */
 import { computed, ref, useId } from 'vue'
 
@@ -90,6 +95,9 @@ const props = withDefaults(
     readonly?: boolean
     placeholder?: string
     requirement?: 'necessary' | 'optional' // 標籤旁的小字：necessary ＝「必填」、optional ＝「選填」，不傳就不顯示
+    maxlength?: number // 最多幾個字，對齊資料表欄位長度
+    inputmode?: 'numeric' | 'text' // numeric ＝ 手機跳數字鍵盤
+    labelHidden?: boolean // 標籤只給螢幕閱讀器，畫面不顯示
   }>(),
   {
     type: 'text',
@@ -112,6 +120,15 @@ function eyeChange() {
 </script>
 
 <style lang="scss" scoped>
+// 畫面上看不到、螢幕閱讀器仍會念（不用 display: none，那樣連閱讀器也讀不到）
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .field {
   display: flex;
   flex-direction: column;

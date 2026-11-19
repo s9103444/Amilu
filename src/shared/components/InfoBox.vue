@@ -1,7 +1,7 @@
 <template>
   <div class="info-box">
     <img src="/icons/info.svg" alt="" />
-    <p class="text-caption info-box__text"><slot></slot></p>
+    <p class="text-note info-box__text"><slot></slot></p>
   </div>
 </template>
 

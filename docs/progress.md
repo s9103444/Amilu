@@ -115,10 +115,21 @@
   - 新型別 `OrderListItem`（ORDER ＋ 雙方 USER 摘要 ＋ `payment_due_at` ＋ `current_stage`），mock `MOCK_ORDER_LIST`；api.md 寫進列表回應草案，**待和淳確認**
   - features.md 3.7 補案件卡右側規則表（Figma 只畫已委託｜進行中）；按鈕先不接換頁（報價、付款、討論牆頁還沒做）
   - ℹ️ 時間列連接符號用 `|`（彥廷決定，Figma 是 `・`）；子頁籤文字目前「已結案」，spec／Figma 是「歷史」，待彥廷決定
-- ⬜ 第 4 輪 空狀態（明天接著做）：
-  - 已接案＋未開通創作者（Figma 559:3073）：只顯示「尚未開通創作者模式，前往開通」，沒有子頁籤；判斷看 `mocks/creatorProfile.ts` 的 `store_approved`（`a_very_long_account_id_for_test` 沒有 profile ＝ 未開通）
-  - 沒有案件：沿用同一個版型，按鈕「去逛逛作品」回首頁（features.md 3.7）
-  - 空狀態版型適合做成共用元件（圖示＋標題＋說明＋按鈕），我先做元件、彥廷接判斷邏輯
+- ✅ 第 4 輪 空狀態（2026/11/19，程式完成，待瀏覽器確認）：列表區三選一 ①已接案＋未開通（隱藏子頁籤）②沒有案件 ③列表
+  - 新共用元件 `shared/components/EmptyState.vue`（Figma 559:3152，圖示＋標題＋說明＋`#action`）
+  - `order/api.ts` 的 `fetchIsCreator()` 讀 `store_approved`（之後改 `GET /me`），頁面 `onMounted` 問一次
+  - ⬜ 「前往開通」等 `/me/activate` 做好再接；沒有案件的空狀態暫用商店圖示（Figma 沒畫）
+
+## 接案設定（2026/11/19）
+
+- ✅ 共用準備：`FormInput` 加 `maxlength`／`inputmode`／`labelHidden`；`SavedToast` 改成自己固定在視口上方中央（`position: fixed`），個人資料頁拿掉自己的定位
+- ✅ 型別與假資料：`profile/types.ts`（`CreatorSettings`、`DepositPercent`、`LightStatus`，欄位照 FigJam CREATOR_PROFILE 表）；`mocks/creatorProfile.ts` 補齊 8 欄
+- ✅ 第 1 輪 頁面骨架：`/me/settings`（`CreatorSettingsPage.vue`，Figma 1053:14412）；個人選單「接案設定」接上；`fetchCreatorSettings()`（假 `GET /me/creator-settings`），沒開通顯示 `EmptyState`
+- ✅ 第 2 輪 表單與草稿：6 個草稿 ref、`resetDrafts()`（拿到設定後、取消變更）、`isDirty` 決定儲存鈕能不能按
+- ✅ 第 3 輪 儲存（程式完成，待瀏覽器確認）：4 格檢查＋紅字；`updateCreatorSettings()`（假 `PATCH /me/creator-settings`），燈有改才呼叫 `updateAmiluLight()`（假 `PATCH /me/creator-settings/amilu-light`）；存好寫回、顯示提示 2 秒
+  - ✅ 訂金選項畫面改「不收訂金（一次付清）」、說明改照 spec（資料值仍是 `無需先支付`）；Figma 待同步（data-model.md 6 第 15 項）
+  - ⬜ `deposit_percent` 資料值要不要一起改名，待和淳確認
+  - ⬜ 「前往開通」等 `/me/activate`
 
 ## 預定
 

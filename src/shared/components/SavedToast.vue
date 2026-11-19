@@ -13,11 +13,18 @@
 <SavedToast /> ---> 顯示「已儲存變更」
 <SavedToast>已更新</SavedToast> ---> 自訂文字
 出現與消失的時機由外面控制
+位置由元件自己決定：固定在視口上方中央（position: fixed），捲到哪都看得到、不佔版面，使用的頁面不用另外寫定位
 */
 </script>
 
 <style lang="scss" scoped>
+// 固定在視口上方中央：left 50% 再往回推自己一半寬，才會真的置中；z-index 比燈箱（100）高，燈箱開著也看得到
 .saved-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  z-index: 110;
+  transform: translateX(-50%);
   display: inline-flex;
   // 圖示在前時，inline-flex 的基線會跟著圖片底部，整個標籤會往上飄；改成依方框置中對齊
   vertical-align: middle;

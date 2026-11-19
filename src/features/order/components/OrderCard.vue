@@ -3,21 +3,21 @@
     <div class="counterpart">
       <!-- 沒傳頭像時改用預設圖 -->
       <img class="avatar" :src="avatarUrl ?? DEFAULT_AVATAR_URL" alt="" />
-      <span class="text-small role">{{ ROLE_LABEL[role] }}</span>
+      <span class="text-note role">{{ ROLE_LABEL[role] }}</span>
     </div>
 
     <div class="info">
       <div class="heading">
-        <h3 class="text-title title">{{ title }}</h3>
+        <h3 class="text-caption title">{{ title }}</h3>
         <OrderStatusTag :status="status" />
       </div>
-      <p class="text-small meta">{{ counterpart }}</p>
+      <p class="text-small meta-counterpart">{{ counterpart }}</p>
       <p class="text-note meta">{{ timeInfo }}</p>
     </div>
 
     <div v-if="amount || statusNote || $slots.action" class="side">
-      <p v-if="amount" class="text-title amount">{{ amount }}</p>
-      <p v-if="statusNote" class="text-caption meta">{{ statusNote }}</p>
+      <p v-if="amount" class="text-body amount">{{ amount }}</p>
+      <p v-if="statusNote" class="text-small meta">{{ statusNote }}</p>
       <slot name="action"></slot>
     </div>
   </article>
@@ -85,6 +85,7 @@ const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
   object-fit: cover;
 }
 
+// 身分（創作者／委託人）縮到 note（彥廷調整），當作頭像的小標
 .role {
   padding: 0 8px;
   color: var(--color-text-primary);
@@ -106,7 +107,10 @@ const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
   gap: 12px;
 }
 
+// 字級比 Figma 小，對齊首頁比例（彥廷調整）：標題 title → caption、不加粗（Medium），才不會搶過狀態標籤；
+// 金額 title → body 加粗；狀態說明 caption → small
 .title {
+  font-weight: var(--font-weight-medium);
   min-width: 0;
   margin: 0;
   overflow: hidden;
@@ -114,10 +118,14 @@ const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.meta-counterpart {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
 
 .meta {
   margin: 0;
-  color: var(--color-text-secondary);
+  color: var(--color-border);
 }
 
 //-----右側（金額、狀態說明、按鈕）-----//
@@ -131,6 +139,7 @@ const ROLE_LABEL = { creator: '創作者', commissioner: '委託人' }
 
 .amount {
   margin: 0;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   white-space: nowrap;
 }

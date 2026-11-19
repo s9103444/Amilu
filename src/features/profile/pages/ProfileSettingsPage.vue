@@ -1,7 +1,7 @@
 <template>
   <div v-if="user" class="profile-settings">
-    <!-- 存好後顯示 2 秒（流程③-3）；疊在頁面最上方（absolute），不佔版面，捲動時跟著頁面走 -->
-    <SavedToast class="toast" v-if="showSaved" />
+    <!-- 存好後顯示 2 秒（流程③-3）；位置由 SavedToast 自己固定在視口上方中央 -->
+    <SavedToast v-if="showSaved" />
     <div class="page-heading">
       <p class="text-small breadcrumb">首頁／個人資料設定</p>
       <h1 class="text-h2">個人資料設定</h1>
@@ -178,21 +178,11 @@ onUnmounted(() => {
 // 整頁：置中、最寬 888（Figma 547:3026）；左右留白由 DefaultLayout 的 container 給
 .profile-settings {
   display: flex;
-  position: relative;
   flex-direction: column;
   gap: var(--space-4);
   max-width: 888px;
   margin: 0 auto;
   padding-block: var(--space-6);
-}
-
-.toast {
-  position: absolute;
-  width: fit-content;
-  margin-inline: auto;
-  left: 0;
-  right: 0;
-  top: 20px;
 }
 
 .page-heading {

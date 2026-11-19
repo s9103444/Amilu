@@ -146,7 +146,7 @@ page ─▶ composable／store ─▶ api.ts ─▶ shared/api/client.ts ─▶ 
 | 探索 | `/` | 首頁作品牆（搜尋、篩選放參數） | Default | 2.1–2.4 |
 | 探索 | `/users/:userId` | 創作者個人頁（`?tab=items` 切到可委託項目） | Default | 2.7 |
 | 個人中心 | `/me/profile` 🔒 | 個人資料設定 | Default（Figma 547:3017 沒畫左側選單，先照 Figma；外框待做第二個個人中心頁時決定） | 3.1 |
-| 個人中心 | `/me/settings` 🔒 | 接案設定 | Default＋左側選單 | 3.5 |
+| 個人中心 | `/me/settings` 🔒 | 接案設定 | Default（Figma 1053:14412 沒畫左側選單，先照 Figma，同 `/me/profile`） | 3.5 |
 | 個人中心 | `/me/orders` 🔒 | 約稿管理（`?tab=commissioned`／`received`） | Default（Figma 559:2525 沒畫左側選單，先照 Figma，同 `/me/profile`） | 3.7 |
 | 個人中心 | `/me/activate` 🔒 | 開通創作者商店（三步驟清單） | Default＋左側選單 | 3.4 |
 | 個人中心 | `/me/activate/done` 🔒 | 開通成功 | Default＋左側選單 | 3.4 |

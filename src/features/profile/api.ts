@@ -1,7 +1,9 @@
 // profile 功能的「後端呼叫」：頁面一律呼叫這裡，不直接 import mocks（structure.md 3.2）
-// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me（api.md 草案），頁面不用動
+// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me、GET／PATCH /me/creator-settings、PATCH /me/creator-settings/amilu-light（api.md 草案），頁面不用動
 import { useAuthStore } from '@/features/account/store'
 import { MOCK_ORDER_IN_PROGRESS, MOCK_ORDER_THREE_STAGE, MOCK_ORDER_COMPLETED } from '@/mocks/order'
+import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
+import type { CreatorSettings, LightStatus } from '@/features/profile/types'
 
 // 送出的個人資料（features.md 3.1）：大頭照是使用者選的檔案，null ＝ 這次沒換
 // 不放帳號 ID：後端從登入 token 就知道是誰在改
@@ -57,4 +59,36 @@ export async function deleteAccount() {
       ok: true,
     }
   }
+}
+// 【流程①-1：CreatorSettingsPage 打開時呼叫】讀我的接案設定；沒有這筆（沒開通過）回 null
+export async function fetchCreatorSettings(): Promise<CreatorSettings | null> {
+  const user = useAuthStore().currentUser
+  if (!user) return null
+  return MOCK_CREATOR_PROFILES.find((profile) => profile.user_id === user.id) ?? null
+}
+
+// 送出的接案設定（features.md 3.5）：不含 Amilu 燈（燈走另一支 API）、不含唯讀的 store_approved、user_id
+export type CreatorSettingsChanges = Pick<
+  CreatorSettings,
+  | 'payout_bank_code'
+  | 'payout_account_no'
+  | 'payout_account_name'
+  | 'deposit_percent'
+  | 'revision_count'
+>
+
+// 【流程③-1：CreatorSettingsPage 檢查通過後呼叫】PATCH /me/creator-settings，回傳後端存好的整份設定
+// 假資料：把改的欄位蓋到目前那筆上回傳，不改 MOCK_CREATOR_PROFILES（重新整理後回到原值，同 updateProfile）
+export async function updateCreatorSettings(
+  changes: CreatorSettingsChanges,
+): Promise<CreatorSettings> {
+  const current = await fetchCreatorSettings()
+  if (!current) throw new Error('尚未開通創作者模式') // 頁面只有已開通才看得到儲存鈕，正常不會走到這裡
+  return { ...current, ...changes }
+}
+
+// 【流程③-2：CreatorSettingsPage 儲存時，Amilu 燈有改才呼叫】PATCH /me/creator-settings/amilu-light，回傳存好的燈號
+// 假資料：原樣回傳
+export async function updateAmiluLight(lightStatus: LightStatus): Promise<LightStatus> {
+  return lightStatus
 }

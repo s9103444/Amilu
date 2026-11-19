@@ -249,6 +249,17 @@
     </section>
 
     <section>
+      <h2>EmptyState</h2>
+      <EmptyState
+        icon="icons/store.svg"
+        title="尚未開通創作者模式"
+        description="開通後即可在這裡查看接到的委託。"
+      >
+        <template #action><Button>前往開通</Button></template>
+      </EmptyState>
+    </section>
+
+    <section>
       <h2>OptionButton</h2>
       <div class="row">
         <OptionButton v-model="deposit" name="deposit" value="30">30%</OptionButton>
@@ -1116,6 +1127,7 @@ import FormSelect from '@/shared/components/FormSelect.vue'
 import FormCheckbox from '@/shared/components/FormCheckbox.vue'
 import OptionButton from '@/shared/components/OptionButton.vue'
 import TabBar from '@/shared/components/TabBar.vue'
+import EmptyState from '@/shared/components/EmptyState.vue'
 import GoogleAuthButton from '@/features/account/components/GoogleAuthButton.vue'
 import OrderFloatingButton from '@/features/order/components/OrderFloatingButton.vue'
 import OrderStatusTag from '@/features/order/components/OrderStatusTag.vue'
