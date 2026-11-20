@@ -30,7 +30,7 @@ export const MOCK_USERS: MockUser[] = [
     email: 'im_temp@example.com',
     nickname: '使用者名稱',
     avatar_url: sampleAvatar,
-    bio: '你好，我是自由插畫家。專注於角色設計、繪本創作與視覺插畫，擅長將抽象的情感與概念轉化為具體的視覺語言。作品曾參與多個品牌合作與展出，注重畫面細節與色彩的和諧。這裡是我紀錄靈感與發表新作的空間，歡迎私訊交流。',
+    bio: '專注於角色設計、繪本創作與視覺插畫，擅長將抽象的情感與概念轉化為具體的視覺語言。作品曾參與多個品牌合作與展出，注重畫面細節與色彩的和諧。這裡是我紀錄靈感與發表新作的空間，歡迎私訊交流。',
     password_hash: 'demo1234',
     phone_verified: true,
     phone_number: '0912345678',

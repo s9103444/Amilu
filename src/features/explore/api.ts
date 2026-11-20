@@ -6,6 +6,7 @@ import type {
   CommissionItem,
   CommissionItemImage,
   LightboxAuthor,
+  ProfileAuthor,
   Work,
   WorkImage,
 } from '@/features/explore/types'
@@ -18,6 +19,9 @@ import { MOCK_WORKS, MOCK_WORK_IMAGES, MOCK_WORK_TAGS } from '@/mocks/work'
 import { MOCK_USERS } from '@/mocks/user'
 import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
 import { MOCK_TAGS } from '@/mocks/tag'
+import { MOCK_FOLLOWS } from '@/mocks/follow'
+import { MOCK_ORDERS } from '@/mocks/order'
+
 // 參數名稱 api.md 沒寫，要跟後端確認
 export type WorkFilter = {
   category: string
@@ -105,6 +109,43 @@ export async function fetchAuthor(userId: string): Promise<LightboxAuthor | null
     store_approved: profile?.store_approved ?? false,
     // 三者同時成立才是接案中（data-model.md 5.1）：手動開放＋至少 1 筆可委託項目＋已開通
     is_open: profile?.light_status === '開放' && hasItem && profile.store_approved,
+  }
+}
+
+// 【個人專頁打開、網址的 userId 改變時由 UserProfilePage 呼叫】上方個人資訊區要的資料
+// 對應 GET /users/{id}（api.md 草案，同 fetchAuthor）；燈箱用不到追蹤數和評分，所以另寫一支，不加進 fetchAuthor
+// 追蹤數、評分都是衍生值，不存（data-model.md 5.1）；接後端後改由後端算好回傳
+export async function fetchAuthorProfile(userId: string): Promise<ProfileAuthor | null> {
+  const authorInfo = await fetchAuthor(userId)
+  if (!authorInfo) return null // 找不到這個人，頁面要顯示找不到
+
+  // ① 追蹤數：followers 數「被追蹤的是他」的列，following 數「按追蹤的是他」的列
+  const followerCount = MOCK_FOLLOWS.reduce((count, item) => {
+    return item.following_id === userId ? count + 1 : count
+  }, 0)
+  const followingCount = MOCK_FOLLOWS.reduce((count, item) => {
+    return item.follower_id === userId ? count + 1 : count
+  }, 0)
+
+  // ② 合作評分（features.md 2.7）：只算他當創作者收到的分數，還沒評的（null）排除
+  const specificOrders = MOCK_ORDERS.filter((order) => order.creator_id === userId)
+  const scoreList = specificOrders
+    .map((order) => order.rating_for_creator)
+    .filter((score): score is number => score !== null)
+  const scoreSum = scoreList.reduce((sum, score) => sum + score, 0)
+  // 沒有任何評分就是 null（畫面顯示「尚無評分」）；有的話取平均，四捨五入到小數一位
+  // 加 Number.EPSILON：防小數誤差的保險寫法（例：取兩位時 1.005 * 100 實際是 100.4999…，不加會捨成 1.00）
+  // 評分是 1～5 的整數平均、只取一位，實測不加也不會出錯；留著無害
+  const scoreAverage =
+    scoreList.length === 0
+      ? null
+      : Math.round((scoreSum / scoreList.length + Number.EPSILON) * 10) / 10
+
+  return {
+    ...authorInfo,
+    follower_num: followerCount,
+    following_num: followingCount,
+    average_score: scoreAverage,
   }
 }
 

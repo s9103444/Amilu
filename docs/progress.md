@@ -11,6 +11,7 @@
 ## 目前在做
 
 拼裝頁面：個人資料設定頁完成儲存、大頭照、刪除帳號（2026/11/18）；登入已接假資料，註冊送出還沒做。
+個人專頁做到第 4 塊頁籤（2026/11/20），見下方「個人專頁」。
 下一步：路由守衛（沒登入進 `/me/*` 導回登入頁）；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
@@ -130,6 +131,20 @@
   - ✅ 訂金選項畫面改「不收訂金（一次付清）」、說明改照 spec（資料值仍是 `無需先支付`）；Figma 待同步（data-model.md 6 第 15 項）
   - ⬜ `deposit_percent` 資料值要不要一起改名，待和淳確認
   - ⬜ 「前往開通」等 `/me/activate`
+
+## 個人專頁（2026/11/20 開始，`/users/:userId`，Figma 569:3298，features.md 2.7）
+
+- ✅ 第 1 塊 頁面＋路由：`explore/pages/UserProfilePage.vue`、`explore/routes.ts` 加 `users/:userId`；個人選單「個人專頁」接上（`UserMenu`、`userMenuItems`）
+- ✅ 第 2 塊 資料：`fetchAuthorProfile(userId)`（假 `GET /users/{id}`）回 `ProfileAuthor`；`mocks/follow.ts`（FOLLOW，followers／following 即時計數）；`mocks/order.ts` 補 `rating_for_creator`、o_009／o_010
+- ✅ 第 3 塊 上方個人資訊（待瀏覽器確認）：大頭照、暱稱＋接案狀態、@id、合作評分（半顆星用 clip-path）、簡介、追蹤數；載入中／查無此用戶兩種狀態
+  - 合作評分規則寫進 features.md 2.7＋changelog
+- 🔄 第 4 塊 頁籤（作品牆／可委託項目）：`TabBar` 已放上、點擊可切換
+  - ⬜ 決定 `tab` 用網址版（現在，computed get/set）還是 `ref('works')` 簡單版
+  - ⬜ 頁籤值 `commissions` 和 structure.md 3.5 的 `?tab=items` 統一
+  - ⬜ 下方依 `tab` 顯示不同內容（先放佔位文字）
+  - ⬜ 「＋ 上傳作品」按鈕：只有看自己的頁才出現（比對登入者 id 和 `userId`）
+- ⬜ 第 5 塊 卡片牆：作品卡點開作品燈箱、可委託卡點開委託商店燈箱
+- ⬜ 追蹤清單燈箱（features.md 2.8）、follow 按鈕（看別人的頁才有）
 
 ## 預定
 

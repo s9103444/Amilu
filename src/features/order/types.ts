@@ -44,6 +44,7 @@ export type Order = {
   created_at: string // 委託申請建立時間，約稿管理依這個排序（features.md 3.7）
   completed_at: string | null // 已完成的時間，還沒完成時是 null
   terminated_at: string | null // 終止的時間，沒被終止時是 null
+  rating_for_creator: number | null // 委託人給創作者的評分 1～5；還沒評是 null。個人專頁的合作評分取它的平均（features.md 2.7）
 }
 
 // ORDER_STAGE：每個階段一列，五點分段 5 列、三點分段 3 列（stage_no 是 1／4／5）

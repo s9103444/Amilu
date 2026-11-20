@@ -96,6 +96,7 @@ export const MOCK_ORDER_IN_PROGRESS: Order = {
   created_at: '2026-10-01T10:00:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: null,
 }
 export const MOCK_STAGES_IN_PROGRESS: OrderStage[] = [
   {
@@ -148,6 +149,7 @@ export const MOCK_ORDER_THREE_STAGE: Order = {
   created_at: '2026-09-28T15:30:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: null,
 }
 
 export const MOCK_STAGES_THREE_STAGE: OrderStage[] = [
@@ -187,6 +189,7 @@ export const MOCK_ORDER_COMPLETED: Order = {
   created_at: '2026-09-20T11:00:00+08:00',
   completed_at: '2026-10-30T18:00:00+08:00',
   terminated_at: null,
+  rating_for_creator: 5,
 }
 
 export const MOCK_STAGES_COMPLETED: OrderStage[] = [
@@ -244,6 +247,7 @@ export const MOCK_ORDER_AWAITING_QUOTE: Order = {
   created_at: '2026-10-12T09:20:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: null,
 }
 
 // 已委託｜歷史：契約成立前取消
@@ -259,6 +263,7 @@ export const MOCK_ORDER_CANCELLED: Order = {
   created_at: '2026-09-10T20:00:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: 3,
 }
 
 // 已接案｜進行中：我報價了，等委託人付款
@@ -274,6 +279,7 @@ export const MOCK_ORDER_RECEIVED_AWAITING_PAYMENT: Order = {
   created_at: '2026-10-14T13:00:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: null,
 }
 
 // 已接案｜進行中：製作中
@@ -289,6 +295,7 @@ export const MOCK_ORDER_RECEIVED_IN_PROGRESS: Order = {
   created_at: '2026-10-03T16:45:00+08:00',
   completed_at: null,
   terminated_at: null,
+  rating_for_creator: null,
 }
 
 // 已接案｜歷史：終止合作
@@ -304,6 +311,41 @@ export const MOCK_ORDER_RECEIVED_TERMINATED: Order = {
   created_at: '2026-08-25T10:10:00+08:00',
   completed_at: null,
   terminated_at: '2026-09-15T18:00:00+08:00',
+  rating_for_creator: null,
+}
+
+// ── 只給個人專頁合作評分用（features.md 2.7）──
+// 雙方都不是登入者（im_temp_id），所以不會出現在約稿管理。
+// moon_sketch 收到的評分：o_003 的 5、o_009 的 4、o_010 的 4 → 平均 4.33 → 顯示 4.3（4 顆全星＋半顆）
+// painter_01 只有 o_005 的 3 → 3.0；im_temp_id 只有 o_008 且還沒評 → 尚無評分
+export const MOCK_ORDER_RATED_A: Order = {
+  order_id: 'o_009',
+  creator_id: 'moon_sketch',
+  commissioner_id: 'painter_01',
+  item_title_snapshot: '半身角色立繪',
+  status: 'completed',
+  quote_amount: 3200,
+  revision_count_snapshot: 2,
+  stage_plan_snapshot: '五點分段',
+  created_at: '2026-08-01T10:00:00+08:00',
+  completed_at: '2026-08-30T18:00:00+08:00',
+  terminated_at: null,
+  rating_for_creator: 4,
+}
+
+export const MOCK_ORDER_RATED_B: Order = {
+  order_id: 'o_010',
+  creator_id: 'moon_sketch',
+  commissioner_id: 'a_very_long_account_id_for_test',
+  item_title_snapshot: '頭像（肩膀以上）',
+  status: 'terminated',
+  quote_amount: 1800,
+  revision_count_snapshot: 1,
+  stage_plan_snapshot: '三點分段',
+  created_at: '2026-07-10T10:00:00+08:00',
+  completed_at: null,
+  terminated_at: '2026-07-28T18:00:00+08:00',
+  rating_for_creator: 4,
 }
 
 // 全部案件（沒排序、沒篩選）：order/api.ts 從這裡挑出要的
@@ -316,6 +358,8 @@ export const MOCK_ORDERS: Order[] = [
   MOCK_ORDER_RECEIVED_AWAITING_PAYMENT,
   MOCK_ORDER_RECEIVED_IN_PROGRESS,
   MOCK_ORDER_RECEIVED_TERMINATED,
+  MOCK_ORDER_RATED_A,
+  MOCK_ORDER_RATED_B,
 ]
 
 // ── 約稿管理列表的回應（GET /orders，api.md 2.3 草案）──

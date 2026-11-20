@@ -1,5 +1,5 @@
 <template>
-  <span class="text-small open-status-tag" :class="{ 'open-status-tag--closed': !open }">
+  <span class="text-note open-status-tag" :class="{ 'open-status-tag--closed': !open }">
     {{ open ? '接案中' : '暫不接案' }}
   </span>
 </template>
@@ -22,9 +22,9 @@ defineProps<{
 .open-status-tag {
   display: inline-block;
   width: fit-content;
-  padding: 2px 10px;
+  padding: 2px 6px;
   border: 1px solid currentColor;
-  border-radius: 10px;
+  border-radius: 8px;
   color: var(--color-status-open);
   white-space: nowrap;
 }

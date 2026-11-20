@@ -61,3 +61,10 @@ export type LightboxAuthor = {
   store_approved: boolean // 沒有 CREATOR_PROFILE 也算 false
   is_open: boolean // Amilu 燈對外顯示「接案中」；衍生值，由 fetchAuthor 算好，不存（data-model.md 5.1）
 }
+
+// 個人專頁上方的作者資料：燈箱那份再加追蹤數和評分（三個都是衍生值，由 fetchAuthorProfile 算好）
+export type ProfileAuthor = LightboxAuthor & {
+  follower_num: number // followers 人數，沒人追蹤是 0
+  following_num: number // following 人數
+  average_score: number | null // 合作評分平均（小數一位）；沒有任何評分是 null（features.md 2.7）
+}

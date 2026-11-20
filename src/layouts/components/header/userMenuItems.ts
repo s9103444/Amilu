@@ -28,7 +28,12 @@ export type UserMenuItemData = {
 
 // 第一組：個人相關
 export const PROFILE_ITEMS: UserMenuItemData[] = [
-  { key: 'profile', icon: 'icons/user.svg', mainTitle: '個人專頁', subTitle: '個人展示頁面' },
+  {
+    key: 'profile',
+    icon: 'icons/user.svg',
+    mainTitle: '個人專頁',
+    subTitle: '個人展示頁面',
+  },
   {
     key: 'profile-settings',
     icon: 'icons/settings.svg',

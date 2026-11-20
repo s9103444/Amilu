@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/20
+
+- 創作者個人頁（features.md 2.7）：新增合作評分規則（`rating_for_creator` 平均、半星門檻 0.3、整顆門檻 0.8、沒評分顯示「尚無評分」）。新增 `mocks/follow.ts` 給 followers／following 計數用。前端 `Order` 型別補 `rating_for_creator`，`mocks/order.ts` 補評分與兩筆只給評分用的案件（o_009、o_010）。
+
 ## 2026/11/19
 
 - 接案設定（features.md 3.5）：訂金選項「無需先支付」畫面改顯示「不收訂金（一次付清）」，資料值不變；說明文字改照 spec（風險在 30%／50% 先付訂金的應補付，不在無需先支付）。Figma 原文字把風險寫在「無需先支付」底下，與 order-lifecycle 三矛盾。是否連資料值一起改名，待和淳確認。

@@ -80,6 +80,10 @@ function handleItemClick(item: UserMenuItemData) {
     router.push(item.to)
     close()
   }
+  if (item.key === 'profile') {
+    router.push(`/users/${auth.currentUser?.id}`)
+    close()
+  }
 }
 
 // 【外層選單關閉時觸發（點外面、或再按一次頭像）】子選單一起收起，下次打開不會還展開著
