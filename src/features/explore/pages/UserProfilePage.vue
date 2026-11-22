@@ -62,15 +62,67 @@
         </div>
       </div>
     </section>
-    <section>
-      <TabBar
-        v-model="tab"
-        :items="[
-          { value: 'works', label: '作品牆' },
-          { value: 'commissions', label: '可委託項目' },
-        ]"
+    <!-- 下方頁籤＋卡片：和上方個人資訊區一樣，等完了而且找到人才顯示 -->
+    <!-- 不擋的話：找不到人時頁籤會出現在 EmptyState 下面；從 A 換到 B 的等待期間會殘留 A 的作品 -->
+    <template v-if="!isLoading && profile !== null">
+      <section class="bar-section">
+        <Button class="btn-upload" width="hug" variant="secondary" size="sm">上傳作品 +</Button>
+        <TabBar
+          v-model="tab"
+          :items="[
+            { value: 'works', label: '作品牆' },
+            { value: 'commissions', label: '可委託項目' },
+          ]"
+        />
+      </section>
+      <!-- 作品牆二選一：有作品顯示卡片，0 件顯示空狀態（works 是 [] 不是 null，見 fetchProfileWorks） -->
+      <section v-if="tab === 'works' && works.length > 0" class="card-layout">
+        <ProfileWorkCard
+          v-for="work in works"
+          :key="work.id"
+          :image-url="work.cover_url"
+          :title="work.title"
+          :category="work.category_label"
+          @select="openCard(work)"
+        />
+      </section>
+      <section v-else-if="tab === 'works'">
+        <EmptyState icon="icons/store.svg" title="暫無更新內容" description="用戶尚未更新其他作品">
+        </EmptyState>
+      </section>
+      <!-- 可委託項目二選一：同作品牆；卡片第二行多了價錢（見 fetchProfileCommissionItems） -->
+      <section v-else-if="tab === 'commissions' && commissionItems.length > 0" class="card-layout">
+        <ProfileWorkCard
+          v-for="item in commissionItems"
+          :key="item.id"
+          :image-url="item.cover_url"
+          :title="item.title"
+          :category="item.category_label"
+          @select="openCard(item)"
+        />
+      </section>
+      <section v-else-if="tab === 'commissions'">
+        <EmptyState
+          icon="icons/store.svg"
+          title="暫無可委託項目"
+          description="用戶尚未上架可委託項目"
+        >
+        </EmptyState>
+      </section>
+      <!-- 燈箱沒有網址，用狀態打開（structure.md）：值有東西＝開著，清空＝關掉 -->
+      <WorkLightbox
+        v-if="openedWorkId"
+        :work-id="openedWorkId"
+        @close="openedWorkId = null"
+        @open-shop="openShopFromWork"
       />
-    </section>
+      <CommissionShopLightbox
+        v-if="shopCreatorId"
+        :creator-id="shopCreatorId"
+        :item-id="shopItemId"
+        @close="shopCreatorId = null"
+      />
+    </template>
   </div>
 </template>
 
@@ -78,12 +130,20 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { ProfileAuthor } from '@/features/explore/types'
-import { fetchAuthorProfile } from '@/features/explore/api'
+import {
+  fetchAuthorProfile,
+  fetchProfileWorks,
+  fetchProfileCommissionItems,
+  type ProfileCard,
+} from '@/features/explore/api'
 import EmptyState from '@/shared/components/EmptyState.vue'
 import Button from '@/shared/components/Button.vue'
 import OpenStatusTag from '@/features/explore/components/OpenStatusTag.vue'
 import { DEFAULT_AVATAR_URL } from '@/shared/constants'
 import TabBar from '@/shared/components/TabBar.vue'
+import ProfileWorkCard from '@/features/explore/components/ProfileWorkCard.vue'
+import WorkLightbox from '@/features/explore/components/WorkLightbox.vue'
+import CommissionShopLightbox from '@/features/explore/components/CommissionShopLightbox.vue'
 /*
 頁面：創作者個人頁（/users/:userId，Figma 569:3298，features.md 2.7）
 誰的專頁都用這一頁；看的是誰，由網址的 :userId 決定
@@ -94,7 +154,15 @@ const router = useRouter() // 換頁（找不到人時的「回到首頁」）
 const userId = computed(() => String(route.params.userId))
 const profile = ref<ProfileAuthor | null>(null) // 上方個人資訊區的資料；null ＝ 還沒拿到，或找不到這個人
 const isLoading = ref(true) // 正在等資料；用來分辨 profile 是 null 時，是「還在等」還是「找不到」
+const works = ref<ProfileCard[]>([]) // 「作品牆」分頁的卡片資料
+const commissionItems = ref<ProfileCard[]>([]) // 「可委託項目」分頁的卡片資料
 
+// ── 燈箱 ──
+// 開著哪件作品的燈箱（work_id）；null＝沒開
+const openedWorkId = ref<string | null>(null)
+// 開著哪位創作者的委託商店（帳號 ID）；null＝沒開。shopItemId：要預先展開的項目，沒有就 undefined
+const shopCreatorId = ref<string | null>(null)
+const shopItemId = ref<string | undefined>(undefined)
 // 圖示用 :src 綁定，Vite 不會自動補 base，要自己接（BASE_URL 結尾已經有 /）
 const base = import.meta.env.BASE_URL
 
@@ -105,6 +173,8 @@ watch(
   async () => {
     isLoading.value = true // 開始等
     profile.value = await fetchAuthorProfile(userId.value) // 停在這裡，資料回來才往下
+    works.value = await fetchProfileWorks(userId.value) // 下方作品牆的卡片，同一個時機拿，換人時才不會留著上一個人的作品
+    commissionItems.value = await fetchProfileCommissionItems(userId.value) // 可委託項目的卡片，理由同上
     isLoading.value = false // 等完了：profile 有值＝找到，null＝找不到
   },
   { immediate: true },
@@ -143,6 +213,24 @@ const tab = computed({
   // 改完網址會再觸發流程①，TabBar 就換亮新的那顆
   set: (value) => router.replace({ query: { tab: value } }),
 })
+
+// 【流程④：點作品牆或可委託項目的卡片時，模板呼叫】
+// 看現在在哪個分頁就知道點的是什麼：作品開作品燈箱；項目開這位創作者（＝這一頁的人）的委託商店，並預先展開被點的那筆
+// shopCreatorId 最後設：它一有值燈箱的 v-if 就成立，shopItemId 要先準備好
+function openCard(card: ProfileCard) {
+  if (tab.value === 'works') {
+    openedWorkId.value = card.id
+  } else {
+    shopItemId.value = card.id
+    shopCreatorId.value = userId.value
+  }
+}
+// 【流程⑤：作品燈箱點「查看可委託項目」時】關掉作品燈箱，改開這位作者的委託商店（不預選項目）
+function openShopFromWork(creatorId: string) {
+  openedWorkId.value = null
+  shopItemId.value = undefined
+  shopCreatorId.value = creatorId
+}
 </script>
 
 <style lang="scss" scoped>
@@ -152,7 +240,7 @@ const tab = computed({
 .profile-page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding-bottom: var(--space-3);
 }
 
@@ -299,5 +387,27 @@ const tab = computed({
 }
 .count-value {
   color: var(--color-text-primary);
+}
+// 欄寬用 minmax(0, 1fr) 不用 1fr：1fr 的最小值是「內容不換行的寬度」，
+// 標題 nowrap 太長時會把那一欄撐寬，卡片寬度不一、標題也不會變成「…」
+.card-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // 手機一排 2 張
+  gap: 20px;
+
+  @include bp.tablet-up {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); // 平板以上一排幾張，看 Figma
+  }
+  @include bp.desktop-up {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); // 平板以上一排幾張，看 Figma
+  }
+}
+.bar-section {
+  margin-top: -30px;
+}
+.btn-upload {
+  position: relative;
+  top: 28px;
+  margin-left: auto;
 }
 </style>

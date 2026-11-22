@@ -49,7 +49,7 @@ const model = defineModel<T>({ required: true })
 // 頁籤之間 32（Figma 559:2598）
 .tabs {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-2);
 }
 
 // 每個頁籤：高 36、底線 2px；沒選中時底線和背景同色看不出來（Figma 用 base/100）

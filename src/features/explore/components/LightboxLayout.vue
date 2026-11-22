@@ -2,7 +2,7 @@
   <div class="layout">
     <!-- 左（手機在上）：圖片垂直捲動 -->
     <div class="media">
-      <ImageScrollList :images="images" />
+      <ImageScrollList :images="images" :start-index="startIndex" />
     </div>
     <!-- 右（手機在下）：作者列固定在上、中間內容可捲、按鈕固定在下 -->
     <div class="detail">
@@ -47,6 +47,7 @@
   </LightboxLayout>
 </Lightbox>
 author 還沒載入時傳 null，作者列先不顯示
+start-index：左側圖片打開時停在第幾張（從 0 算），原樣轉給 ImageScrollList；委託商店燈箱用，作品燈箱不傳＝從第一張開始（features.md 2.6）
 */
 import { ref } from 'vue'
 import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
@@ -58,6 +59,7 @@ import type { LightboxAuthor } from '@/features/explore/types'
 defineProps<{
   images: string[]
   author: LightboxAuthor | null
+  startIndex?: number
 }>()
 
 const isFollowed = ref(false)

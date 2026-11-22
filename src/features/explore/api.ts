@@ -21,12 +21,66 @@ import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
 import { MOCK_TAGS } from '@/mocks/tag'
 import { MOCK_FOLLOWS } from '@/mocks/follow'
 import { MOCK_ORDERS } from '@/mocks/order'
+import { CATEGORY_OPTIONS, PURPOSE_OPTIONS } from '@/mocks/classification'
+import { formatAmount } from '@/shared/utils/formatAmount'
 
 // 參數名稱 api.md 沒寫，要跟後端確認
 export type WorkFilter = {
   category: string
   purpose: string
   tag_ids: string[]
+}
+
+// 個人專頁卡片（ProfileWorkCard）要的資料；作品、可委託項目共用，id 是 work_id 或 item_id
+export type ProfileCard = {
+  id: string
+  title: string
+  category_label: string
+  cover_url: string
+}
+
+// 【個人專頁打開、網址的 userId 改變時由 UserProfilePage 呼叫】「作品牆」分頁的卡片資料
+// 對應的 API api.md 沒寫，要跟後端確認；先在這裡把封面、分類名稱整理成卡片直接能用的樣子
+export async function fetchProfileWorks(userId: string): Promise<ProfileCard[]> {
+  return MOCK_WORKS.filter((work) => work.user_id === userId).map((work) => {
+    const cover = MOCK_WORK_IMAGES.find(
+      (image) => work.work_id === image.work_id && image.seq_no === 1,
+    )
+    const categoryName = CATEGORY_OPTIONS.find((option) => option.value === work.category_id)?.label
+    const purposeName = PURPOSE_OPTIONS.find((option) => option.value === work.purpose_id)?.label
+
+    return {
+      id: work.work_id,
+      title: work.title,
+      cover_url: cover?.image_url ?? '', // 每件作品都該有封面；萬一沒有，給空字串，卡片只顯示底色
+      // 類型、用途可能是 null（查不到名稱），略過那個，只接有的
+      category_label: [categoryName, purposeName]
+        .filter((name): name is string => name !== undefined)
+        .join('・'),
+    }
+  })
+}
+
+// 【個人專頁打開、網址的 userId 改變時由 UserProfilePage 呼叫】「可委託項目」分頁的卡片資料
+// 同 fetchProfileWorks，第二行多接價錢：類型・用途・NT$ 1,500 起
+export async function fetchProfileCommissionItems(userId: string): Promise<ProfileCard[]> {
+  return MOCK_COMMISSION_ITEMS.filter((item) => item.creator_id === userId).map((item) => {
+    const cover = MOCK_COMMISSION_ITEM_IMAGES.find(
+      (image) => item.item_id === image.item_id && image.seq_no === 1,
+    )
+    const categoryName = CATEGORY_OPTIONS.find((option) => option.value === item.category_id)?.label
+    const purposeName = PURPOSE_OPTIONS.find((option) => option.value === item.purpose_id)?.label
+
+    return {
+      id: item.item_id,
+      title: item.title,
+      cover_url: cover?.image_url ?? '', // 每個項目都該有封面；萬一沒有，給空字串，卡片只顯示底色
+      // 類型、用途可能是 null（查不到名稱），略過那個；價錢一定有，格式化成「NT$ 1,500 起」接在最後
+      category_label: [categoryName, purposeName, `${formatAmount(item.price)} 起`]
+        .filter((name): name is string => name !== undefined)
+        .join('・'),
+    }
+  })
 }
 
 // 【首頁載入時由 HomePage 呼叫】作品牆的作品清單
@@ -153,13 +207,14 @@ export async function fetchAuthorProfile(userId: string): Promise<ProfileAuthor 
 // 對應 GET /creators/{creator_id}/commission-items（api.md 草案）
 export async function fetchCreatorCommissionItems(
   creatorId: string,
-): Promise<{ items: CommissionItem[]; images: string[] }> {
+): Promise<{ items: CommissionItem[]; images: CommissionItemImage[] }> {
   const items = MOCK_COMMISSION_ITEMS.filter((item) => item.creator_id === creatorId)
   // 左側圖片：照項目順序，每個項目內再照 seq_no（features.md 2.6「依序排列」）
+  // 整列回傳不只給網址：燈箱要靠 item_id 找出被點的項目第一張排第幾（features.md 2.6 預設定位）
   const images = items.flatMap((item) =>
-    MOCK_COMMISSION_ITEM_IMAGES.filter((row) => row.item_id === item.item_id)
-      .sort((a, b) => a.seq_no - b.seq_no)
-      .map((row) => row.image_url),
+    MOCK_COMMISSION_ITEM_IMAGES.filter((row) => row.item_id === item.item_id).sort(
+      (a, b) => a.seq_no - b.seq_no,
+    ),
   )
   return { items, images }
 }

@@ -1,7 +1,7 @@
 <template>
-  <OverlayScrollbarsComponent class="image-scroll-list" defer>
+  <OverlayScrollbarsComponent class="image-scroll-list" defer @os-initialized="onInitialized">
     <!-- 軌道：手機橫排、平板以上直排；往哪個方向超出，套件就在那個方向畫捲軸 -->
-    <div class="track">
+    <div class="track" ref="trackRef">
       <div v-for="(url, index) in images" :key="index" class="item">
         <img :src="url" alt="" />
       </div>
@@ -19,12 +19,50 @@
 範例：
 使用前先 import：import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
 <ImageScrollList :images="['/works/a.jpg', '/works/b.jpg']" />
+<ImageScrollList :images="urls" :start-index="3" />  ---> 打開時直接停在第 4 張（從 0 算；委託商店燈箱用，features.md 2.6）
 */
+import { ref, watch, nextTick } from 'vue'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+import type { OverlayScrollbars } from 'overlayscrollbars'
+const props = withDefaults(defineProps<{ images: string[]; startIndex?: number }>(), {
+  startIndex: 0,
+})
+const trackRef = ref<HTMLElement | null>(null)
+// 真正在捲的元素（套件建的）；初始化前是 null。不用 ref：畫面不需要因為它改變而更新
+let viewport: HTMLElement | null = null
 
-defineProps<{
-  images: string[]
-}>()
+// 【條件 A：套件建好捲動區時，模板的 @os-initialized 呼叫】
+function onInitialized(instance: OverlayScrollbars) {
+  viewport = instance.elements().viewport
+  scrollToStart()
+}
+
+// 【條件 B：圖片資料回來時】要等 Vue 把 <img> 畫出來（nextTick），trackRef 裡才找得到那張圖
+watch(
+  () => props.images,
+  async () => {
+    await nextTick()
+    scrollToStart()
+  },
+)
+
+// 【條件 A、B 都會呼叫】兩個條件誰先到不一定：先到的那次會因為另一邊還沒好而 return，後到的那次才真的捲
+// 距離＝已經捲了多少＋（目標圖離畫面頂端 − 捲動框離畫面頂端）；直的看 top、手機橫的看 left，不在捲的方向差值是 0
+function scrollToStart() {
+  if (viewport === null) return
+  if (props.startIndex === 0) return
+
+  const item = trackRef.value?.children[props.startIndex]
+  if (!item) return
+
+  const itemRect = item.getBoundingClientRect()
+  const viewportRect = viewport.getBoundingClientRect()
+
+  viewport.scrollTo({
+    top: viewport.scrollTop + itemRect.top - viewportRect.top,
+    left: viewport.scrollLeft + itemRect.left - viewportRect.left,
+  })
+}
 </script>
 
 <style lang="scss" scoped>

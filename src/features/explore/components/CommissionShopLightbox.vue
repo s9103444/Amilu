@@ -1,6 +1,6 @@
 <template>
   <Lightbox @close="emit('close')">
-    <LightboxLayout :images="images" :author="author">
+    <LightboxLayout :images="imageUrls" :author="author" :start-index="startIndex">
       <hr class="divider" />
       <section class="items">
         <div class="items-header">
@@ -46,14 +46,14 @@
 creator-id：哪位創作者的商店；item-id：從可委託卡片點進來時傳被點的那筆，那列會預先展開；從作品燈箱進來不傳。
 與作品燈箱是不同元件（features.md 2.6），共用的左右版型在 LightboxLayout。
 */
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import Lightbox from '@/shared/components/Lightbox.vue'
 import Button from '@/shared/components/Button.vue'
 import LightboxLayout from '@/features/explore/components/LightboxLayout.vue'
 import CommissionItemOption from '@/features/explore/components/CommissionItemOption.vue'
 import CommissionRules from '@/features/explore/components/CommissionRules.vue'
 import { fetchAuthor, fetchCreatorCommissionItems } from '@/features/explore/api'
-import type { CommissionItem, LightboxAuthor } from '@/features/explore/types'
+import type { CommissionItem, LightboxAuthor, CommissionItemImage } from '@/features/explore/types'
 
 const props = defineProps<{
   creatorId: string
@@ -63,7 +63,7 @@ const emit = defineEmits<{ close: [] }>()
 
 const base = import.meta.env.BASE_URL
 const items = ref<CommissionItem[]>([])
-const images = ref<string[]>([])
+const images = ref<CommissionItemImage[]>([])
 const author = ref<LightboxAuthor | null>(null)
 // 目前選了哪一列（item_id）；空字串＝沒選
 const selectedItemId = ref('')
@@ -80,6 +80,15 @@ watch(
   },
   { immediate: true },
 )
+// 【images 拿到後自動算】LightboxLayout 只吃網址陣列，從整列裡挑出 image_url
+const imageUrls = computed(() => images.value.map((image) => image.image_url))
+// 【images 拿到後自動算】左側圖片打開時要停在第幾張（features.md 2.6 預設定位）
+// images 已照 seq_no 排好，第一個 item_id 相符的就是那個項目的第一張；
+// 找不到（-1）或從作品燈箱進來沒傳 itemId 時，從第一張（0）開始
+const startIndex = computed(() => {
+  const index = images.value.findIndex((image) => image.item_id === props.itemId)
+  return index === -1 ? 0 : index
+})
 </script>
 
 <style lang="scss" scoped>
@@ -107,7 +116,9 @@ watch(
 .items-title {
   margin: 0;
   color: var(--color-text-primary);
-  font-weight: var(--font-weight-medium); // 字級比 Figma 小一階（彥廷調整），粗細照 Figma 的 Medium，同作品標題
+  font-weight: var(
+    --font-weight-medium
+  ); // 字級比 Figma 小一階（彥廷調整），粗細照 Figma 的 Medium，同作品標題
 }
 
 .price-note {
