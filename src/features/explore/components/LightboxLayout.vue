@@ -2,7 +2,11 @@
   <div class="layout">
     <!-- 左（手機在上）：圖片垂直捲動 -->
     <div class="media">
-      <ImageScrollList :images="images" :start-index="startIndex" />
+      <ImageScrollList
+        :images="images"
+        :start-index="startIndex"
+        @index-change="(index) => emit('index-change', index)"
+      />
     </div>
     <!-- 右（手機在下）：作者列固定在上、中間內容可捲、按鈕固定在下 -->
     <div class="detail">
@@ -47,7 +51,8 @@
   </LightboxLayout>
 </Lightbox>
 author 還沒載入時傳 null，作者列先不顯示
-start-index：左側圖片打開時停在第幾張（從 0 算），原樣轉給 ImageScrollList；委託商店燈箱用，作品燈箱不傳＝從第一張開始（features.md 2.6）
+start-index：左側圖片停在第幾張（從 0 算，換值會捲過去），原樣轉給 ImageScrollList；委託商店燈箱用，作品燈箱不傳＝從第一張開始（features.md 2.6）
+index-change：ImageScrollList 換張時送出（帶第幾張），這裡只負責轉傳；委託商店燈箱用來換右側選取，作品燈箱不聽
 */
 import { ref } from 'vue'
 import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
@@ -61,6 +66,7 @@ defineProps<{
   author: LightboxAuthor | null
   startIndex?: number
 }>()
+const emit = defineEmits<{ 'index-change': [index: number] }>()
 
 const isFollowed = ref(false)
 </script>

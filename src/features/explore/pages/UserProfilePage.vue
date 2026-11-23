@@ -77,6 +77,7 @@
       </section>
       <!-- 作品牆二選一：有作品顯示卡片，0 件顯示空狀態（works 是 [] 不是 null，見 fetchProfileWorks） -->
       <section v-if="tab === 'works' && works.length > 0" class="card-layout">
+        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開）；@edit 等上傳燈箱做好再接 -->
         <ProfileWorkCard
           v-for="work in works"
           :key="work.id"
@@ -84,6 +85,8 @@
           :title="work.title"
           :category="work.category_label"
           @select="openCard(work)"
+          :show-more-menu="isMeUser"
+          @delete="deletingCard = work"
         />
       </section>
       <section v-else-if="tab === 'works'">
@@ -92,6 +95,7 @@
       </section>
       <!-- 可委託項目二選一：同作品牆；卡片第二行多了價錢（見 fetchProfileCommissionItems） -->
       <section v-else-if="tab === 'commissions' && commissionItems.length > 0" class="card-layout">
+        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開）；@edit 等上傳燈箱做好再接 -->
         <ProfileWorkCard
           v-for="item in commissionItems"
           :key="item.id"
@@ -99,6 +103,8 @@
           :title="item.title"
           :category="item.category_label"
           @select="openCard(item)"
+          :show-more-menu="isMeUser"
+          @delete="deletingCard = item"
         />
       </section>
       <section v-else-if="tab === 'commissions'">
@@ -122,6 +128,14 @@
         :item-id="shopItemId"
         @close="shopCreatorId = null"
       />
+      <!-- 【「⋯」點刪除後】deletingCard 有值就打開；一個就夠，作品和可委託項目共用 -->
+      <!-- TODO 確認刪除：作品的刪除 API 還沒定（progress.md「做到再處理」），先只關燈箱 -->
+      <DeleteConfirmLightbox
+        v-if="deletingCard"
+        :title="deletingCard.title"
+        @close="deletingCard = null"
+        @confirm="deletingCard = null"
+      />
     </template>
   </div>
 </template>
@@ -144,6 +158,8 @@ import TabBar from '@/shared/components/TabBar.vue'
 import ProfileWorkCard from '@/features/explore/components/ProfileWorkCard.vue'
 import WorkLightbox from '@/features/explore/components/WorkLightbox.vue'
 import CommissionShopLightbox from '@/features/explore/components/CommissionShopLightbox.vue'
+import { useAuthStore } from '@/features/account/store'
+import DeleteConfirmLightbox from '@/features/explore/components/DeleteConfirmLightbox.vue'
 /*
 頁面：創作者個人頁（/users/:userId，Figma 569:3298，features.md 2.7）
 誰的專頁都用這一頁；看的是誰，由網址的 :userId 決定
@@ -165,6 +181,8 @@ const shopCreatorId = ref<string | null>(null)
 const shopItemId = ref<string | undefined>(undefined)
 // 圖示用 :src 綁定，Vite 不會自動補 base，要自己接（BASE_URL 結尾已經有 /）
 const base = import.meta.env.BASE_URL
+const auth = useAuthStore() // 登入者（唯讀，structure.md 例外）；不要先取出 currentUser，見 isMeUser
+const deletingCard = ref<ProfileCard | null>(null)
 
 // 【流程①：頁面打開（immediate）、網址的 userId 改變時觸發】拿這個人的資料
 // 不用 onMounted：從 /users/A 換到 /users/B 時 Vue Router 沿用同一個元件，onMounted 不會再跑
@@ -231,6 +249,10 @@ function openShopFromWork(creatorId: string) {
   shopItemId.value = undefined
   shopCreatorId.value = creatorId
 }
+
+// 【流程①之後自動算】看的是不是自己的頁：自己的頁卡片才有「⋯」（features.md 2.7）
+// 在 computed 裡才讀 auth.currentUser：在外面先取出來只會拿到當下那一份，之後切換登入身份或登出不會跟著變
+const isMeUser = computed(() => auth.currentUser?.id === userId.value)
 </script>
 
 <style lang="scss" scoped>

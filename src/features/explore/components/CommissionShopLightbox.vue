@@ -1,6 +1,11 @@
 <template>
   <Lightbox @close="emit('close')">
-    <LightboxLayout :images="imageUrls" :author="author" :start-index="startIndex">
+    <LightboxLayout
+      :images="imageUrls"
+      :author="author"
+      :start-index="startIndex"
+      @index-change="onImageChange"
+    >
       <hr class="divider" />
       <section class="items">
         <div class="items-header">
@@ -12,6 +17,7 @@
           </span>
         </div>
         <!-- 點一列＝選取並展開；共用 selectedItemId，同一時間只展開一列 -->
+        <!-- 【右 → 左連動：使用者親手點列時】@change 是內部 radio 的原生事件、會冒泡到元件根元素；程式改 selectedItemId 時不會觸發，剛好分得出「點的」和「捲動造成的」 -->
         <CommissionItemOption
           v-for="item in items"
           :key="item.item_id"
@@ -22,6 +28,7 @@
           :description="item.description"
           :price="item.price"
           :commercial-allowed="item.commercial_allowed"
+          @change="scrollTargetId = item.item_id"
         />
       </section>
       <template v-if="author?.bio">
@@ -65,14 +72,18 @@ const base = import.meta.env.BASE_URL
 const items = ref<CommissionItem[]>([])
 const images = ref<CommissionItemImage[]>([])
 const author = ref<LightboxAuthor | null>(null)
-// 目前選了哪一列（item_id）；空字串＝沒選
+// 右側展開哪一列（item_id）；空字串＝沒選。打開時、使用者點列、左側捲到別的項目時都會變
 const selectedItemId = ref('')
+// 左側要捲到哪個項目（item_id）；只在打開時、使用者親手點列時變，左側自己捲動時不變
+// 和 selectedItemId 分開：不然左側捲到 A 的第 2 張 → 右側換 A → 左側又被拉回 A 的第一張（features.md 2.6）
+const scrollTargetId = ref('')
 
 // 【燈箱打開時、換創作者時】抓項目與作者；有傳 itemId 就預先選那列
 watch(
   () => props.creatorId,
   async (creatorId) => {
     selectedItemId.value = props.itemId ?? ''
+    scrollTargetId.value = props.itemId ?? ''
     const result = await fetchCreatorCommissionItems(creatorId)
     items.value = result.items
     images.value = result.images
@@ -84,11 +95,19 @@ watch(
 const imageUrls = computed(() => images.value.map((image) => image.image_url))
 // 【images 拿到後自動算】左側圖片打開時要停在第幾張（features.md 2.6 預設定位）
 // images 已照 seq_no 排好，第一個 item_id 相符的就是那個項目的第一張；
-// 找不到（-1）或從作品燈箱進來沒傳 itemId 時，從第一張（0）開始
+// 把「項目」翻成「第幾張」給 ImageScrollList：看 scrollTargetId，它換了左側就捲到那個項目的第一張（features.md 2.6）
+// 找不到（-1）：資料還沒回來，或從作品燈箱進來還沒點任何一列（空字串），從第一張（0）開始
 const startIndex = computed(() => {
-  const index = images.value.findIndex((image) => image.item_id === props.itemId)
+  const index = images.value.findIndex((image) => image.item_id === scrollTargetId.value)
   return index === -1 ? 0 : index
 })
+
+// 【左 → 右連動：左側捲到另一張時，LightboxLayout 轉傳 index-change 呼叫】右側換成那張圖所屬的項目（features.md 2.6）
+function onImageChange(index: number) {
+  const imageNow = images.value[index]
+  if (!imageNow) return // 陣列取不到是 undefined
+  selectedItemId.value = imageNow.item_id
+}
 </script>
 
 <style lang="scss" scoped>

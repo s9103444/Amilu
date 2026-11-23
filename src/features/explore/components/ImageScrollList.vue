@@ -1,5 +1,10 @@
 <template>
-  <OverlayScrollbarsComponent class="image-scroll-list" defer @os-initialized="onInitialized">
+  <OverlayScrollbarsComponent
+    class="image-scroll-list"
+    defer
+    @os-initialized="onInitialized"
+    @os-scroll="onScroll"
+  >
     <!-- 軌道：手機橫排、平板以上直排；往哪個方向超出，套件就在那個方向畫捲軸 -->
     <div class="track" ref="trackRef">
       <div v-for="(url, index) in images" :key="index" class="item">
@@ -19,7 +24,9 @@
 範例：
 使用前先 import：import ImageScrollList from '@/features/explore/components/ImageScrollList.vue'
 <ImageScrollList :images="['/works/a.jpg', '/works/b.jpg']" />
-<ImageScrollList :images="urls" :start-index="3" />  ---> 打開時直接停在第 4 張（從 0 算；委託商店燈箱用，features.md 2.6）
+<ImageScrollList :images="urls" :start-index="3" />  ---> 打開時直接停在第 4 張（從 0 算）；之後 start-index 換值就捲過去（委託商店燈箱用，features.md 2.6）
+事件：
+  index-change  使用者捲到另一張時送出，帶那張是第幾張（從 0 算）；委託商店燈箱用來換右側選取
 */
 import { ref, watch, nextTick } from 'vue'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
@@ -27,6 +34,7 @@ import type { OverlayScrollbars } from 'overlayscrollbars'
 const props = withDefaults(defineProps<{ images: string[]; startIndex?: number }>(), {
   startIndex: 0,
 })
+const emit = defineEmits<{ 'index-change': [index: number] }>()
 const trackRef = ref<HTMLElement | null>(null)
 // 真正在捲的元素（套件建的）；初始化前是 null。不用 ref：畫面不需要因為它改變而更新
 let viewport: HTMLElement | null = null
@@ -45,12 +53,18 @@ watch(
     scrollToStart()
   },
 )
+// 【條件 C：start-index 換值時】委託商店燈箱右側點了別列；圖片早就畫好了，不用等 nextTick
+watch(
+  () => props.startIndex,
+  () => {
+    scrollToStart()
+  },
+)
 
-// 【條件 A、B 都會呼叫】兩個條件誰先到不一定：先到的那次會因為另一邊還沒好而 return，後到的那次才真的捲
+// 【條件 A、B、C 都會呼叫】打開時 A、B 誰先到不一定：先到的那次會因為另一邊還沒好而 return，後到的那次才真的捲
 // 距離＝已經捲了多少＋（目標圖離畫面頂端 − 捲動框離畫面頂端）；直的看 top、手機橫的看 left，不在捲的方向差值是 0
 function scrollToStart() {
   if (viewport === null) return
-  if (props.startIndex === 0) return
 
   const item = trackRef.value?.children[props.startIndex]
   if (!item) return
@@ -62,6 +76,22 @@ function scrollToStart() {
     top: viewport.scrollTop + itemRect.top - viewportRect.top,
     left: viewport.scrollLeft + itemRect.left - viewportRect.left,
   })
+}
+// 上一次通知出去的張數；放函式外面才記得住。只有換張時才 emit，捲動中同一張不重複通知
+let currentIndex = 0
+// 【左 → 右連動：使用者捲動時，套件的 @os-scroll 呼叫，一秒觸發很多次】把捲動位置換算成第幾張
+// 每張圖＝框的高（平板以上直捲）或框的寬（手機橫捲），所以「捲了多少 ÷ 一張多大」四捨五入就是第幾張
+function onScroll() {
+  if (viewport === null) return
+  const viewportHeight = viewport.clientHeight
+  const viewportWidth = viewport.clientWidth
+  const topImageNo = Math.round(viewport.scrollTop / viewportHeight)
+  const leftImageNo = Math.round(viewport.scrollLeft / viewportWidth)
+  const index = topImageNo + leftImageNo // 不在捲的那個方向一定是 0，相加就等於有在捲的那個
+
+  if (currentIndex === index) return
+  currentIndex = index
+  emit('index-change', index)
 }
 </script>
 

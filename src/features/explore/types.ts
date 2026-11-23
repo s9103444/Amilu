@@ -68,3 +68,10 @@ export type ProfileAuthor = LightboxAuthor & {
   following_num: number // following 人數
   average_score: number | null // 合作評分平均（小數一位）；沒有任何評分是 null（features.md 2.7）
 }
+
+// 個人頁卡片「⋯」選單的一個選項（features.md 2.7）；key 限定兩種，之後 emit 才不會打錯字
+export type ProfileMoreMenuItemData = {
+  key: 'edit' | 'delete'
+  icon: string // public/ 底下的路徑，開頭不加 /
+  title: string
+}
