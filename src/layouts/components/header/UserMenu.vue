@@ -15,7 +15,8 @@
         />
         <ul v-if="isUploadOpen && item.children">
           <li v-for="sub in item.children" :key="sub.key">
-            <UserSubMenuItem :icon="sub.icon" :title="sub.title" />
+            <!-- 【點上傳子選單項目】關選單＋通知 AppHeader 打開對應的上傳燈箱 -->
+            <UserSubMenuItem :icon="sub.icon" :title="sub.title" @click="onPick(sub.key)" />
           </li>
         </ul>
       </li>
@@ -68,6 +69,9 @@ const { isOpen, toggle, close } = useDropdown(menuEl)
 // 子選單（「上傳」底下）自己的開關，不歸 useDropdown 管
 const isUploadOpen = ref(false)
 const router = useRouter()
+const emit = defineEmits<{
+  pick: [key: string] // 點了上傳子選單的哪一項，帶 UPLOAD_ITEMS 的 key；燈箱由 AppHeader 打開
+}>()
 
 // 【流程①：點個人選單的項目時觸發】
 function handleItemClick(item: UserMenuItemData) {
@@ -92,6 +96,12 @@ watch(isOpen, (open) => {
     isUploadOpen.value = false
   }
 })
+
+// 【點上傳子選單項目時觸發】先關選單（子選單會跟著被 watch 收起），再把 key 交給 AppHeader（同 UploadMenu）
+function onPick(key: string) {
+  close()
+  emit('pick', key)
+}
 </script>
 
 <style lang="scss" scoped>

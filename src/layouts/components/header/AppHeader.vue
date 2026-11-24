@@ -15,8 +15,9 @@
       <!-- 登入後：通知、上傳、個人選單 -->
       <template v-if="loggedIn">
         <NotificationMenu />
-        <UploadMenu />
-        <UserMenu />
+        <!-- 【流程②：點上傳選項】兩個入口都把 key 交上來，存進 uploadKey -->
+        <UploadMenu @pick="uploadKey = $event" />
+        <UserMenu @pick="uploadKey = $event" />
       </template>
       <!-- 登入前：只有登入按鈕 -->
       <!-- 不用 RouterLink 包 Button：<a> 裡放 <button> 是不合法的 HTML，還會多出連結底線 -->
@@ -24,6 +25,21 @@
         >登入</Button
       >
     </div>
+
+    <!-- 【流程③：uploadKey 變了】打開對應的上傳燈箱；Lightbox 會 Teleport 到 body，放在 header 裡也蓋得住整頁 -->
+    <!-- profile 的燈箱可以在 layouts 用（structure.md 例外二） -->
+    <!-- TODO 還沒開通創作者商店的人點「委託項目」要導向開通流程、不開燈箱（features.md 3.3）；等開通頁和查 store_approved 的方式定了再接 -->
+    <!-- TODO 送出成功後要通知目前的頁面重抓（等 POST /works、POST /commission-items 接好） -->
+    <UploadWorkLightbox
+      v-if="uploadKey === 'upload-post'"
+      @close="uploadKey = ''"
+      @submit="uploadKey = ''"
+    />
+    <CommissionItemLightbox
+      v-if="uploadKey === 'upload-commission-item'"
+      @close="uploadKey = ''"
+      @submit="uploadKey = ''"
+    />
   </header>
 </template>
 
@@ -35,7 +51,7 @@
 <AppHeader :logged-in="false" />
 loggedIn：false 顯示「登入」按鈕；true 顯示通知、上傳、個人選單。
 登入狀態之後改由 account 的 store 提供，由 DefaultLayout 傳進來。
-「登入」已接 /login；Logo 回首頁（已在首頁時發 logo-click，由 DefaultLayout 重建首頁）；其他連結（瞭解網站、上傳）還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
+「登入」已接 /login；Logo 回首頁（已在首頁時發 logo-click，由 DefaultLayout 重建首頁）；上傳選單、頭像選單的「上傳作品」打開上傳燈箱（燈箱放這裡，兩個入口共用）；瞭解網站還沒有對應頁面，先不接；搜尋關鍵字也還沒有搜尋結果頁可以送。
 首頁的分類下拉、自訂標籤列不在這裡，屬於首頁（explore）。
 */
 import { ref } from 'vue'
@@ -45,6 +61,8 @@ import SearchBar from '@/layouts/components/header/SearchBar.vue'
 import NotificationMenu from '@/layouts/components/header/NotificationMenu.vue'
 import UserMenu from '@/layouts/components/header/UserMenu.vue'
 import UploadMenu from '@/layouts/components/header/UploadMenu.vue'
+import UploadWorkLightbox from '@/features/profile/components/UploadWorkLightbox.vue'
+import CommissionItemLightbox from '@/features/profile/components/CommissionItemLightbox.vue'
 
 defineProps<{
   loggedIn: boolean
@@ -56,6 +74,8 @@ const emit = defineEmits<{
 const router = useRouter()
 const base = import.meta.env.BASE_URL
 const keyword = ref('')
+// 現在開著哪個上傳燈箱：UPLOAD_ITEMS 的 key；'' ＝沒有開
+const uploadKey = ref('')
 </script>
 
 <style lang="scss" scoped>

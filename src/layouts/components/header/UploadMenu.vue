@@ -7,8 +7,8 @@
     </button>
     <ul v-if="isOpen" class="panel">
       <li v-for="item in UPLOAD_ITEMS" :key="item.key">
-        <!-- 【流程②：點項目】TODO 上傳頁路由還沒有，先只關選單 -->
-        <UserSubMenuItem :icon="item.icon" :title="item.title" @click="close" />
+        <!-- 【流程②：點項目】關選單＋通知 AppHeader 打開對應的上傳燈箱 -->
+        <UserSubMenuItem :icon="item.icon" :title="item.title" @click="onPick(item.key)" />
       </li>
     </ul>
   </div>
@@ -19,9 +19,10 @@
 元件名稱：header 的上傳按鈕＋上傳選單（Figma 573:3489）
 範例：
 使用前先 import：import UploadMenu from '@/layouts/components/header/UploadMenu.vue'
-<UploadMenu />
+<UploadMenu @pick="uploadKey = $event" />
 點圖示開／關選單，點外面自動關閉；選項和頭像選單的「上傳作品」子選單共用 UPLOAD_ITEMS。
-點選項目前只關選單：上傳頁的路由還沒有，之後在 close 前面加 router.push。
+事件：
+  pick  點了哪個選項，帶 UPLOAD_ITEMS 的 key（upload-post／upload-commission-item）；燈箱由 AppHeader 打開
 */
 import { useTemplateRef } from 'vue'
 import UserSubMenuItem from '@/layouts/components/header/UserSubMenuItem.vue'
@@ -32,6 +33,15 @@ import { useDropdown } from '@/shared/composables/useDropdown'
 const menuEl = useTemplateRef<HTMLElement>('menu')
 // 選單開關＋點外面自動關閉
 const { isOpen, toggle, close } = useDropdown(menuEl)
+const emit = defineEmits<{
+  pick: [key: string] // 點了哪個上傳選項
+}>()
+
+// 【流程②：點選單項目時觸發】先關選單，再把 key 交給 AppHeader（燈箱放那裡，兩個入口共用）
+function onPick(key: string) {
+  close()
+  emit('pick', key)
+}
 </script>
 
 <style lang="scss" scoped>

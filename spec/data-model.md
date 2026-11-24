@@ -208,7 +208,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 ## 6. 圖上目前已知的問題
 
-以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，ER 圖本身**沒有未解決的項目**；第 13、15 項是 Figma 與 spec 的落差，已決議、Figma 待同步；第 14 項 FigJam 待同步：
+以下是比對圖與其他文件時發現的問題與處理結果。2026/10/17 已逐表核對過 FigJam，ER 圖本身**沒有未解決的項目**；第 13、15、16 項是 Figma 與 spec 的落差，已決議、Figma 待同步；第 14 項 FigJam 待同步：
 
 1. **已解決**（2026/10/17）：「關聯通知」那條線原本終點掛在畫布上，已重接到 NOTIFICATION。
 2. **已解決**（2026/10/17）：`TAG.created_by_id`、`ORDER.terminated_by_id` 原本沒有畫線，已補上「建立標籤」「終止發起」兩條關聯線。
@@ -229,5 +229,7 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 14. **已決議、FigJam 待同步**（2026/11/11，欄位表試算表已改）：①`CREATOR_PROFILE` 拿掉 `creator_id`，`user_id` 改為 PK（同時是 FK → USER.id），不再標 UK②`ORDER.creator_id`、`COMMISSION_ITEM.creator_id` 說明改為「創作者帳號 ID」，FK 改指 `CREATOR_PROFILE.user_id`③`ORDER_STAGE.confirm_status` 合法值為「未確認／已確認」（原「人工確認」）④`COMMISSION_ITEM.category_id`、`purpose_id` 為 nullable（同 WORK）。
 
 15. **前端已改、Figma 待同步**（2026/11/19）：接案設定頁（Figma 553:2444 附近）訂金選項「無需先支付」改顯示「不收訂金（一次付清）」；下方說明改為「選 30%／50% 時，委託人可以只先付訂金；若中途終止還有應付差額，平台會鎖定委託人帳號直到付清，但無法強制收款。選「不收訂金」時，委託人須一次付清全額。」`deposit_percent` 的資料值是否也改名（FigJam、`order-lifecycle.md`、`acceptance.md`），待和淳確認。
+
+16. **已決議、Figma 待同步**（2026/11/24）：上傳委託項目燈箱的分段方案選項，Figma 寫「單段（草稿 > 完稿）」，以 spec 為準改成「三點分段（草稿 > 精稿 > 完稿）」（features.md 3.3、order-lifecycle.md 的 `stage_no` 1／4／5）。前端照 spec 做。
 
 另外 --Amilu repo 的 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在這個 repo，見 [README](README.md#外部連結)）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。

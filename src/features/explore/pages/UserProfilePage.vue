@@ -73,7 +73,7 @@
           variant="secondary"
           size="sm"
           @click="isUploadOpen = true"
-          >上傳作品 +</Button
+          >{{ tab === 'works' ? '上傳作品 +' : '上傳委託 +' }}</Button
         >
         <TabBar
           v-model="tab"
@@ -144,10 +144,16 @@
         @close="deletingCard = null"
         @confirm="deletingCard = null"
       />
-      <!-- 【按「上傳作品 +」後】isUploadOpen 是 true 就打開；profile 的燈箱可以在這裡用（structure.md 例外二） -->
-      <!-- TODO 送出成功後要重抓作品牆（等 POST /works 接好） -->
+      <!-- 【按「上傳作品 +」後】依目前頁籤開不同燈箱：作品牆 → 一般作品、可委託項目 → 委託項目 -->
+      <!-- 燈箱開著時蓋住整頁、切不了頁籤，所以打開後 tab 不會變；profile 的燈箱可以在這裡用（structure.md 例外二） -->
+      <!-- TODO 送出成功後要重抓作品牆／可委託項目（等 POST /works、POST /commission-items 接好） -->
       <UploadWorkLightbox
-        v-if="isUploadOpen"
+        v-if="isUploadOpen && tab === 'works'"
+        @close="isUploadOpen = false"
+        @submit="isUploadOpen = false"
+      />
+      <CommissionItemLightbox
+        v-else-if="isUploadOpen && tab === 'commissions'"
         @close="isUploadOpen = false"
         @submit="isUploadOpen = false"
       />
@@ -176,6 +182,7 @@ import CommissionShopLightbox from '@/features/explore/components/CommissionShop
 import { useAuthStore } from '@/features/account/store'
 import DeleteConfirmLightbox from '@/features/explore/components/DeleteConfirmLightbox.vue'
 import UploadWorkLightbox from '@/features/profile/components/UploadWorkLightbox.vue'
+import CommissionItemLightbox from '@/features/profile/components/CommissionItemLightbox.vue'
 /*
 頁面：創作者個人頁（/users/:userId，Figma 569:3298，features.md 2.7）
 誰的專頁都用這一頁；看的是誰，由網址的 :userId 決定
@@ -269,7 +276,7 @@ function openShopFromWork(creatorId: string) {
 // 【流程①之後自動算】看的是不是自己的頁：自己的頁卡片才有「⋯」（features.md 2.7）
 // 在 computed 裡才讀 auth.currentUser：在外面先取出來只會拿到當下那一份，之後切換登入身份或登出不會跟著變
 const isMeUser = computed(() => auth.currentUser?.id === userId.value)
-// 上傳一般作品燈箱開著沒（燈箱沒有網址，用狀態打開）
+// 上傳燈箱開著沒（燈箱沒有網址，用狀態打開）；開哪一個看 tab
 const isUploadOpen = ref(false)
 </script>
 
