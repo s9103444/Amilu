@@ -57,6 +57,7 @@ ul {
 
   & img {
     grid-area: 1 / 1;
+    width: 20px;
     display: block;
   }
 

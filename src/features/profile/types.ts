@@ -13,3 +13,5 @@ export type CreatorSettings = {
   light_status: LightStatus // Amilu 燈手動開關
   store_approved: boolean // 是否已開通創作者商店（唯讀，系統判斷）
 }
+
+export type UploadImage = { file: File; url: string }

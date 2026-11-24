@@ -86,15 +86,15 @@ onUnmounted(() => {
 // ✕：Figma 在右欄右上角（距上 24、距右 32），12×12
 .close {
   position: absolute;
-  top: var(--space-3);
-  right: var(--space-4);
+  top: 10px;
+  right: 10px;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px; // 圖示只有 12，按鈕放大一點比較好點
   height: 24px;
-  margin: -6px;
+  // margin: -6px;
   padding: 0;
   border: none;
   background: none;
@@ -123,8 +123,8 @@ onUnmounted(() => {
 
   // ✕ 對齊標題列：右邊貼內距；上下對齊 text-h3 標題的中線（標題行高約 39px，✕ 按鈕 24px 加上 -6px 外距，往下 14px 剛好置中）
   .close {
-    top: calc(var(--dialog-padding) + 14px);
-    right: var(--dialog-padding);
+    top: 14px;
+    right: 14px;
   }
 }
 </style>

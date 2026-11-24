@@ -4,8 +4,8 @@
       <label class="text-caption" :for="inputId">
         <slot></slot>
       </label>
-      <span class="text-small note--required" v-if="requirement === 'required'">必填</span>
-      <span class="text-small note--optional" v-else-if="requirement === 'optional'">選填</span>
+      <span class="text-note note--required" v-if="requirement === 'required'">必填</span>
+      <span class="text-note note--optional" v-else-if="requirement === 'optional'">選填</span>
     </div>
     <button type="button" :id="inputId" class="select" :aria-expanded="isOpen" @click="toggle">
       <span class="selected text-caption" v-if="selectedOption">{{ selectedOption.label }}</span>

@@ -18,55 +18,63 @@
 
     <!-- ③ 找到了：上方個人資訊區（Figma 569:3324）＝ 大頭照｜介紹｜追蹤數 -->
     <section v-else class="profile-header">
-      <img class="avatar" :src="profile.avatar_url ?? DEFAULT_AVATAR_URL" alt="" />
-
-      <div class="intro">
-        <div class="info-head-content">
-          <div class="name-row">
-            <h1 class="text-h3 name">{{ profile.nickname }}</h1>
-            <!-- 沒開通商店的人不是創作者，不顯示接案狀態（同燈箱 LightboxLayout） -->
-            <OpenStatusTag v-if="profile.store_approved" :open="profile.is_open" />
-          </div>
-          <p class="text-small user-id">@{{ profile.id }}</p>
-          <!-- 合作評分（features.md 2.7）：空星墊底，滿星疊上去；半顆用 clip-path 切掉滿星的右半 -->
-          <div class="rating">
-            <span class="text-note rating-label">合作評分</span>
-            <span class="stars">
-              <span v-for="(star, index) in stars" :key="index" class="star">
-                <img :src="base + 'icons/rating-star-empty.svg'" alt="" />
-                <img
-                  v-if="star !== 'empty'"
-                  class="star-fill"
-                  :class="{ 'star-fill--half': star === 'half' }"
-                  :src="base + 'icons/rating-star.svg'"
-                  alt=""
-                />
+      <div class="intro-with-pic">
+        <img class="avatar" :src="profile.avatar_url ?? DEFAULT_AVATAR_URL" alt="" />
+        <div class="intro">
+          <div class="info-head-content">
+            <div class="name-row">
+              <h1 class="text-h3 name">{{ profile.nickname }}</h1>
+              <!-- 沒開通商店的人不是創作者，不顯示接案狀態（同燈箱 LightboxLayout） -->
+              <OpenStatusTag v-if="profile.store_approved" :open="profile.is_open" />
+            </div>
+            <p class="text-small user-id">@{{ profile.id }}</p>
+            <!-- 合作評分（features.md 2.7）：空星墊底，滿星疊上去；半顆用 clip-path 切掉滿星的右半 -->
+            <div class="rating">
+              <span class="text-note rating-label">合作評分</span>
+              <span class="stars">
+                <span v-for="(star, index) in stars" :key="index" class="star">
+                  <img :src="base + 'icons/rating-star-empty.svg'" alt="" />
+                  <img
+                    v-if="star !== 'empty'"
+                    class="star-fill"
+                    :class="{ 'star-fill--half': star === 'half' }"
+                    :src="base + 'icons/rating-star.svg'"
+                    alt=""
+                  />
+                </span>
               </span>
-            </span>
-            <span class="text-note rating-value">{{ ratingText }}</span>
+              <span class="text-note rating-value">{{ ratingText }}</span>
+            </div>
           </div>
         </div>
-        <!-- 簡介沒填（null）就整段不顯示 -->
-        <p v-if="profile.bio" class="text-small bio">{{ profile.bio }}</p>
-      </div>
-
-      <!-- 追蹤數：之後點了要開追蹤清單燈箱（features.md 2.8），燈箱還沒做，先只顯示數字 -->
-      <div class="follow-counts">
-        <div class="count">
-          <span class="text-note count-label">followers</span>
-          <span class="text-h3 count-value">{{ profile.follower_num }}</span>
-        </div>
-        <div class="count">
-          <span class="text-note count-label">following</span>
-          <span class="text-h3 count-value">{{ profile.following_num }}</span>
+        <!-- 追蹤數：之後點了要開追蹤清單燈箱（features.md 2.8），燈箱還沒做，先只顯示數字 -->
+        <div class="follow-counts">
+          <div class="count">
+            <span class="text-note count-label">followers</span>
+            <span class="text-h3 count-value">{{ profile.follower_num }}</span>
+          </div>
+          <div class="count">
+            <span class="text-note count-label">following</span>
+            <span class="text-h3 count-value">{{ profile.following_num }}</span>
+          </div>
         </div>
       </div>
+      <!-- 簡介沒填（null）就整段不顯示 -->
+      <p v-if="profile.bio" class="text-small bio">{{ profile.bio }}</p>
     </section>
     <!-- 下方頁籤＋卡片：和上方個人資訊區一樣，等完了而且找到人才顯示 -->
     <!-- 不擋的話：找不到人時頁籤會出現在 EmptyState 下面；從 A 換到 B 的等待期間會殘留 A 的作品 -->
     <template v-if="!isLoading && profile !== null">
       <section class="bar-section">
-        <Button class="btn-upload" width="hug" variant="secondary" size="sm">上傳作品 +</Button>
+        <Button
+          v-if="isMeUser"
+          class="btn-upload"
+          width="hug"
+          variant="secondary"
+          size="sm"
+          @click="isUploadOpen = true"
+          >上傳作品 +</Button
+        >
         <TabBar
           v-model="tab"
           :items="[
@@ -136,6 +144,13 @@
         @close="deletingCard = null"
         @confirm="deletingCard = null"
       />
+      <!-- 【按「上傳作品 +」後】isUploadOpen 是 true 就打開；profile 的燈箱可以在這裡用（structure.md 例外二） -->
+      <!-- TODO 送出成功後要重抓作品牆（等 POST /works 接好） -->
+      <UploadWorkLightbox
+        v-if="isUploadOpen"
+        @close="isUploadOpen = false"
+        @submit="isUploadOpen = false"
+      />
     </template>
   </div>
 </template>
@@ -160,6 +175,7 @@ import WorkLightbox from '@/features/explore/components/WorkLightbox.vue'
 import CommissionShopLightbox from '@/features/explore/components/CommissionShopLightbox.vue'
 import { useAuthStore } from '@/features/account/store'
 import DeleteConfirmLightbox from '@/features/explore/components/DeleteConfirmLightbox.vue'
+import UploadWorkLightbox from '@/features/profile/components/UploadWorkLightbox.vue'
 /*
 頁面：創作者個人頁（/users/:userId，Figma 569:3298，features.md 2.7）
 誰的專頁都用這一頁；看的是誰，由網址的 :userId 決定
@@ -215,10 +231,10 @@ const stars = computed<Star[]>(() => {
   })
 })
 
-// 星星右邊的字：有評分顯示一位小數（4 → 4.0），沒有就顯示「尚無評分」
+// 星星右邊的字：有評分顯示一位小數（4 → 4.0），沒有就顯示「無」
 const ratingText = computed(() => {
   const average = profile.value?.average_score
-  return average == null ? '尚無評分' : average.toFixed(1)
+  return average == null ? '(0)' : average.toFixed(1)
 })
 
 // 下方頁籤：值從網址 ?tab= 讀，改的時候也改網址（同 OrderManagementPage）
@@ -253,6 +269,8 @@ function openShopFromWork(creatorId: string) {
 // 【流程①之後自動算】看的是不是自己的頁：自己的頁卡片才有「⋯」（features.md 2.7）
 // 在 computed 裡才讀 auth.currentUser：在外面先取出來只會拿到當下那一份，之後切換登入身份或登出不會跟著變
 const isMeUser = computed(() => auth.currentUser?.id === userId.value)
+// 上傳一般作品燈箱開著沒（燈箱沒有網址，用狀態打開）
+const isUploadOpen = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -283,42 +301,35 @@ const isMeUser = computed(() => auth.currentUser?.id === userId.value)
 // ── 上方個人資訊區 ──
 // 字級全部比 Figma 小一階，對齊首頁和其他頁的比例（同 OrderCard、燈箱的做法）：
 //   暱稱 h2→h3、@id caption→small、簡介 body→caption、評分 small→note、追蹤數 small→note／h2→h3
-// 手機：直排（Figma 只畫桌機，前端自訂）；平板以上照 Figma 橫排，三塊之間 32
+// 上下兩塊：大頭照＋介紹＋追蹤數一列，簡介在下面；不分尺寸都直排，之間 32
 .profile-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-
-  @include bp.tablet-up {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--space-4);
-  }
+  gap: var(--space-4);
+  margin-bottom: 24px;
 }
 
-// 大頭照 140，圓角方形（全站頭像統一 --radius-avatar，Figma 為 24px）
+.intro-with-pic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+// 大頭照 100（Figma 140，彥廷調整），圓角方形（全站頭像統一 --radius-avatar，Figma 為 24px）
 .avatar {
   flex-shrink: 0;
-  width: 140px;
-  height: 140px;
+  width: 100px;
+  height: 100px;
   border-radius: var(--radius-avatar);
   object-fit: cover;
   background-color: var(--color-bg-main); // 圖還沒載入時的底色
+  margin-block: auto;
 }
 
-.info-head-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-// 介紹：吃掉中間剩下的寬度；各列之間 12（Figma 569:3326）
+// 介紹：吃掉中間剩下的寬度（Figma 569:3326）
 .intro {
-  display: flex;
   flex: 1;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0; // flex 子元素預設不會比內容窄，長暱稱會把右邊追蹤數擠出去
 }
 
 // 名稱列：暱稱和接案狀態標籤之間 16
@@ -341,9 +352,9 @@ const isMeUser = computed(() => auth.currentUser?.id === userId.value)
 .user-id {
   color: var(--color-text-secondary);
 }
-// 簡介最寬 720（Figma 569:3332）
+// 簡介最寬 600（Figma 569:3332 是 720，彥廷調整）
 .bio {
-  max-width: 720px;
+  max-width: 600px;
   color: var(--color-text-primary);
   font-weight: var(--font-weight-regular); // text-small 預設 medium，簡介是大段內文，改一般粗細
   white-space: pre-line; // 保留使用者自己打的換行
@@ -370,7 +381,6 @@ const isMeUser = computed(() => auth.currentUser?.id === userId.value)
 // 每顆星 16×16（Figma 20，字縮成 note 後跟著縮）；空星在下面撐出大小，滿星用 absolute 疊在同一個位置
 .star {
   position: relative; // 滿星以這顆星為定位基準
-  display: block;
   width: 16px;
   height: 16px;
 
@@ -389,20 +399,16 @@ const isMeUser = computed(() => auth.currentUser?.id === userId.value)
   clip-path: inset(0 50% 0 0);
 }
 
-// 追蹤數：兩組之間 40，數字靠右對齊（Figma 569:3348）
+// 追蹤數：兩組之間 24，每組數字在上、標籤在下、靠左對齊（Figma 569:3348）
 .follow-counts {
   display: flex;
   flex-shrink: 0;
-  gap: var(--space-5);
+  gap: var(--space-3);
 }
 .count {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
-
-  @include bp.tablet-up {
-    align-items: flex-end;
-  }
 }
 .count-label {
   color: var(--color-text-secondary);
@@ -421,7 +427,7 @@ const isMeUser = computed(() => auth.currentUser?.id === userId.value)
     grid-template-columns: repeat(3, minmax(0, 1fr)); // 平板以上一排幾張，看 Figma
   }
   @include bp.desktop-up {
-    grid-template-columns: repeat(4, minmax(0, 1fr)); // 平板以上一排幾張，看 Figma
+    grid-template-columns: repeat(4, minmax(0, 1fr)); // 桌機一排 4 張
   }
 }
 .bar-section {
