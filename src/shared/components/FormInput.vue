@@ -140,7 +140,7 @@ label {
 }
 .label-content {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 4px;
 }
