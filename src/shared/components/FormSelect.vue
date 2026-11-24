@@ -72,11 +72,11 @@ function changeSelect(value: string) {
   width: 100%;
   gap: 6px;
 }
-// 標題列：標籤＋必填／選填
+// 標題列：標籤＋必填／選填，對齊文字基線、間距 4（同 FormInput、FormTextarea）
 .title {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  gap: 4px;
 }
 label {
   color: var(--color-text-primary);
