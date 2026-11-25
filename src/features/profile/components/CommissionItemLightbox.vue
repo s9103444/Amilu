@@ -1,7 +1,7 @@
 <template>
   <Lightbox size="sm" @close="emit('close')">
     <div class="commission-item">
-      <h2 class="text-h3 title">上傳委託項目</h2>
+      <h2 class="text-h3 title">{{ heading }}</h2>
       <hr class="divider" />
       <ImageUploadGrid
         v-model="images"
@@ -53,7 +53,9 @@
             >五點分段（草稿 &gt; 線稿 &gt; 彩稿 &gt; 精稿 &gt; 完稿）</OptionButton
           >
         </div>
-        <p class="text-note hint">每個委託項目各自設定。委託人申請此項目時依此分段進行，無法更改。</p>
+        <p class="text-note hint">
+          每個委託項目各自設定。委託人申請此項目時依此分段進行，無法更改。
+        </p>
       </div>
       <ClassificationFields v-model:category="category" v-model:purpose="purpose" />
       <TagInput v-model="tags" />
@@ -61,8 +63,8 @@
       <InfoBox>訂金比例與修改次數沿用接案設定。</InfoBox>
       <div class="actions">
         <Button variant="outline" @click="emit('close')">取消</Button>
-        <!-- 【按「儲存發布」時】先只通知外面；POST /commission-items 之後再接（api.md） -->
-        <Button :disabled="!canSubmit" @click="emit('submit')">儲存發布</Button>
+        <!-- 【按「儲存發布」時】onSubmit 送出 POST /commission-items，存好才通知外面 -->
+        <Button :disabled="!canSubmit || isSubmitting" @click="onSubmit">儲存發布</Button>
       </div>
     </div>
   </Lightbox>
@@ -73,7 +75,9 @@
 元件名稱：上傳委託項目燈箱（features.md 3.3）
 範例：
 使用前先 import：import CommissionItemLightbox from '@/features/profile/components/CommissionItemLightbox.vue'
-<CommissionItemLightbox v-if="isItemOpen" @close="isItemOpen = false" @submit="isItemOpen = false" />
+<CommissionItemLightbox v-if="isItemOpen" @close="isItemOpen = false" @submit="isItemOpen = false" /> ---> 新增
+<CommissionItemLightbox v-if="isItemOpen" item-id="c01" … /> ---> 編輯：打開時自己抓這個項目的原內容填回表單（features.md 2.7「⋯ → 編輯」）
+itemId：要編輯的項目 id；不傳＝新增
 開關由外面用 v-if 控制；表單的值存在燈箱自己裡面，外面只需要知道關了或送出了
 入口：header 上傳選單「委託項目」、開通流程 Step3（features.md 3.4）；explore、layouts 可以 import（structure.md 例外二）
 圖片格、類型＋用途、標籤和一般作品燈箱共用同一組小元件
@@ -81,7 +85,7 @@
   close   ✕、取消、點黑底、Esc
   submit  按「儲存發布」
 */
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import Lightbox from '@/shared/components/Lightbox.vue'
 import Button from '@/shared/components/Button.vue'
 import FormInput from '@/shared/components/FormInput.vue'
@@ -92,7 +96,11 @@ import type { UploadImage } from '@/features/profile/types'
 import TagInput from '@/features/profile/components/TagInput.vue'
 import InfoBox from '@/shared/components/InfoBox.vue'
 import OptionButton from '@/shared/components/OptionButton.vue'
+import { fetchCommissionItemForEdit, createCommissionItem } from '@/features/profile/api'
 
+const props = defineProps<{
+  itemId?: string // 有值＝編輯這個項目；不傳＝新增
+}>()
 const emit = defineEmits<{
   close: []
   submit: []
@@ -127,6 +135,61 @@ const canSubmit = computed(
     commercial.value !== '' &&
     stagePlan.value !== '',
 )
+
+// 燈箱標題：有 itemId ＝ 從「⋯ → 編輯」打開；沒有 ＝ 從「上傳作品 +」或 header 打開
+const heading = computed(() => (props.itemId ? '編輯委託項目' : '上傳委託項目'))
+const isSubmitting = ref(false)
+
+// 【流程②：燈箱打開時】有 itemId ＝ 編輯模式：抓原內容填回表單；沒有就是新增，維持空白
+onMounted(async () => {
+  if (!props.itemId) return
+  const edit = await fetchCommissionItemForEdit(props.itemId)
+  if (!edit) return // 找不到這個項目：維持空白表單；下面就確定 edit 有值，不用 ?.
+  title.value = edit.title
+  description.value = edit.description
+  // 價格：資料庫是數字，FormInput 要字串
+  price.value = String(edit.price)
+  // 可商用：資料庫是 boolean，OptionButton 的 value 是字串
+  commercial.value = edit.commercial_allowed ? 'true' : 'false'
+  // 分段方案：資料值和選項的 value 一樣，直接放
+  stagePlan.value = edit.stage_plan_pref
+  // 資料庫沒選是 null，表單的「沒選」是 ''
+  category.value = edit.category_id ?? ''
+  purpose.value = edit.purpose_id ?? ''
+  tags.value = edit.tags
+  // 舊圖只有網址、沒有使用者電腦裡的檔案：file 給 null（UploadImage 註解）
+  images.value = edit.images.map((url) => ({ file: null, url }))
+})
+
+// 【流程③：按「儲存發布」時】把表單換成後端要的格式（api.md 5.9）交給 createCommissionItem，存好再通知外面重抓
+async function onSubmit() {
+  if (props.itemId) {
+    emit('submit')
+    return // TODO 編輯：PATCH /commission-items/{id}（第 3 件做）
+  }
+  // canSubmit 已經擋過，但 TS 不知道；這行讓下面的 stagePlan 型別確定是 '三點分段' | '五點分段'
+  if (commercial.value === '' || stagePlan.value === '') return
+
+  isSubmitting.value = true // 送出期間按鈕反灰，防連按送兩次
+  try {
+    await createCommissionItem({
+      title: title.value.trim(),
+      description: description.value.trim(),
+      price: Number(price.value), // '1500' → 1500；canSubmit 已確認全是數字
+      commercial_allowed: commercial.value === 'true', // 'true' → true，'false' → false
+      stage_plan_pref: stagePlan.value,
+      // 表單沒選是 ''，資料庫沒選是 null
+      category_id: category.value || null,
+      purpose_id: purpose.value || null,
+      tags: tags.value,
+      // 只送檔案；filter 讓型別變成 File[]
+      images: images.value.map((image) => image.file).filter((file): file is File => file !== null),
+    })
+    emit('submit') // 存好了才通知外面
+  } finally {
+    isSubmitting.value = false // 送失敗也要恢復按鈕
+  }
+}
 </script>
 
 <style lang="scss" scoped>

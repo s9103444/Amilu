@@ -85,7 +85,8 @@
       </section>
       <!-- 作品牆二選一：有作品顯示卡片，0 件顯示空狀態（works 是 [] 不是 null，見 fetchProfileWorks） -->
       <section v-if="tab === 'works' && works.length > 0" class="card-layout">
-        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開）；@edit 等上傳燈箱做好再接 -->
+        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開） -->
+        <!-- 【流程①：「⋯」點編輯時】記住是哪件（editingId）＋打開上傳燈箱，燈箱拿到 work-id 就是編輯模式 -->
         <ProfileWorkCard
           v-for="work in works"
           :key="work.id"
@@ -95,6 +96,7 @@
           @select="openCard(work)"
           :show-more-menu="isMeUser"
           @delete="deletingCard = work"
+          @edit="((editingId = work.id), (isUploadOpen = true))"
         />
       </section>
       <section v-else-if="tab === 'works'">
@@ -103,7 +105,8 @@
       </section>
       <!-- 可委託項目二選一：同作品牆；卡片第二行多了價錢（見 fetchProfileCommissionItems） -->
       <section v-else-if="tab === 'commissions' && commissionItems.length > 0" class="card-layout">
-        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開）；@edit 等上傳燈箱做好再接 -->
+        <!-- 【「⋯」點刪除時】記住是哪張（deletingCard 有值＝確認燈箱打開） -->
+        <!-- 【流程①：「⋯」點編輯時】同作品牆：記住是哪個項目＋打開上傳燈箱 -->
         <ProfileWorkCard
           v-for="item in commissionItems"
           :key="item.id"
@@ -113,6 +116,7 @@
           @select="openCard(item)"
           :show-more-menu="isMeUser"
           @delete="deletingCard = item"
+          @edit="((editingId = item.id), (isUploadOpen = true))"
         />
       </section>
       <section v-else-if="tab === 'commissions'">
@@ -146,16 +150,18 @@
       />
       <!-- 【按「上傳作品 +」後】依目前頁籤開不同燈箱：作品牆 → 一般作品、可委託項目 → 委託項目 -->
       <!-- 燈箱開著時蓋住整頁、切不了頁籤，所以打開後 tab 不會變；profile 的燈箱可以在這裡用（structure.md 例外二） -->
-      <!-- TODO 送出成功後要重抓作品牆／可委託項目（等 POST /works、POST /commission-items 接好） -->
+      <!-- 【上傳燈箱存好、送出 submit 時】onUploaded 關燈箱＋重抓卡片，新作品才會出現在牆上 -->
       <UploadWorkLightbox
         v-if="isUploadOpen && tab === 'works'"
-        @close="isUploadOpen = false"
-        @submit="isUploadOpen = false"
+        :work-id="editingId ?? undefined"
+        @close="closeUpload"
+        @submit="onUploaded"
       />
       <CommissionItemLightbox
         v-else-if="isUploadOpen && tab === 'commissions'"
-        @close="isUploadOpen = false"
-        @submit="isUploadOpen = false"
+        :item-id="editingId ?? undefined"
+        @close="closeUpload"
+        @submit="onUploaded"
       />
     </template>
   </div>
@@ -206,6 +212,8 @@ const shopItemId = ref<string | undefined>(undefined)
 const base = import.meta.env.BASE_URL
 const auth = useAuthStore() // 登入者（唯讀，structure.md 例外）；不要先取出 currentUser，見 isMeUser
 const deletingCard = ref<ProfileCard | null>(null)
+// 「⋯ → 編輯」的是哪件作品或哪個項目（看 tab）；null ＝ 從「上傳作品 +」打開（新增）
+const editingId = ref<string | null>(null)
 
 // 【流程①：頁面打開（immediate）、網址的 userId 改變時觸發】拿這個人的資料
 // 不用 onMounted：從 /users/A 換到 /users/B 時 Vue Router 沿用同一個元件，onMounted 不會再跑
@@ -278,6 +286,18 @@ function openShopFromWork(creatorId: string) {
 const isMeUser = computed(() => auth.currentUser?.id === userId.value)
 // 上傳燈箱開著沒（燈箱沒有網址，用狀態打開）；開哪一個看 tab
 const isUploadOpen = ref(false)
+
+// 【上傳燈箱關閉、送出時觸發】兩個一起重設：editingId 沒清掉的話，下次按「上傳作品 +」會開成上一次編輯的那件
+function closeUpload() {
+  isUploadOpen.value = false
+  editingId.value = null
+}
+// 【上傳燈箱存好、送出 submit 時觸發】先關燈箱，再重抓兩面牆（作品、可委託項目都抓，兩個燈箱共用這支）
+async function onUploaded() {
+  closeUpload()
+  works.value = await fetchProfileWorks(userId.value)
+  commissionItems.value = await fetchProfileCommissionItems(userId.value)
+}
 </script>
 
 <style lang="scss" scoped>

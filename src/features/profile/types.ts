@@ -14,4 +14,54 @@ export type CreatorSettings = {
   store_approved: boolean // 是否已開通創作者商店（唯讀，系統判斷）
 }
 
-export type UploadImage = { file: File; url: string }
+// 上傳燈箱的一張圖：file 送出用、url 預覽用
+// 新選的圖：file 是使用者電腦裡的檔案、url 是 blob: 暫時網址；編輯時帶入的舊圖：已經在伺服器上，file 是 null、url 是一般網址
+export type UploadImage = { file: File | null; url: string }
+
+// 編輯一般作品時，燈箱要填回表單的原內容（fetchWorkForEdit 回傳）
+// 欄位名稱沿用 WORK（data-model.md）；類型、用途沒選是 null，燈箱填回時轉成 ''
+export type WorkEditData = {
+  title: string
+  content: string
+  category_id: string | null
+  purpose_id: string | null
+  images: string[] // 圖片網址，依 seq_no 排好，第一張是封面
+  tags: string[] // 標籤名稱
+}
+
+// 編輯可委託項目時，燈箱要填回表單的原內容（fetchCommissionItemForEdit 回傳）
+// 欄位名稱沿用 COMMISSION_ITEM（data-model.md）；price、commercial_allowed 是資料庫的型別，燈箱填回時再轉成表單用的字串
+export type CommissionItemEditData = {
+  title: string
+  description: string
+  price: number // 新台幣整數
+  commercial_allowed: boolean
+  stage_plan_pref: '三點分段' | '五點分段'
+  category_id: string | null
+  purpose_id: string | null
+  images: string[] // 圖片網址，依 seq_no 排好，第一張是封面
+  tags: string[] // 標籤名稱
+}
+
+// 送出一般作品的資料（POST /works，api.md 5.9）；欄位名稱沿用 WORK
+export type NewWork = {
+  title: string
+  content: string
+  category_id: string | null // 沒選是 null
+  purpose_id: string | null
+  tags: string[] // 標籤文字
+  images: File[] // 只放檔案；順序就是 seq_no，第一張是封面
+}
+
+// 送出可委託項目的資料（POST /commission-items，api.md 5.9）；欄位名稱沿用 COMMISSION_ITEM
+export type NewCommissionItem = {
+  title: string
+  description: string
+  price: number // 新台幣整數；表單是字串，送出前轉數字
+  commercial_allowed: boolean // 表單是 'true'／'false'，送出前轉布林
+  stage_plan_pref: '三點分段' | '五點分段'
+  category_id: string | null // 沒選是 null
+  purpose_id: string | null
+  tags: string[] // 標籤文字
+  images: File[] // 只放檔案；順序就是 seq_no，第一張是封面
+}

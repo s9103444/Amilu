@@ -76,8 +76,10 @@
 | `PATCH /me/profile`                                                 | 修改大頭照／暱稱／簡介                       | [3.1](features.md#31-個人資料設定)                  | `USER`                                     |
 | `DELETE /me`                                                        | 刪除帳號（軟刪除，條件見畫面規則）           | [3.1](features.md#31-個人資料設定)                  | `USER`                                     |
 | `POST /works`                                                       | 上傳一般作品                                 | [3.2 上傳一般作品](features.md#32-上傳一般作品)     | `WORK`、`WORK_IMAGE`、`WORK_TAG`           |
-| `POST /commission-items`                                            | 上架可委託項目                               | [3.3 上傳可委託項目](features.md#33-上傳可委託項目) | `COMMISSION_ITEM`、`COMMISSION_ITEM_IMAGE` |
-| `PATCH /commission-items/{id}`                                      | 編輯可委託項目                               | [3.3](features.md#33-上傳可委託項目)                | `COMMISSION_ITEM`                          |
+| `POST /commission-items`                                            | 上架可委託項目                               | [3.3 上傳可委託項目](features.md#33-上傳可委託項目) | `COMMISSION_ITEM`、`COMMISSION_ITEM_IMAGE`、`COMMISSION_ITEM_TAG` |
+| `PATCH /works/{id}`                                                 | 編輯一般作品（2026/11/25 新增，送法見 [5.9](#59-作品可委託項目的上傳與編輯怎麼送)） | [2.7 卡片「⋯ → 編輯」](features.md#27-創作者個人頁)、[3.2](features.md#32-上傳一般作品) | `WORK`、`WORK_IMAGE`、`WORK_TAG` |
+| `DELETE /works/{id}`                                                | 刪除一般作品（2026/11/25 新增；真刪，`WORK_IMAGE`、`WORK_TAG` 一起刪） | [2.7 卡片「⋯ → 刪除」](features.md#27-創作者個人頁) | `WORK`、`WORK_IMAGE`、`WORK_TAG` |
+| `PATCH /commission-items/{id}`                                      | 編輯可委託項目（送法見 [5.9](#59-作品可委託項目的上傳與編輯怎麼送)） | [3.3](features.md#33-上傳可委託項目)                | `COMMISSION_ITEM`、`COMMISSION_ITEM_IMAGE`、`COMMISSION_ITEM_TAG` |
 | `DELETE /commission-items/{id}`                                     | 刪除可委託項目（真刪；已有案件讀快照，`ORDER.item_id` 設為空） | [3.3](features.md#33-上傳可委託項目)                | `COMMISSION_ITEM`                          |
 | `GET /me/creator-onboarding`                                        | 開通創作者商店三步驟目前完成狀態             | [3.4 開通創作者商店](features.md#34-開通創作者商店) | `CREATOR_PROFILE`                          |
 | `POST /me/creator-onboarding/confirm`                               | 確認開通（三步驟皆完成後）                   | [3.4](features.md#34-開通創作者商店)                | `CREATOR_PROFILE`                          |
@@ -215,7 +217,7 @@
 **狀態：已定案 — 方案 A（直傳後端）**
 
 - 涉及的上傳情境：`USER.avatar_url`（單張）、`WORK_IMAGE`（1～20 張）、`COMMISSION_ITEM_IMAGE`（1～5 張）、`ORDER_STAGE_IMAGE`（每次 1～5 張）、`ORDER_REFERENCE_IMAGE`、聊天室 `MESSAGE.image_url`（單張），全部採用**方案 A：前端 `multipart/form-data` 直接丟後端存檔、回網址**，不做 presigned URL／雲端直傳。
-- 實務上：有圖片的建立／更新 API（`POST /works`、`POST /commission-items`、`PATCH /me/profile`、`POST /orders`、`POST /orders/{id}/messages`、`POST /orders/{id}/stages/{stage_no}/submissions`）body 都改成 `multipart/form-data`，圖片檔案與其他欄位一起送；後端存檔位置（本機磁碟或之後換物件儲存）是淳的實作細節，不影響這裡的 API 形狀。
+- 實務上：有圖片的建立／更新 API（`POST /works`、`PATCH /works/{id}`、`POST /commission-items`、`PATCH /commission-items/{id}`、`PATCH /me/profile`、`POST /orders`、`POST /orders/{id}/messages`、`POST /orders/{id}/stages/{stage_no}/submissions`）body 都改成 `multipart/form-data`，圖片檔案與其他欄位一起送；後端存檔位置（本機磁碟或之後換物件儲存）是淳的實作細節，不影響這裡的 API 形狀。
 - **`ORDER_STAGE_IMAGE` 整組覆蓋**（見 [data-model.md 4.3](data-model.md#43-order_stage_image-上傳規則)）：重傳時前端把這次要送的全部圖片（1～5 張）一次放進同一個 `POST /orders/{id}/stages/{stage_no}/submissions` 請求，後端收到後刪掉該 `stage_id` 底下所有舊列、整組重寫、`seq_no` 從 1 重編——不是逐張增量上傳，前端也不需要先呼叫刪除 API。
 - **影響範圍**：第 1 節共用慣例已標註圖片類 API 是 `multipart/form-data` 的例外；對規格時跟淳確認檔案大小限制（各畫面已有的 5MB／張）在後端怎麼擋（框架層級或自己寫驗證）。
 
@@ -281,3 +283,21 @@
 - **情境**：上傳作品／委託項目時掛標籤，規則是「比對到既有標籤就沿用，不新增」（見 [features.md 0](features.md#0-共用規則分類與標籤)）。
 - **定案**：`POST /works`、`POST /commission-items` 的標籤欄位送**文字陣列**，不送 `tag_id`；去空白、英文不分大小寫、沿用既有標籤或新建的正規化邏輯全部由後端處理（避免兩人同時建立同義字造成競態重複）。
 - `GET /tags?q=` 保留，作為前端輸入時的自動完成建議，純粹方便使用者打字，不影響送出格式、也不是必要欄位。
+
+### 5.9 作品、可委託項目的上傳與編輯怎麼送
+
+**狀態：已定案（2026/11/25，前後端都由彥廷做）**
+
+- **適用**：`POST /works`、`PATCH /works/{id}`、`POST /commission-items`、`PATCH /commission-items/{id}`，body 都是 `multipart/form-data`（見 [5.2](#52-圖片上傳機制未定案)）。
+- **一般欄位**：欄位名稱沿用 `data-model.md`（`title`、`content`、`description`、`price`、`commercial_allowed`、`stage_plan_pref`、`category_id`、`purpose_id`）。類型、用途沒選時不送這個欄位，後端存 null。
+- **標籤**：同名欄位 `tags` 重複送，每個值一個標籤文字（例：`tags=厚塗`、`tags=日系`）；比對、沿用由後端做（見 [5.8](#58-標籤比對去空白英文不分大小寫沿用既有標籤由前端查詢還是後端處理)）。
+- **新增的圖片**：同名欄位 `images` 重複送，每個值一個檔案；送的順序就是 `seq_no`，第一張是封面。
+- **編輯一律整份覆蓋**：PATCH 每次都把表單全部欄位送齊，後端整份蓋掉，不做「只送有改的欄位」。標籤同樣整組覆蓋：這次沒送到的標籤關聯就刪掉。
+- **編輯時的圖片**：
+  - 留下來的舊圖：同名欄位 `kept_image_urls` 重複送，每個值一個原本的圖片網址，照畫面上的順序。
+  - 這次新加的圖：照新增時的 `images` 送。
+  - 後端：刪掉不在 `kept_image_urls` 裡的舊圖列，`seq_no` 從 1 重編，順序是「留下的舊圖（照 `kept_image_urls` 順序）→ 新圖（照 `images` 順序）」。
+  - 前端的圖片格沒有拖曳排序（只能刪、只能加在最後），所以畫面順序本來就是「舊圖在前、新圖在後」，和後端重編的規則一致。
+  - 張數上限、至少 1 張的規則同新增（[features.md 3.2](features.md#32-上傳一般作品)、[3.3](features.md#33-上傳可委託項目)），後端用「留下的＋新加的」總數檢查。
+- **編輯可委託項目不影響已送出申請的案件**：案件讀送出申請當下的快照（[order-lifecycle.md 五](order-lifecycle.md#五契約快照與同意)）。
+- **為什麼這樣定**：舊圖只有網址、前端沒有原檔，沒辦法像階段稿件那樣整組重傳檔案；用網址指出「留哪些」最簡單，後端也不用另外開刪圖 API。
