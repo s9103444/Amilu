@@ -53,6 +53,12 @@ export type NewWork = {
   images: File[] // 只放檔案；順序就是 seq_no，第一張是封面
 }
 
+// 編輯一般作品送出的資料（PATCH /works/{id}，api.md 5.9）：新增的全部欄位＋留下的舊圖（& 是把兩個型別的欄位合在一起）
+// images 只放這次新加的檔案；和 WorkEditData 方向相反：那包是拿回來填表單，這包是改完送出去
+export type WorkChanges = NewWork & {
+  kept_image_urls: string[] // 留下的舊圖網址，照畫面順序；不在這裡的舊圖後端會刪掉
+}
+
 // 送出可委託項目的資料（POST /commission-items，api.md 5.9）；欄位名稱沿用 COMMISSION_ITEM
 export type NewCommissionItem = {
   title: string
@@ -64,4 +70,9 @@ export type NewCommissionItem = {
   purpose_id: string | null
   tags: string[] // 標籤文字
   images: File[] // 只放檔案；順序就是 seq_no，第一張是封面
+}
+
+// 編輯可委託項目送出的資料（PATCH /commission-items/{id}，api.md 5.9）：同 WorkChanges，新增的全部欄位＋留下的舊圖
+export type CommissionItemChanges = NewCommissionItem & {
+  kept_image_urls: string[] // 留下的舊圖網址，照畫面順序；不在這裡的舊圖後端會刪掉
 }

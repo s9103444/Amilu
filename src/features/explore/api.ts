@@ -218,3 +218,33 @@ export async function fetchCreatorCommissionItems(
   )
   return { items, images }
 }
+
+// 刪除一般作品（DELETE /works/{id}，api.md 2.3）：真刪，連它的圖片列、標籤列一起刪
+// 放 explore 不放 profile：呼叫的 UserProfilePage 在 explore，features 之間不互相 import（structure.md）
+export async function deleteWork(workId: string): Promise<void> {
+  // 主表 work_id 不重複，找到位置刪一次就好
+  const index = MOCK_WORKS.findIndex((work) => work.work_id === workId)
+  if (index === -1) return // 找不到這件作品（例如已被刪掉）就不做
+  MOCK_WORKS.splice(index, 1)
+  // 圖片、標籤可能好幾列：從最後往前刪，splice 後前面的位置才不會跑掉
+  for (let i = MOCK_WORK_IMAGES.length - 1; i >= 0; i--) {
+    if (MOCK_WORK_IMAGES[i]?.work_id === workId) MOCK_WORK_IMAGES.splice(i, 1)
+  }
+  for (let i = MOCK_WORK_TAGS.length - 1; i >= 0; i--) {
+    if (MOCK_WORK_TAGS[i]?.work_id === workId) MOCK_WORK_TAGS.splice(i, 1)
+  }
+}
+
+// 刪除可委託項目（DELETE /commission-items/{id}，api.md 2.3）：真刪，同 deleteWork
+// TODO 接後端：已有案件的 ORDER.item_id 要設為空（案件畫面讀快照，不受影響）；mock 訂單沒有 item_id，先不處理
+export async function deleteCommissionItem(itemId: string): Promise<void> {
+  const index = MOCK_COMMISSION_ITEMS.findIndex((item) => item.item_id === itemId)
+  if (index === -1) return // 找不到這個項目（例如已被刪掉）就不做
+  MOCK_COMMISSION_ITEMS.splice(index, 1)
+  for (let i = MOCK_COMMISSION_ITEM_IMAGES.length - 1; i >= 0; i--) {
+    if (MOCK_COMMISSION_ITEM_IMAGES[i]?.item_id === itemId) MOCK_COMMISSION_ITEM_IMAGES.splice(i, 1)
+  }
+  for (let i = MOCK_COMMISSION_ITEM_TAGS.length - 1; i >= 0; i--) {
+    if (MOCK_COMMISSION_ITEM_TAGS[i]?.item_id === itemId) MOCK_COMMISSION_ITEM_TAGS.splice(i, 1)
+  }
+}

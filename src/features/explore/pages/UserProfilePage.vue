@@ -141,12 +141,12 @@
         @close="shopCreatorId = null"
       />
       <!-- 【「⋯」點刪除後】deletingCard 有值就打開；一個就夠，作品和可委託項目共用 -->
-      <!-- TODO 確認刪除：作品的刪除 API 還沒定（progress.md「做到再處理」），先只關燈箱 -->
+      <!-- 【按「確認刪除」時】onConfirmDelete 依頁籤刪作品或可委託項目（DELETE，真刪），再關燈箱＋重抓卡片 -->
       <DeleteConfirmLightbox
         v-if="deletingCard"
         :title="deletingCard.title"
         @close="deletingCard = null"
-        @confirm="deletingCard = null"
+        @confirm="onConfirmDelete"
       />
       <!-- 【按「上傳作品 +」後】依目前頁籤開不同燈箱：作品牆 → 一般作品、可委託項目 → 委託項目 -->
       <!-- 燈箱開著時蓋住整頁、切不了頁籤，所以打開後 tab 不會變；profile 的燈箱可以在這裡用（structure.md 例外二） -->
@@ -175,6 +175,8 @@ import {
   fetchAuthorProfile,
   fetchProfileWorks,
   fetchProfileCommissionItems,
+  deleteWork,
+  deleteCommissionItem,
   type ProfileCard,
 } from '@/features/explore/api'
 import EmptyState from '@/shared/components/EmptyState.vue'
@@ -295,6 +297,21 @@ function closeUpload() {
 // 【上傳燈箱存好、送出 submit 時觸發】先關燈箱，再重抓兩面牆（作品、可委託項目都抓，兩個燈箱共用這支）
 async function onUploaded() {
   closeUpload()
+  works.value = await fetchProfileWorks(userId.value)
+  commissionItems.value = await fetchProfileCommissionItems(userId.value)
+}
+
+// 【刪除確認燈箱按「確認刪除」時】刪掉 deletingCard 那張，關燈箱，重抓兩面牆
+async function onConfirmDelete() {
+  if (!deletingCard.value) return // 讓 TS 確定下面 deletingCard.value 有值
+
+  // 確認燈箱開著時切不了頁籤，所以 tab 就是點「⋯」那張卡所在的牆
+  if (tab.value === 'works') {
+    await deleteWork(deletingCard.value.id)
+  } else {
+    await deleteCommissionItem(deletingCard.value.id) // 沒 await 會先重抓、才刪，牆上舊卡還在
+  }
+  deletingCard.value = null // 關確認燈箱
   works.value = await fetchProfileWorks(userId.value)
   commissionItems.value = await fetchProfileCommissionItems(userId.value)
 }

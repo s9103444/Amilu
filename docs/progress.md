@@ -11,7 +11,7 @@
 ## 目前在做
 
 拼裝頁面：個人資料設定頁完成儲存、大頭照、刪除帳號（2026/11/18）；登入已接假資料，註冊送出還沒做。
-個人專頁上傳燈箱：新增能存（2026/11/25），見下方「個人專頁」；下一步是**第 3 件：兩個燈箱的編輯能存（PATCH）**，再來第 4 件刪除。
+個人專頁上傳燈箱：新增、編輯、刪除都能存（2026/11/26，假資料），見下方「個人專頁」；剩**瀏覽器確認**第 1～4 件，和 header 送出後重抓。
 下一步：路由守衛（沒登入進 `/me/*` 導回登入頁）；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
@@ -150,14 +150,14 @@
   - ✅ 委託商店燈箱左側圖片打開時停在被點項目的第一張（`startIndex` → `LightboxLayout` → `ImageScrollList`，spec 2.6「預設定位」）
   - ✅ 委託商店燈箱左右連動（2026/11/23，spec 2.6）：右側點列 → 左側捲到該項目第一張；左側捲動 → 右側換選取（`scrollTargetId` 和 `selectedItemId` 分開，避免左側被拉回）。已知小漏洞：startIndex 沒變時（例如手動捲走後再點同一個項目）左側不會捲
   - ✅ 卡片右下「⋯」選單（2026/11/23，spec 2.7）：`CardMoreMenu`／`CardMoreMenuItem`（樣式照 UploadMenu）；只在自己的頁顯示；刪除先跳 `DeleteConfirmLightbox`
-    - ⬜ 「確認刪除」目前只關燈箱 → 第 4 件
+    - ✅ 「確認刪除」：`onConfirmDelete` 依 tab 刪作品或項目，再重抓兩面牆（第 4 件）
     - ✅ 「編輯」：`editingId`＋`closeUpload`，燈箱收到 `work-id`／`item-id` 就是編輯模式，打開時 `fetchWorkForEdit`／`fetchCommissionItemForEdit` 填回表單
   - 🔄 上傳燈箱（features.md 3.2、3.3；2026/11/25 彥廷兼做後端，API 缺口直接定進 api.md 5.9）
     - ✅ `UploadWorkLightbox`、`CommissionItemLightbox`（含 `ClassificationFields`、`TagInput`）；header 上傳選單、頭像選單、個人頁「上傳作品 +」（看 tab 開哪個）都接上
     - ✅ 第 1 件 一般作品新增能存：`NewWork`＋`createWork`（假 POST /works）；燈箱 `onSubmit`＋`isSubmitting`（try/finally）；頁面 `onUploaded` 關燈箱＋重抓兩面牆；⬜ 瀏覽器確認
     - ✅ 第 2 件 委託項目新增能存：`NewCommissionItem`＋`createCommissionItem`（假 POST /commission-items）；price 用 `Number()`、商用用 `=== 'true'` 轉；⬜ 瀏覽器確認（價格 800 → 卡片「NT$ 800 起」）
-    - ⬜ 第 3 件 編輯能存：`PATCH /works/{id}`、`PATCH /commission-items/{id}`，整份覆蓋；圖片送 `kept_image_urls`（保留的舊圖，有順序）＋新的 `images`（api.md 5.9）；目前燈箱編輯模式按儲存只關燈箱
-    - ⬜ 第 4 件 刪除：`DELETE /works/{id}`、`DELETE /commission-items/{id}`，真刪（features.md 2.7）；接 `DeleteConfirmLightbox` 的確認
+    - ✅ 第 3 件 編輯能存（2026/11/26）：`WorkChanges`／`CommissionItemChanges`＋`updateWork`／`updateCommissionItem`（假 PATCH，整份覆蓋）；圖片送 `kept_image_urls`（舊圖，照畫面順序）＋新的 `images`，seq_no 舊圖在前重編；兩個燈箱共用 `base` 物件；⬜ 瀏覽器確認
+    - ✅ 第 4 件 刪除（2026/11/26）：`deleteWork`／`deleteCommissionItem` 放 `explore/api.ts`（呼叫的頁面在 explore），假 DELETE 真刪主表＋圖片列＋標籤列；`ORDER.item_id` 設空留 TODO（mock 訂單沒有這欄）；⬜ 瀏覽器確認
     - ⬜ header 送出後要重抓（AppHeader TODO）；未開通者導去開通流程（等開通頁）
 - ⬜ 追蹤清單燈箱（features.md 2.8）、follow 按鈕（看別人的頁才有）
 

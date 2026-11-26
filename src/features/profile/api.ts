@@ -1,5 +1,5 @@
 // profile 功能的「後端呼叫」：頁面一律呼叫這裡，不直接 import mocks（structure.md 3.2）
-// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me、GET／PATCH /me/creator-settings、PATCH /me/creator-settings/amilu-light、GET /works/{id}、GET /commission-items/{id}、POST /works、POST /commission-items（api.md 草案），頁面不用動
+// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me、GET／PATCH /me/creator-settings、PATCH /me/creator-settings/amilu-light、GET /works/{id}、GET /commission-items/{id}、POST /works、POST /commission-items、PATCH /works/{id}、PATCH /commission-items/{id}（api.md 草案），頁面不用動
 import { useAuthStore } from '@/features/account/store'
 import { MOCK_ORDER_IN_PROGRESS, MOCK_ORDER_THREE_STAGE, MOCK_ORDER_COMPLETED } from '@/mocks/order'
 import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
@@ -10,6 +10,8 @@ import type {
   CommissionItemEditData,
   NewWork,
   NewCommissionItem,
+  CommissionItemChanges,
+  WorkChanges,
 } from '@/features/profile/types'
 import { MOCK_WORKS, MOCK_WORK_IMAGES, MOCK_WORK_TAGS } from '@/mocks/work'
 import { MOCK_TAGS } from '@/mocks/tag'
@@ -218,6 +220,94 @@ export async function createCommissionItem(data: NewCommissionItem): Promise<voi
     })
   })
   // 標籤：同名（不分大小寫）就沿用，沒有就新建（api.md 5.8），再寫進 COMMISSION_ITEM_TAG
+  data.tags.forEach((name) => {
+    let tag = MOCK_TAGS.find((row) => row.name.toLowerCase() === name.toLowerCase())
+    if (!tag) {
+      tag = { tag_id: `t_${Date.now()}_${name}`, name: name }
+      MOCK_TAGS.push(tag)
+    }
+    MOCK_COMMISSION_ITEM_TAGS.push({ item_id: itemId, tag_id: tag.tag_id })
+  })
+}
+
+// 【流程③：UploadWorkLightbox 編輯模式按「儲存發布」時呼叫】整份覆蓋一件作品
+// 對應 PATCH /works/{id}（api.md 5.9）；假資料模擬後端：改欄位，圖片、標籤的列全刪再重建
+export async function updateWork(workId: string, data: WorkChanges): Promise<void> {
+  const work = MOCK_WORKS.find((row) => row.work_id === workId)
+  if (!work) return // 找不到這件作品（例如已被刪掉）就不做
+  // work 是陣列裡那一筆本身，直接改就等於改到 MOCK_WORKS
+  work.title = data.title
+  work.content = data.content
+  work.category_id = data.category_id
+  work.purpose_id = data.purpose_id
+  // 先刪掉這件作品的所有圖片列、標籤列，下面再照這次送來的重建（整份覆蓋）
+  // 從最後往前刪：splice 會讓後面的元素往前補位，從前面刪會跳過下一筆
+  for (let i = MOCK_WORK_IMAGES.length - 1; i >= 0; i--) {
+    if (MOCK_WORK_IMAGES[i]?.work_id === workId) MOCK_WORK_IMAGES.splice(i, 1)
+  }
+  for (let i = MOCK_WORK_TAGS.length - 1; i >= 0; i--) {
+    if (MOCK_WORK_TAGS[i]?.work_id === workId) MOCK_WORK_TAGS.splice(i, 1)
+  }
+  // 圖片重建順序：留下的舊圖在前（seq_no 從 1），新圖接在後面
+  data.kept_image_urls.forEach((url, index) =>
+    MOCK_WORK_IMAGES.push({ work_id: workId, seq_no: index + 1, image_url: url }),
+  )
+  data.images.forEach((image, index) =>
+    MOCK_WORK_IMAGES.push({
+      work_id: workId,
+      seq_no: data.kept_image_urls.length + index + 1,
+      image_url: URL.createObjectURL(image),
+    }),
+  )
+  // 標籤：同 createWork，同名沿用、沒有就新建（api.md 5.8）
+  data.tags.forEach((name) => {
+    let tag = MOCK_TAGS.find((row) => row.name.toLowerCase() === name.toLowerCase())
+    if (!tag) {
+      tag = { tag_id: `t_${Date.now()}_${name}`, name: name }
+      MOCK_TAGS.push(tag)
+    }
+    MOCK_WORK_TAGS.push({ work_id: workId, tag_id: tag.tag_id })
+  })
+}
+
+// 【流程③：CommissionItemLightbox 編輯模式按「儲存發布」時呼叫】整份覆蓋一個可委託項目
+// 對應 PATCH /commission-items/{id}（api.md 5.9）；寫法同 updateWork：改欄位，圖片、標籤的列全刪再重建
+// creator_id、created_at 不改：編輯不會換作者、也不換建立時間
+// 已送出申請的案件讀快照，不受這裡影響（order-lifecycle.md 五）
+export async function updateCommissionItem(
+  itemId: string,
+  data: CommissionItemChanges,
+): Promise<void> {
+  const item = MOCK_COMMISSION_ITEMS.find((row) => row.item_id === itemId)
+  if (!item) return // 找不到這個項目（例如已被刪掉）就不做
+  // item 是陣列裡那一筆本身，直接改就等於改到 MOCK_COMMISSION_ITEMS
+  item.title = data.title
+  item.description = data.description
+  item.price = data.price
+  item.commercial_allowed = data.commercial_allowed
+  item.stage_plan_pref = data.stage_plan_pref
+  item.category_id = data.category_id
+  item.purpose_id = data.purpose_id
+  // 先刪掉這個項目的所有圖片列、標籤列，下面再照這次送來的重建（整份覆蓋）
+  // 從最後往前刪：splice 會讓後面的元素往前補位，從前面刪會跳過下一筆
+  for (let i = MOCK_COMMISSION_ITEM_IMAGES.length - 1; i >= 0; i--) {
+    if (MOCK_COMMISSION_ITEM_IMAGES[i]?.item_id === itemId) MOCK_COMMISSION_ITEM_IMAGES.splice(i, 1)
+  }
+  for (let i = MOCK_COMMISSION_ITEM_TAGS.length - 1; i >= 0; i--) {
+    if (MOCK_COMMISSION_ITEM_TAGS[i]?.item_id === itemId) MOCK_COMMISSION_ITEM_TAGS.splice(i, 1)
+  }
+  // 圖片重建順序：留下的舊圖在前（seq_no 從 1），新圖接在後面
+  data.kept_image_urls.forEach((url, index) =>
+    MOCK_COMMISSION_ITEM_IMAGES.push({ item_id: itemId, seq_no: index + 1, image_url: url }),
+  )
+  data.images.forEach((image, index) =>
+    MOCK_COMMISSION_ITEM_IMAGES.push({
+      item_id: itemId,
+      seq_no: data.kept_image_urls.length + index + 1,
+      image_url: URL.createObjectURL(image),
+    }),
+  )
+  // 標籤：同 createCommissionItem，同名沿用、沒有就新建（api.md 5.8）
   data.tags.forEach((name) => {
     let tag = MOCK_TAGS.find((row) => row.name.toLowerCase() === name.toLowerCase())
     if (!tag) {

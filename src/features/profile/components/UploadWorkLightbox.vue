@@ -17,7 +17,7 @@
       <TagInput v-model="tags" />
       <div class="actions">
         <Button variant="outline" @click="emit('close')">取消</Button>
-        <!-- 【按「儲存發布」時】onSubmit 送出 POST /works，存好才通知外面 -->
+        <!-- 【按「儲存發布」時】onSubmit 送出（新增 POST /works、編輯 PATCH /works/{id}），存好才通知外面 -->
         <Button :disabled="!canSubmit || isSubmitting" @click="onSubmit">儲存發布</Button>
       </div>
     </div>
@@ -47,7 +47,7 @@ import ImageUploadGrid from '@/features/profile/components/ImageUploadGrid.vue'
 import ClassificationFields from '@/features/profile/components/ClassificationFields.vue'
 import type { UploadImage } from '@/features/profile/types'
 import TagInput from '@/features/profile/components/TagInput.vue'
-import { fetchWorkForEdit, createWork } from '@/features/profile/api'
+import { fetchWorkForEdit, createWork, updateWork } from '@/features/profile/api'
 
 const emit = defineEmits<{
   close: []
@@ -89,25 +89,33 @@ onMounted(async () => {
   images.value = edit.images.map((url) => ({ file: null, url }))
 })
 
-// 【流程③：按「儲存發布」時】把表單換成後端要的格式（api.md 5.9）交給 createWork，存好再通知外面重抓
+// 【流程③：按「儲存發布」時】把表單換成後端要的格式（api.md 5.9）：有 workId 交給 updateWork（編輯），沒有交給 createWork（新增），存好再通知外面重抓
 async function onSubmit() {
-  if (props.workId) {
-    emit('submit')
-    return // TODO 編輯：PATCH /works/{id}（第 3 件做）
-  }
-
   isSubmitting.value = true // 送出期間按鈕反灰，防連按送兩次
   try {
-    await createWork({
+    // 新增、編輯共用的欄位
+    const base = {
       title: title.value.trim(),
       content: content.value.trim(),
       // 表單沒選是 ''，資料庫沒選是 null：'' || null 會得到 null
       category_id: category.value || null,
       purpose_id: purpose.value || null,
       tags: tags.value,
-      // 只送檔案；新增模式不會有 null（舊圖才是 null），filter 是為了讓型別變成 File[]
+      // 只拿這次新加的檔案：map 拆成只剩 file → filter 濾掉舊圖的 null（型別變成 File[]）
       images: images.value.map((image) => image.file).filter((file): file is File => file !== null),
-    })
+    }
+    if (props.workId) {
+      // workId 是「⋯ → 編輯」打開時 UserProfilePage 傳進來的
+      await updateWork(props.workId, {
+        ...base,
+        // 留下的舊圖：file 是 null 的就是舊圖，只取網址，照畫面順序
+        kept_image_urls: images.value
+          .filter((image) => image.file === null)
+          .map((image) => image.url),
+      })
+    } else {
+      await createWork(base)
+    }
     emit('submit') // 存好了才通知外面
   } finally {
     isSubmitting.value = false // 送失敗也要恢復按鈕，不然會一直反灰
