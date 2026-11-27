@@ -1,7 +1,7 @@
 <template>
   <div class="work-info">
-    <p class="text-caption title">{{ title }}</p>
-    <p class="text-small description">{{ description }}</p>
+    <p class="text-small title">{{ title }}</p>
+    <p class="text-note description">{{ description }}</p>
     <div v-if="tags?.length" class="tags">
       <HashtagLabel v-for="tag in tags" :key="tag" variant="post">#{{ tag }}</HashtagLabel>
     </div>
@@ -51,6 +51,6 @@ defineProps<{
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 8px;
 }
 </style>

@@ -9,6 +9,7 @@
       />
     </div>
     <!-- 右（手機在下）：作者列固定在上、中間內容可捲、按鈕固定在下 -->
+
     <div class="detail">
       <div v-if="author" class="author-row">
         <div class="author">
@@ -16,6 +17,7 @@
             :avatar-url="author.avatar_url"
             :name="author.nickname"
             :user-id="author.id"
+            link
           />
           <!-- 不是創作者就沒有 Amilu 燈可看，不顯示 -->
           <OpenStatusTag v-if="author.store_approved" :open="author.is_open" />
@@ -29,9 +31,12 @@
           @click="isFollowed = !isFollowed"
         />
       </div>
-      <div class="content">
-        <slot></slot>
-      </div>
+      <hr class="divider" />
+      <OverlayScrollbarsComponent class="content" defer>
+        <div class="content-inner">
+          <slot></slot>
+        </div>
+      </OverlayScrollbarsComponent>
       <div v-if="$slots.action" class="action">
         <slot name="action"></slot>
       </div>
@@ -60,6 +65,7 @@ import UserInfoBar from '@/features/explore/components/UserInfoBar.vue'
 import OpenStatusTag from '@/features/explore/components/OpenStatusTag.vue'
 import FollowButton from '@/shared/components/FollowButton.vue'
 import type { LightboxAuthor } from '@/features/explore/types'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 defineProps<{
   images: string[]
@@ -152,17 +158,28 @@ const isFollowed = ref(false)
 // 捲動區會裁掉超出的東西：委託項目選取時右上角的勾勾凸出框外 7px，
 // 所以四周多留 8px 內距，再用負 margin 抵銷，排版位置不變
 .content {
-  display: flex;
   margin: -8px;
   padding: 8px;
   flex: 1;
+  min-height: 0;
+}
+.content-inner {
+  display: flex;
   flex-direction: column;
   gap: 20px;
-  min-height: 0;
-  overflow-y: auto;
+  padding-right: 14px;
+  @include bp.tablet-up {
+    padding-right: 0;
+  }
 }
-
 .action {
   flex-shrink: 0;
+}
+.divider {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--color-border-light);
 }
 </style>

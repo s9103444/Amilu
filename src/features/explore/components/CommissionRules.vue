@@ -1,14 +1,14 @@
 <template>
   <div class="rules">
     <button type="button" class="header" :aria-expanded="isOpen" @click="changeStates">
-      <span class="title text-caption">{{ title }}</span>
+      <span class="title text-small">{{ title }}</span>
       <img
         class="arrow"
         :src="base + (isOpen ? 'icons/arrow-up-gray.svg' : 'icons/arrow-down-gray.svg')"
         alt=""
       />
     </button>
-    <div v-if="isOpen" class="content text-small">
+    <div v-if="isOpen" class="content text-note">
       <slot></slot>
     </div>
   </div>
@@ -54,7 +54,7 @@ function changeStates() {
   align-items: center;
   gap: 6px;
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px 0;
   border: none;
   border-radius: 12px;
   background: transparent;
@@ -74,7 +74,7 @@ function changeStates() {
 
 // 展開後的內容：左右與標題對齊（Figma）
 .content {
-  padding: 0 16px;
+  // padding: 0 16px;
   color: var(--color-text-primary);
   font-weight: var(--font-weight-regular); // text-small 預設 medium，內文改回一般粗細
   word-break: break-word;

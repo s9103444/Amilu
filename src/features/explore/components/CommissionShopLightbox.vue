@@ -6,7 +6,7 @@
       :start-index="startIndex"
       @index-change="onImageChange"
     >
-      <hr class="divider" />
+      <!-- <hr class="divider" /> -->
       <section class="items">
         <div class="items-header">
           <h2 class="text-caption items-title">開放委託項目</h2>
@@ -32,7 +32,6 @@
         />
       </section>
       <template v-if="author?.bio">
-        <hr class="divider" />
         <CommissionRules title="作者簡介">{{ author.bio }}</CommissionRules>
       </template>
       <template #action>

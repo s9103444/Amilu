@@ -48,6 +48,7 @@ export type GalleryCard = {
   image_url: string
   title: string
   author_id: string
+  author_avatar_url: string | null // 作者大頭照；沒設定是 null，卡片會顯示預設圖
   created_at: string
 }
 

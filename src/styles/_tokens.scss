@@ -6,6 +6,7 @@
   // ── 色彩 primitive ──────────────────────────────
   --neutral-900: #232020;
   --neutral-900-50: rgba(35, 32, 32, 0.5);
+  --neutral-900-25: rgba(35, 32, 32, 0.25); // 捲軸用，Figma 色票沒有，前端自訂
   --neutral-500: #959595;
   --neutral-300: #c2c2c2;
   --neutral-white: #ffffff;
@@ -33,7 +34,7 @@
   --color-text-secondary: var(--neutral-500);
   --color-text-on-dark: var(--neutral-white);
   --color-border: var(--neutral-300);
-  --color-border-light: var(--base-100);
+  --color-border-light: var(--base-200);
   --color-border-expanded: var(--neutral-500); // 展開中的選擇框外框（Figma 委託項目選擇 592:303）
   --color-border-strong: var(--neutral-900); // 醒目的輸入框外框（Figma 590:365）
   --color-placeholder: var(--neutral-300);
@@ -41,7 +42,9 @@
   --color-icon: var(--neutral-900);
   --color-icon-secondary: var(--neutral-500);
   --color-overlay: var(--neutral-900-50);
-  --color-scrollbar-thumb: var(--neutral-900-50);
+  --color-scrollbar-thumb: var(
+    --neutral-900-25
+  ); // 自訂捲軸拇指（OverlayScrollbars），彥廷要求調淡（原 50%）
   --color-bg-page: var(--neutral-white);
   --color-bg-main: var(--base-200);
   --color-bg-subtle: var(--base-100);

@@ -6,7 +6,7 @@
         <!-- 品牌：Logo＋標語＋社群圖示 -->
         <div class="brand">
           <img class="logo" :src="base + 'picture/logo-footer.svg'" alt="Amilu" />
-          <p class="slogan text-small">致每個小小的、多彩的靈魂。</p>
+          <p class="slogan text-note">致每個小小的、多彩的靈魂。</p>
           <ul class="social">
             <li v-for="item in SOCIAL_LINKS" :key="item.label">
               <a :href="item.href" :aria-label="item.label">
@@ -16,12 +16,12 @@
           </ul>
         </div>
         <!-- 導覽：桌機、平板在右邊一排；手機在品牌下方、放不下就換行 -->
-        <nav class="nav text-small" aria-label="頁尾導覽">
+        <nav class="nav text-note" aria-label="頁尾導覽">
           <a v-for="item in NAV_LINKS" :key="item.label" :href="item.href">{{ item.label }}</a>
         </nav>
       </div>
       <hr class="divider" />
-      <div class="bottom text-note">
+      <div class="bottom text-copyrightnote">
         <p>本平台為個人專題作品，僅供作品集展示之用。</p>
         <p>© 2026 Amilu. All rights reserved.</p>
       </div>
@@ -99,7 +99,7 @@ a {
 .top {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 
   @include tablet-up {
     flex-direction: row;
@@ -112,19 +112,19 @@ a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 8px;
 }
 
 .logo {
   display: block;
-  width: 120px;
+  width: 80px;
   height: auto;
 }
 
 .social {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -132,6 +132,7 @@ a {
   & a,
   & img {
     display: block;
+    width: 20px;
   }
 }
 
@@ -139,7 +140,7 @@ a {
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) var(--space-3);
+  gap: var(--space-1) var(--space-2);
   white-space: nowrap;
 
   @include tablet-up {
@@ -166,12 +167,15 @@ a {
 // 手機上下排、間距 8；平板以上左右分開
 .bottom {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: var(--space-1);
 
   @include tablet-up {
     flex-direction: row;
     justify-content: space-between;
   }
+}
+.text-copyrightnote {
+  font-size: 8px;
 }
 </style>

@@ -1,9 +1,5 @@
 <template>
-  <button
-    type="button"
-    class="text-button-sm chip"
-    :class="{ 'chip--outline': variant === 'outline' }"
-  >
+  <button type="button" class="text-note chip" :class="{ 'chip--outline': variant === 'outline' }">
     <img
       :src="base + (variant === 'outline' ? 'icons/cross-black.svg' : 'icons/cross-white.svg')"
       alt=""
@@ -39,7 +35,7 @@ const base = import.meta.env.BASE_URL
   align-items: center;
   gap: 4px;
   width: fit-content;
-  padding: 10px 12px;
+  padding: 4px 8px;
   border: none;
   border-radius: 10px;
   background: var(--color-bg-inverse);
@@ -48,8 +44,9 @@ const base = import.meta.env.BASE_URL
   transition: opacity 0.2s ease;
 
   & > img {
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
+    opacity: 0.7;
   }
 }
 

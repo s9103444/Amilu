@@ -1,5 +1,5 @@
 <template>
-  <span class="commercial-tag"><slot>可商用</slot></span>
+  <span class="commercial-tag text-note"><slot>可商用</slot></span>
 </template>
 
 <script setup lang="ts">
@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 8px;
   background: var(--color-bg-main);
   color: var(--color-text-secondary);

@@ -105,6 +105,7 @@ function onPick(key: string) {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/breakpoints' as bp;
 // 拿掉 <ul> 預設的圓點和左邊空白（子選單的 <ul> 也一起）
 // .panel 的 padding 不會被這裡的 0 蓋掉：class 選擇器比標籤選擇器優先，跟先後順序無關
 ul {
@@ -117,6 +118,11 @@ ul {
 .user-menu {
   position: relative;
   width: fit-content;
+  margin-inline: 4px;
+
+  @include bp.tablet-up {
+    margin-inline: 0;
+  }
 }
 
 // 面板：浮在按鈕正下方、對齊右邊（頭像在 header 最右邊，面板往左長才不會超出畫面）（Figma 719:14347）

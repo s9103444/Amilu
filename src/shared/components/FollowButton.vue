@@ -2,13 +2,10 @@
   <button
     class="btn"
     type="button"
-    :class="[
-      size === 'xs' ? 'text-small btn--xs' : 'text-button-sm',
-      { 'btn--followed': followed },
-    ]"
+    :class="[size === 'xs' ? 'btn--xs' : 'text-button-sm', { 'btn--followed': followed }]"
   >
-    <span class="label" :class="{ 'label--hidden': followed }">Follow +</span>
-    <span class="label" :class="{ 'label--hidden': !followed }">Followed</span>
+    <span class="label text-note" :class="{ 'label--hidden': followed }">Follow +</span>
+    <span class="label text-note" :class="{ 'label--hidden': !followed }">Followed</span>
   </button>
 </template>
 
@@ -39,13 +36,13 @@ withDefaults(
   align-items: center;
   justify-items: center;
   border-radius: var(--radius-button);
-  color: var(--color-text-primary);
+  color: var(--color-button-secondary);
   background: transparent;
   border: 1px solid currentColor;
   transition:
-    color 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 // 小尺寸：只改留白和圓角，顏色和狀態跟一般尺寸一樣
 .btn--xs {
@@ -67,8 +64,8 @@ withDefaults(
 @media (hover: hover) {
   .btn:not(.btn--followed):hover {
     color: var(--color-text-on-dark);
-    border-color: var(--color-text-primary);
-    background: var(--color-text-primary);
+    border-color: var(--color-button-secondary);
+    background: var(--color-button-secondary);
   }
 }
 </style>

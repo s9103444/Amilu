@@ -16,7 +16,7 @@
   </div>
   <!-- 已選擇列（Figma 490:490）：把目前的篩選值畫出來，點一顆就取消那個篩選；什麼都沒選時整列不顯示 -->
   <div class="selected-row" v-if="hasSelection">
-    <span class="text-caption">已選擇</span>
+    <span class="text-small">已選擇</span>
     <div class="selected-chips">
       <!-- 黑底：三顆下拉各最多一個值，所以用 v-if 判斷有沒有選，不用 v-for -->
       <!-- 【點黑底標籤時】把值改回「沒選」；v-model 是雙向的，下拉選單也會跟著回到沒選 -->
@@ -48,6 +48,7 @@
         :title="card.title"
         :author-id="card.author_id"
         @click="openCard(card)"
+        :author-avatar-url="card.author_avatar_url"
       />
     </div>
   </div>
@@ -81,6 +82,7 @@ import {
   fetchWorkImages,
   fetchCommissionItems,
   fetchCommissionImages,
+  fetchAuthor,
 } from '@/features/explore/api'
 import { useGalleryColumns } from '@/features/explore/composables/useGalleryColumns'
 import WorkCard from '@/features/explore/components/WorkCard.vue'
@@ -161,6 +163,13 @@ async function loadWorks() {
   const items = wantItems ? await fetchCommissionItems(filter) : []
   const workImages = await fetchWorkImages()
   const itemImages = await fetchCommissionImages()
+  // 卡片要作者大頭照：作品裡只有作者 id，先把出現過的作者抓回來
+  // 內層 [...a, ...b] 接成一個陣列 → new Set 去重複（同一人只抓一次）→ 外層 [...] 轉回陣列才能 map
+  const authorIds = [
+    ...new Set([...works.map((work) => work.user_id), ...items.map((item) => item.creator_id)]),
+  ]
+  // 每個作者同時去抓，全部回來才往下；結果順序同 authorIds，查不到的人是 null
+  const authors = await Promise.all(authorIds.map((id) => fetchAuthor(id)))
 
   // ③ 轉成同一個形狀；封面在這裡就找好：用 id 去圖片清單找 seq_no 1，找不到用 ?? 換成空字串
   const workCards = works.map((work): GalleryCard => ({
@@ -172,6 +181,7 @@ async function loadWorks() {
     title: work.title,
     author_id: work.user_id,
     created_at: work.created_at,
+    author_avatar_url: authors.find((author) => author?.id === work.user_id)?.avatar_url ?? null,
   }))
   const itemCards = items.map((item): GalleryCard => ({
     id: item.item_id,
@@ -182,6 +192,7 @@ async function loadWorks() {
     title: item.title,
     author_id: item.creator_id,
     created_at: item.created_at,
+    author_avatar_url: authors.find((author) => author?.id === item.creator_id)?.avatar_url ?? null,
   }))
 
   // ④ 合併後新到舊；created_at 格式都一樣（ISO＋08:00），字串比大小就等於比時間
@@ -308,7 +319,7 @@ watch([contentType, category, purpose, selectedTags], loadWorks, { deep: true })
 .selected-row {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   margin-top: var(--space-4);
 }
 
@@ -323,7 +334,7 @@ watch([contentType, category, purpose, selectedTags], loadWorks, { deep: true })
 .selected-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 10px;
   min-width: 0;
 }
 

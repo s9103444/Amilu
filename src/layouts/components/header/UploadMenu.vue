@@ -55,6 +55,7 @@ ul {
 // 外框：讓選單以這裡為基準定位
 .upload-menu {
   position: relative;
+  margin-inline: 4px;
 }
 
 // 上傳圖示：兩張圖疊在一起，滑過去換 hover 那張

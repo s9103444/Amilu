@@ -6,7 +6,6 @@
           <WorkInfo :title="work.title" :description="work.content" :tags="tags" />
         </div>
         <template v-if="author?.bio">
-          <hr class="divider" />
           <CommissionRules title="作者簡介">{{ author.bio }}</CommissionRules>
         </template>
       </template>
@@ -73,7 +72,7 @@ watch(
 // Figma 作品內容上方多留 18
 // 不能叫 .work-info：WorkInfo 的根元素也叫這個名字，會被套兩次（上方變 36）
 .work-content {
-  padding-top: 18px;
+  padding-top: 4px;
 }
 
 .divider {

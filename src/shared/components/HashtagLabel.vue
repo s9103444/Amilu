@@ -2,7 +2,7 @@
   <button v-if="variant === 'button'" type="button" class="text-small hashtag hashtag--button">
     <slot></slot>
   </button>
-  <span v-else class="text-small hashtag"><slot></slot></span>
+  <span v-else class="text-note hashtag"><slot></slot></span>
 </template>
 
 <script setup lang="ts">
