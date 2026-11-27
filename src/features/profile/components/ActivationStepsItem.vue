@@ -7,7 +7,7 @@
         <span v-else>{{ number }}</span>
       </div>
       <div class="step-title-content">
-        <div class="step-title text-title">
+        <div class="step-title text-caption">
           <!-- Step 和編號中間沒有空白，編號和標題中間是全形空白，照 Figma -->
           <span>Step{{ number }}　{{ title }}</span>
           <StepStatusTag :done="done" />
@@ -100,6 +100,7 @@ const base = import.meta.env.BASE_URL
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 8px; // 換行後上下 4px，同一行左右 8px
+  font-weight: 600;
 }
 
 .note {

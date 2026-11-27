@@ -1,5 +1,5 @@
 // profile 功能的「後端呼叫」：頁面一律呼叫這裡，不直接 import mocks（structure.md 3.2）
-// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me、GET／PATCH /me/creator-settings、PATCH /me/creator-settings/amilu-light、GET /works/{id}、GET /commission-items/{id}、POST /works、POST /commission-items、PATCH /works/{id}、PATCH /commission-items/{id}（api.md 草案），頁面不用動
+// 現在是假的，後端好了改成呼叫 PATCH /me/profile、DELETE /me、GET／PATCH /me/creator-settings、PATCH /me/creator-settings/amilu-light、GET /works/{id}、GET /commission-items/{id}、POST /works、POST /commission-items、PATCH /works/{id}、PATCH /commission-items/{id}、GET /me/creator-onboarding（api.md 草案），頁面不用動
 import { useAuthStore } from '@/features/account/store'
 import { MOCK_ORDER_IN_PROGRESS, MOCK_ORDER_THREE_STAGE, MOCK_ORDER_COMPLETED } from '@/mocks/order'
 import { MOCK_CREATOR_PROFILES } from '@/mocks/creatorProfile'
@@ -12,6 +12,7 @@ import type {
   NewCommissionItem,
   CommissionItemChanges,
   WorkChanges,
+  CreatorOnboarding,
 } from '@/features/profile/types'
 import { MOCK_WORKS, MOCK_WORK_IMAGES, MOCK_WORK_TAGS } from '@/mocks/work'
 import { MOCK_TAGS } from '@/mocks/tag'
@@ -316,4 +317,24 @@ export async function updateCommissionItem(
     }
     MOCK_COMMISSION_ITEM_TAGS.push({ item_id: itemId, tag_id: tag.tag_id })
   })
+}
+
+// 【流程①：ActivationPage 打開時呼叫】開通三步驟各完成了沒（GET /me/creator-onboarding，features.md 3.4）
+// 沒登入回 null；完成狀態不存，每次都從資料推出來
+export async function fetchCreatorOnboarding(): Promise<CreatorOnboarding | null> {
+  const user = useAuthStore().currentUser
+  if (!user) return null
+  // Step2：填過接案設定才會有 CREATOR_PROFILE 這一筆
+  const settingDone = MOCK_CREATOR_PROFILES.some((profile) => profile.user_id === user.id)
+  // Step3：至少 1 筆可委託項目是他建的（比的是建立者 creator_id）
+  const hasCommissionItem = MOCK_COMMISSION_ITEMS.some((item) => item.creator_id === user.id)
+  // 遮罩：0912345678 → 0912-***-678（前 4 碼＋後 3 碼）；沒手機就是 null，其他欄位照常回傳
+  const phone = user.phone_number
+  const maskedPhone = phone ? `${phone.slice(0, 4)}-***-${phone.slice(-3)}` : null
+  return {
+    phone_verified: user.phone_verified, // Step1：直接讀 USER 的驗證狀態，有號碼不代表驗證過
+    masked_phone: maskedPhone,
+    settings_done: settingDone,
+    has_commission_item: hasCommissionItem,
+  }
 }

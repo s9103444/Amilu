@@ -1,5 +1,5 @@
 <template>
-  <span class="text-small step-status-tag" :class="{ 'step-status-tag--done': done }">
+  <span class="text-note step-status-tag" :class="{ 'step-status-tag--done': done }">
     {{ done ? '已完成' : '未完成' }}
   </span>
 </template>
@@ -23,7 +23,7 @@ defineProps<{
 .step-status-tag {
   display: inline-block;
   width: fit-content;
-  padding: 2px 12px;
+  padding: 2px 8px;
   border-radius: 999px;
   background: var(--color-bg-subtle);
   color: var(--color-text-secondary);

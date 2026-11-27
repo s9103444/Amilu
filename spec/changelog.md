@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/27
+
+- API（api.md 2.3）：定出 `GET /me/creator-onboarding` 的回應：`phone_verified`、`masked_phone`（後端遮罩，完整號碼不送前端）、`settings_done`（有 `CREATOR_PROFILE`）、`has_commission_item`（至少 1 筆可委託項目）。
+
 ## 2026/11/25
 
 - API（api.md 2.3、5.2、新增 5.9）：新增 `PATCH /works/{id}`（編輯一般作品）。作品、可委託項目的新增與編輯定出送法：multipart，`tags`、`images` 用同名欄位重複送；編輯整份覆蓋，圖片用 `kept_image_urls` 指出留下的舊圖、`images` 送新圖，後端刪掉沒留的舊圖並重編 `seq_no`（舊圖在前、新圖在後）。

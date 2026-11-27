@@ -76,3 +76,9 @@ export type NewCommissionItem = {
 export type CommissionItemChanges = NewCommissionItem & {
   kept_image_urls: string[] // 留下的舊圖網址，照畫面順序；不在這裡的舊圖後端會刪掉
 }
+export type CreatorOnboarding = {
+  phone_verified: boolean
+  masked_phone: string | null // 例如 0912-***-678；後端遮好才回傳；沒手機是 null
+  settings_done: boolean // 有沒有 CREATOR_PROFILE
+  has_commission_item: boolean // 至少 1 筆可委託項目
+}

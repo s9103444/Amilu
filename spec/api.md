@@ -96,6 +96,15 @@
 | `payment_due_at` | `PAYMENT.due_at` | 產生 ATM 虛擬帳號後才有，之前是 null |
 | `current_stage` | `ORDER_STAGE` | 第一個未確認的階段 `{ stage_no, deadline }`；製作中以外是 null |
 
+`GET /me/creator-onboarding` 的回應（2026/11/27 定）：三步驟各完成了沒，完成狀態不存，每次由資料推出來。
+
+| 欄位 | 來源 | 說明 |
+| --- | --- | --- |
+| `phone_verified` | `USER.phone_verified` | Step1；有號碼不代表驗證過 |
+| `masked_phone` | `USER.phone_number` | 後端遮好才回傳（前 4 碼＋後 3 碼，例如 `0912-***-678`），完整號碼不送到前端；沒手機是 null |
+| `settings_done` | `CREATOR_PROFILE` | Step2；有這個人的 `CREATOR_PROFILE` 就算完成 |
+| `has_commission_item` | `COMMISSION_ITEM` | Step3；至少 1 筆 `creator_id` 是他的可委託項目 |
+
 ### 2.4 模組四｜委託流程與協作
 
 | 方法與路徑                                                                                                                             | 用途                                                                                                                                            | 對應畫面                                                                 | 對應資料表                                            |

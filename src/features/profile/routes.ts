@@ -9,4 +9,9 @@ export const profileRoutes = [
     name: 'creator-settings',
     component: () => import('@/features/profile/pages/CreatorSettingsPage.vue'),
   },
+  {
+    path: 'me/activate',
+    name: 'creator-activate',
+    component: () => import('@/features/profile/pages/ActivationPage.vue'),
+  },
 ]

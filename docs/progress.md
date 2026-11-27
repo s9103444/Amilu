@@ -12,6 +12,7 @@
 
 拼裝頁面：個人資料設定頁完成儲存、大頭照、刪除帳號（2026/11/18）；登入已接假資料，註冊送出還沒做。
 個人專頁上傳燈箱：新增、編輯、刪除都能存（2026/11/26，假資料），見下方「個人專頁」；剩**瀏覽器確認**第 1～4 件，和 header 送出後重抓。
+開通創作者模式：`/me/activate` 第 1、2 輪完成（2026/11/27），見下方「開通創作者模式」；下一步是**第 3 輪：三顆步驟按鈕**。
 下一步：路由守衛（沒登入進 `/me/*` 導回登入頁）；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
@@ -160,6 +161,15 @@
     - ✅ 第 4 件 刪除（2026/11/26）：`deleteWork`／`deleteCommissionItem` 放 `explore/api.ts`（呼叫的頁面在 explore），假 DELETE 真刪主表＋圖片列＋標籤列；`ORDER.item_id` 設空留 TODO（mock 訂單沒有這欄）；⬜ 瀏覽器確認
     - ⬜ header 送出後要重抓（AppHeader TODO）；未開通者導去開通流程（等開通頁）
 - ⬜ 追蹤清單燈箱（features.md 2.8）、follow 按鈕（看別人的頁才有）
+
+## 開通創作者模式（2026/11/27 開始，`/me/activate`，Figma 581:5741，features.md 3.4）
+
+- ✅ 第 1 輪 頁面骨架：`profile/pages/ActivationPage.vue`＋路由 `me/activate`；麵包屑、`InfoBox`、`ActivationSteps`、底部「還有 N 個步驟未完成」＋「確認開通」（`remainingCount` 算，未完成就反灰）；版心同接案設定頁
+- ✅ 第 2 輪 接 API：`CreatorOnboarding`＋`fetchCreatorOnboarding()`（假 `GET /me/creator-onboarding`，回應形狀定進 api.md 2.3）；Step1 讀 `phone_verified`、Step2 看有沒有 `CREATOR_PROFILE`、Step3 看有沒有自己的可委託項目；手機號碼遮成 `0912-***-678`；⬜ 瀏覽器確認（切 im_temp_id／painter_01／a_very_long… 三個身份）
+- ⬜ 第 3 輪 三顆步驟按鈕（`@action` 依 key）：Step3 開 `CommissionItemLightbox`，存好重抓；Step1 去手機驗證頁（還沒做）；Step2 去接案設定——**要先處理**：`CreatorSettingsPage` 沒開通時只顯示 EmptyState，填不了表單（spec 3.4：沿用欄位、不顯示唯讀開通狀態）
+- ⬜ 第 4 輪 確認開通：假 `POST /me/creator-onboarding/confirm`，`store_approved` 設 true → 換到 `/me/activate/done`
+- ⬜ 第 5 輪 開通成功頁 `/me/activate/done`（按鈕：前往接案設定、前往個人專頁）；接上各處「前往開通」（約稿管理空狀態、接案設定 EmptyState、header 上傳未開通）
+- 待改 spec：structure.md 3.5 寫這頁有「左側選單」，Figma 與接案設定頁都沒有，先照 Figma
 
 ## 預定
 
