@@ -232,4 +232,6 @@ FigJam 上有四張標題為「備註」的便利貼，貼在對應的表旁邊�
 
 16. **已決議、Figma 待同步**（2026/11/24）：上傳委託項目燈箱的分段方案選項，Figma 寫「單段（草稿 > 完稿）」，以 spec 為準改成「三點分段（草稿 > 精稿 > 完稿）」（features.md 3.3、order-lifecycle.md 的 `stage_no` 1／4／5）。前端照 spec 做。
 
+17. **已決議、Figma 待同步**（2026/11/28）：接案設定頁未開通的空狀態（Figma 553:2468）作廢，改成顯示表單但藏起 Amilu 燈與開通狀態（features.md 3.5）。
+
 另外 --Amilu repo 的 `討論紀錄/延伸檔案/ER模型-實體初步草案.md`（不在這個 repo，見 [README](README.md#外部連結)）是較早的文字草案，若與 FigJam 不一致，以 FigJam 為準。

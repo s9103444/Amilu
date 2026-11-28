@@ -77,7 +77,7 @@ export async function deleteAccount() {
     }
   }
 }
-// 【流程①-1：CreatorSettingsPage 打開時呼叫】讀我的接案設定；沒有這筆（沒開通過）回 null
+// 【流程①-1：CreatorSettingsPage 打開時呼叫】讀我的接案設定；沒登入、或從來沒填過（還沒有 CREATOR_PROFILE）回 null
 export async function fetchCreatorSettings(): Promise<CreatorSettings | null> {
   const user = useAuthStore().currentUser
   if (!user) return null
@@ -95,12 +95,26 @@ export type CreatorSettingsChanges = Pick<
 >
 
 // 【流程③-1：CreatorSettingsPage 檢查通過後呼叫】PATCH /me/creator-settings，回傳後端存好的整份設定
-// 假資料：把改的欄位蓋到目前那筆上回傳，不改 MOCK_CREATOR_PROFILES（重新整理後回到原值，同 updateProfile）
+// 假資料：
+//   第一次填（還沒有這筆）：新建一筆放進 MOCK_CREATOR_PROFILES，開通頁 Step2 才會打勾、再進來才讀得到（features.md 3.5）
+//   已經有這筆：把改的欄位蓋到目前那筆上回傳，不改 MOCK_CREATOR_PROFILES（重新整理後回到原值，同 updateProfile）
 export async function updateCreatorSettings(
   changes: CreatorSettingsChanges,
 ): Promise<CreatorSettings> {
   const current = await fetchCreatorSettings()
-  if (!current) throw new Error('尚未開通創作者模式') // 頁面只有已開通才看得到儲存鈕，正常不會走到這裡
+  const user = useAuthStore().currentUser
+  if (!user) throw new Error('尚未登入') // 看得到接案設定頁的人一定已登入，正常不會走到這裡
+  // 【第一次填】燈預設開放（features.md 3.6）、還沒開通
+  if (!current) {
+    const newCurrent: CreatorSettings = {
+      user_id: user.id,
+      ...changes,
+      light_status: '開放',
+      store_approved: false,
+    }
+    MOCK_CREATOR_PROFILES.push(newCurrent)
+    return newCurrent
+  }
   return { ...current, ...changes }
 }
 

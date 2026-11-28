@@ -12,7 +12,7 @@
 
 拼裝頁面：個人資料設定頁完成儲存、大頭照、刪除帳號（2026/11/18）；登入已接假資料，註冊送出還沒做。
 個人專頁上傳燈箱：新增、編輯、刪除都能存（2026/11/26，假資料），見下方「個人專頁」；剩**瀏覽器確認**第 1～4 件，和 header 送出後重抓。
-開通創作者模式：`/me/activate` 第 1、2 輪完成（2026/11/27），見下方「開通創作者模式」；下一步是**第 3 輪：三顆步驟按鈕**。
+開通創作者模式：`/me/activate` 第 1、2 輪完成（2026/11/27）；接案設定頁改成沒開通也能填（2026/11/29，第 3 輪的前置），見下方「開通創作者模式」；下一步是**第 3 輪：三顆步驟按鈕**。
 下一步：路由守衛（沒登入進 `/me/*` 導回登入頁）；作品展示燈箱、委託商店燈箱（見下方「預定」）；首頁作品牆還欠**瀏覽器確認**篩選與混排、Amilu 燈過濾。
 
 - 分支：在 `timmi` 上開發，最新 commit 見 `git log`。
@@ -166,7 +166,9 @@
 
 - ✅ 第 1 輪 頁面骨架：`profile/pages/ActivationPage.vue`＋路由 `me/activate`；麵包屑、`InfoBox`、`ActivationSteps`、底部「還有 N 個步驟未完成」＋「確認開通」（`remainingCount` 算，未完成就反灰）；版心同接案設定頁
 - ✅ 第 2 輪 接 API：`CreatorOnboarding`＋`fetchCreatorOnboarding()`（假 `GET /me/creator-onboarding`，回應形狀定進 api.md 2.3）；Step1 讀 `phone_verified`、Step2 看有沒有 `CREATOR_PROFILE`、Step3 看有沒有自己的可委託項目；手機號碼遮成 `0912-***-678`；⬜ 瀏覽器確認（切 im_temp_id／painter_01／a_very_long… 三個身份）
-- ⬜ 第 3 輪 三顆步驟按鈕（`@action` 依 key）：Step3 開 `CommissionItemLightbox`，存好重抓；Step1 去手機驗證頁（還沒做）；Step2 去接案設定——**要先處理**：`CreatorSettingsPage` 沒開通時只顯示 EmptyState，填不了表單（spec 3.4：沿用欄位、不顯示唯讀開通狀態）
+- ⬜ 第 3 輪 三顆步驟按鈕（`@action` 依 key）：Step3 開 `CommissionItemLightbox`，存好重抓；Step1 去手機驗證頁（還沒做）；Step2 去接案設定（存好回清單：按鈕帶 `?from=activate`，還沒做）
+  - ✅ 前置（2026/11/29）：接案設定頁沒開通也能填（spec 3.5 改寫＋changelog）：拿掉 EmptyState、「接案狀態」卡片（開通狀態＋燈）限已開通；`isDirty` 沒設定時回 true；燈舊值預設「開放」；`updateCreatorSettings` 第一次填就新建一筆 push 進 `MOCK_CREATOR_PROFILES`；⬜ 瀏覽器確認（第 1～3、5 項：空白表單、紅字、儲存、已開通者不變）
+  - ℹ️ Step2 打勾現在測不到：app 裡還沒有連結進 `/me/activate`，網址列輸入會整頁重載、push 的資料消失。等第 3 輪 Step2 按鈕做好，走「開通頁 → 接案設定 → 存好回開通頁」再測
 - ⬜ 第 4 輪 確認開通：假 `POST /me/creator-onboarding/confirm`，`store_approved` 設 true → 換到 `/me/activate/done`
 - ⬜ 第 5 輪 開通成功頁 `/me/activate/done`（按鈕：前往接案設定、前往個人專頁）；接上各處「前往開通」（約稿管理空狀態、接案設定 EmptyState、header 上傳未開通）
 - 待改 spec：structure.md 3.5 寫這頁有「左側選單」，Figma 與接案設定頁都沒有，先照 Figma

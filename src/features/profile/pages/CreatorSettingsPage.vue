@@ -6,131 +6,119 @@
       <p class="text-small breadcrumb">首頁／接案設定</p>
       <h1 class="text-h2">接案設定</h1>
     </div>
-    <!-- 未開通（Figma 553:2468）：沒有 CREATOR_PROFILE，或 store_approved 是 false，不顯示表單（features.md 3.5） -->
-    <EmptyState
-      v-if="!isActivated"
-      icon="icons/store.svg"
-      title="尚未開通創作者模式"
-      description="開通後即可設定收款帳戶、訂金比例與修改次數。"
-    >
-      <!-- 開通頁 /me/activate 還沒做，先不接 -->
-      <template #action><Button>前往開通</Button></template>
-    </EmptyState>
-    <!-- 已開通（Figma 553:2351）：能看到這裡的人一定已開通，所以「已開通」直接寫死 -->
-    <template v-else>
-      <InfoBox>修改設定只影響之後的新委託，已成立的案件會照當時的設定進行。</InfoBox>
 
-      <section class="card">
-        <h2 class="text-h3 card-title">接案狀態</h2>
-        <div class="field">
-          <div class="field-title">
-            <p class="text-caption">創作者商店狀態</p>
-            <p class="text-note hint">唯讀，由系統依開通申請判斷</p>
-          </div>
-          <span class="text-small store-status">已開通</span>
-        </div>
-        <hr class="divider" />
-        <!-- Amilu 燈：手動開關；第 3 輪儲存時，有改才另外打 PATCH /me/creator-settings/amilu-light（features.md 3.5） -->
-        <div class="field">
-          <p class="text-caption">Amilu 燈</p>
-          <div class="options">
-            <OptionButton v-model="lightStatus" name="light" value="開放">開放</OptionButton>
-            <OptionButton v-model="lightStatus" name="light" value="暫停">暫停</OptionButton>
-          </div>
-          <p class="text-note hint">
-            暫停時，你的可委託項目不會出現在首頁，委託人也無法送出新委託。
-          </p>
-        </div>
-      </section>
+    <!-- Figma 553:2351。沒開通的人也看得到表單（features.md 3.5）；只有「接案狀態」卡片（開通狀態＋Amilu 燈）限已開通才顯示，所以卡片裡「已開通」直接寫死 -->
 
-      <section class="card">
-        <h2 class="text-h3 card-title">收款與委託條件</h2>
-        <!-- 收款帳戶：銀行代碼、帳號、戶名，字數上限對齊 CREATOR_PROFILE 欄位長度 -->
-        <div class="field">
-          <div class="field-title">
-            <p class="text-caption">收款帳戶</p>
-            <p class="text-note required">必填</p>
-          </div>
-          <div class="payout-row">
-            <FormInput
-              v-model="bankCode"
-              :maxlength="3"
-              :error="errors.bankCode"
-              inputmode="numeric"
-              placeholder="例如：812"
-              >銀行代碼</FormInput
-            >
-            <FormInput
-              v-model="accountNo"
-              :maxlength="20"
-              inputmode="numeric"
-              :error="errors.accountNo"
-              placeholder="請輸入收款帳號"
-              >帳號</FormInput
-            >
-            <FormInput
-              v-model="accountName"
-              :maxlength="50"
-              :error="errors.accountName"
-              placeholder="請輸入戶名"
-              >戶名</FormInput
-            >
-          </div>
-        </div>
-        <hr class="divider" />
-        <!-- 訂金比例：三選一；說明前面有 info 圖示 -->
-        <div class="field">
-          <p class="text-caption">訂金比例</p>
-          <div class="options">
-            <OptionButton v-model="depositPercent" name="deposit" value="30%">30%</OptionButton>
-            <OptionButton v-model="depositPercent" name="deposit" value="50%">50%</OptionButton>
-            <!-- 資料值仍是「無需先支付」（data-model），畫面改寫成「不收訂金」：避免被看成「委託人可以先不付錢」（2026/11/19，Figma 待同步） -->
-            <OptionButton v-model="depositPercent" name="deposit" value="無需先支付"
-              >不收訂金（一次付清）</OptionButton
-            >
-          </div>
-          <div class="hint-row">
-            <img src="/icons/info.svg" alt="" />
-            <p class="text-note hint">
-              選 30%／50%
-              時，委託人可以只先付訂金；若中途終止還有應付差額，平台會鎖定委託人帳號直到付清，但無法強制收款。選「不收訂金」時，委託人須一次付清全額。
-            </p>
-          </div>
-        </div>
+    <InfoBox>修改設定只影響之後的新委託，已成立的案件會照當時的設定進行。</InfoBox>
 
-        <hr class="divider" />
-        <!-- 修改次數：輸入框沒有標籤，旁邊接「次」 -->
-        <div class="field">
-          <div class="field-title">
-            <p class="text-caption">修改次數</p>
-            <p class="text-note required">必填</p>
-          </div>
-          <div class="revision-row">
-            <FormInput
-              v-model="revisionCount"
-              :maxlength="3"
-              :error="errors.revisionCount"
-              inputmode="numeric"
-              label-hidden
-              >修改次數</FormInput
-            >
-            <span class="text-caption">次</span>
-          </div>
-          <p class="text-note hint">
-            會以「包含 X
-            次修改」的文字，唯讀顯示在委託申請頁、報價頁與委託討論牆；系統不會計次或攔截。
-          </p>
+    <section v-if="isActivated" class="card">
+      <h2 class="text-h3 card-title">接案狀態</h2>
+      <div class="field">
+        <div class="field-title">
+          <p class="text-caption">創作者商店狀態</p>
+          <p class="text-note hint">唯讀，由系統依開通申請判斷</p>
         </div>
-      </section>
-      <!-- 按鈕列在卡片外面，靠右（Figma 553:2463） -->
-      <div class="actions">
-        <!-- 【流程②：按「取消變更」時觸發】草稿全部還原成後端的值 -->
-        <Button variant="outline" @click="resetDrafts()">取消變更</Button>
-        <!-- 沒改過（isDirty 是 false）就是灰的、不能按 -->
-        <!-- 【流程③：按「儲存設定」時觸發】 -->
-        <Button :disabled="!isDirty" @click="handleSave">儲存設定</Button>
+        <span class="text-small store-status">已開通</span>
       </div>
-    </template>
+      <hr class="divider" />
+      <!-- Amilu 燈：手動開關；第 3 輪儲存時，有改才另外打 PATCH /me/creator-settings/amilu-light（features.md 3.5） -->
+      <div class="field">
+        <p class="text-caption">Amilu 燈</p>
+        <div class="options">
+          <OptionButton v-model="lightStatus" name="light" value="開放">開放</OptionButton>
+          <OptionButton v-model="lightStatus" name="light" value="暫停">暫停</OptionButton>
+        </div>
+        <p class="text-note hint">暫停時，你的可委託項目不會出現在首頁，委託人也無法送出新委託。</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="text-h3 card-title">收款與委託條件</h2>
+      <!-- 收款帳戶：銀行代碼、帳號、戶名，字數上限對齊 CREATOR_PROFILE 欄位長度 -->
+      <div class="field">
+        <div class="field-title">
+          <p class="text-caption">收款帳戶</p>
+          <p class="text-note required">必填</p>
+        </div>
+        <div class="payout-row">
+          <FormInput
+            v-model="bankCode"
+            :maxlength="3"
+            :error="errors.bankCode"
+            inputmode="numeric"
+            placeholder="例如：812"
+            >銀行代碼</FormInput
+          >
+          <FormInput
+            v-model="accountNo"
+            :maxlength="20"
+            inputmode="numeric"
+            :error="errors.accountNo"
+            placeholder="請輸入收款帳號"
+            >帳號</FormInput
+          >
+          <FormInput
+            v-model="accountName"
+            :maxlength="50"
+            :error="errors.accountName"
+            placeholder="請輸入戶名"
+            >戶名</FormInput
+          >
+        </div>
+      </div>
+      <hr class="divider" />
+      <!-- 訂金比例：三選一；說明前面有 info 圖示 -->
+      <div class="field">
+        <p class="text-caption">訂金比例</p>
+        <div class="options">
+          <OptionButton v-model="depositPercent" name="deposit" value="30%">30%</OptionButton>
+          <OptionButton v-model="depositPercent" name="deposit" value="50%">50%</OptionButton>
+          <!-- 資料值仍是「無需先支付」（data-model），畫面改寫成「不收訂金」：避免被看成「委託人可以先不付錢」（2026/11/19，Figma 待同步） -->
+          <OptionButton v-model="depositPercent" name="deposit" value="無需先支付"
+            >不收訂金（一次付清）</OptionButton
+          >
+        </div>
+        <div class="hint-row">
+          <img src="/icons/info.svg" alt="" />
+          <p class="text-note hint">
+            選 30%／50%
+            時，委託人可以只先付訂金；若中途終止還有應付差額，平台會鎖定委託人帳號直到付清，但無法強制收款。選「不收訂金」時，委託人須一次付清全額。
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <!-- 修改次數：輸入框沒有標籤，旁邊接「次」 -->
+      <div class="field">
+        <div class="field-title">
+          <p class="text-caption">修改次數</p>
+          <p class="text-note required">必填</p>
+        </div>
+        <div class="revision-row">
+          <FormInput
+            v-model="revisionCount"
+            :maxlength="3"
+            :error="errors.revisionCount"
+            inputmode="numeric"
+            label-hidden
+            >修改次數</FormInput
+          >
+          <span class="text-caption">次</span>
+        </div>
+        <p class="text-note hint">
+          會以「包含 X
+          次修改」的文字，唯讀顯示在委託申請頁、報價頁與委託討論牆；系統不會計次或攔截。
+        </p>
+      </div>
+    </section>
+    <!-- 按鈕列在卡片外面，靠右（Figma 553:2463） -->
+    <div class="actions">
+      <!-- 【流程②：按「取消變更」時觸發】草稿全部還原成後端的值 -->
+      <Button variant="outline" @click="resetDrafts()">取消變更</Button>
+      <!-- 沒改過（isDirty 是 false）就是灰的、不能按 -->
+      <!-- 【流程③：按「儲存設定」時觸發】 -->
+      <Button :disabled="!isDirty" @click="handleSave">儲存設定</Button>
+    </div>
   </div>
 </template>
 
@@ -142,7 +130,6 @@ import {
   updateCreatorSettings,
   updateAmiluLight,
 } from '@/features/profile/api'
-import EmptyState from '@/shared/components/EmptyState.vue'
 import InfoBox from '@/shared/components/InfoBox.vue'
 import Button from '@/shared/components/Button.vue'
 import type { LightStatus, DepositPercent } from '@/features/profile/types'
@@ -152,8 +139,8 @@ import SavedToast from '@/shared/components/SavedToast.vue'
 /*
 頁面：接案設定（/me/settings，Figma 1053:14412，features.md 3.5）
 */
-const settings = ref<CreatorSettings | null>(null) // 後端回來的設定；null ＝ 還沒拿到，或沒開通過
-// 有設定、而且 store_approved 是 true，才算已開通；模板用它決定顯示空狀態還是表單
+const settings = ref<CreatorSettings | null>(null) // 後端回來的設定；null ＝ 還沒拿到，或從來沒填過（還沒有 CREATOR_PROFILE）
+// 有設定、而且 store_approved 是 true，才算已開通；模板用它決定要不要顯示「接案狀態」卡片
 const isActivated = computed(() => settings.value?.store_approved === true)
 
 // 草稿：表單上正在改的值；按儲存前不會動到 settings
@@ -186,13 +173,13 @@ function resetDrafts() {
 // 【流程①：頁面打開時跑一次】讀我的接案設定
 onMounted(async () => {
   settings.value = await fetchCreatorSettings()
-  resetDrafts() // 【流程②】拿到設定才複製進草稿，表單才有值；沒開通時 settings 是 null，resetDrafts 會直接結束
+  resetDrafts() // 【流程②】拿到設定才複製進草稿，表單才有值；沒填過時 settings 是 null，resetDrafts 會直接結束，草稿維持空白
 })
 
 // 有沒有改過：任何一格和後端的值不同就是 true；草稿或 settings 一變就會重算，儲存鈕靠它決定能不能按
 const isDirty = computed(() => {
   const s = settings.value
-  if (!s) return false
+  if (!s) return true // 從來沒填過：畫面上的任何東西都是新的，都可以存；空欄位交給 handleSave 的檢查擋
   return (
     lightStatus.value !== s.light_status ||
     bankCode.value !== s.payout_bank_code ||
@@ -221,8 +208,9 @@ async function handleSave() {
     revision_count: Number(revisionCount.value),
   })
   // ③ Amilu 燈走另一支 API，有改才送（features.md 3.5）
-  // light ＝ 存好之後的燈：先假設沒改（舊值），有改才換成 api 回傳的新值；settings 一定有值，能按到儲存的人已開通
-  let light = settings.value!.light_status
+  // light ＝ 存好之後的燈：先假設沒改（舊值），有改才換成 api 回傳的新值
+  // 從來沒填過（settings 是 null）時舊值當「開放」（features.md 3.6 開通時預設開放）；沒開通的人畫面上沒有燈，草稿一定是「開放」，所以不會送燈
+  let light = settings.value?.light_status ?? '開放'
   if (lightStatus.value !== light) {
     light = await updateAmiluLight(lightStatus.value)
   }
@@ -361,6 +349,7 @@ onUnmounted(() => {
 .payout-row {
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
   gap: var(--space-2);
 
   @include bp.tablet-up {

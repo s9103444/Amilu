@@ -3,6 +3,10 @@
 > 規則改過什麼、什麼時候改的。新的在上面。
 > 2026/11/9 把舊紀錄濃縮成摘要，完整原文用 `git show 4109e43:spec/changelog.md` 查。2026/10/7 以前的紀錄來自 --Amilu repo 的 `討論紀錄/amilu_討論總結.md`。
 
+## 2026/11/28
+
+- 接案設定（features.md 3.4、3.5，acceptance CTR-11）：還沒開通的使用者也能進接案設定頁填表單，不再只顯示「前往開通」。沒開通時藏起 Amilu 燈與開通狀態；第一次儲存建立 `CREATOR_PROFILE`；從開通清單進來的存好後回清單頁。開通 Step2 改成直接前往這一頁。
+
 ## 2026/11/27
 
 - API（api.md 2.3）：定出 `GET /me/creator-onboarding` 的回應：`phone_verified`、`masked_phone`（後端遮罩，完整號碼不送前端）、`settings_done`（有 `CREATOR_PROFILE`）、`has_commission_item`（至少 1 筆可委託項目）。
